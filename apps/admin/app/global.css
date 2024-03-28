@@ -1,0 +1,197 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    -webkit-text-size-adjust: 100%;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+        Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol,
+        Noto Color Emoji;
+    line-height: 1.5;
+    tab-size: 4;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: inherit;
+    line-height: inherit;
+    margin: 0;
+}
+
+h1,
+h2,
+p,
+pre {
+    margin: 0;
+}
+
+.sc_sidebar {
+    background-color: #001529 !important
+}
+
+
+
+
+
+.ant-steps {
+    padding: 0px 12px !important;
+}
+
+.ant-col label {
+    display: block;
+}
+
+.ant-col .ant-picker {
+    height: 38px;
+    width: 100%;
+}
+
+.ant-steps-item-icon {
+    display: inline-flex !important;
+}
+
+.ant-steps-icon {
+    margin: auto;
+}
+
+/* Itineraries-form */
+.Itineraries-form .ant-space-item {
+    width: 100%;
+}
+
+/* textarea */
+.textarea {
+    height: 150px !important;
+}
+
+.jt_flex {
+    display: flex !important;
+}
+
+.ant-pagination-options {
+    margin-left: 10px !important;
+}
+
+.ql-toolbar {
+    border-top-left-radius: 5px !important;
+    border-top-right-radius: 5px !important;
+}
+
+.ql-container {
+    border-bottom-left-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+}
+
+.ant-btn-primary {
+    color: unset;
+}
+
+.ant-steps-item-title {
+    font-weight: 600;
+}
+
+.ant-switch {
+    background-color: #f0f2f5;
+}
+
+.faq-list-contents p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+.ant-input {
+    height: 54px;
+}
+
+/* table booking*/
+.table-contain .content {
+    padding: 1rem 2rem !important;
+    text-align: right;
+}
+
+.table_total .column {
+    padding: 0.5rem 2rem !important;
+    text-align: right;
+}
+
+.table-contain .column_item .item>* {
+    padding: 5px 0;
+}
+
+.table-contain .content .item>* {
+    padding: 5px 0;
+}
+
+.ant-select-item-option-selected {
+    background-color: #001529 !important;
+    color: rgba(255, 255, 255, 0.65) !important;
+}
+
+.anticon-check svg {
+    fill: rgba(255, 255, 255, 0.65) !important;
+}
+
+.ant-steps .anticon-check svg {
+    fill: black !important;
+}
+
+.ant-steps .ant-select-item-option-selected {
+    color: none !important;
+}
+
+.input-h-45 input {
+    height: 45px;
+}
+
+.select-h-45 .ant-select-selector,
+.select-h-45 .ant-select-selection-placeholder,
+.select-h-45 .ant-select-selection-item {
+    height: 45px !important;
+    line-height: 45px !important;
+}
+
+@media only screen and (max-width: 1366px) {
+    .calender-padding {
+        padding-top: 2.5rem;
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+}
+
+@media only screen and (min-width: 1366px) {
+    .calender-padding {
+        padding-top: 3rem;
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+}
+
+/* calendar date */
+span[style="color: blueviolet;"] {
+    z-index: 100;
+}
+
+.rdrDayNumber span {
+    z-index: 100;
+}
+
+.no-year .ant-picker-year-btn {
+    display: none;
+}
+
+/* .fr-wrapper div:first-child {
+  display: none;
+} */
+
+.fr-wrapper ol,
+ul,
+menu {
+    list-style-type: auto;
+}
+
+.select-h-45 select {
+    height: 45px;
+}
