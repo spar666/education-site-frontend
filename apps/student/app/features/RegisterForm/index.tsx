@@ -147,7 +147,7 @@ const RegisterForm = () => {
     }
   };
 
-  const handleCounselingOptionChange = ({ option }: any) => {
+  const handleCounselingOptionChange = (option: string) => {
     setCounselingOption(option);
     setValue('counselingOption', option); // Manually set the value in react-hook-form
   };
@@ -315,7 +315,11 @@ const RegisterForm = () => {
               {...register('dateOfBirth')}
               className="flex-grow text-black mb-4 border-1 border-blue-500"
               style={{ width: '100%', height: '40px' }}
-              onChange={(date, dateString) => setDateOfBirth(dateString)}
+              onChange={(date, dateString) => {
+                if (typeof dateString === 'string') {
+                  setDateOfBirth(dateString);
+                }
+              }}
               onBlur={() => {}}
             />
           </Form.Item>
