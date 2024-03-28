@@ -297,7 +297,11 @@ const RegisterForm = () => {
               {...register('startDate')}
               className="flex-grow text-black mb-4 border-1 border-blue-500"
               style={{ width: '100%', height: '40px' }}
-              onChange={(date, dateString) => setStartDate(dateString)}
+              onChange={(date, dateString) => {
+                if (typeof dateString === 'string') {
+                  setStartDate(dateString);
+                }
+              }}
               onBlur={() => {}}
             />
           </Form.Item>
