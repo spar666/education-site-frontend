@@ -8,7 +8,7 @@ export const addUniversity = async (uni: any) => {
     const token = await Cookies.get('accessToken');
 
     const response = await axios.post(
-      `${API_URL}/university/create`,
+      `${API_URL}university/create`,
       uni.universityData,
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -36,7 +36,7 @@ export const updateUniversity = async ({ data }: any) => {
 
 export const fetchUniversity = async () => {
   try {
-    const response = await axios.get(`${API_URL}/university/all`);
+    const response = await axios.get(`${API_URL}university/all`);
     return response.data;
   } catch (error: any) {
     console.error('Failed to fetch courses:', error);
@@ -46,7 +46,7 @@ export const fetchUniversity = async () => {
 
 export const fetchUniversityById = async ({ id }: any) => {
   try {
-    const response = await axios.get(`${API_URL}/university/${id}`);
+    const response = await axios.get(`${API_URL}university/${id}`);
     return response.data;
   } catch (error: any) {
     console.error('Failed to fetch courses:', error);
