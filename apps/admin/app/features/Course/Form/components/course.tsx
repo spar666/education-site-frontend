@@ -99,7 +99,7 @@ function CourseForm({ children }: CourseFormProps) {
           otherDescription: response.studyLevel?.otherDescription,
         },
         subjects:
-          response.subject?.map((subject) => ({
+          response.subject?.map(({ subject }: any) => ({
             subjectName: subject.subjectName || '',
             description: subject.description || '',
             otherDescription: '', // Set default value for otherDescription if needed

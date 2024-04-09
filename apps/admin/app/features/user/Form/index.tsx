@@ -9,7 +9,7 @@ function CreateUser({ searchParams }: any) {
 
   return (
     <AdminLayout title={id ? 'Edit User' : 'Create User'}>
-      <AddUserForm children={undefined} />
+      <AddUserForm />
     </AdminLayout>
   );
 }

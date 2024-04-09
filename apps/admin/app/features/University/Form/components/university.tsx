@@ -147,13 +147,13 @@ function UniversityForm() {
     const courseArray: string[] = selectedCourses.map(
       (course) => course.courseId
     );
-    let imageUrl;
+    let imageUrl: any;
     if (uploadedImageUrls) {
       imageUrl = uploadedImageUrls;
     }
     imageUrl = uniImage;
 
-    console.log(imageUrl, "image url");
+    console.log(imageUrl, 'image url');
 
     if (!id) {
       const universityData = {
@@ -208,7 +208,7 @@ function UniversityForm() {
     }
   };
 
-  const removeCourse = (indexToRemove) => {
+  const removeCourse = ({ indexToRemove }: any) => {
     remove(indexToRemove);
     const updatedCourses = selectedCourses.filter(
       (_, index) => index !== indexToRemove

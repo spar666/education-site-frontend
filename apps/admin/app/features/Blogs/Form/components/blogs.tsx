@@ -91,7 +91,7 @@ function BlogForm() {
 
   console.log(register, 'register');
 
-  let coverImageUrl, contentImageUrl;
+  let coverImageUrl: any, contentImageUrl: any;
   if (uploadedImageUrls) {
     coverImageUrl = uploadedImageUrls;
     contentImageUrl = uploadedImageUrls;

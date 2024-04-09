@@ -41,16 +41,24 @@ const Search = ({ searchParams }: any) => {
     fetchData();
   }, [course, level, location, rankingOrder, feesOrder, scholarshipOrder]);
 
+  type OrderDirection = 'ASC' | 'DESC';
+
   const handleOrderChange = async (
-    type: string,
-    value: 'ASC' | 'DESC' | 'yes' | 'no'
+    type: 'ranking' | 'fees' | 'scholarship',
+    value: OrderDirection | 'yes' | 'no'
   ) => {
+    const direction: OrderDirection =
+      value === 'yes' ? 'ASC' : value === 'no' ? 'DESC' : value;
+
+    const updateFunction: any = (prevState: 'yes' | 'no') =>
+      prevState === 'yes' ? 'ASC' : 'DESC';
+
     if (type === 'ranking') {
-      setRankingOrder(value);
+      setRankingOrder(updateFunction);
     } else if (type === 'fees') {
-      setFeesOrder(value);
+      setFeesOrder(updateFunction);
     } else if (type === 'scholarship') {
-      setScholarshipOrder(value);
+      setScholarshipOrder(updateFunction);
     }
   };
 
@@ -70,19 +78,23 @@ const Search = ({ searchParams }: any) => {
                 icon={<TrendingUp className="h-4 w-4 mr-2" />}
                 placeholder="Filter By Ranking"
                 order={rankingOrder}
-                onChange={(value) => handleOrderChange('ranking', value)}
+                onChange={({ value }: any) =>
+                  handleOrderChange('ranking', value)
+                }
               />
               <FilterInput
                 icon={<DollarSign className="h-4 w-4 mr-2" />}
                 placeholder="Filter By Fees"
                 order={feesOrder}
-                onChange={(value) => handleOrderChange('fees', value)}
+                onChange={({ value }: any) => handleOrderChange('fees', value)}
               />
               <FilterInput
                 icon={<Award className="h-4 w-4 mr-2" />}
                 placeholder="Filter By Scholarship"
                 order={scholarshipOrder}
-                onChange={(value) => handleOrderChange('scholarship', value)}
+                onChange={({ value }: any) =>
+                  handleOrderChange('scholarship', value)
+                }
               />
             </div>
           </Col>
@@ -157,12 +169,7 @@ const UniversityCard = ({ university }: any) => {
   );
 };
 
-const FilterInput: React.FC<FilterInputProps> = ({
-  icon,
-  placeholder,
-  order,
-  onChange,
-}) => {
+const FilterInput: React.FC<any> = ({ icon, placeholder, order, onChange }) => {
   return (
     <div className="relative text-dark-blue ">
       <Input

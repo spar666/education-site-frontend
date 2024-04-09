@@ -33,7 +33,7 @@ const initialUserState: User = {
   phone: '',
   dateOfBirth: '',
   gender: '',
-  role:'admin'
+  role: 'admin',
 };
 
 const AddUserForm = () => {
@@ -153,7 +153,6 @@ const AddUserForm = () => {
                 error={errors?.dateOfBirth?.message}
                 placeholder="Date of Birth"
                 size="large"
-                type="date"
                 required
               />
             </Col>
