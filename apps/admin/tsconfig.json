@@ -25,12 +25,14 @@
     "**/*.jsx",
     "../../apps/admin/.next/types/**/*.ts",
     "../../dist/apps/admin/.next/types/**/*.ts",
-    "next-env.d.ts"
+    "next-env.d.ts",
+    "src", "node_modules/react-hook-form" 
   ],
   "exclude": [
     "node_modules",
     "jest.config.ts",
     "src/**/*.spec.ts",
-    "src/**/*.test.ts"
+    "src/**/*.test.ts",
+    "react-hook-form",
   ]
 }

@@ -17,7 +17,7 @@ type AdminLayoutProps = {
 function CopyrightComponent() {
   return (
     <div className={'text-center'}>
-      © 2023-{new Date().getFullYear()} Study Courses. All rights reserved.
+      © 2023-{new Date().getFullYear()} Study & Visa. All rights reserved.
     </div>
   );
 }
@@ -28,7 +28,7 @@ export function NavLogo({ onClick }: any) {
       className="logo flex p-3 items-center justify-center"
       onClick={onClick}
     >
-      <h1 className={'text-white pl-1'}>Study Course</h1>
+      <h1 className={'text-white pl-1'}>Study & Visa</h1>
     </div>
   );
 }

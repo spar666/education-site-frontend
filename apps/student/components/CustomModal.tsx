@@ -93,7 +93,7 @@ const CustomModal = ({ visible, onClose }: any) => {
   return (
     <>
       <Modal visible={visible} onCancel={onClose} footer={null}>
-        <div className="flex flex-col h-[300px] w-[500px]">
+        <div className="flex flex-col h-[300px] w-[500px] font-['Open_Sans']">
           <h1 className="font-bold text-2xl">My Favorites</h1>
           <Tabs defaultActiveKey="1" tabPosition="top">
             <TabPane tab="University" key="1">

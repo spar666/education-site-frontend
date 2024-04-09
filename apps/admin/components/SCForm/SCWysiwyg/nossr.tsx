@@ -6,7 +6,7 @@ import 'froala-editor/js/plugins.pkgd.min.js';
 import FroalaEditorComponent from 'react-froala-wysiwyg';
 import { Controller } from 'react-hook-form';
 
-const JTWysiwyg = forwardRef(
+const SCWysiwyg = forwardRef(
   (
     {
       name,
@@ -45,6 +45,7 @@ const JTWysiwyg = forwardRef(
             );
           }}
         />
+
         {error && (
           <div className="mt-2">
             <Alert message={error} type="error" />
@@ -55,4 +56,4 @@ const JTWysiwyg = forwardRef(
   }
 );
 
-export default JTWysiwyg;
+export default SCWysiwyg;

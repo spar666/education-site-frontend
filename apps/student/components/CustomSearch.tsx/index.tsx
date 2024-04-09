@@ -1,4 +1,3 @@
-'use client';
 import { Search } from 'lucide-react';
 import MaxWidthWrapper from '../MaxWidthWrapper';
 import { useEffect, useState } from 'react';
@@ -36,12 +35,10 @@ const CustomSearch = () => {
       .then((data) => setLevels(data))
       .catch((error) => console.error('Error fetching levels:', error));
 
-    // Fetch courses from API
     fetchCourses()
       .then((data) => setCourses(data))
       .catch((error) => console.error('Error fetching courses:', error));
 
-    // // Fetch locations from API
     fetchAllUniversityByDestination()
       .then((data) => setLocations(data))
       .catch((error) => console.error('Error fetching locations:', error));
@@ -58,16 +55,16 @@ const CustomSearch = () => {
       document.querySelector<HTMLSelectElement>('select[name="location"]')
         ?.value || '';
 
-    // Redirect to the search page with query parameters
     router.push(`/search?level=${level}&course=${course}&location=${location}`);
   };
+
   return (
     <MaxWidthWrapper>
       <div className="mt-5 border rounded-lg overflow-hidden bg-white shadow-md">
-        <div className="flex flex-col md:flex-row items-center justify-center md:justify-between gap-4 md:gap-0 p-4">
+        <div className="flex flex-col md:flex-row items-center justify-center md:justify-between gap-2 md:gap-4 p-2 md:p-4">
           <select
             name="level"
-            className="w-full md:w-64 h-full px-4 py-2 bg-white rounded-lg text-black"
+            className="w-full md:w-auto h-10 px-2 md:px-4 bg-white rounded-lg text-black mb-2 md:mb-0"
           >
             <option value="">Select Level</option>
             {levels.map((level) => (
@@ -76,10 +73,9 @@ const CustomSearch = () => {
               </option>
             ))}
           </select>
-          <span className="text-black px-2 h-full">|</span>
           <select
             name="course"
-            className="w-full md:w-64 h-full px-4 py-2 bg-white  text-black"
+            className="w-full md:w-auto h-10 px-2 md:px-4 bg-white rounded-lg text-black mb-2 md:mb-0"
           >
             <option value="">Select Course</option>
             {courses.map((course) => (
@@ -88,10 +84,9 @@ const CustomSearch = () => {
               </option>
             ))}
           </select>
-          <span className="text-black px-2 h-full">|</span>
           <select
             name="location"
-            className="w-full md:w-64 h-full px-4 py-2 bg-white  text-black"
+            className="w-full md:w-auto h-10 px-2 md:px-4 bg-white rounded-lg text-black mb-2 md:mb-0"
           >
             <option value="">Select Location</option>
             {locations.map((location) => (
@@ -102,7 +97,7 @@ const CustomSearch = () => {
           </select>
           <button
             type="button"
-            className="w-full ml-3 md:w-20 h-10 px-4 py-2 bg-indigo-500  flex items-center justify-center text-white hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
+            className="w-full md:w-auto h-10 px-2 md:px-4 bg-dark-blue text-white flex items-center justify-center hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
             onClick={handleSearch}
           >
             <Search className="h-full text-white text-bold" />

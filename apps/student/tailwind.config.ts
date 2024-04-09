@@ -16,12 +16,25 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        'sans': ['ui-sans-serif', 'system-ui'],
+        'serif': ['ui-serif', 'Georgia'],
+        'mono': ['ui-monospace', 'SFMono-Regular'],
+        'display': ['Oswald'],
+        'body': ['"Open Sans"'],
+        "heading":['quicksand']
+      },
+      button: {
+     
+      },
        textColor: {
+        'dark-blue':'#003366',
         'dark-navy': '#080d4e',
         'electric-violet': '#5c0dff',
         'serene': '#5ad493',
         "peach": '#fa8a59',
-        "skyBlue": '#6ca3e8'
+        "skyBlue": '#6ca3e8',
+        "navy-blue": "#35495E",
       },
        backgroundColor: {
         'electric-violet': '#5c0dff',
@@ -31,7 +44,10 @@ module.exports = {
         "peach": '#f9eee8',
         "tangerine": '#fcd2bb',
         "skyfall":"#e5f1fd",
-        "cerulean": '#5199f5'
+        "cerulean": '#5199f5',
+        "light-gray": "#ECECEC",
+        "dark-blue":'#003366',
+        "polynesian-blue":'#204A9B'
 
       },
       colors: {

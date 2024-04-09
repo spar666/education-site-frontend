@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MaxWidthWrapper from 'apps/student/components/MaxWidthWrapper';
 import { Country } from '../Country';
 import USA from '../../../assets/images/usa.jpg';
@@ -8,67 +8,86 @@ import Uk from '../../../assets/images/uk.jpg';
 import Frn from '../../../assets/images/france.jpg';
 import CarouselControls from 'apps/student/components/CarouselControls';
 import { cn } from 'libs/utils';
+import Link from 'next/link';
+import { fetchAllUniversityByDestination } from '../../api/studyDestination';
 
-const Countries = [
-  { country: 'USA', countryImage: USA, backgroundColor: 'cyan' },
-  { country: 'UK', countryImage: Uk, backgroundColor: 'salmon' },
-  { country: 'France', countryImage: Frn, backgroundColor: 'orange' },
-  { country: 'Australia', countryImage: Aus, backgroundColor: 'skyblue' },
-  { country: 'USA', countryImage: USA, backgroundColor: 'cyan' },
-  { country: 'UK', countryImage: Uk, backgroundColor: 'salmon' },
-  { country: 'France', countryImage: Frn, backgroundColor: 'orange' },
-  { country: 'Australia', countryImage: Aus, backgroundColor: 'skyblue' },
-];
+interface IDestination {
+  name: string;
+  slug: string;
+}
 
 export const UniversityPage = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [destination, setDestination] = useState<IDestination[]>([]);
 
-  const handleSlideChange = ({ direction }: any) => {
-    const nextIndex =
-      direction === 'next'
-        ? (currentSlide + 3) % Countries.length
-        : (currentSlide - 3 + Countries.length) % Countries.length;
-    setCurrentSlide(nextIndex);
+  useEffect(() => {
+    const fetchUniversities = async () => {
+      try {
+        const universities = await fetchAllUniversityByDestination();
+        setDestination(universities);
+      } catch (error) {
+        console.error('Failed to fetch universities:', error);
+        // Handle error, e.g., show a message to the user
+      }
+    };
+
+    fetchUniversities();
+  }, []);
+
+  const renderCountries = () => {
+    return destination.map((country, index) => (
+      <div
+        key={index}
+        className={`w-full transform duration-200 ease-linear`}
+        data-carousel-item={index === 0 ? 'active' : ''}
+      >
+        <Country
+          country={country.name}
+          slug={country.slug}
+          countryImage={getCountryImage(country.name)}
+        />
+      </div>
+    ));
   };
 
-  const currentItems = Countries.slice(currentSlide, currentSlide + 3);
+  const getCountryImage = (countryName: string) => {
+    switch (countryName) {
+      case 'New Zealand':
+        return USA;
+      case 'Australia':
+        return Aus;
+      case 'UK':
+        return;
+      case 'Canada':
+        return Frn;
+      default:
+        return ''; // Default image path
+    }
+  };
 
   return (
-    <section className="border-t border-gray-200">
-      <MaxWidthWrapper className="py-20 relative">
-        <div className="relative w-full">
-          <div className="flex justify-between">
-            <span className="font-bold tracking-tight text-gray-900">
-              Popular Countries
-            </span>
-            <CarouselControls
-              direction="horizontal"
-              onSlideChange={handleSlideChange}
-            />
-          </div>
+    <section className="m-5 font-[quicksand]">
+      <MaxWidthWrapper>
+        <h2 className="font-bold text-xl md:text-2xl tracking-tight text-center text-dark-blue mb-5">
+          Where to Study? Checkout some of Popular Countries
+        </h2>
 
-          <div className="relative h-40 mt-5 md:h-96 overflow-x-auto rounded-lg scrollbar-hidden">
-            <div className="flex">
-              {currentItems.map((country, index) => (
-                <div
-                  key={index}
-                  className={`w-full transform duration-200 ease-linear`}
-                  //   style={{ flex: '0 0 auto' }}
-                  data-carousel-item={index === 0 ? 'active' : ''}
-                >
-                  <Country
-                    country={country.country}
-                    countryImage={country.countryImage}
-                    backgroundColor={country.backgroundColor}
-                  />
-                </div>
-              ))}
-            </div>
+        <div className="relative h-52 md:h-96 mt-10 overflow-x-auto rounded-lg scrollbar-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {renderCountries()}
           </div>
+        </div>
+        {/* View All Countries button */}
+        <div className="flex justify-center">
+          <Link href={`/university?country=australia`}>
+            <button
+              type="button"
+              className="w-full md:w-52 h-12 px-6  bg-dark-blue text-white flex justify-center items-center rounded mt-5"
+            >
+              View All Countries
+            </button>
+          </Link>
         </div>
       </MaxWidthWrapper>
     </section>
   );
 };
-
-export default UniversityPage;

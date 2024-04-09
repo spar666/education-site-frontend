@@ -1,6 +1,6 @@
 export const UniversityCourses = ({ country, countryImage }: any) => {
   return (
-    <div className="bg-white rounded-lg shadow-md mx-2 xl:mx-10 h-[200px] w-[200px] relative overflow-hidden ">
+    <div className="font-['Open_Sans'] bg-white rounded-lg shadow-md mx-2 xl:mx-10 h-[200px] w-[200px] relative overflow-hidden ">
       <div
         style={{
           backgroundImage: `url(${countryImage.src})`,

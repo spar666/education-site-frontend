@@ -153,11 +153,13 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="flex bg-gray-100">
-      <div className="w-full max-w-md">
+    <div className="flex bg-gray-100 justify-center">
+      <div className="w-full max-w-md sm:w-full">
         <Form onFinish={handleSubmit(onSubmit)} className="px-8 pb-8">
           <div className="text-center mb-8">
-            <Title level={3}>Get Appointment</Title>
+            <h1 className="font-bold text-2xl text-dark-blue mt-5 text-center">
+              Get Appointment
+            </h1>
           </div>
           {/* First Name Input Field */}
           <Form.Item
@@ -326,7 +328,7 @@ const RegisterForm = () => {
           {/* Counseling Options */}
           <div className="flex flex-col space-y-3 mb-3">
             <div
-              className={`border border-gray-500 rounded-md py-2 px-4 text-center cursor-pointer ${
+              className={`w-full md:w-60 h-10 px-4 py-2 bg-dark-blue text-white flex text-bold items-center rounded ${
                 counselingOption === 'online' ? 'bg-blue-500 text-white' : ''
               }`}
               onClick={() => handleCounselingOptionChange('online')}
@@ -334,8 +336,8 @@ const RegisterForm = () => {
               Online Counselling
             </div>
             <div
-              className={`border border-gray-500 rounded-md py-2 px-4 text-center cursor-pointer ${
-                counselingOption === 'inPerson' ? 'bg-blue-500 text-white' : ''
+              className={`w-full md:w-60 h-10 px-4 py-2 bg-dark-blue text-white flex text-bold items-center rounded ${
+                counselingOption === 'inPerson' ? 'bg-blue-500' : ''
               }`}
               onClick={() => handleCounselingOptionChange('inPerson')}
             >
@@ -361,7 +363,7 @@ const RegisterForm = () => {
                 type="primary"
                 size="large"
                 htmlType="submit"
-                style={{ backgroundColor: 'blue', marginTop: '3px' }}
+                style={{ backgroundColor: '#003366', marginTop: '5px' }}
                 loading={loading}
               >
                 Get Appointment

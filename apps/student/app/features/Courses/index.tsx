@@ -1,4 +1,3 @@
-'use client';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import {
   Row,
@@ -180,16 +179,12 @@ const Course = ({ searchParams }: any) => {
         <div className="container bg-gray-50">
           <section className={'py-5 bg-white'}>
             <Row gutter={[16, 16]}>
-              <Col
-                xs={24}
-                xl={18}
-                className="flex flex-wrap place-items-center"
-              >
-                <div className="flex mx-auto ml-4 gap-10">
-                  <div className="relative">
+              <Col xs={24} lg={18}>
+                <Row gutter={[16, 16]}>
+                  <Col xs={24} md={12} lg={8}>
                     <Select
                       showSearch
-                      style={{ width: 200 }}
+                      style={{ width: '100%' }}
                       placeholder="Filter By Country"
                       optionFilterProp="children"
                       onChange={handleCountryChange}
@@ -201,19 +196,11 @@ const Course = ({ searchParams }: any) => {
                         </Option>
                       ))}
                     </Select>
-                    {selectedCountry && (
-                      <Button
-                        type="text"
-                        icon={<X />}
-                        onClick={handleClearCountryFilter}
-                        className="absolute top-1/2 right-2 transform -translate-y-1/2"
-                      />
-                    )}
-                  </div>
-                  <div className="relative">
+                  </Col>
+                  <Col xs={24} md={12} lg={8}>
                     <Select
                       showSearch
-                      style={{ width: 200 }}
+                      style={{ width: '100%' }}
                       placeholder="Filter By Level"
                       optionFilterProp="children"
                       onChange={handleLevelChange}
@@ -225,38 +212,24 @@ const Course = ({ searchParams }: any) => {
                         </Option>
                       ))}
                     </Select>
-                    {selectedLevel && (
-                      <Button
-                        type="text"
-                        icon={<X />}
-                        onClick={handleClearLevelFilter}
-                        className="absolute top-1/2 right-2 transform -translate-y-1/2"
-                      />
-                    )}
-                  </div>
-                  <Select
-                    showSearch
-                    style={{ width: 200 }}
-                    placeholder="Filter By University"
-                    optionFilterProp="children"
-                    onChange={handleUniversityChange}
-                    value={selectedUniversity}
-                  >
-                    {universities.map((university: any) => (
-                      <Option key={university.id} value={university.id}>
-                        {university.universityName}
-                      </Option>
-                    ))}
-                  </Select>
-                  {selectedUniversity && (
-                    <Button
-                      type="text"
-                      icon={<X />}
-                      onClick={handleClearUniversityFilter}
-                      className="absolute top-1/2 right-2 transform -translate-y-1/2"
-                    />
-                  )}
-                </div>
+                  </Col>
+                  <Col xs={24} md={12} lg={8}>
+                    <Select
+                      showSearch
+                      style={{ width: '100%' }}
+                      placeholder="Filter By University"
+                      optionFilterProp="children"
+                      onChange={handleUniversityChange}
+                      value={selectedUniversity}
+                    >
+                      {universities.map((university: any) => (
+                        <Option key={university.id} value={university.id}>
+                          {university.universityName}
+                        </Option>
+                      ))}
+                    </Select>
+                  </Col>
+                </Row>
               </Col>
             </Row>
           </section>
@@ -268,7 +241,7 @@ const Course = ({ searchParams }: any) => {
               >
                 {Array.isArray(courses) && courses.length > 0 ? (
                   courses.slice(startIndex, endIndex).map((course: any) => (
-                    <Col key={course?.id} xs={24} sm={12} xl={6}>
+                    <Col key={course?.id} xs={24} sm={12} lg={6}>
                       <div className="col test bg-black h-80 w-full overflow-hidden object-cover rounded-xl cursor-pointer">
                         <div className="image_overlay rounded-xl">
                           <ProgressiveImageLoading

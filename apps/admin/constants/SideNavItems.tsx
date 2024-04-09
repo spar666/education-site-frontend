@@ -42,18 +42,24 @@ const SideNavItems = [
     path: '/students',
   },
 
+  // {
+  //   key: 6,
+  //   icon: null,
+  //   name: 'FAQs',
+  //   path: '/faqs',
+  // },
+
   {
     key: 6,
     icon: null,
-    name: 'FAQs',
-    path: '/faqs',
+    name: 'Blogs',
+    path: '/blogs',
   },
-
   {
     key: 7,
     icon: null,
-    name: 'Blogs',
-    path: '/blogs',
+    name: 'Add User',
+    path: '/user',
   },
   // {
   //   key: 6,

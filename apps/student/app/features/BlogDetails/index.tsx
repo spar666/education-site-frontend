@@ -5,12 +5,14 @@ import NameFormatter from '../../../../../libs/NameFormatter';
 import { EyeIcon } from 'lucide-react';
 import MaxWidthWrapper from 'apps/student/components/MaxWidthWrapper';
 import { fetchBlogBySlug } from '../../api/blog';
+import { renderImage } from 'libs/services/helper';
+import Image from 'next/image';
 
 interface IBlog {
   id: string;
   title: string;
   contents: string;
-  coverImages: string;
+  coverImage: string;
   images: string;
   tags: string[];
   slug: string;
@@ -23,6 +25,7 @@ interface IBlog {
 
 const BlogDetails = ({ searchParams }: any) => {
   const { blog } = searchParams;
+  console.log(blog, 'blog');
   const [blogData, setBlogData] = useState<IBlog>();
 
   useEffect(() => {
@@ -30,7 +33,7 @@ const BlogDetails = ({ searchParams }: any) => {
       try {
         const response: any = await fetchBlogBySlug({ blog });
         console.log(response, 'response');
-        setBlogData(response);
+        setBlogData(response.data);
       } catch (error) {
         console.error('Failed to fetch university:', error);
       }
@@ -44,24 +47,23 @@ const BlogDetails = ({ searchParams }: any) => {
         <section className={'py-5 bg-gray-50'}>
           <div className="container mx-auto my-3">
             <Breadcrumb separator={'>'}>
-              <Breadcrumb.Item className="JT_breadcrumb cursor-pointer">
-                Home
-              </Breadcrumb.Item>
-              <Breadcrumb.Item className="JT_breadcrumb JT_breadcrumb_last">
-                Blog
-              </Breadcrumb.Item>
-              <Breadcrumb.Item className="JT_breadcrumb JT_breadcrumb_last">
-                Blog
+              <Breadcrumb.Item className="text-dark-blue">Home</Breadcrumb.Item>
+              <Breadcrumb.Item className="text-dark-blue">Blog</Breadcrumb.Item>
+              <Breadcrumb.Item className="text-navy-blue">
+                {blogData?.title}
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
         </section>
         <Row className="mt-10">
-          <ProgressiveImageLoading
-            sizes="(max-width: 400px) 75vw, (max-width: 800px) 65vw, 80vw"
-            imageHeight="h-[320px] lg:min-h-[300px]"
-            openImage
-            srcImage=""
+          <Image
+            src={renderImage({
+              imgPath: blogData?.coverImage || '',
+              size: 'md',
+            })}
+            alt="University Image"
+            height={100}
+            width={100}
           />
         </Row>
         <Row gutter={[20, 20]} className="mt-10">
@@ -76,7 +78,7 @@ const BlogDetails = ({ searchParams }: any) => {
               </div>
             </div>
             <div>
-              <h3 className="text-xl sm:text-2xl md:text-3xl mt-2.5 jt-secondary-font my-3 sm:mb-0 ">
+              <h3 className="text-2xl sm:text-2xl text-dark-blue md:text-3xl mt-2.5 jt-secondary-font my-3 sm:mb-0 ">
                 {blogData?.title}
               </h3>
               <div className="mt-2">
@@ -89,7 +91,7 @@ const BlogDetails = ({ searchParams }: any) => {
                 </span>
               </div>
               <div
-                className="my-6 text-base"
+                className="my-6 text-base font-['Open_Sans'] leading-1.5 "
                 dangerouslySetInnerHTML={{
                   __html: blogData?.contents || '',
                 }}

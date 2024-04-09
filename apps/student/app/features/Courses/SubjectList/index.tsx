@@ -12,11 +12,11 @@ const SubjectList = ({
   financeDetails: any;
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const subjectPerPage = 10;
+  const subjectsPerPage = 3; // Adjust according to your preference
   const totalSubjects = subjects.length;
 
-  const indexOfLastSubject = currentPage * subjectPerPage;
-  const indexOfFirstSubject = indexOfLastSubject - subjectPerPage;
+  const indexOfLastSubject = currentPage * subjectsPerPage;
+  const indexOfFirstSubject = indexOfLastSubject - subjectsPerPage;
   const currentSubjects = subjects
     .flat()
     .slice(indexOfFirstSubject, indexOfLastSubject);
@@ -26,25 +26,26 @@ const SubjectList = ({
   };
 
   return (
-    <div className="subject-list-container p-6 flex flex-col md:flex-row">
-      <div className="w-full md:w-3/5 mr-0 md:mr-6 mb-6 md:mb-0">
+    <div className="subject-list-container flex flex-col md:flex-row gap-6">
+      <div className="w-full md:w-3/5">
         {currentSubjects.length > 0 ? (
           <Fragment>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
               {currentSubjects.map((subject) => (
                 <div
                   key={subject?.id}
-                  className="bg-white gap-4 rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition duration-300"
+                  className="bg-white w-full font-semibold rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition duration-300"
                 >
                   <div className="p-6">
-                    <h3 className="text-xl font-semibold mb-4">
+                    <h3 className="text-2xl font-bold mb-4 text-dark-blue">
                       {subject?.subjectName}
                     </h3>
-                    <p className="text-sm text-gray-600">Level: {level}</p>
-                    <p className="text-sm text-gray-600">
+                    <hr className="my-2" />
+                    <p className="text-sm text-navy-blue">Level: {level}</p>
+                    <p className="text-sm text-navy-blue">
                       Duration: {subject?.duration} years
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-navy-blue">
                       Start Date:{' '}
                       {subject?.startDate
                         ? new Intl.DateTimeFormat('en-US', {
@@ -53,7 +54,7 @@ const SubjectList = ({
                           }).format(new Date(subject.startDate))
                         : ''}
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-navy-blue">
                       Fees: {financeDetails?.tuitionFee}{' '}
                       {financeDetails?.currency}
                     </p>
@@ -61,6 +62,7 @@ const SubjectList = ({
                 </div>
               ))}
             </div>
+
             <div className="flex justify-center mt-8">
               <button
                 className={`rounded-full p-2 border ${
@@ -74,16 +76,16 @@ const SubjectList = ({
                 <ChevronLeft />
               </button>
               <span className="mx-4 text-gray-600">{`Page ${currentPage} of ${Math.ceil(
-                totalSubjects / subjectPerPage
+                totalSubjects / subjectsPerPage
               )}`}</span>
               <button
                 className={`rounded-full p-2 border ${
-                  currentPage === Math.ceil(totalSubjects / subjectPerPage)
+                  currentPage === Math.ceil(totalSubjects / subjectsPerPage)
                     ? 'cursor-not-allowed opacity-50'
                     : 'cursor-pointer'
                 }`}
                 disabled={
-                  currentPage === Math.ceil(totalSubjects / subjectPerPage)
+                  currentPage === Math.ceil(totalSubjects / subjectsPerPage)
                 }
                 onClick={() => handleChangePage(currentPage + 1)}
               >
@@ -95,9 +97,11 @@ const SubjectList = ({
           <p className="text-center mt-8 text-gray-600">No subjects found</p>
         )}
       </div>
-      <div className="w-full md:w-2/5">
-        <div className="rounded-lg shadow-md">
-          <RegisterForm />
+      <div className="mb-5 w-full md:w-2/5">
+        <div className="rounded-lg w-full px-5 flex justify-center shadow-md flex flex-col justify-between h-full">
+          <div className="flex-1">
+            <RegisterForm />
+          </div>
         </div>
       </div>
     </div>

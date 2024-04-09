@@ -16,8 +16,8 @@ export const fetchUniversityByDestination = async ({ country }: any) => {
 
 export const fetchUniversityBySlug = async ({ uni }: any) => {
   try {
-    const response = await axios.get(`${API_URL}/university/${uni}`);
-    console.log(response, 'response');
+    const response = await axios.get(`${API_URL}/university/slug/${uni}`);
+    console.log(response.data, 'response');
     return response.data;
   } catch (error) {
     console.error('Failed to fetch university:', error);

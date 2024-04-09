@@ -108,14 +108,12 @@ const Subject = ({ searchParams }: any) => {
         <section className={'py-5 bg-gray-50'}>
           <div className="container mx-auto my-3">
             <Breadcrumb separator={'>'}>
-              <Breadcrumb.Item className="JT_breadcrumb cursor-pointer">
-                Home
-              </Breadcrumb.Item>
-              <Breadcrumb.Item className="JT_breadcrumb JT_breadcrumb_last">
+              <Breadcrumb.Item className="text-dark-blue">Home</Breadcrumb.Item>
+              <Breadcrumb.Item className="text-dark-blue">
                 Courses
               </Breadcrumb.Item>
             </Breadcrumb>
-            <span className="text-sm text-muted-foreground hover:text-gray-600">
+            <span className="text-navy-blue">
               {universities.length} Universities offering {subjectName} courses
             </span>
           </div>
@@ -157,7 +155,7 @@ const Subject = ({ searchParams }: any) => {
               </Col>
             </Row>
           </section>
-          <section className="py-4">
+          <section className="py-4 font-['Open_Sans'] leading-1.5">
             <div className="bg-white flex flex-col gap-8 md:gap-20 mx-auto md:ml-10 md:flex-row md:flex-wrap">
               {paginatedUniversities.length > 0 ? (
                 paginatedUniversities.map((university) => (

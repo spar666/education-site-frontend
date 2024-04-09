@@ -20,5 +20,6 @@
       "@my-project/ui-components/server": ["libs/ui-components/src/server.ts"]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp"],
+  "include": [ "src", "node_modules/react-hook-form" ]
 }

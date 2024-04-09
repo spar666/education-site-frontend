@@ -12,7 +12,7 @@ export function renderImage({
     return imgPath;
   }
   
-  let imageUrl = `http://localhost:3001/api/uploads/${imgPath}`;
+  let imageUrl = `http://localhost:3001/api/uploads/image/${imgPath}`;
   console.log(imageUrl, "url")
   
   if (gSize) {

@@ -1,30 +1,32 @@
-"use client";
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUserDetails, updateUserDetails } from "./userSlice";
-const GET_ME_URL = `${process.env.NEXT_PUBLIC_API_URL}  + "user/profile"`
 
+// Define the API endpoint URL for fetching user details
+const GET_ME_URL = `${process.env.NEXT_PUBLIC_API_URL}/user/profile`;
+
+// Asynchronous function to fetch user details from the API
 async function fetchUserDetails() {
   try {
     const response = await axios.get(GET_ME_URL);
-
-    console.log(response, "hello world checking")
-    console.log(response.data, "from home")
-    return response.data 
+    return response.data;
   } catch (error) {
     throw error;
   }
 }
 
+// Custom hook to manage user authentication state and fetch user details
 function useUser() {
   const dispatch = useDispatch();
   const router = useRouter();
-  const pathname = usePathname()
+  const pathname = usePathname();
 
+  // Select user details and authentication state from Redux store
   const { isAuthenticated, user } = useSelector(selectUserDetails);
 
+  // Effect hook to fetch user details when authentication state changes
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,20 +35,21 @@ function useUser() {
           dispatch(updateUserDetails(userDetails));
         }
       } catch (error) {
-        // Handle error
         console.error("Error fetching user details:", error);
       }
     };
 
     fetchData();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, dispatch]);
 
+  // Effect hook to redirect to login page if user is not authenticated
   useEffect(() => {
     if (!isAuthenticated && pathname !== "/") {
       router.push("/");
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, pathname, router]);
 
+  // Return user data and authentication state
   return {
     data: user,
     user,

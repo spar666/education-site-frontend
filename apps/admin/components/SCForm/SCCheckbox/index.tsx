@@ -17,6 +17,7 @@ type SCCheckboxTypes = {
   labelClass?: string;
   vertical?: boolean;
   horizontal?: boolean;
+  register: any;
 };
 const SCCheckbox = ({
   name,
@@ -25,6 +26,7 @@ const SCCheckbox = ({
   label,
   error,
   parentClass,
+  register,
   labelClass,
   horizontal,
   ...rest
@@ -32,6 +34,7 @@ const SCCheckbox = ({
   return (
     <div className={parentClass}>
       <Controller
+        {...register(name)}
         name={name}
         control={control}
         render={({ field }) => (

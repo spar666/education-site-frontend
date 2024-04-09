@@ -4,12 +4,14 @@ const UniversityRankingCard = ({ worldRanking, countryRanking }: any) => {
   return (
     <section className="py-4">
       <div className="flex flex-wrap gap-4">
-        <Card className="bg-white w-[200px]" title="World Ranking">
-          <Typography.Paragraph>{worldRanking}</Typography.Paragraph>
+        <Card className="bg-white w-[200px] rounded" title="World Ranking">
+          <h1 className="font-bold text-navy-blue text-1xl">{worldRanking}</h1>
         </Card>
 
-        <Card className="bg-white" title="Country Ranking">
-          <Typography.Paragraph>{countryRanking}</Typography.Paragraph>
+        <Card className="bg-white w-[200px] rounded" title="Country Ranking">
+          <h1 className="font-bold text-navy-blue text-1xl">
+            {countryRanking}
+          </h1>
         </Card>
       </div>
     </section>

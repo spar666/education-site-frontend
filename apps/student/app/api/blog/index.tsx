@@ -11,9 +11,10 @@ export const fetchBlog = async () => {
   }
 };
 
-export const fetchBlogBySlug = async ({ slug }: any) => {
+export const fetchBlogBySlug = async ({ blog }: any) => {
+  console.log(blog, 'blog');
   try {
-    const response = await axios.get(`${API_URL}/blog/${slug}`);
+    const response = await axios.get(`${API_URL}/blog/slug/${blog}`);
     return response;
   } catch ({ error }: any) {
     throw new Error(`Failed to fetch blog by id: ${error.message}`);

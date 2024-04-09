@@ -22,10 +22,10 @@ interface ICourse {
     levelName: string;
     levelDescription: string;
     otherDescription: string;
-  }[];
+  };
   subjects: {
     subjectName: string;
-    subjectDescription: string;
+    description: string;
     otherDescription: string;
   }[];
 }
@@ -33,8 +33,8 @@ interface ICourse {
 const initialCourseState: ICourse = {
   courseName: '',
   description: '',
-  levels: [{ levelName: '', levelDescription: '', otherDescription: '' }],
-  subjects: [{ subjectName: '', subjectDescription: '', otherDescription: '' }],
+  levels: { levelName: '', levelDescription: '', otherDescription: '' },
+  subjects: [{ subjectName: '', description: '', otherDescription: '' }],
 };
 
 // Lazy-loaded component imports
@@ -63,7 +63,6 @@ function CourseForm({ children }: CourseFormProps) {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
 
-  console.log(id, 'id');
   const {
     register,
     handleSubmit,
@@ -94,10 +93,17 @@ function CourseForm({ children }: CourseFormProps) {
       reset({
         courseName: response.courseName,
         description: response.description,
-        levels: response.studyLevel.name,
-        // des: response.studyLevel.description,
-        // otherDescription: response.studyLevel.otherDescription,
-        subjects: response.subject,
+        levels: {
+          levelName: response.studyLevel?.name,
+          levelDescription: response.studyLevel?.description,
+          otherDescription: response.studyLevel?.otherDescription,
+        },
+        subjects:
+          response.subject?.map((subject) => ({
+            subjectName: subject.subjectName || '',
+            description: subject.description || '',
+            otherDescription: '', // Set default value for otherDescription if needed
+          })) || [],
       });
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -130,16 +136,23 @@ function CourseForm({ children }: CourseFormProps) {
     console.log(data, 'data');
     setLoading(true);
     if (id) {
+      console.log(data, 'data');
       const updatedData: any = {
         ...data,
         id: id,
+        subjects: data.subjects.map((subject: any) => ({
+          subjectName: subject.subjectName,
+          description: subject.description,
+          otherDescription: subject.otherDescription,
+        })),
       };
 
       console.log(updatedData, 'up');
 
-      updateCourse({ updatedData })
+      updateCourse(updatedData)
         .then((response) => {
-          if (response.data.status === 201) {
+          console.log(response, 'response');
+          if (response.status === 200) {
             router.push('/course');
             notification.success({
               message: response.data.message,
@@ -157,7 +170,7 @@ function CourseForm({ children }: CourseFormProps) {
       console.log(data, 'in comp');
       addCourse({ data })
         .then((response) => {
-          if (response.data.status === 201) {
+          if (response.status === 201) {
             router.push('/course');
             notification.success({
               message: response.data.message,
@@ -219,20 +232,15 @@ function CourseForm({ children }: CourseFormProps) {
           <h3 className="text-xl font-bold mt-2  py-2 m-0">Add Level</h3>
           <Row gutter={[20, 20]}>
             <Col xs={12}>
-              <SCSelect
+              <SCInput
                 register={register}
-                parentClass="flex-grow mb-4"
-                name="levelName"
+                name="levels.levelName"
                 control={control}
                 label="Level"
-                error={errors?.levels?.message}
-                allowClear
-                placeholder="Please select"
-                size="large"
-                showArrow
-                options={studyLevels?.map((item) => {
-                  return { label: item?.name, value: item?.id };
-                })}
+                parentClass="flex-grow mb-4"
+                error={errors.levels?.levelName?.message}
+                placeholder="Enter Level"
+                required
               />
             </Col>
           </Row>
@@ -240,11 +248,11 @@ function CourseForm({ children }: CourseFormProps) {
             <Col xs={24} xl={12}>
               <SCTextArea
                 register={register}
-                name="levelDescription"
+                name="levels.levelDescription"
                 control={control}
                 label="Study Level Description"
                 parentClass="flex-grow mb-4"
-                error={errors?.description?.message}
+                error={errors.levels?.levelDescription?.message}
                 placeholder="Study Level Description"
                 size="large"
                 required
@@ -255,11 +263,11 @@ function CourseForm({ children }: CourseFormProps) {
             <Col xs={24} xl={12}>
               <SCTextArea
                 register={register}
-                name="otherdescription"
+                name="levels.otherDescription"
                 control={control}
                 label="Study Level other Description"
                 parentClass="flex-grow mb-4"
-                error={errors?.description?.message}
+                error={errors.levels?.otherDescription?.message}
                 placeholder="Study Level other Description"
                 size="large"
                 required
@@ -278,7 +286,7 @@ function CourseForm({ children }: CourseFormProps) {
                     control={control}
                     label="Subject Name"
                     error={errors?.subjects?.[index]?.subjectName?.message}
-                    defaultValue={subject.subjectName}
+                    defaultValue={subject.id ? subject.subjectName : ''}
                     placeholder="Subject Name"
                     size="large"
                     required
@@ -289,13 +297,11 @@ function CourseForm({ children }: CourseFormProps) {
                 <Col xs={24} xl={12}>
                   <SCTextArea
                     register={register}
-                    name={`subjects[${index}].subjectDescription`}
+                    name={`subjects[${index}].description`}
                     control={control}
                     label="Subject Description"
-                    error={
-                      errors?.subjects?.[index]?.subjectDescription?.message
-                    }
-                    defaultValue={subject.subjectDescription}
+                    error={errors?.subjects?.[index]?.description?.message}
+                    defaultValue={subject.id ? subject.description : ''}
                     placeholder="Subject Description"
                     size="large"
                     required
@@ -310,15 +316,32 @@ function CourseForm({ children }: CourseFormProps) {
                     control={control}
                     label="Other Description"
                     error={errors?.subjects?.[index]?.otherDescription?.message}
-                    defaultValue={subject.otherDescription}
+                    defaultValue={subject.id ? subject.otherDescription : ''}
                     placeholder="Other Description"
                     size="large"
                     required
                   />
                 </Col>
               </Row>
+              <Button type="dashed" onClick={() => removeSubject(index)}>
+                Remove Subject
+              </Button>
             </div>
           ))}
+
+          <Button
+            type="dashed"
+            onClick={() =>
+              appendSubject({
+                subjectName: '',
+                description: '',
+                otherDescription: '',
+              })
+            }
+          >
+            Add Subject
+          </Button>
+
           <Row>
             <div className="flex mt-4">
               <Button

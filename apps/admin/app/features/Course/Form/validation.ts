@@ -1,61 +1,36 @@
-import * as z from "zod";
+import { object, string, array } from 'zod';
 
-const CourseSchema = z.object({
-  courseName: z
-    .string({ invalid_type_error: "Course Name is required" })
-    .trim()
-    .nonempty({ message: "Course Name is required" })
-    .min(3, { message: "Course Name should be at least 3 character" })
+const CourseSchema = object({
+  courseName: string()
+    .min(3, { message: 'Course Name should be at least 3 characters' })
     .max(300, {
-      message: " Course Name should not exceed more than 300 character",
-    }),
-  description: z
-    .string()
-    .trim()
-    .min(3, { message: "Course Description should be at least 3 character" })
-    .max(300, {
-      message: "Course Description should not exceed more than 300 character",
+      message: 'Course Name should not exceed more than 300 characters',
     })
+    .nonempty({ message: 'Course Name is required' })
+    .trim(),
+  description: string()
+    .min(3, { message: 'Course Description should be at least 3 characters' })
+    .max(300, {
+      message: 'Course Description should not exceed more than 300 characters',
+    })
+    .trim()
     .optional()
     .nullable(),
-  levelName: z.string().trim().nullable().optional(),
-  levelDescription:z
-    .string()
-    .trim()
-    .min(3, { message: "Level Description should be at least 3 character" })
-    .max(300, {
-      message: "Level Description should not exceed more than 300 character",
-    })
-    .optional()
-    .nullable(),
-  otherDescription: z
-    .string()
-    .trim()
-    .min(3, { message: "Meta title should be at least 3 character" })
-    .max(300, {
-      message: "Meta title should not exceed more than 300 character",
-    })
-    .optional()
-    .nullable(),
-    subjectName:z
-    .string({ invalid_type_error: "Subejct Name is required" })
-    .trim()
-    .nonempty({ message: "Subejct Name is required" })
-    .min(3, { message: "Subejct Name should be at least 3 character" })
-    .max(300, {
-      message: " Subejct Name should not exceed more than 300 character",
-    }),
-
-    subejctDescription:z
-    .string()
-    .trim()
-    .min(3, { message: "Subject Description should be at least 3 character" })
-    .max(300, {
-      message: "Subject Description should not exceed more than 300 character",
-    })
-    .optional()
-    .nullable(),
-  
+  levels: object({
+    levelName: string()
+      .min(3, { message: 'Level Name should be at least 3 characters' })
+      .max(300, { message: 'Level Name should not exceed 300 characters' }),
+    levelDescription: string()
+      .min(3, { message: 'Level Description should be at least 3 characters' })
+      .max(300, { message: 'Level Description should not exceed 300 characters' }).nullable(),
+    otherDescription: string().max(300, { message: 'Other Description should not exceed 300 characters' }).nullable(),
+  }),
+  subjects: array(object({
+    subjectName: string(),
+    description:  string().nullable(),
+    
+    
+  })),
 });
 
 export default CourseSchema;

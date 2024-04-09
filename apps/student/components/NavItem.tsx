@@ -155,7 +155,7 @@ const NavItem = ({
                       >
                         <Link
                           href={`/course?degree=${item?.slug}`}
-                          className="mt-2 block font-small text-blue-900"
+                          className="mt-2 block font-small text-blue-900 font-[quicksand]"
                         >
                           {item?.name}
                         </Link>
@@ -177,7 +177,7 @@ const NavItem = ({
                                 <div
                                   onClick={() => close}
                                   key={course.slug}
-                                  className={`group relative text-base sm:text-sm ${
+                                  className={`group relative text-base sm:text-sm font-[quicksand] ${
                                     index > 0 ? 'mt-2' : ''
                                   }`}
                                 >

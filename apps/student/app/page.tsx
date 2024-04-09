@@ -11,7 +11,7 @@ import Course from './pages/course/page';
 import { UniversityPage } from './pages/Countries';
 import BlogPage from './pages/Blogs';
 import { FeaturedCourse } from './pages/featuredCourse';
-
+import CustomSearch from '../components/CustomSearch.tsx';
 
 export default async function Index() {
   return (

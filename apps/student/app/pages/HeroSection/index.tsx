@@ -1,27 +1,34 @@
-import CustomSearch from 'apps/student/components/CustomSearch.tsx';
-import MaxWidthWrapper from 'apps/student/components/MaxWidthWrapper';
-import {
-  Button,
-  buttonVariants,
-} from 'libs/ui-components/src/components/ui/button';
-import Link from 'next/link';
+'use client';
+import CustomSearch from '../../../components/CustomSearch.tsx';
+import student from '../../../assets/images/student2.png';
+import Image from 'next/image';
 
 export const HeroSection = () => {
   return (
-    <MaxWidthWrapper>
-      <div className="py-20 mx-auto text-center flex flex-col items-center max-w-3xl">
-        <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-          Your marketplace for high-quality{' '}
-          <span className="text-blue-600">study course</span>.
-        </h1>
-        <p className="mt-6 text-lg max-w-prose text-muted-foreground">
-          Start your journey to discover new horizons, expand your knowledge,
-          and create a world of possibilities.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 mt-6">
-          <CustomSearch />
+    <>
+      <div className="relative py-10 lg:py-20 mx-auto bg-dark-blue w-full flex font-['Open_Sans'] text-base flex-col lg:flex-row items-center px-4 sm:px-8 lg:px-20">
+        {/* Left Side: Text */}
+        <div className="max-w-3xl lg:w-1/2 lg:pr-12 text-white mx-auto lg:pl-0">
+          {/* Added padding on the left */}
+          <h1 className="mx-auto text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight">
+            Your marketplace for high-quality{' '}
+            <span className="text-white">Education</span>.
+          </h1>
+          <p className="mt-4 sm:mt-6 text-base sm:text-lg lg:text-xl max-w-prose">
+            Start your journey to discover new horizons, expand your knowledge,
+            and create a world of possibilities.
+          </p>
+        </div>
+        {/* Right Side: Image */}
+        <div className="w-full lg:w-1/2 mt-8 lg:mt-0">
+          {/* Added margin top for smaller screens */}
+          <Image src={student} height={600} width={800} alt="" />
         </div>
       </div>
-    </MaxWidthWrapper>
+      {/* Centered CustomSearch */}
+      <div className="flex justify-center mt-[-60px] z-10">
+        <CustomSearch />
+      </div>
+    </>
   );
 };

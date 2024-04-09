@@ -16,7 +16,7 @@ interface IRegister {
 }
 
 const login = ({ email, password }: ILogin) => {
-  return axios.post(process.env.NEXT_PUBLIC_API_URL + "auth/login", {
+  return axios.post(process.env.NEXT_PUBLIC_API_URL + "/auth/login", {
     email,
     password,
   });
@@ -44,7 +44,7 @@ const register = ({
 
 const profile = ({ token }: any) => {
   console.log(token, "toekn")
-  return axios.get(process.env.NEXT_PUBLIC_API_URL + "user/profile", {
+  return axios.get(process.env.NEXT_PUBLIC_API_URL + "/user/profile", {
     headers: { Authorization: `Bearer ${token}` },
   });
 };

@@ -20,6 +20,8 @@ import { capitalizeFirstLetter } from 'libs/utils';
 import { fetchUniversityByDestination } from '../../api/university';
 import Link from 'next/link';
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
+import { renderImage } from 'libs/services/helper';
+import Image from 'next/image';
 
 interface UniversityData {
   id: string;
@@ -134,28 +136,29 @@ const University = ({ searchParams }: any) => {
   }, []);
 
   return (
-    <section className="mx-auto">
+    <section className="mx-auto bg-white">
       <MaxWidthWrapper>
-        <section className="py-5 bg-gray-50">
+        <section className="py-5 bg-white">
           <div className="container mx-auto my-3">
             <Breadcrumb separator={'>'}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>
+              <Breadcrumb.Item className="text-dark-blue">Home</Breadcrumb.Item>
+              <Breadcrumb.Item className="text-dark-blue ">
                 All universities in {capitalizeFirstLetter(country)}
               </Breadcrumb.Item>
             </Breadcrumb>
-            <span className="text-sm text-muted-foreground hover:text-gray-600">
+            <span className="text-sm text-navy-blue hover:text-gray-600">
               Explore {country}'s diverse universities! Filter by popularity,
               reviews, rankings, and English courses to find your perfect fit
             </span>
           </div>
         </section>
 
-        <section className="container bg-gray-50">
+        <section className="container bg-white">
           <section className="py-5 bg-white">
             <Row gutter={[16, 16]}>
               <Col xs={24} lg={18}>
-                <div className="flex flex-wrap gap-4 md:gap-6 justify-center md:justify-start">
+                {/** enable filter if nneede */}
+                {/* <div className="flex flex-wrap gap-4 md:gap-6 justify-center md:justify-start">
                   <div className="relative">
                     <Input
                       type="text"
@@ -222,12 +225,12 @@ const University = ({ searchParams }: any) => {
                       />
                     )}
                   </div>
-                </div>
+                </div> */}
               </Col>
             </Row>
           </section>
 
-          <section className="py-4">
+          <section className="py-4 font-Open_Sans leading-1.5 text-base">
             <div className="bg-white flex flex-wrap gap-6 md:gap-6 justify-center md:justify-start mx-auto md:ml-10">
               {paginatedData?.map((uni) => (
                 <div
@@ -237,23 +240,43 @@ const University = ({ searchParams }: any) => {
                   <div className="flex justify-end p-4 md:p-6">
                     {selectedUniversitiesForFavourite.includes(uni?.id) ? (
                       <Star
-                        onClick={handleFavouriteUniversity(uni?.id)}
+                        onClick={() => handleFavouriteUniversity(uni?.id)}
                         color="#FFD700"
                       />
                     ) : (
-                      <Star onClick={handleFavouriteUniversity(uni?.id)} />
+                      <Star
+                        onClick={() => handleFavouriteUniversity(uni?.id)}
+                      />
                     )}
                   </div>
                   <Link href={`/university/details?uni=${uni?.slug}`}>
                     <div className="flex flex-row gap-4 md:gap-6 p-4 md:p-6">
-                      <div className="flex items-center justify-center border border-gray-900 w-24 h-24 md:w-40 md:h-40">
-                        <Icons.logo
-                          className="h-10 w-20 md:h-16 md:w-16"
-                          color="bg-electric-violet"
-                        />
+                      <div className="flex flex-row gap-4 md:gap-6 p-4 md:p-6">
+                        {uni.universityImage ? (
+                          <div className="flex items-center justify-center w-400 h-400 object-cover md:w-16 md:h-16">
+                            <Image
+                              src={renderImage({
+                                imgPath: uni?.universityImage,
+                                size: 'lg',
+                              })}
+                              alt="University Image"
+                              className="object-cover"
+                              height={400}
+                              width={400}
+                            />
+                          </div>
+                        ) : (
+                          <div className="flex items-center justify-center w-40 h-40 md:w-16 md:h-16 bg-gray-200">
+                            <Icons.logo
+                              className="h-20 w-40 md:h-16 md:w-16"
+                              color="bg-electric-violet"
+                            />
+                          </div>
+                        )}
                       </div>
-                      <div className="flex flex-col flex-grow gap-3">
-                        <span className="font-bold text-black text-lg md:text-xl">
+
+                      <div className="flex flex-col font-Open_Sans flex-grow gap-2 md:gap-3 ml-4">
+                        <span className="font-bold text-dark-blue text-2xl md:text-xl">
                           {uni?.universityName}
                         </span>
                         <span className="text-sm text-gray-900">
@@ -262,17 +285,25 @@ const University = ({ searchParams }: any) => {
                         <span className="text-sm text-gray-900">
                           {uni?.description}
                         </span>
-                        <span className="text-sm text-gray-900">
-                          World Rank: {uni?.worldRanking}
+                        <span className="flex flex-wrap gap-4">
+                          <span className="text-sm inline-block align-middle">
+                            World Ranking:
+                          </span>{' '}
+                          <button className="w-20 h-7 px-4 py-1 mb-15 bg-dark-blue text-white text-center rounded-full inline-block align-middle">
+                            {uni?.worldRanking}
+                          </button>
+                          <span className="text-sm inline-block align-middle">
+                            Country Ranking:
+                          </span>{' '}
+                          <button className="w-20 h-7 px-4 py-1 mb-15 bg-dark-blue text-white text-center rounded-full inline-block align-middle">
+                            {uni?.countryRanking}
+                          </button>
                         </span>
-                        <span className="text-sm text-gray-900">
-                          Country Rank: {uni?.countryRanking}
-                        </span>
-                        {uni?.isEnglishCourseAvailable ? (
-                          <span className="border border-gray-500 rounded-full text-center border-medium text-black text-sm md:text-base p-1 md:p-2">
+                        {uni?.isEnglishCourseAvailable && (
+                          <span className="bg-dark-blue rounded-full text-white text-center text-sm md:text-base p-1 md:p-2">
                             English courses available
                           </span>
-                        ) : null}
+                        )}
                       </div>
                     </div>
                   </Link>

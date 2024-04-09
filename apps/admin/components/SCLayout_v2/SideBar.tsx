@@ -5,20 +5,18 @@ import Sider from 'antd/lib/layout/Sider';
 
 import { usePathname, useRouter } from 'next/navigation';
 import items from '../../constants/SideNavItems';
+import { deleteCookie } from 'cookies-next';
 
 export function SideBar() {
   const pathname = usePathname();
   const router = useRouter();
   // const [logout] = useMutation(LOGOUT);
 
-  // function logoutHandler() {
-  //   logout()
-  //     .then(console.log)
-  //     .catch(console.log)
-  //     .finally(() => {
-  //       deleteCookie("accessToken");
-  //       router.reload();
-  //     });
+  function logoutHandler() {
+    deleteCookie('accessToken');
+    window.location.reload();
+  }
+
   // }
 
   const onClick: MenuProps['onClick'] = (e) => {
@@ -61,7 +59,7 @@ export function SideBar() {
     {
       key: 'logout',
       label: <p>Logout</p>,
-      // onClick: logoutHandler,
+      onClick: logoutHandler,
       icon: (
         <LogoutOutlined
           onPointerEnterCapture={undefined}

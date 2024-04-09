@@ -52,24 +52,22 @@ const Blogs = ({ searchParams }: any) => {
   return (
     <section className="mx-auto">
       <MaxWidthWrapper>
-        <section className={'py-5 bg-gray-50'}>
+        <section className={'py-5 bg-white'}>
           <div className="container mx-auto my-3">
             <Breadcrumb separator={'>'}>
-              <Breadcrumb.Item className="JT_breadcrumb cursor-pointer">
-                Home
-              </Breadcrumb.Item>
-              <Breadcrumb.Item className="JT_breadcrumb JT_breadcrumb_last">
+              <Breadcrumb.Item className="text-dark-blue">Home</Breadcrumb.Item>
+              <Breadcrumb.Item className="text-dark-blue">
                 All Blogs
               </Breadcrumb.Item>
             </Breadcrumb>
-            <span className="text-sm text-muted-foreground hover:text-gray-600">
+            <Typography.Text className="text-sm text-navy-blue hover:text-navy-blue">
               Discover various subject areas for higher level studies. Dive into
               the topics below to explore related articles and find insights
               that resonate with you.
-            </span>
+            </Typography.Text>
           </div>
         </section>
-        <div className="container bg-gray-50">
+        <div className="container bg-white">
           <section className="py-4">
             {loading ? (
               <Row gutter={[20, 20]} className="py-7 flex">
@@ -78,13 +76,15 @@ const Blogs = ({ searchParams }: any) => {
             ) : (
               <Row gutter={[16, 16]}>
                 {currentBlogs.map((blog: any) => (
-                  <Col key={blog.id} xs={24} sm={12} md={12} lg={12} xl={12}>
+                  <Col key={blog.id} xs={24} sm={12} md={8} lg={8} xl={8}>
+                    {' '}
+                    {/* Adjusted column size to ensure 3 per row */}
                     <Link href={`/blog/details?blog=${blog.slug}`} passHref>
-                      <div className="blog-card">
+                      <div className="blog-card bg-white p-4">
                         <div>
                           <ProgressiveImageLoading
                             sizes="(max-width: 400px) 75vw, (max-width: 800px) 65vw, 80vw"
-                            imageHeight="h-[220px] lg:min-h-[200px]"
+                            imageHeight="h-[300px] lg:min-h-[250px]"
                             openImage
                             srcImage={
                               renderImage({
@@ -95,9 +95,9 @@ const Blogs = ({ searchParams }: any) => {
                           />
                         </div>
                         <div>
-                          <h2 className="font-bold">{blog.title}</h2>
-                          {/* <p className="text-xs">By {blog.author}</p>{' '} */}
-                          {/* Ensure blog.author is a string */}
+                          <h1 className="text-dark-blue  font-bold font-semibold mt-2 mb-1">
+                            {blog.title}
+                          </h1>
                         </div>
                       </div>
                     </Link>

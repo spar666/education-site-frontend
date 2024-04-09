@@ -11,10 +11,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import SCInput from 'apps/admin/components/SCForm/SCInput';
 import SCSelect from 'apps/admin/components/SCForm/SCSelect';
 import SCTextArea from 'apps/admin/components/SCForm/SCTextArea';
-import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg';
 import { renderImage } from 'libs/services/helper';
+import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg/nossr';
 
-interface ICreateCourse {
+interface ICreate {
   title: string;
   tags: string[];
   slug: string;
@@ -33,23 +33,27 @@ function BlogForm() {
   const id = searchParams.get('id');
   const [loading, setLoading] = useState(false);
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
+  const [authorId, setAuthorId] = useState(null);
+  const [blogCoverImage, setBlogCoverImage] = useState();
+  const [blogContentImage, setBlogContentImage] = useState([]);
 
-  console.log(id, 'id');
   const {
+    control,
     register,
     handleSubmit,
-    control,
     formState: { errors },
     setError,
     reset,
   } = useForm({
     resolver: zodResolver(BlogSchema),
   });
-
   useEffect(() => {
     if (id) {
       fetchBlogById({ id })
         .then((response) => {
+          setBlogCoverImage(response.data.coverImage);
+          setBlogContentImage(response.data.images);
+
           const cover = response.data.coverImage;
           const contentsImages = [response.data.images];
           const formattedCover = [
@@ -65,6 +69,7 @@ function BlogForm() {
               url: renderImage({ imgPath: item, size: 'lg' }),
             };
           });
+          setAuthorId(response.data.author.id);
           reset({
             title: response.data.title,
             tags: response.data.tags,
@@ -75,7 +80,7 @@ function BlogForm() {
             contents: response.data.contents,
             coverImage: formattedCover,
             images: formattedGallery,
-            author: response.data.author,
+            author: response.data.author.id,
           });
         })
         .catch((error) => {
@@ -85,6 +90,14 @@ function BlogForm() {
   }, [id, reset]);
 
   console.log(register, 'register');
+
+  let coverImageUrl, contentImageUrl;
+  if (uploadedImageUrls) {
+    coverImageUrl = uploadedImageUrls;
+    contentImageUrl = uploadedImageUrls;
+  }
+  coverImageUrl = blogCoverImage;
+  contentImageUrl = blogContentImage;
 
   const blogHandler = async (data: any) => {
     console.log(data, 'from data');
@@ -110,11 +123,20 @@ function BlogForm() {
         ...data,
         id: id,
         slug: data?.slug || '',
-        coverImage: data.coverImage || data?.coverImage[0]?.uid,
-        images: data.images || [data?.images[0].uid],
+        author: authorId,
       };
 
-      updateBlog({ updatedData })
+      // Only update coverImage if new coverImage is provided
+      if (data.coverImage) {
+        updatedData.coverImage = coverImageUrl;
+      }
+
+      // Only update images if new images are provided
+      if (data.images && data.images.length > 0) {
+        updatedData.images = contentImageUrl;
+      }
+
+      updateBlog(updatedData)
         .then((response) => {
           if (response.data.status === 201) {
             router.push('/blogs');
@@ -131,8 +153,10 @@ function BlogForm() {
           notification.error({ message: e.message });
         });
     } else {
-      data.coverImage = data?.coverImage[0].uid;
-      data.images = [data?.images[0].uid];
+      data.coverImage = coverImageUrl;
+      data.images = contentImageUrl;
+
+      console.log(data, 'for upload');
       addBlog({ data })
         .then((response) => {
           if (response.data.status === 201) {
@@ -155,8 +179,8 @@ function BlogForm() {
     }
   };
 
-  // Callback function to receive uploaded image URLs
   const handleImageUpload = (urls: string[]) => {
+    console.log(urls, 'urls');
     setUploadedImageUrls(urls);
   };
 
@@ -185,7 +209,7 @@ function BlogForm() {
               register={register}
               parentClass="flex-grow mb-4"
               name="tags"
-              control={control}
+              control={control as any}
               label="Tags"
               error={errors?.tags?.message}
               allowClear
@@ -201,10 +225,10 @@ function BlogForm() {
           <Col xs={12}>
             <SCInput
               register={register}
-              name="slug"
-              control={control}
-              label="Slug"
               parentClass="flex-grow mb-4"
+              name="slug"
+              control={control as any}
+              label="Slug"
               error={errors?.slug?.message}
               placeholder="title-in-this-format"
               size="large"
@@ -215,10 +239,10 @@ function BlogForm() {
           <Col xs={24} xl={24}>
             <SCInput
               register={register}
-              name="metaTitle"
-              control={control}
-              label="Meta Title"
               parentClass="flex-grow mb-4"
+              name="metaTitle"
+              control={control as any}
+              label="Meta Title"
               error={errors?.metaTitle?.message}
               placeholder="Meta Title"
               size="large"
@@ -229,7 +253,7 @@ function BlogForm() {
               register={register}
               name="metaDescription"
               parentClass="flex-grow mb-4"
-              control={control}
+              control={control as any}
               label="Meta Description"
               error={errors?.metaDescription?.message}
               allowClear
@@ -259,8 +283,8 @@ function BlogForm() {
             <SCWysiwyg
               register={register}
               name="contents"
+              control={control as any}
               parentClass="flex-grow mb-4"
-              control={control}
               label="Contents"
               error={errors?.contents?.message}
             />

@@ -58,9 +58,7 @@ const UniversitySchema = z.object({
     .string()
     .trim()
     .min(3, { message: 'Description should be at least 3 characters' })
-    .max(300, {
-      message: 'Description should not exceed more than 300 characters',
-    }),
+   ,
 
   // financeDetails: z
   //   .object({

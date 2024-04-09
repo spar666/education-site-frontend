@@ -6,7 +6,7 @@ import styles from './page.module.css';
 export default async function Index() {
   return (
     <AdminLayout>
-      <PublicPages title={'Welcome to Study Courses!'}>
+      <PublicPages title={'Welcome to Study And Visa!'}>
         <Profile />
       </PublicPages>
     </AdminLayout>

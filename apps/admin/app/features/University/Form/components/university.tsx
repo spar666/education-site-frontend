@@ -1,10 +1,10 @@
+import React, { useState, useEffect } from 'react';
 import { Button, Col, Row, notification } from 'antd';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import SCUpload from 'apps/admin/components/SCForm/SCUpload';
+import { useForm, useFieldArray } from 'react-hook-form';
 import SCInput from 'apps/admin/components/SCForm/SCInput';
 import SCSelect from 'apps/admin/components/SCForm/SCSelect';
+import SCUpload from 'apps/admin/components/SCForm/SCUpload';
 import SCTextArea from 'apps/admin/components/SCForm/SCTextArea';
 import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg';
 import UniversitySchema from '../validation';
@@ -18,7 +18,6 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import SCCheckbox from 'apps/admin/components/SCForm/SCCheckbox';
 import { renderImage } from 'libs/services/helper';
-import React from 'react';
 
 interface ICreateUniversity {
   universityName: string;
@@ -27,13 +26,13 @@ interface ICreateUniversity {
   universityEmail: string;
   worldRanking: number;
   countryRanking: number;
-  universityImage: string;
+  universityImage: any;
   description: string;
   tuitionFee: number;
   currency: string;
   financialAidAvailable: string;
   scholarshipDetails: string;
-  course: string;
+  courses: { courseId: string }[]; // Change course to courses as an array of objects
   destination: string;
 }
 
@@ -42,18 +41,17 @@ function UniversityForm() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
   const [loading, setLoading] = useState(false);
+  const [uniImage, setUniImage] = useState();
   const [availableCourse, setAvailableCourse] = useState<
     { courseName: string; id: string }[]
   >([]);
-
+  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
   const [selectedCourses, setSelectedCourses] = useState<
-    { label: string; value: string }[]
+    { courseId: string }[]
   >([]);
-
   const [selectedDestination, setSelectedDestination] = useState<{
     name: string;
   }>({ name: '' });
-
   const [availableDestination, setAvailableDestination] = useState<
     { name: string; id: string }[]
   >([]);
@@ -65,6 +63,10 @@ function UniversityForm() {
     formState: { errors },
     reset,
   } = useForm<ICreateUniversity>();
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'courses',
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -87,18 +89,19 @@ function UniversityForm() {
   useEffect(() => {
     if (id) {
       fetchUniversityById({ id }).then((response) => {
-        const cover = response.university.universityImage;
+        setUniImage(response.university?.universityImage);
+        const cover = response.university?.universityImage;
         const formattedCover = [
           {
             uid: cover,
             url: renderImage({ imgPath: cover, size: 'lg' }),
           },
         ];
+
         const financeDetails = response.university.financeDetails;
 
         const courses = response.university.courses.map((course: any) => ({
-          label: course.courseName,
-          value: course.id,
+          courseId: course.id,
         }));
 
         setSelectedCourses(courses);
@@ -113,21 +116,23 @@ function UniversityForm() {
           worldRanking: response.university.worldRanking,
           countryRanking: response.university.countryRanking,
           description: response.university.description,
-          universityImage:
-            formattedCover.length > 0 ? formattedCover[0].url : '',
+          universityImage: formattedCover,
           tuitionFee: financeDetails.tuitionFee,
           currency: financeDetails.currency,
           financialAidAvailable: financeDetails.financialAidAvailable
             ? 'yes'
             : 'no',
-          scholarshipDetails:
-            financeDetails.scholarshipDetails === 'true' ? 'yes' : 'no',
-
-          course: courses,
+          scholarshipDetails: financeDetails.scholarshipDetails ? 'yes' : 'no',
+          courses: courses,
+          destination: destination,
         });
       });
     }
   }, [id, reset]);
+
+  const handleImageUpload = (urls: string[]) => {
+    setUploadedImageUrls(urls);
+  };
 
   const handleFormSubmit = async (data: ICreateUniversity) => {
     setLoading(true);
@@ -135,19 +140,28 @@ function UniversityForm() {
     const financeDetails = {
       tuitionFee: data?.tuitionFee,
       currency: data?.currency,
-      financialAidAvailable:
-        data?.financialAidAvailable[0] === 'yes' ? true : false,
-      scholarshipDetails: data?.scholarshipDetails[0] === 'yes' ? true : false,
+      financialAidAvailable: data?.financialAidAvailable === 'yes',
+      scholarshipDetails: data?.scholarshipDetails === 'yes',
     };
+
+    const courseArray: string[] = selectedCourses.map(
+      (course) => course.courseId
+    );
+    let imageUrl;
+    if (uploadedImageUrls) {
+      imageUrl = uploadedImageUrls;
+    }
+    imageUrl = uniImage;
+
+    console.log(imageUrl, "image url");
+
     if (!id) {
       const universityData = {
         ...data,
-        universityImage: data?.universityImage[0],
-
+        universityImage: imageUrl,
         financeDetails: financeDetails,
+        courses: courseArray,
       };
-
-      console.log(universityData, 'ud');
 
       addUniversity({ universityData })
         .then((response) => {
@@ -172,11 +186,12 @@ function UniversityForm() {
       const updatedData = {
         ...data,
         id: id,
-        universityImage: data.universityImage || data?.universityImage[0],
+        universityImage: imageUrl,
+        courses: courseArray,
       };
-      updateUniversity({ updatedData })
+      updateUniversity(updatedData)
         .then((response) => {
-          if (response.status === 201) {
+          if (response.status === 200) {
             router.push('/university');
             notification.success({
               message: response.data.message,
@@ -193,6 +208,94 @@ function UniversityForm() {
     }
   };
 
+  const removeCourse = (indexToRemove) => {
+    remove(indexToRemove);
+    const updatedCourses = selectedCourses.filter(
+      (_, index) => index !== indexToRemove
+    );
+    setSelectedCourses(updatedCourses);
+  };
+
+  const renderCourseFields = () => {
+    const courseFields = fields.map((course, index) => (
+      <Row key={course.id} gutter={[20, 20]}>
+        <Col xs={24} xl={12}>
+          <SCSelect
+            register={register}
+            control={control}
+            name={`courses[${index}].courseId`}
+            label="Course"
+            error={errors?.courses && errors?.courses[index]?.courseId?.message}
+            allowClear
+            placeholder="Please select a course"
+            size="large"
+            notFoundContent={null}
+            showSearch
+            options={availableCourse.map((ac) => ({
+              label: ac?.courseName,
+              value: ac?.id,
+            }))}
+            value={selectedCourses[index]?.courseId}
+            onChange={(value) => {
+              const updatedCourses = [...selectedCourses];
+              if (value) {
+                updatedCourses[index] = {
+                  courseId: value,
+                };
+              } else {
+                updatedCourses.splice(index, 1); // Remove the course at the specified index
+              }
+              setSelectedCourses(updatedCourses);
+            }}
+          />
+        </Col>
+        <Col>
+          {index > 0 && (
+            <Button onClick={() => removeCourse(index)}>Remove</Button>
+          )}
+        </Col>
+      </Row>
+    ));
+
+    return (
+      <>
+        {courseFields}
+        <Row key="add-course" gutter={[20, 20]}>
+          <Col xs={24} xl={12}>
+            <Button onClick={() => append({ courseId: '' })}>Add Course</Button>
+          </Col>
+        </Row>
+      </>
+    );
+  };
+
+  const renderDestinationField = () => {
+    return (
+      <Row gutter={[20, 20]}>
+        <Col xs={24} xl={12}>
+          <SCSelect
+            register={register}
+            parentClass="flex-grow mb-4"
+            name="destination"
+            control={control}
+            label="Destination"
+            error={errors?.destination?.message}
+            allowClear
+            placeholder="Please select destination"
+            size="large"
+            showSearch
+            notFoundContent={null}
+            options={availableDestination?.map((ad) => ({
+              label: ad.name,
+              value: ad.id,
+            }))}
+            value={selectedDestination?.name}
+            required
+          />
+        </Col>
+      </Row>
+    );
+  };
   return (
     <form
       onSubmit={handleSubmit(handleFormSubmit)}
@@ -265,7 +368,7 @@ function UniversityForm() {
       {/* Description */}
       <Row gutter={[20, 20]}>
         <Col xs={24}>
-          <SCWysiwyg
+          <SCTextArea
             register={register}
             name="description"
             parentClass="flex-grow mb-4"
@@ -313,61 +416,13 @@ function UniversityForm() {
       <h3 className="text-xl font-bold mt-7 py-8 m-0">
         {id ? 'Edit' : 'Add'} Course
       </h3>
-      {selectedCourses.map((selectedCourse) => (
-        <Row key={selectedCourse?.value} gutter={[20, 20]}>
-          <Col xs={24} xl={12}>
-            <SCSelect
-              key={selectedCourse?.value}
-              register={register}
-              parentClass="flex-grow mb-4"
-              name={`course-${selectedCourse?.value}`}
-              control={control}
-              label="Course"
-              error={errors?.course?.message}
-              allowClear
-              placeholder={`Please select ${selectedCourse?.label}`}
-              size="large"
-              // mode="course"
-              notFoundContent={null}
-              options={availableCourse?.map((ac) => ({
-                label: ac?.courseName,
-                value: ac?.id,
-              }))}
-              value={selectedCourse?.label}
-              required
-            />
-          </Col>
-        </Row>
-      ))}
+      {renderCourseFields()}
 
       {/* Destination */}
       <h3 className="text-xl font-bold mt-7 py-8 m-0">
         {id ? 'Edit' : 'Add'} Destination
       </h3>
-      <Row gutter={[20, 20]}>
-        <Col xs={24} xl={12}>
-          <SCSelect
-            register={register}
-            parentClass="flex-grow mb-4"
-            name="destination"
-            control={control}
-            label="Destination"
-            error={errors?.destination?.message}
-            allowClear
-            placeholder="Please select destination"
-            size="large"
-            notFoundContent={null}
-            options={availableDestination?.map(
-              (ad: { name: string; id: string }) => ({
-                label: ad.name,
-                value: ad.id,
-              })
-            )}
-            value={selectedDestination?.name}
-            required
-          />
-        </Col>
-      </Row>
+      {renderDestinationField()}
 
       {/* finance */}
       <h3 className="text-xl font-bold mt-7 py-8 m-0">
@@ -408,6 +463,7 @@ function UniversityForm() {
       <Row gutter={[20, 20]}>
         <Col xs={24} xl={12}>
           <SCCheckbox
+            register={register}
             name="financialAidAvailable"
             control={control}
             label="Is Financial Aid Available?"
@@ -433,6 +489,7 @@ function UniversityForm() {
       <Row gutter={[20, 20]}>
         <Col xs={24} xl={12}>
           <SCCheckbox
+            register={register}
             name="scholarshipDetails"
             control={control}
             label="Is Scholarship Available?"
@@ -460,12 +517,11 @@ function UniversityForm() {
           register={register}
           name="universityImage"
           control={control as any}
-          label="University Image"
+          label="Contents Images"
+          multiple
           error={errors?.universityImage?.message}
-          required
-          onFileUpload={function (urls: string[]): void {
-            throw new Error('Function not implemented.');
-          }}
+          cropAspect={2 / 2}
+          onFileUpload={handleImageUpload}
         />
       </Row>
       {/* Form Buttons */}
