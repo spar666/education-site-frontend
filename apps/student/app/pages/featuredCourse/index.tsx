@@ -74,16 +74,18 @@ export const FeaturedCourse = () => {
             </div>
           ))}
         </div>
-        <div className="flex justify-center">
-          <Link href={'/course/details?course=applied-and-pure-science'}>
-            <button
-              type="button"
-              className="w-full lg:w-auto h-10 px-4 py-2 bg-dark-blue text-white flex justify-center items-center rounded mt-5"
-            >
-              View All Courses
-            </button>
-          </Link>
-        </div>
+        {courses.length > 0 && (
+          <div className="flex justify-center">
+            <Link href={'/course/details?course=applied-and-pure-science'}>
+              <button
+                type="button"
+                className="w-full lg:w-auto h-10 px-4 py-2 bg-dark-blue text-white flex justify-center items-center rounded mt-5"
+              >
+                View All Courses
+              </button>
+            </Link>
+          </div>
+        )}
       </MaxWidthWrapper>
     </section>
   );

@@ -1,115 +1,55 @@
 'use client';
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import {
-  Row,
-  Col,
-  Typography,
-  Empty,
-  Pagination,
-  Breadcrumb,
-  Dropdown,
-  Input,
-  Button,
-} from 'antd';
-import ProgressiveImageLoading from 'apps/student/components/ProgressiveImage';
-import { BookHeart, ChevronDown, Heart, Star, X } from 'lucide-react';
-
+import { Row, Col, Empty, Pagination, Breadcrumb } from 'antd';
+import { Star } from 'lucide-react';
 import MaxWidthWrapper from 'apps/student/components/MaxWidthWrapper';
 import { Icons } from 'apps/student/components/Icons';
 import { capitalizeFirstLetter } from 'libs/utils';
 import { fetchUniversityByDestination } from '../../api/university';
 import Link from 'next/link';
-import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 import { renderImage } from 'libs/services/helper';
 import Image from 'next/image';
+import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 
 interface UniversityData {
   id: string;
   universityName: string;
   universityAddress: string;
-  universityContactNumber: string;
-  universityEmail: string;
   slug: string;
   worldRanking: number;
   countryRanking: number;
   universityImage: string | null;
   description: string;
-  isFeatured: boolean;
   isEnglishCourseAvailable: boolean;
 }
 
 const University = ({ searchParams }: any) => {
   const { country } = searchParams;
   const [university, setUniversity] = useState<UniversityData[]>([]);
-  const [inputFilterByCountry, setInputFilterByCountry] = useState(
-    country ? capitalizeFirstLetter(country) : ''
-  );
-  const [inputFilterByDegree, setInputFilterByDegree] = useState('');
-  const [inputFilterByUniversity, setInputFilterByUniversity] = useState('');
   const [pagination, setPagination] = useState({ page: 1, limit: 10 });
   const [
     selectedUniversitiesForFavourite,
     setSelectedUniversitiesForFavourite,
   ] = useState<string[]>([]);
 
-  const handleInputFilterByCountryChange = (
-    e: ChangeEvent<HTMLInputElement>
-  ) => {
-    setInputFilterByCountry(e.target.value);
+  const handleFavouriteUniversity = (id: string) => {
+    const index = selectedUniversitiesForFavourite.indexOf(id);
+    if (index === -1) {
+      setSelectedUniversitiesForFavourite([
+        ...selectedUniversitiesForFavourite,
+        id,
+      ]);
+    } else {
+      const updatedUniversities = [...selectedUniversitiesForFavourite];
+      updatedUniversities.splice(index, 1);
+      setSelectedUniversitiesForFavourite(updatedUniversities);
+    }
   };
-
-  const handleInputFilterByDegreeChange = (
-    e: ChangeEvent<HTMLInputElement>
-  ) => {
-    setInputFilterByDegree(e.target.value);
-  };
-
-  const handleInputFilterByUniversityChange = (
-    e: ChangeEvent<HTMLInputElement>
-  ) => {
-    setInputFilterByUniversity(e.target.value);
-  };
-
-  const handleClearInputFilterByCountry = () => {
-    setInputFilterByCountry('');
-  };
-
-  const handleClearInputFilterByDegree = () => {
-    setInputFilterByDegree('');
-  };
-
-  const handleClearInputFilterByUniversity = () => {
-    setInputFilterByUniversity('');
-  };
-
-  const handleFavouriteUniversity =
-    ({ id }: any) =>
-    () => {
-      console.log('Clicked on university with ID:', id);
-      const index = selectedUniversitiesForFavourite.indexOf(id);
-      console.log('Index of ID in selected universities:', index);
-      if (index === -1) {
-        setSelectedUniversitiesForFavourite([
-          ...selectedUniversitiesForFavourite,
-          id,
-        ]);
-      } else {
-        const updatedUniversities = [...selectedUniversitiesForFavourite];
-        updatedUniversities.splice(index, 1);
-        setSelectedUniversitiesForFavourite(updatedUniversities);
-      }
-    };
-
-  const startIndex = (pagination.page - 1) * pagination.limit;
-  const endIndex = Math.min(startIndex + pagination.limit, university.length);
-
-  const paginatedData = university.slice(startIndex, endIndex);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response: any = await fetchUniversityByDestination(country);
-        console.log(response, 'response');
         setUniversity(response.universities);
       } catch (error) {
         console.error('Failed to fetch university:', error);
@@ -117,14 +57,14 @@ const University = ({ searchParams }: any) => {
     };
     fetchData();
   }, [country]);
-
   const ONE_YEAR_IN_MS = 365 * 24 * 60 * 60 * 1000;
 
   useEffect(() => {
     try {
       const cookieValue = JSON.stringify(selectedUniversitiesForFavourite);
+      console.log('Setting cookie:', cookieValue);
       setCookie('university', cookieValue, {
-        expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // Expires in one year
+        expires: new Date(Date.now() + ONE_YEAR_IN_MS), // Expires in one year
         path: '/', // Accessible across all paths on the domain
       });
     } catch (error) {
@@ -133,11 +73,17 @@ const University = ({ searchParams }: any) => {
   }, [selectedUniversitiesForFavourite]);
 
   useEffect(() => {
+    console.log('Selected universities:', selectedUniversitiesForFavourite);
     return () => {
+      console.log('Deleting cookie');
       deleteCookie('university');
       setSelectedUniversitiesForFavourite([]);
     };
   }, []);
+
+  const startIndex = (pagination.page - 1) * pagination.limit;
+  const endIndex = Math.min(startIndex + pagination.limit, university.length);
+  const paginatedData = university.slice(startIndex, endIndex);
 
   return (
     <section className="mx-auto bg-white">
@@ -146,7 +92,7 @@ const University = ({ searchParams }: any) => {
           <div className="container mx-auto my-3">
             <Breadcrumb separator={'>'}>
               <Breadcrumb.Item className="text-dark-blue">Home</Breadcrumb.Item>
-              <Breadcrumb.Item className="text-dark-blue ">
+              <Breadcrumb.Item className="text-dark-blue">
                 All universities in {capitalizeFirstLetter(country)}
               </Breadcrumb.Item>
             </Breadcrumb>
@@ -158,26 +104,26 @@ const University = ({ searchParams }: any) => {
         </section>
 
         <section className="container bg-white">
-          {university.length === 0 ? ( // Conditional rendering
+          {university.length === 0 ? (
             <Empty description="No Universities found" />
           ) : (
             <>
-              <section className="py-5 bg-white">
+              <section className="py-3 md:py-5 bg-white">
                 <Row gutter={[16, 16]}>
                   <Col xs={24} lg={18}>
-                    {/** enable filter if needed */}
+                    {/* Enable filter if needed */}
                   </Col>
                 </Row>
               </section>
 
-              <section className="py-4 font-Open_Sans leading-1.5 text-base">
+              <section className="w-full py-3 md:py-4 font-Open_Sans leading-1.5 text-base">
                 <div className="bg-white flex flex-wrap gap-6 md:gap-6 justify-center md:justify-start mx-auto md:ml-10">
                   {paginatedData?.map((uni) => (
                     <div
                       key={uni?.id}
-                      className="border border-gray-500 h-auto w-full md:w-1/3 lg:w-2/3 flex flex-col"
+                      className="border border-gray-500 h-auto rounded w-[400px] sm:w-1/2 md:w-1/3 lg:w-1/4 flex flex-col"
                     >
-                      <div className="flex justify-end p-4 md:p-6">
+                      <div className="flex justify-end p-3 md:p-4">
                         <Star
                           onClick={() => handleFavouriteUniversity(uni?.id)}
                           color={
@@ -185,62 +131,60 @@ const University = ({ searchParams }: any) => {
                               ? '#FFD700'
                               : undefined
                           }
-                          style={{ cursor: 'pointer' }} // Add this line to ensure the cursor changes on hover
+                          style={{ cursor: 'pointer' }}
                         />
                       </div>
 
                       <Link href={`/university/details?uni=${uni?.slug}`}>
-                        <div className="flex flex-row gap-4 md:gap-6 p-4 md:p-6">
-                          <div className="flex flex-row gap-4 md:gap-6 p-4 md:p-6">
+                        <div className="flex flex-col p-3 md:p-4">
+                          <div className="flex items-center w-full justify-center mb-3 md:mb-4">
                             {uni.universityImage ? (
-                              <div className="flex items-center justify-center w-400 h-400 object-cover md:w-16 md:h-16">
-                                <Image
-                                  src={renderImage({
-                                    imgPath: uni?.universityImage,
-                                    size: 'md',
-                                  })}
-                                  alt="University Image"
-                                  className="object-cover"
-                                  height={400}
-                                  width={400}
-                                />
-                              </div>
+                              <Image
+                                src={renderImage({
+                                  imgPath: uni?.universityImage,
+                                  size: 'md',
+                                })}
+                                alt="University Image"
+                                className="object-cover w-16 h-16 md:w-24 md:h-24"
+                                width={100}
+                                height={100}
+                              />
                             ) : (
-                              <div className="flex items-center justify-center w-40 h-40 md:w-16 md:h-16 bg-gray-200">
-                                <Icons.logo
-                                  className="h-20 w-40 md:h-16 md:w-16"
-                                  color="bg-electric-violet"
-                                />
-                              </div>
+                              <Icons.logo
+                                className="w-16 h-16 md:w-24 md:h-24 bg-gray-200 rounded-full flex items-center justify-center"
+                                color="bg-electric-violet"
+                              />
                             )}
                           </div>
 
-                          <div className="flex flex-col font-Open_Sans flex-grow gap-2 md:gap-3 ml-4">
-                            <span className="font-bold text-dark-blue text-2xl md:text-xl">
+                          <div className="flex flex-col font-Open_Sans flex-grow gap-2 md:gap-3">
+                            <span className="font-bold text-dark-blue text-lg md:text-xl">
                               {uni?.universityName}
                             </span>
                             <span className="text-sm text-gray-900">
                               {uni?.universityAddress}
                             </span>
                             <span className="text-sm text-gray-900">
-                              {uni?.description}
+                              {uni?.description.length > 100
+                                ? `${uni.description.substring(0, 100)}...`
+                                : uni.description}
                             </span>
-                            <span className="flex flex-wrap gap-4">
-                              <span className="text-sm inline-block align-middle">
+                            <div className="flex flex-wrap gap-2 md:gap-4">
+                              <span className="text-sm inline-block">
                                 World Ranking:
                               </span>{' '}
-                              <button className="w-20 h-7 px-4 py-1 mb-15 bg-dark-blue text-white text-center rounded-full inline-block align-middle">
+                              <button className="w-20 h-7 px-2 md:px-4 py-1 mb-2 md:mb-0 bg-dark-blue text-white text-center rounded-full inline-block">
                                 {uni?.worldRanking}
                               </button>
-                              <span className="text-sm inline-block align-middle">
+                              <span className="text-sm inline-block">
                                 Country Ranking:
                               </span>{' '}
-                              <button className="w-20 h-7 px-4 py-1 mb-15 bg-dark-blue text-white text-center rounded-full inline-block align-middle">
+                              <button className="w-20 h-7 px-2 md:px-4 py-1 mb-2 md:mb-0 bg-dark-blue text-white text-center rounded-full inline-block">
                                 {uni?.countryRanking}
                               </button>
-                            </span>
+                            </div>
                             {uni?.isEnglishCourseAvailable && (
-                              <span className="bg-dark-blue rounded-full text-white text-center text-sm md:text-base p-1 md:p-2">
+                              <span className="bg-dark-blue rounded-full text-white text-center text-sm md:text-base px-2 py-1 md:px-3 md:py-2">
                                 English courses available
                               </span>
                             )}
@@ -252,8 +196,8 @@ const University = ({ searchParams }: any) => {
                 </div>
               </section>
 
-              <section className="py-4">
-                <div className="container mx-auto mb-4 text-center mt-5 flex-end bg-white">
+              <section className="py-3 md:py-4">
+                <div className="container mx-auto mb-4 text-center mt-5 bg-white">
                   <Pagination
                     current={pagination.page}
                     total={university.length}

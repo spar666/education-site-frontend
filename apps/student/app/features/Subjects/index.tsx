@@ -194,9 +194,6 @@ const Subject = ({ searchParams }: any) => {
                             </p>
                           </div>
                         </div>
-                        <div className="flex items-center">
-                          <Heart className="h-8 w-8 md:h-10 md:w-10" />
-                        </div>
                       </div>
                       <div>
                         <p className="text-gray-700">

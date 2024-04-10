@@ -64,13 +64,15 @@ const BlogPage = () => {
           </div>
 
           {/* View All Blogs Button */}
-          <div className="flex justify-center mt-5">
-            <Link href="/blog">
-              <Button className="w-full md:w-52 h-12 px-6 py-2 bg-dark-blue text-white flex justify-center items-center rounded">
-                View All Blogs
-              </Button>
-            </Link>
-          </div>
+          {blogs.length > 0 && (
+            <div className="flex justify-center mt-5">
+              <Link href="/blog">
+                <Button className="w-full md:w-52 h-12 px-6 py-2 bg-dark-blue text-white flex justify-center items-center rounded">
+                  View All Blogs
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
       </MaxWidthWrapper>
     </section>

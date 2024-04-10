@@ -54,49 +54,33 @@ export const fetchUniversityByCourse = async ({
   }
 };
 
-export const fetchUniversitiesByIds = async ({ ids }: any) => {
+export const fetchUniversitiesByIds = async (ids: any) => {
   try {
-    console.log(ids, 'ids');
-    // Concatenate all arrays into a single array
-    const concatenatedArray = [].concat(...ids);
-
-    console.log(concatenatedArray, 'concatenatedArray');
-
-    // Convert the concatenated array into a string
-    const joinedString = concatenatedArray.join(',');
-    console.log(joinedString, 'joinedString');
-
-    const parsedIds = JSON.parse(joinedString);
-    console.log(parsedIds, 'parsedIds');
+    const parsedArray = JSON.parse(ids);
+    const joinedIds = parsedArray.join(',').toString();
+    console.log(joinedIds, 'joinedIds');
 
     const response = await axios.get(
-      `${API_URL}/university/multiple/${parsedIds}`
+      `${API_URL}/university/multiple/${joinedIds}`
     );
 
-    return response.data; // Return response data directly
+    return response.data;
   } catch (error) {
     console.error('Failed to fetch universities:', error);
     throw new Error('Failed to fetch universities');
   }
 };
 
-export const fetchUniversitiesByIdsForComapre = async ({ ids }: any) => {
+export const fetchUniversitiesByIdsForCompare = async (ids: string[]) => {
   try {
-    console.log(ids, 'ids');
-    // Concatenate all arrays into a single array
-    const concatenatedArray = [].concat(...ids);
-
-    console.log(concatenatedArray, 'concatenatedArray');
-
-    // Convert the concatenated array into a string
-    const joinedString = concatenatedArray.join(',');
-    console.log(joinedString, 'joinedString');
+    // Flatten the array of IDs
+    const concatenatedIds = ids.join(',');
 
     const response = await axios.get(
-      `${API_URL}/university/multiple/${joinedString}`
+      `${API_URL}/university/multiple/${concatenatedIds}`
     );
 
-    return response.data; // Return response data directly
+    return response.data;
   } catch (error) {
     console.error('Failed to fetch universities:', error);
     throw new Error('Failed to fetch universities');

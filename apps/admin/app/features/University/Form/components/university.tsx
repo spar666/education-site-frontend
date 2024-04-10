@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useEffect } from 'react';
 import { Button, Col, Row, notification } from 'antd';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -148,10 +149,10 @@ function UniversityForm() {
       (course) => course.courseId
     );
     let imageUrl: any;
-    if (uploadedImageUrls) {
+    if (uploadedImageUrls.length > 0) {
       imageUrl = uploadedImageUrls;
     } else {
-      imageUrl = uniImage;
+      imageUrl = uniImage ? uniImage : null;
     }
 
     console.log(imageUrl, 'image url');
@@ -205,6 +206,9 @@ function UniversityForm() {
         })
         .catch((e) => {
           notification.error({ message: e.message });
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   };
