@@ -83,7 +83,7 @@ const University = ({ searchParams }: any) => {
   };
 
   const handleFavouriteUniversity =
-    ({ id }) =>
+    ({ id }: any) =>
     () => {
       console.log('Clicked on university with ID:', id);
       const index = selectedUniversitiesForFavourite.indexOf(id);
