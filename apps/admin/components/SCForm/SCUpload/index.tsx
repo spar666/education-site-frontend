@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
 
-let API_URL = 'http://localhost:3001/api/uploads/';
+let API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const getSrcFromFile = ({ file }: any) => {
   return new Promise((resolve) => {
@@ -71,7 +71,7 @@ const SCUpload = ({
       },
     };
     axios
-      .post(API_URL, data, config)
+      .post(`${API_URL}/uploads/`, data, config)
       .then((res: any) => {
         onSuccess('ok', file); // For antd Upload component to mark as successful
 
