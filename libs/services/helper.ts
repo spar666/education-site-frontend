@@ -1,3 +1,4 @@
+let API_URL = process.env.NEXT_PUBLIC_API_URL;
 type EImageSize = "sm" | "md" | "lg";
 export function renderImage({
   size = "lg",
@@ -12,7 +13,7 @@ export function renderImage({
     return imgPath;
   }
   
-  let imageUrl = `http://localhost:3001/api/uploads/image/${imgPath}`;
+  let imageUrl = `${API_URL}/uploads/image/${imgPath}`;
   console.log(imageUrl, "url")
   
   if (gSize) {
