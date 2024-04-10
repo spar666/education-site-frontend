@@ -16,6 +16,8 @@ import { Heart } from 'lucide-react';
 import { fetchUniversityByCourse } from '../../api/university';
 import { fetchAllUniversityByDestination } from '../../api/studyDestination';
 import Link from 'next/link';
+import Image from 'next/image';
+import { renderImage } from 'libs/services/helper';
 
 const { Option } = Select;
 
@@ -23,6 +25,7 @@ interface UniversityData {
   id: string;
   universityName: string;
   description: string;
+  universityImage: string;
   destination: {
     id: string;
     name: string;
@@ -171,7 +174,16 @@ const Subject = ({ searchParams }: any) => {
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center">
                           <div className="w-16 h-16 md:w-24 md:h-24 mr-4 rounded-full bg-gray-200 flex items-center justify-center">
-                            {/* University Image or Icon */}
+                            <Image
+                              src={renderImage({
+                                imgPath: university?.universityImage,
+                                size: 'lg',
+                              })}
+                              alt="University Image"
+                              className="object-cover"
+                              height={400}
+                              width={400}
+                            />
                           </div>
                           <div>
                             <h2 className="text-lg font-semibold">
