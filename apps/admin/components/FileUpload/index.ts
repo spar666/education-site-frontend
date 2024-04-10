@@ -7,12 +7,12 @@ export interface UploadedFile {
   status: 'done' | 'error' | 'uploading' | 'removed' | 'success' | 'removed';
   url: string;
 }
-const UPLOAD_URL = process.env.NEXT_PUBLIC_FILE_UPLOAD_URL;
+const UPLOAD_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const getImage = async (filename: string): Promise<string> => {
   try {
     const response: AxiosResponse<{ url: string[] }> = await axios.get(
-      `${UPLOAD_URL}?filename=${filename}`
+      `${UPLOAD_URL}?uploads/image=${filename}`
     );
     return response.data.url[0];
   } catch (error) {
