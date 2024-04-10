@@ -12,7 +12,8 @@ import SCInput from 'apps/admin/components/SCForm/SCInput';
 import SCSelect from 'apps/admin/components/SCForm/SCSelect';
 import SCTextArea from 'apps/admin/components/SCForm/SCTextArea';
 import { renderImage } from 'libs/services/helper';
-import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg/nossr';
+import dynamic from 'next/dynamic';
+import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg/index';
 
 interface ICreate {
   title: string;
@@ -89,8 +90,6 @@ function BlogForm() {
     }
   }, [id, reset]);
 
-  console.log(register, 'register');
-
   let coverImageUrl: any, contentImageUrl: any;
   if (uploadedImageUrls) {
     coverImageUrl = uploadedImageUrls;
@@ -100,20 +99,6 @@ function BlogForm() {
   contentImageUrl = blogContentImage;
 
   const blogHandler = async (data: any) => {
-    console.log(data, 'from data');
-    // Check for Quill content validation
-    // if (!quillValidate(data?.contents)) {
-    //   const element = document.getElementById('contents');
-    //   if (element) {
-    //     element.scrollIntoView({ behavior: 'smooth' });
-    //   }
-    //   setError('contents', {
-    //     type: 'custom',
-    //     message: 'Contents is required',
-    //   });
-    //   return;
-    // }
-
     setLoading(true);
 
     // Update or add the blog
