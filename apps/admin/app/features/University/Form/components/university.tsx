@@ -77,7 +77,7 @@ function UniversityForm() {
         ]);
 
         setAvailableCourse(courseResponse);
-        setAvailableDestination(destinationsResponse.name);
+        setAvailableDestination(destinationsResponse);
       } catch (error) {
         console.error('Failed to fetch data:', error);
       }
