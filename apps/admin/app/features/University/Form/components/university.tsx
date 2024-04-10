@@ -41,7 +41,7 @@ function UniversityForm() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
   const [loading, setLoading] = useState(false);
-  const [uniImage, setUniImage] = useState();
+  const [uniImage, setUniImage] = useState(null);
   const [availableCourse, setAvailableCourse] = useState<
     { courseName: string; id: string }[]
   >([]);
@@ -150,8 +150,9 @@ function UniversityForm() {
     let imageUrl: any;
     if (uploadedImageUrls) {
       imageUrl = uploadedImageUrls;
+    } else {
+      imageUrl = uniImage;
     }
-    imageUrl = uniImage;
 
     console.log(imageUrl, 'image url');
 
