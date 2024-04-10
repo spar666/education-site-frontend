@@ -18,12 +18,16 @@ interface IDestination {
 
 export const UniversityPage = () => {
   const [destination, setDestination] = useState<IDestination[]>([]);
+  const [firstSlug, setFirstSlug] = useState<string>('');
 
   useEffect(() => {
     const fetchUniversities = async () => {
       try {
         const universities = await fetchAllUniversityByDestination();
         setDestination(universities);
+        if (universities.length > 0) {
+          setFirstSlug(universities[0].slug);
+        }
       } catch (error) {
         console.error('Failed to fetch universities:', error);
         // Handle error, e.g., show a message to the user
@@ -32,6 +36,28 @@ export const UniversityPage = () => {
 
     fetchUniversities();
   }, []);
+
+  const getCountryImage = (countryName: string) => {
+    switch (countryName) {
+      case 'New Zealand':
+        return USA;
+      case 'Australia':
+        return Aus;
+      case 'UK':
+        return Uk;
+      case 'Canada':
+        return Frn;
+      default:
+        return ''; // Default image path
+    }
+  };
+
+  const handleViewAllClick = () => {
+    // Navigate to university page with the slug of the first country
+    if (firstSlug) {
+      window.location.href = `/university?country=${firstSlug}`;
+    }
+  };
 
   const renderCountries = () => {
     return destination.map((country, index) => (
@@ -49,21 +75,6 @@ export const UniversityPage = () => {
     ));
   };
 
-  const getCountryImage = (countryName: string) => {
-    switch (countryName) {
-      case 'New Zealand':
-        return USA;
-      case 'Australia':
-        return Aus;
-      case 'UK':
-        return;
-      case 'Canada':
-        return Frn;
-      default:
-        return ''; // Default image path
-    }
-  };
-
   return (
     <section className="m-5 font-[quicksand]">
       <MaxWidthWrapper>
@@ -76,17 +87,19 @@ export const UniversityPage = () => {
             {renderCountries()}
           </div>
         </div>
-        {/* View All Countries button */}
-        <div className="flex justify-center">
-          <Link href={`/university?country=australia`}>
+
+        {/* View All Countries button (conditionally rendered) */}
+        {destination.length > 0 && (
+          <div className="flex justify-center">
             <button
               type="button"
-              className="w-full md:w-52 h-12 px-6  bg-dark-blue text-white flex justify-center items-center rounded mt-5"
+              className="w-full md:w-52 h-12 px-6 bg-dark-blue text-white flex justify-center items-center rounded mt-5"
+              onClick={handleViewAllClick}
             >
               View All Countries
             </button>
-          </Link>
-        </div>
+          </div>
+        )}
       </MaxWidthWrapper>
     </section>
   );

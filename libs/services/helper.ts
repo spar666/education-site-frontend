@@ -11,9 +11,7 @@ export function renderImage({
   imgPath: string;
   gSize?: number | string | null;
 }): string {
-  if (imgPath.includes("facebook")) {
-    return imgPath;
-  }
+  
 
   let imageUrl = `${API_URL}/uploads/image/${imgPath}`;
   console.log(imageUrl, "url");

@@ -133,7 +133,7 @@ const UniversityCard = ({ university }: any) => {
     <div className="border-1 border-gray-500 h-auto p-4 flex flex-col justify-between my-4">
       <Link href={`/university/details?uni=${university.slug}`} passHref>
         <div>
-          <div className="flex  border border-gray-900 w-24 h-24 md:w-40 md:h-40">
+          <div className="flex   w-24 h-24 md:w-40 md:h-40">
             <Image
               src={renderImage({
                 imgPath: university?.universityImage,

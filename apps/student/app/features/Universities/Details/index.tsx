@@ -151,15 +151,19 @@ const UniversityDetails = ({ searchParams }: any) => {
               <section className="py-4">
                 <div className="flex flex-col text-black md:flex-row gap-6 justify-center md:justify-start mx-auto md:ml-10 p-6">
                   <div className="flex items-center justify-center border border-gray-900 w-10 h-10 md:w-40 md:h-40">
-                    <Image
-                      src={renderImage({
-                        imgPath: universityDetails?.universityImage,
-                        size: 'md',
-                      })}
-                      alt="University Image"
-                      height={100}
-                      width={100}
-                    />
+                    {universityDetails.universityImage ? (
+                      <Image
+                        src={renderImage({
+                          imgPath: universityDetails.universityImage,
+                          size: 'md',
+                        })}
+                        alt="uniimages"
+                        height={100}
+                        width={100}
+                      />
+                    ) : (
+                      <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                    )}
                   </div>
                   <div className="flex flex-col gap-3">
                     <h1 className="text-dark-blue font-bold text-2xl">

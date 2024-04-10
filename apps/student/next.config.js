@@ -20,7 +20,8 @@ const nextConfig = {
       "storage.googleapis.com",
       "lh3.googleusercontent.com",
       "graph.facebook.com",
-      "localhost"
+      "localhost",
+      "studycourse-be-fd3578bd8022.herokuapp.com"
     ],
   },
 };

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API_URL: any = process.env.NEXT_PUBLIC_API_URL;
 
-export const fetchUniversityByDestination = async ({ country }: any) => {
+export const fetchUniversityByDestination = async (country: any) => {
   try {
     const response = await axios.get(
       `${API_URL}/destination/fetchUniversity/${country}`
