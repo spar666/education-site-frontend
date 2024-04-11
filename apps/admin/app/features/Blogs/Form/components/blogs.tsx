@@ -4,7 +4,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import BlogSchema from '../validation';
-import { quillValidate } from 'apps/admin/helper/quillValidate';
 import SCUpload from 'apps/admin/components/SCForm/SCUpload';
 import { addBlog, fetchBlogById, updateBlog } from 'apps/admin/app/api/Blogs';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,8 +11,7 @@ import SCInput from 'apps/admin/components/SCForm/SCInput';
 import SCSelect from 'apps/admin/components/SCForm/SCSelect';
 import SCTextArea from 'apps/admin/components/SCForm/SCTextArea';
 import { renderImage } from 'libs/services/helper';
-import dynamic from 'next/dynamic';
-import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg/nossr';
+import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg/index';
 
 interface ICreate {
   title: string;
