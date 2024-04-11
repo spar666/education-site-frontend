@@ -11,7 +11,7 @@ import SCInput from 'apps/admin/components/SCForm/SCInput';
 import SCSelect from 'apps/admin/components/SCForm/SCSelect';
 import SCTextArea from 'apps/admin/components/SCForm/SCTextArea';
 import { renderImage } from 'libs/services/helper';
-import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg/index';
+import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg/nossr';
 
 interface ICreate {
   title: string;
@@ -33,9 +33,7 @@ function BlogForm() {
   const [loading, setLoading] = useState(false);
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
   const [authorId, setAuthorId] = useState(null);
-  const [blogCoverImage, setBlogCoverImage] = useState<string | undefined>(
-    undefined
-  );
+  const [blogCoverImage, setBlogCoverImage] = useState(null);
   const [blogContentImage, setBlogContentImage] = useState<string[]>([]);
 
   const {
@@ -93,10 +91,10 @@ function BlogForm() {
   let coverImageUrl: any, contentImageUrl: any;
   if (uploadedImageUrls.length > 0) {
     coverImageUrl = uploadedImageUrls;
-    contentImageUrl = [uploadedImageUrls];
+    contentImageUrl = uploadedImageUrls;
   } else {
     coverImageUrl = blogCoverImage;
-    contentImageUrl = [blogContentImage];
+    contentImageUrl = blogContentImage;
   }
 
   console.log(coverImageUrl, 'coverimage');
