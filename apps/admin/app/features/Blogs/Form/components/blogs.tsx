@@ -13,7 +13,7 @@ import SCSelect from 'apps/admin/components/SCForm/SCSelect';
 import SCTextArea from 'apps/admin/components/SCForm/SCTextArea';
 import { renderImage } from 'libs/services/helper';
 import dynamic from 'next/dynamic';
-import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg/index';
+import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg/nossr';
 
 interface ICreate {
   title: string;
@@ -35,8 +35,10 @@ function BlogForm() {
   const [loading, setLoading] = useState(false);
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
   const [authorId, setAuthorId] = useState(null);
-  const [blogCoverImage, setBlogCoverImage] = useState();
-  const [blogContentImage, setBlogContentImage] = useState([]);
+  const [blogCoverImage, setBlogCoverImage] = useState<string | undefined>(
+    undefined
+  );
+  const [blogContentImage, setBlogContentImage] = useState<string[]>([]);
 
   const {
     control,
@@ -52,8 +54,8 @@ function BlogForm() {
     if (id) {
       fetchBlogById({ id })
         .then((response) => {
-          setBlogCoverImage(response.data.coverImage);
-          setBlogContentImage(response.data.images);
+          setBlogCoverImage(response.data.coverImage || '');
+          setBlogContentImage(response.data.images || []);
 
           const cover = response.data.coverImage;
           const contentsImages = [response.data.images];
@@ -91,12 +93,17 @@ function BlogForm() {
   }, [id, reset]);
 
   let coverImageUrl: any, contentImageUrl: any;
-  if (uploadedImageUrls) {
+  if (uploadedImageUrls.length > 0) {
     coverImageUrl = uploadedImageUrls;
-    contentImageUrl = uploadedImageUrls;
+    contentImageUrl = [uploadedImageUrls];
+  } else {
+    coverImageUrl = blogCoverImage;
+    contentImageUrl = [blogContentImage];
   }
-  coverImageUrl = blogCoverImage;
-  contentImageUrl = blogContentImage;
+
+  console.log(coverImageUrl, 'coverimage');
+
+  console.log(contentImageUrl, 'contentimageurl');
 
   const blogHandler = async (data: any) => {
     setLoading(true);
@@ -165,7 +172,6 @@ function BlogForm() {
   };
 
   const handleImageUpload = (urls: string[]) => {
-    console.log(urls, 'urls');
     setUploadedImageUrls(urls);
   };
 

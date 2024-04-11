@@ -24,6 +24,7 @@ interface IBlogs {
   title: string;
   coverImage: string;
   contents: string;
+  slug: string;
 }
 
 const BlogPage = () => {
@@ -57,9 +58,16 @@ const BlogPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8 mt-5 md:mt-10">
             {/* Rendering top 3 blogs */}
             {blogs.slice(0, 3).map((blog, index) => (
-              <div key={index} className="w-full">
-                <Blog title={blog.title} image={blog.coverImage} />
-              </div>
+              <Link href={`blog/details?blog=${blog?.slug}`}>
+                <div key={index} className="w-full">
+                  {/* Adding a custom class to adjust image opacity */}
+                  <Blog
+                    title={blog.title}
+                    image={blog.coverImage}
+                    className="transparent-image"
+                  />
+                </div>
+              </Link>
             ))}
           </div>
 
@@ -75,6 +83,13 @@ const BlogPage = () => {
           )}
         </div>
       </MaxWidthWrapper>
+
+      {/* Adding custom CSS to adjust image opacity */}
+      <style jsx>{`
+        .transparent-image img {
+          opacity: 0.8; /* Adjust opacity value as needed */
+        }
+      `}</style>
     </section>
   );
 };

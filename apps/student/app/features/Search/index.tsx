@@ -41,25 +41,19 @@ const Search = ({ searchParams }: any) => {
     fetchData();
   }, [course, level, location, rankingOrder, feesOrder, scholarshipOrder]);
 
-  type OrderDirection = 'ASC' | 'DESC';
+  const handleRankingOrderChange = async (value: 'ASC' | 'DESC') => {
+    setRankingOrder(value);
+    await fetchData();
+  };
 
-  const handleOrderChange = async (
-    type: 'ranking' | 'fees' | 'scholarship',
-    value: OrderDirection | 'yes' | 'no'
-  ) => {
-    const direction: OrderDirection =
-      value === 'yes' ? 'ASC' : value === 'no' ? 'DESC' : value;
+  const handleFeesOrderChange = async (value: 'ASC' | 'DESC') => {
+    setFeesOrder(value);
+    await fetchData();
+  };
 
-    const updateFunction: any = (prevState: 'yes' | 'no') =>
-      prevState === 'yes' ? 'ASC' : 'DESC';
-
-    if (type === 'ranking') {
-      setRankingOrder(updateFunction);
-    } else if (type === 'fees') {
-      setFeesOrder(updateFunction);
-    } else if (type === 'scholarship') {
-      setScholarshipOrder(updateFunction);
-    }
+  const handleScholarshipOrderChange = async (value: 'yes' | 'no') => {
+    setScholarshipOrder(value);
+    await fetchData();
   };
 
   return (
@@ -69,33 +63,78 @@ const Search = ({ searchParams }: any) => {
           {error}
         </div>
       )}
-      <section className="container py-5 bg-gray-50 text-dark-blue mx-auto font-['Open_Sans'] leading-1.5">
+      <section className="container py-5 bg-gray-50 mx-auto">
         <Row gutter={[16, 16]}>
           <Col xs={24} lg={18}>
-            <div className="flex flex-wrap gap-4 text-dark-blue mx-auto md:gap-6 font-bold justify-center md:justify-start">
+            <div className="flex  flex-wrap gap-4 mx-auto md:gap-6 font-bold justify-center md:justify-start">
               <Filter className="h-30 mt-1.5" />
-              <FilterInput
-                icon={<TrendingUp className="h-4 w-4 mr-2" />}
-                placeholder="Filter By Ranking"
-                order={rankingOrder}
-                onChange={({ value }: any) =>
-                  handleOrderChange('ranking', value)
-                }
-              />
-              <FilterInput
-                icon={<DollarSign className="h-4 w-4 mr-2" />}
-                placeholder="Filter By Fees"
-                order={feesOrder}
-                onChange={({ value }: any) => handleOrderChange('fees', value)}
-              />
-              <FilterInput
-                icon={<Award className="h-4 w-4 mr-2" />}
-                placeholder="Filter By Scholarship"
-                order={scholarshipOrder}
-                onChange={({ value }: any) =>
-                  handleOrderChange('scholarship', value)
-                }
-              />
+              <div className="relative">
+                <Input
+                  prefix={<TrendingUp className="h-4 w-4 mr-2" />}
+                  placeholder="Filter By Ranking"
+                  className="rounded-md px-2 py-1 mr-2"
+                  value={
+                    rankingOrder === 'ASC'
+                      ? 'Ranking: Low to High'
+                      : 'Ranking: High to Low'
+                  }
+                  readOnly
+                />
+                <Select
+                  defaultValue={rankingOrder}
+                  onChange={handleRankingOrderChange}
+                  className="absolute inset-0 opacity-0"
+                >
+                  <Select.Option value="ASC">
+                    Ranking: Low to High
+                  </Select.Option>
+                  <Select.Option value="DESC">
+                    Ranking: High to Low
+                  </Select.Option>
+                </Select>
+              </div>
+              <div className="relative">
+                <Input
+                  prefix={<DollarSign className="h-4 w-4 mr-2" />}
+                  placeholder="Filter By Fees"
+                  className="rounded-md px-2 py-1 mr-2"
+                  value={
+                    feesOrder === 'ASC'
+                      ? 'Fees: Low to High'
+                      : 'Fees: High to Low'
+                  }
+                  readOnly
+                />
+                <Select
+                  defaultValue={feesOrder}
+                  onChange={handleFeesOrderChange}
+                  className="absolute inset-0 opacity-0"
+                >
+                  <Select.Option value="ASC">Fees: Low to High</Select.Option>
+                  <Select.Option value="DESC">Fees: High to Low</Select.Option>
+                </Select>
+              </div>
+              <div className="relative">
+                <Input
+                  prefix={<Award className="h-4 w-4 mr-2" />}
+                  placeholder="Filter By Scholarship"
+                  className="rounded-md px-2 py-1 mr-2"
+                  value={
+                    scholarshipOrder === 'yes'
+                      ? 'Scholarship: yes'
+                      : 'Scholarship: No'
+                  }
+                  readOnly
+                />
+                <Select
+                  defaultValue={scholarshipOrder}
+                  onChange={handleScholarshipOrderChange}
+                  className="absolute inset-0 opacity-0"
+                >
+                  <Select.Option value="yes">Scholarship: yes</Select.Option>
+                  <Select.Option value="no">Scholarship: no</Select.Option>
+                </Select>
+              </div>
             </div>
           </Col>
         </Row>

@@ -55,17 +55,23 @@ const BlogDetails = ({ searchParams }: any) => {
             </Breadcrumb>
           </div>
         </section>
-        <Row className="mt-10">
-          <Image
-            src={renderImage({
-              imgPath: blogData?.coverImage || '',
-              size: 'md',
-            })}
-            alt="University Image"
-            height={100}
-            width={100}
-          />
+        <Row className="mt-10" justify="center">
+          {/* <div style={{ maxWidth: '1000px' }}>
+            <Image
+              src={renderImage({
+                imgPath: blogData?.images || '',
+                size: 'md',
+              })}
+              alt="University Image"
+              layout="responsive" // Use responsive layout for full width
+              objectFit="cover" // Maintain aspect ratio and cover container
+              width={700} // Set the desired width
+              height={400} // Set the desired height
+              style={{ maxHeight: '700px' }} // Limit max height
+            />
+          </div> */}
         </Row>
+
         <Row gutter={[20, 20]} className="mt-10">
           <Col xs={24} sm={24} md={18} lg={18}>
             <div className="flex flex-col items-start gap-4">
@@ -100,9 +106,9 @@ const BlogDetails = ({ searchParams }: any) => {
             <Divider />
             <div className="flex items-start gap-5 flex-col sm:flex-row sm:items-end sm:justify-between">
               <div className="flex items-center gap-2 mt-3">
-                <EyeIcon />
+                {/* <EyeIcon />
                 0 views
-                <span className="inline-block h-2 w-2 mx-1 rounded-full bg-black opacity-30" />
+                <span className="inline-block h-2 w-2 mx-1 rounded-full bg-black opacity-30" /> */}
               </div>
             </div>
             <Divider />

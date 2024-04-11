@@ -12,7 +12,6 @@ import { fetchCourses } from '../app/api/courses';
 import { fetchAllUniversityByDestination } from '../app/api/studyDestination';
 
 type Category = (typeof MENU_CATEGORIES)[number];
-// type Destination = (typeof MENU_CATEGORIES)[number];
 
 interface StudyLevel {
   id: string;
@@ -102,7 +101,7 @@ const NavItem = ({
     }
   }, [isDestination]);
   return (
-    <div className="flex">
+    <div className="flex z-20">
       <div className="relative flex items-center">
         <Button
           className="gap-1.5"
@@ -128,7 +127,7 @@ const NavItem = ({
         <div
           onClick={() => close()}
           className={cn(
-            'absolute inset-x-0 top-full text-sm text-muted-foreground',
+            'absolute inset-x-0 top-full text-sm text-muted-foreground overflow-y-auto max-h-60', // Adjust max-height as needed
             {
               'animate-in fade-in-10 slide-in-from-top-5': !isAnyOpen,
             }
@@ -204,7 +203,7 @@ const NavItem = ({
         <div
           onClick={() => close()}
           className={cn(
-            'absolute inset-x-0 top-full text-sm text-muted-foreground',
+            'absolute inset-x-0 top-full text-sm text-muted-foreground overflow-y-auto max-h-60', // Adjust max-height as needed
             {
               'animate-in fade-in-10 slide-in-from-top-5': !isAnyOpen,
             }

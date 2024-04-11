@@ -63,14 +63,9 @@ export const MENU_CATEGORIES = [
   },
   {
     label: 'Our Blogs',
-    value: 'study_destination' as const,
     href:"/blog"
    
    
   },
-  {
-    label: 'Our Service',
-    value: 'find_course' as const,
-    
-  },
+  
 ]
