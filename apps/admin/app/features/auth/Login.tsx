@@ -44,7 +44,7 @@ export function LoginAdmin() {
     try {
       setLoading(true);
       const response = await AuthService.login(data);
-      setCookie('accessToken', response.data.access_token);
+      setCookie('accessToken', response.data.access_token, { maxAge: 1 });
       await getMyDetails();
       notification.success({ message: response.data.message });
     } catch (error) {
