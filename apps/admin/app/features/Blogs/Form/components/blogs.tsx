@@ -11,7 +11,7 @@ import SCInput from 'apps/admin/components/SCForm/SCInput';
 import SCSelect from 'apps/admin/components/SCForm/SCSelect';
 import SCTextArea from 'apps/admin/components/SCForm/SCTextArea';
 import { renderImage } from 'libs/services/helper';
-import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg/nossr';
+import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg/index';
 
 interface ICreate {
   title: string;
