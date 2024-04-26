@@ -16,7 +16,7 @@ const MainMenu = () => (
     <Link href="#" className="text-sm text-navy-blue hover:text-gray-600">
       Study Destination
     </Link>
-    <Link href="#" className="text-sm text-navy-blue hover:text-gray-600">
+    <Link href="/blog" className="text-sm text-navy-blue hover:text-gray-600">
       Blog
     </Link>
   </div>
@@ -31,15 +31,15 @@ const ContactDetails = () => (
 );
 
 const NewsletterForm = () => (
-  <div className="text-center">
-    <div className="flex flex-col bg-white md:flex justify-between   rounded">
+  <div className="text-center bg-light-gray">
+    <div className="flex flex-col bg-light-gray md:flex justify-between   rounded">
       <div className="mb-3">
         <small>
           Be the first one to know about opportunities, offers, and events
         </small>
       </div>
       <div className="newsletter buttonInside relative">
-        <div className="flex w-full max-w-sm items-center space-x-2">
+        <div className="flex w-full bg-light-gray max-w-sm items-center space-x-2">
           <Input type="email" placeholder="Email" />
           <Button type="submit">Subscribe</Button>
         </div>
@@ -53,68 +53,68 @@ const Footer = () => {
   const pathsToMinimize = ['/verify-email', '/sign-up', '/sign-in'];
 
   return (
-    <footer className="bg-light-gray">
-      <MaxWidthWrapper>
-        <div className="border-t border-gray-200">
-          {pathsToMinimize.includes(pathname) ? null : (
-            <div className="relative flex flex-col text-dark-blue justify-between sm:flex-row px-6 py-6 sm:py-8 lg:mt-0">
-              <div className="flex flex-col  justify-between pr-8">
-                <span className="font-bold tracking-tight text-dark-blue">
-                  Useful Links
-                </span>
-                <MainMenu />
-              </div>
-
-              {/* Middle part containing contact details */}
-              <div className="flex flex-col">
-                <span className="font-bold tracking-tight text-dark-blue">
-                  Contact Information
-                </span>
-                <ContactDetails />
-              </div>
-
-              {/* Right part containing newsletter form */}
-              <div className="flex flex-col  ">
-                <span className="font-bold tracking-tight text-dark-blue">
-                  Subscribe to our newsletter
-                </span>
-                <NewsletterForm />
-              </div>
+    <footer className="bg-light-gray w-full justify-between">
+      <div className="border-t border-gray-200 w-full">
+        {pathsToMinimize.includes(pathname) ? null : (
+          <div className="relative flex flex-col w-full text-dark-blue justify-between sm:flex-row px-6 py-6 sm:py-8 lg:mt-0">
+            <div className="flex flex-col  justify-between pr-8">
+              <span className="font-bold tracking-tight text-dark-blue">
+                Useful Links
+              </span>
+              <MainMenu />
             </div>
-          )}
-        </div>
 
-        <div className="py-10 md:flex md:items-center md:justify-between">
-          <div className="text-center md:text-left">
-            <p className="text-sm text-navy-blue">
-              &copy; {new Date().getFullYear()} All Rights Reserved
-            </p>
-          </div>
+            {/* Middle part containing contact details */}
+            <div className="flex flex-col">
+              <span className="font-bold tracking-tight text-dark-blue">
+                Contact Information
+              </span>
+              <ContactDetails />
+            </div>
 
-          <div className="mt-4 flex items-center justify-center md:mt-0">
-            <div className="flex space-x-8">
-              <Link
-                href="#"
-                className="text-sm text-navy-blue hover:text-gray-600"
-              >
-                <FacebookIcon />
-              </Link>
-              <Link
-                href="#"
-                className="text-sm text-navy-blue hover:text-gray-600"
-              >
-                <Instagram />
-              </Link>
-              <Link
-                href="#"
-                className="text-sm text-navy-blue hover:text-gray-600"
-              >
-                <Mail />
-              </Link>
+            {/* Right part containing newsletter form */}
+            <div className="flex flex-col  ">
+              <span className="font-bold tracking-tight text-dark-blue">
+                Subscribe to our newsletter
+              </span>
+              <NewsletterForm />
             </div>
           </div>
+        )}
+      </div>
+
+      <div className="py-10 flex flex-col items-center justify-center md:flex-row md:items-center md:justify-center gap-2 h-full">
+        <div className="text-center md:text-left">
+          <p className="text-sm justify-center text-navy-blue">
+            &copy; {new Date().getFullYear()} All Rights Reserved
+          </p>
         </div>
-      </MaxWidthWrapper>
+
+        <div className="mt-4 flex items-center justify-center md:mt-0">
+          {' '}
+          {/* Center alignment */}
+          <div className="flex space-x-8">
+            <Link
+              href="#"
+              className="text-sm text-navy-blue hover:text-gray-600"
+            >
+              <FacebookIcon />
+            </Link>
+            <Link
+              href="#"
+              className="text-sm text-navy-blue hover:text-gray-600"
+            >
+              <Instagram />
+            </Link>
+            <Link
+              href="#"
+              className="text-sm text-navy-blue hover:text-gray-600"
+            >
+              <Mail />
+            </Link>
+          </div>
+        </div>
+      </div>
     </footer>
   );
 };

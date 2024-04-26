@@ -5,40 +5,27 @@ const UniversitySchema = z.object({
     .string({ invalid_type_error: 'University Name is required' })
     .trim()
     .nonempty({ message: 'University Name is required' })
-    .min(3, { message: 'University Name should be at least 3 characters' })
-    .max(300, {
-      message: 'University Name should not exceed more than 300 characters',
-    }),
+    .min(3, { message: 'University Name should be at least 3 characters' }),
+
 
   universityAddress: z
     .string({ invalid_type_error: 'University Address is required' })
     .trim()
     .nonempty({ message: 'University Address is required' })
-    .min(3, { message: 'University Address should be at least 3 characters' })
-    .max(300, {
-      message: 'University Address should not exceed more than 300 characters',
-    }),
+    .min(3, { message: 'University Address should be at least 3 characters' }),
+    
 
   universityContactNumber: z
     .string({ invalid_type_error: 'University Contact Number is required' })
     .trim()
-    .nonempty({ message: 'University Contact Number is required' })
-    .min(3, {
-      message: 'University Contact Number should be at least 3 characters',
-    })
-    .max(300, {
-      message:
-        'University Contact Number should not exceed more than 300 characters',
-    }),
+    .nonempty({ message: 'University Contact Number is required' }),
+    
 
   universityEmail: z
     .string({ invalid_type_error: 'University Email is required' })
     .trim()
-    .nonempty({ message: 'University Email is required' })
-    .min(3, { message: 'University Email should be at least 3 characters' })
-    .max(300, {
-      message: 'University Email should not exceed more than 300 characters',
-    }),
+    .nonempty({ message: 'University Email is required' }),
+    
 
   worldRanking: z
     .number()

@@ -38,7 +38,10 @@ function BlogsList() {
           <span style={{ fontSize: '24px' }}>
             {' '}
             {/* Adjust the font size as needed */}
-            <EditTwoTone onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
+            <EditTwoTone
+              onPointerEnterCapture={undefined}
+              onPointerLeaveCapture={undefined}
+            />
           </span>
         </Link>
       </Space>

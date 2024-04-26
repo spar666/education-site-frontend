@@ -22,7 +22,7 @@ const Blog = ({ title, image, contents }: any) => {
 
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-white text-center px-4">
-            <h5 className="text-lg font-semibold">{title}</h5>
+            <h5 className="text-lg font-['Open_Sans']">{title}</h5>
           </div>
         </div>
       </div>

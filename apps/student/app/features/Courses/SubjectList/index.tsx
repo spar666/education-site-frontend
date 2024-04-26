@@ -26,11 +26,11 @@ const SubjectList = ({
   };
 
   return (
-    <div className="subject-list-container flex flex-col md:flex-row gap-6">
+    <div className="subject-list-container font-['Open_Sans'] flex flex-col md:flex-row gap-6">
       <div className="w-full md:w-3/5">
         {currentSubjects.length > 0 ? (
           <Fragment>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+            <div className="grid gap-6 font-['Open_Sans'] md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
               {currentSubjects.map((subject) => (
                 <div
                   key={subject?.id}

@@ -44,14 +44,14 @@ export const FeaturedCourse = () => {
             What to Study? Checkout some of popular courses
           </h2>
         </div>
-        <div className="mt-5 lg:mt-10 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-x-8">
+        <div className="mt-5  lg:mt-10 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-x-8">
           {courses.slice(0, 3).map((course) => (
             <div
               key={course?.id}
               className="bg-white shadow-lg rounded-lg overflow-hidden"
             >
               <div className="p-4">
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                <h3 className="text-xl font-bold text-gray-900 mb-2 font-['Open_Sans'] ">
                   {course?.courseName}
                 </h3>
                 <hr className="w-full border-t border-blue-500 mb-4 mx-auto" />
@@ -59,12 +59,17 @@ export const FeaturedCourse = () => {
                 <ul className="text-sm text-muted-foreground">
                   {course.subject.length > 0 ? (
                     course.subject.slice(0, 3).map((sub, index) => (
-                      <li key={index} className="flex items-center gap-2">
-                        <a className="flex items-center gap-2">
-                          <ChevronRight size={16} />
-                          {sub.subjectName}
-                        </a>
-                      </li>
+                      <Link href={`/course/details?course=${course?.slug}`}>
+                        <li
+                          key={index}
+                          className="flex items-center gap-2 font-['Open_Sans']"
+                        >
+                          <a className="flex items-center gap-2">
+                            <ChevronRight size={16} />
+                            {sub.subjectName}
+                          </a>
+                        </li>
+                      </Link>
                     ))
                   ) : (
                     <li className="text-gray-500">No Subjects Found</li>
@@ -74,8 +79,8 @@ export const FeaturedCourse = () => {
             </div>
           ))}
         </div>
-        {courses.length > 0 && (
-          <div className="flex justify-center">
+        {/* {courses.length > 0 && (
+          <div className="flex justify-center font-['Open_Sans']">
             <Link href={`/course/details?course=${courses[0]?.slug}`}>
               <button
                 type="button"
@@ -85,7 +90,7 @@ export const FeaturedCourse = () => {
               </button>
             </Link>
           </div>
-        )}
+        )} */}
       </MaxWidthWrapper>
     </section>
   );

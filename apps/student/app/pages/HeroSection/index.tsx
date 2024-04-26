@@ -14,7 +14,7 @@ export const HeroSection = () => {
             Your marketplace for high-quality{' '}
             <span className="text-white">Education</span>.
           </h1>
-          <p className="mt-4 sm:mt-6 text-base sm:text-lg lg:text-xl max-w-prose">
+          <p className="mt-4 sm:mt-6 text-base font-['Open_Sans'] sm:text-lg lg:text-xl max-w-prose">
             Start your journey to discover new horizons, expand your knowledge,
             and create a world of possibilities.
           </p>

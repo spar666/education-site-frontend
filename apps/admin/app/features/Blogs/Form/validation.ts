@@ -5,26 +5,16 @@ const BlogSchema = z.object({
     .string({ invalid_type_error: "Title is required" })
     .trim()
     .nonempty({ message: "Title is required" })
-    .min(3, { message: "Title should be at least 3 character" })
-    .max(300, {
-      message: " Title should not exceed more than 300 character",
-    }),
+    .min(3, { message: "Title should be at least 3 character" }),
+    
   metaTitle: z
     .string()
     .trim()
-    .min(3, { message: "Meta title should be at least 3 character" })
-    .max(300, {
-      message: "Meta title should not exceed more than 300 character",
-    })
     .optional()
     .nullable(),
   metaDescription: z
     .string()
     .trim()
-    .min(3, { message: "Meta description should be at least 3 character" })
-    .max(300, {
-      message: "Meta description should not exceed more than 300 character",
-    })
     .optional()
     .nullable(),
   schemaMarkup: z
@@ -38,10 +28,6 @@ const BlogSchema = z.object({
     .string({ invalid_type_error: "Title is required" })
     .trim()
     .regex(/^[^\s-]+(-[^\s-]+)*$/, { message: "slug should be dash seperated" })
-    .min(3, { message: "Slug should be at least 3 character" })
-    .max(300, {
-      message: " Slug should not exceed more than 300 character",
-    })
     .optional()
     .nullable(),
   tags: z.string().trim().array().nullable().optional(),

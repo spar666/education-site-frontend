@@ -90,7 +90,7 @@ export const UniversityPage = () => {
 
         {/* View All Countries button (conditionally rendered) */}
         {destination.length > 0 && (
-          <div className="flex justify-center">
+          <div className="flex justify-center font-['Open_Sans']">
             <button
               type="button"
               className="w-full md:w-52 h-12 px-6 bg-dark-blue text-white flex justify-center items-center rounded mt-5"

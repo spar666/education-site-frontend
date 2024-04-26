@@ -94,7 +94,7 @@ function BlogForm() {
     contentImageUrl = uploadedImageUrls;
   } else {
     coverImageUrl = blogCoverImage;
-    contentImageUrl = blogContentImage;
+    contentImageUrl = [blogContentImage];
   }
 
   console.log(coverImageUrl, 'coverimage');
@@ -268,9 +268,9 @@ function BlogForm() {
         <Row gutter={[20, 20]}>
           <Col xs={24}>
             <SCWysiwyg
-              register={register}
               name="contents"
-              control={control as any}
+              register={register}
+              control={control}
               parentClass="flex-grow mb-4"
               label="Contents"
               error={errors?.contents?.message}

@@ -10,7 +10,7 @@ import {
   Select,
   Typography,
 } from 'antd';
-import { X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Eye, X } from 'lucide-react';
 import MaxWidthWrapper from 'apps/student/components/MaxWidthWrapper';
 import { Heart } from 'lucide-react';
 import { fetchUniversityByCourse } from '../../api/university';
@@ -18,18 +18,33 @@ import { fetchAllUniversityByDestination } from '../../api/studyDestination';
 import Link from 'next/link';
 import Image from 'next/image';
 import { renderImage } from 'libs/services/helper';
+import RegisterForm from '../RegisterForm';
 
 const { Option } = Select;
 
 interface UniversityData {
   id: string;
   universityName: string;
+  slug: string;
   description: string;
   universityImage: string;
   destination: {
     id: string;
     name: string;
   };
+  courses: [
+    {
+      id: string;
+      courseName: string;
+      slug: string;
+      subject: [
+        {
+          id: string;
+          subjectName: string;
+        }
+      ];
+    }
+  ];
 }
 
 const Subject = ({ searchParams }: any) => {
@@ -158,68 +173,89 @@ const Subject = ({ searchParams }: any) => {
               </Col>
             </Row>
           </section>
-          <section className="py-4 font-['Open_Sans'] leading-1.5">
-            <div className="bg-white flex flex-col gap-8 md:gap-20 mx-auto md:ml-10 md:flex-row md:flex-wrap">
-              {paginatedUniversities.length > 0 ? (
-                paginatedUniversities.map((university) => (
-                  <Link
-                    key={university?.id}
-                    href={`/university/details?uni=${university.id}`}
-                    className="text-decoration-none"
-                  >
-                    <div
+          <section className="flex py-4 font-['Open_Sans'] leading-1.5 text-xl">
+            <div className="w-full md:w-3/5">
+              <div className="bg-white flex flex-col gap-8 md:gap-20 mx-auto md:ml-10 md:flex-row md:flex-wrap">
+                {paginatedUniversities.length > 0 ? (
+                  paginatedUniversities.map((university) => (
+                    <Link
                       key={university?.id}
-                      className="border border-gray-500 h-auto md:w-1/2 lg:w-2/3 sm:2/3 flex flex-col p-4 md:p-6 rounded-md shadow-md"
+                      href={`/university/details?uni=${university.slug}`}
+                      className="text-decoration-none"
                     >
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center">
-                          <div className="w-16 h-16 md:w-24 md:h-24 mr-4 rounded-full bg-gray-200 flex items-center justify-center">
-                            <Image
-                              src={renderImage({
-                                imgPath: university?.universityImage,
-                                size: 'lg',
-                              })}
-                              alt="University Image"
-                              className="object-cover"
-                              height={400}
-                              width={400}
-                            />
-                          </div>
-                          <div>
-                            <h2 className="text-lg font-semibold">
-                              {university?.universityName}
-                            </h2>
-                            <p className="text-gray-600">
-                              {university?.destination?.name}
-                            </p>
+                      <div
+                        key={university?.id}
+                        className="border border-gray-500 h-auto md:w-1/2 lg:w-2/3 sm:2/3 flex flex-col p-4 md:p-6 rounded-md shadow-md"
+                      >
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center">
+                            <div className="w-16 h-16 md:w-24 md:h-24 mr-4 rounded-full bg-gray-200 flex items-center justify-center">
+                              <Image
+                                src={renderImage({
+                                  imgPath: university?.universityImage,
+                                  size: 'lg',
+                                })}
+                                alt="University Image"
+                                className="object-cover"
+                                height={400}
+                                width={400}
+                              />
+                            </div>
+                            <div>
+                              <h2 className="text-lg font-semibold">
+                                {university?.universityName}
+                              </h2>
+                              <p className="text-gray-600">
+                                {university?.destination?.name}
+                              </p>
+                            </div>
                           </div>
                         </div>
+                        <div>
+                          <p className="text-gray-700">
+                            {university?.description.length >
+                            maxLengthOfDescription
+                              ? university?.description.substring(
+                                  0,
+                                  maxLengthOfDescription
+                                ) + '...'
+                              : university?.description}
+                          </p>
+                        </div>
+                        <Link
+                          href={`/course/details?course=${university.courses[0].slug}`}
+                        >
+                          <div>
+                            <p className="flex text-dark-blue font-bold text-xl font-['Open_Sans']">
+                              <Eye /> View{' '}
+                              {university.courses[0]?.subject.length} Subjects{' '}
+                              {university.courses[0].courseName}{' '}
+                              <ChevronRight className="mt-1 h-5" />
+                            </p>
+                          </div>
+                        </Link>
                       </div>
-                      <div>
-                        <p className="text-gray-700">
-                          {university?.description.length >
-                          maxLengthOfDescription
-                            ? university?.description.substring(
-                                0,
-                                maxLengthOfDescription
-                              ) + '...'
-                            : university?.description}
-                        </p>
-                      </div>
-                    </div>
-                  </Link>
-                ))
-              ) : (
-                <div className="flex mx-auto justify-center my-10">
-                  <Empty
-                    description={
-                      <Typography.Text className="text-2xl">
-                        No Universities found
-                      </Typography.Text>
-                    }
-                  />
+                    </Link>
+                  ))
+                ) : (
+                  <div className="flex mx-auto justify-center my-10">
+                    <Empty
+                      description={
+                        <Typography.Text className="text-2xl">
+                          No Universities found
+                        </Typography.Text>
+                      }
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="mb-5 w-full md:w-2/5">
+              <div className="rounded-lg w-full px-5 flex justify-center shadow-md flex flex-col justify-between h-full">
+                <div className="flex-1">
+                  <RegisterForm />
                 </div>
-              )}
+              </div>
             </div>
           </section>
           <section className="py-4">

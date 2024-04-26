@@ -59,7 +59,7 @@ const CourseDetails = ({
           </div>
         </section>
 
-        <section className="container bg-white font-[Open_Sans]">
+        <section className="container bg-white font-['Open_Sans']">
           <section className="py-4">
             <div className="bg-white flex flex-col gap-6 md:gap-6 justify-center md:justify-start mx-auto md:ml-10">
               <div className="flex flex-row gap-4 md:gap-6 p-4 md:p-6">
@@ -99,7 +99,7 @@ const CourseDetails = ({
                     About {universityName}
                   </h1>
                   <div className="flex flex-row overflow-auto">
-                    <div className="w-full md:w-1/2">
+                    <div className="w-full font-['Open_Sans'] md:w-1/2">
                       <p className="text-md">{unidesc}</p>
                     </div>
                     <div className="w-full md:w-1/2">

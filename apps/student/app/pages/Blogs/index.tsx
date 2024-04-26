@@ -48,7 +48,7 @@ const BlogPage = () => {
   }, []);
 
   return (
-    <section className="m-5 font-[quicksand]">
+    <section className="m-5 font-['Open_Sans']">
       <MaxWidthWrapper>
         <div className="relative w-full">
           <h2 className="font-bold text-xl md:text-2xl tracking-tight text-center text-dark-blue mb-5">
@@ -73,7 +73,7 @@ const BlogPage = () => {
 
           {/* View All Blogs Button */}
           {blogs.length > 0 && (
-            <div className="flex justify-center mt-5">
+            <div className="flex justify-center mt-5 font-['Open_Sans']">
               <Link href="/blog">
                 <Button className="w-full md:w-52 h-12 px-6 py-2 bg-dark-blue text-white flex justify-center items-center rounded">
                   View All Blogs

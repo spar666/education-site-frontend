@@ -24,6 +24,7 @@ export const updateBlog = async ( data : any) => {
   console.log(data, 'data');
   try {
     const token = await Cookies.get('accessToken');
+    console.log(token, )
     const response = await axios.put(`${API_URL}/blog/update`, data, {
       headers: { Authorization: `Bearer ${token}` },
     });
