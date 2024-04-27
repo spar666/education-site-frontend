@@ -97,7 +97,7 @@ const CustomSearch = () => {
           </select>
           <button
             type="button"
-            className="w-full md:w-auto h-10 px-2 md:px-4 bg-dark-blue text-white flex items-center justify-center hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600 rounded-full"
+            className="w-full md:w-auto h-10 px-2 md:px-4 bg-dark-blue text-white flex items-center justify-center hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
             onClick={handleSearch}
           >
             <Search className="h-full text-white text-bold" />
