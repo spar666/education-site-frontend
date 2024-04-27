@@ -60,8 +60,8 @@ const CustomSearch = () => {
 
   return (
     <MaxWidthWrapper>
-      <div className="mt-5 border rounded-lg overflow-hidden bg-white shadow-md">
-        <div className="flex flex-col md:flex-row items-center justify-center md:justify-between gap-2 md:gap-4 p-2 md:p-4">
+      <div className="mt-5 border rounded-lg overflow-hidden bg-white shadow-md sm:flex sm:justify-start">
+        <div className="flex flex-col md:flex-row justify-start md:justify-between sm:justify-start gap-2 md:gap-4 p-2 md:p-4 p-2 sm:w-[100%]">
           <select
             name="level"
             className="w-full md:w-auto h-10 px-2 md:px-4 bg-white rounded-lg text-black mb-2 md:mb-0"
@@ -97,7 +97,7 @@ const CustomSearch = () => {
           </select>
           <button
             type="button"
-            className="w-full font-['Open_Sans'] md:w-auto h-10 px-2 md:px-4 bg-dark-blue text-white flex items-center justify-center hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
+            className="w-full md:w-auto h-10 px-2 md:px-4 bg-dark-blue text-white flex items-center justify-center hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600 rounded-full"
             onClick={handleSearch}
           >
             <Search className="h-full text-white text-bold" />
