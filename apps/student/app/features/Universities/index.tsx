@@ -10,6 +10,8 @@ import Link from 'next/link';
 import { renderImage } from 'libs/services/helper';
 import Image from 'next/image';
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
+import DetailBanner from 'apps/student/components/DetailBanner';
+import CustomSearch from 'apps/student/components/CustomSearch.tsx';
 
 interface UniversityData {
   id: string;
@@ -85,104 +87,102 @@ const University = ({ searchParams }: any) => {
   const endIndex = Math.min(startIndex + pagination.limit, university.length);
   const paginatedData = university.slice(startIndex, endIndex);
 
+  function Component() {
+    return (
+      <section className="py-4">
+        <h1 className="text-white text-2xl md:text-3xl font-bold">
+          All subject areas for Undergraduate courses.
+        </h1>
+        <h2 className="text-white text-xl mt-4">
+          Explore the subject areas below to view related courses and find the
+          course that’s right for you.
+        </h2>
+      </section>
+    );
+  }
   return (
-    <section className="mx-auto bg-white">
+    <section className="mx-auto bg-white overflow-hidden">
+      <DetailBanner height="h-[250px]" component={<Component />} />
       <MaxWidthWrapper>
-        <section className="py-5 bg-white">
-          <div className="container mx-auto my-3">
+        <section className="pt-3 pb-5 bg-white">
+          <div className="px-5 sm:px-10 md:px-14 lg:px-24 my-3">
             <Breadcrumb separator={'>'}>
               <Breadcrumb.Item className="text-dark-blue">Home</Breadcrumb.Item>
-              <Breadcrumb.Item className="text-dark-blue">
-                All universities in {capitalizeFirstLetter(country)}
+              <Breadcrumb.Item className="text-dark-blue font-bold">
+                All Universities in {capitalizeFirstLetter(country)}
               </Breadcrumb.Item>
             </Breadcrumb>
-            <span className="text-sm text-navy-blue hover:text-gray-600">
+            <span className="text-sm text-navy-blue hover:text-gray-500 italic">
               Explore {country}'s diverse universities! Filter by popularity,
               reviews, rankings, and English courses to find your perfect fit
             </span>
           </div>
         </section>
-
-        <section className="container bg-white">
+        <section className="flex justify-center md:justify-start  px-5 sm:px-10 md:px-14 lg:px-24 ">
+          <CustomSearch />
+        </section>
+        <section className="px-5 sm:px-10 md:px-14 lg:px-24 bg-white  mt-14">
           {university.length === 0 ? (
-            <Empty description="No Universities found" />
+            <div className="py-32 flex w-full items-center justify-center">
+              <Empty description="No Universities found" />
+            </div>
           ) : (
             <>
-              <section className="py-3 md:py-5 bg-white">
-                <Row gutter={[16, 16]}>
-                  <Col xs={24} lg={18}>
-                    {/* Enable filter if needed */}
-                  </Col>
-                </Row>
-              </section>
-
               <section className="w-full py-3 md:py-4 font-Open_Sans leading-1.5 text-base">
-                <div className="bg-white flex flex-wrap gap-6 md:gap-6 justify-center md:justify-start mx-auto md:ml-10">
+                <div className="bg-white card-grid">
                   {paginatedData?.map((uni) => (
                     <div
                       key={uni?.id}
-                      className="border border-gray-500 h-auto rounded w-[400px] sm:w-1/2 md:w-1/3 lg:w-1/4 flex flex-col"
+                      className="border border-gray-500 h-auto rounded-xl flex flex-col overflow-hidden"
                     >
-                      <div className="flex justify-end p-3 md:p-4">
-                        <Star
-                          onClick={() => handleFavouriteUniversity(uni?.id)}
-                          color={
-                            selectedUniversitiesForFavourite.includes(uni?.id)
-                              ? '#FFD700'
-                              : undefined
-                          }
-                          style={{ cursor: 'pointer' }}
-                        />
-                      </div>
-
                       <Link href={`/university/details?uni=${uni?.slug}`}>
-                        <div className="flex flex-col p-3 md:p-4">
+                        <div className="flex flex-col ">
                           <div className="flex items-center w-full justify-center mb-3 md:mb-4">
-                            {uni.universityImage ? (
+                            {uni.universityImage && (
                               <Image
                                 src={renderImage({
                                   imgPath: uni?.universityImage,
                                   size: 'md',
                                 })}
                                 alt="University Image"
-                                className="object-cover w-16 h-16 md:w-24 md:h-24"
+                                className="object-cover w-full h-full bg-[#000]"
                                 width={100}
                                 height={100}
-                              />
-                            ) : (
-                              <Icons.logo
-                                className="w-16 h-16 md:w-24 md:h-24 bg-gray-200 rounded-full flex items-center justify-center"
-                                color="bg-electric-violet"
                               />
                             )}
                           </div>
 
-                          <div className="flex flex-col font-Open_Sans flex-grow gap-2 md:gap-3">
-                            <span className="font-bold text-dark-blue text-lg md:text-xl">
+                          <div className="flex flex-col font-Open_Sans flex-grow px-5 ">
+                            <h2 className="font-bold text-dark-blue text-lg md:text-xl ">
                               {uni?.universityName}
-                            </span>
-                            <span className="text-sm text-gray-900">
+                            </h2>
+                            <span className="text-sm text-gray-600 mb-3">
                               {uni?.universityAddress}
                             </span>
-                            <span className="text-sm text-gray-900">
+                            <span className="text-sm text-gray-600">
                               {uni?.description.length > 100
                                 ? `${uni.description.substring(0, 100)}...`
                                 : uni.description}
                             </span>
-                            <div className="flex flex-wrap gap-2 md:gap-4">
-                              <span className="text-sm inline-block">
-                                World Ranking:
-                              </span>{' '}
-                              <button className="w-20 h-7 px-2 md:px-4 py-1 mb-2 md:mb-0 bg-dark-blue text-white text-center rounded-full inline-block">
-                                {uni?.worldRanking}
-                              </button>
-                              <span className="text-sm inline-block">
-                                Country Ranking:
-                              </span>{' '}
-                              <button className="w-20 h-7 px-2 md:px-4 py-1 mb-2 md:mb-0 bg-dark-blue text-white text-center rounded-full inline-block">
-                                {uni?.countryRanking}
-                              </button>
+                            <div className="mt-3">
+                              <div className=" flex justify-between items-center pl-2 mb-2">
+                                <span className="text-sm inline-block text-dark-blue font-semibold">
+                                  World Ranking:
+                                </span>{' '}
+                                <h2 className="bg-secondary-yellow  py-1 font-semibold text-lg w-14 text-center">
+                                  {uni?.worldRanking}
+                                </h2>
+                              </div>
+                              {/* <div className=" flex justify-between items-center pl-2 mb-2">
+                                <span className="text-sm inline-block text-dark-blue font-semibold">
+                                  Country Ranking:
+                                </span>{' '}
+                                <h2 className="bg-secondary-yellow  py-1 font-semibold text-lg w-14 text-center">
+                                  {uni?.countryRanking}
+                                </h2>
+                              </div> */}
                             </div>
+                            {/* what is this below section? */}
                             {uni?.isEnglishCourseAvailable && (
                               <span className="bg-dark-blue rounded-full text-white text-center text-sm md:text-base px-2 py-1 md:px-3 md:py-2">
                                 English courses available

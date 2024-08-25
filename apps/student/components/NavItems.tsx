@@ -32,7 +32,7 @@ const NavItems = () => {
   const close = () => setActiveIndex(null);
 
   return (
-    <div className="flex gap-4 h-full" ref={navRef}>
+    <div className="flex gap-2 h-full" ref={navRef}>
       {MENU_CATEGORIES.map((category, i) => (
         <NavItem
           key={category.value}

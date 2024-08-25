@@ -2,7 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Space, Table, notification, Popconfirm, Switch } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
-import { EditTwoTone, VerifiedOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  EditTwoTone,
+  VerifiedOutlined,
+} from '@ant-design/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import AdminLayout from 'apps/admin/components/SCLayout_v2';
@@ -34,16 +38,23 @@ function BlogsList() {
     const { key } = record || {};
     return (
       <Space size="middle" className="test">
-        <Link href={`/blogs/edit?id=${key}`} passHref>
-          <span style={{ fontSize: '24px' }}>
-            {' '}
-            {/* Adjust the font size as needed */}
-            <EditTwoTone
-              onPointerEnterCapture={undefined}
-              onPointerLeaveCapture={undefined}
-            />
-          </span>
-        </Link>
+        <div className="flex items-center  space-x-5">
+          <Link href={`/blogs/edit?id=${key}`} passHref>
+            <span style={{ fontSize: '24px' }}>
+              {' '}
+              {/* Adjust the font size as needed */}
+              <EditTwoTone
+                onPointerEnterCapture={undefined}
+                onPointerLeaveCapture={undefined}
+              />
+              <DeleteOutlined
+                className="text-2xl text-red-500 mt-[-12px]"
+                onPointerEnterCapture={undefined}
+                onPointerLeaveCapture={undefined}
+              />
+            </span>
+          </Link>
+        </div>
       </Space>
     );
   };

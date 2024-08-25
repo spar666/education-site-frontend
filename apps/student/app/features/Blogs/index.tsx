@@ -18,6 +18,8 @@ import ImageLoading from 'apps/student/components/ImageLoading';
 import { fetchBlog } from '../../api/blog';
 import { renderImage } from 'libs/services/helper';
 import Link from 'next/link';
+import DetailBanner from 'apps/student/components/DetailBanner';
+import CustomSearch from 'apps/student/components/CustomSearch.tsx';
 
 const Blogs = ({ searchParams }: any) => {
   const [blogPosts, setBlogPosts] = useState([]);
@@ -49,11 +51,26 @@ const Blogs = ({ searchParams }: any) => {
     fetchAllBlogs();
   }, []);
 
+  function Component() {
+    return (
+      <section className="py-4">
+        <h1 className="text-white text-2xl md:text-3xl font-bold">
+          All subject areas for Undergraduate courses.
+        </h1>
+        <h2 className="text-white text-xl mt-4">
+          Explore the subject areas below to view related courses and find the
+          course that’s right for you.
+        </h2>
+      </section>
+    );
+  }
+
   return (
-    <section className="mx-auto">
+    <section className="mx-auto overflow-hidden bg-white">
+      <DetailBanner height="h-[250px]" component={<Component />} />
       <MaxWidthWrapper>
-        <section className={'py-5 bg-white'}>
-          <div className="container mx-auto my-3">
+        <section className={'py-5 '}>
+          <div className="px-5 sm:px-10 md:px-14 lg:px-24 my-3 my-3">
             <Breadcrumb separator={'>'}>
               <Breadcrumb.Item className="text-dark-blue">Home</Breadcrumb.Item>
               <Breadcrumb.Item className="text-dark-blue">
@@ -67,7 +84,10 @@ const Blogs = ({ searchParams }: any) => {
             </Typography.Text>
           </div>
         </section>
-        <div className="container bg-white">
+        <section className="flex justify-center md:justify-start  px-5 sm:px-10 md:px-14 lg:px-24 ">
+          <CustomSearch />
+        </section>
+        <div className=" px-5 sm:px-10 md:px-14 lg:px-24 mt-10 bg-white">
           <section className="py-4">
             {loading ? (
               <Row gutter={[20, 20]} className="py-7 flex">
@@ -80,7 +100,7 @@ const Blogs = ({ searchParams }: any) => {
                     {' '}
                     {/* Adjusted column size to ensure 3 per row */}
                     <Link href={`/blog/details?blog=${blog.slug}`} passHref>
-                      <div className="blog-card bg-white p-4">
+                      <div className="blog-card bg-white py-4">
                         <div>
                           <ProgressiveImageLoading
                             sizes="(max-width: 400px) 75vw, (max-width: 800px) 65vw, 80vw"

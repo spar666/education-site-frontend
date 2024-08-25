@@ -11,6 +11,15 @@ const fetchCourses = async () => {
   }
 };
 
+const fetchPublicCourses = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/courses/public/all`);
+    return response.data.data;
+  } catch (error) {
+    throw new Error('Failed to fetch courses');
+  }
+};
+
 const fetchSubjectByCourse = async ({ course }: any) => {
   try {
     const response = await axios.get(`${API_URL}/courses/subject/${course}`);
@@ -52,4 +61,31 @@ const fetchCourseByLevel = async ({
   }
 };
 
-export { fetchCourses, fetchSubjectByCourse, fetchCourseByLevel };
+const fetchCourseCategories = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/courses/categories/all`);
+    return response.data.data;
+  } catch (error: any) {
+    console.error('Failed to fetch course categories:', error);
+    throw new Error('Failed to fetch course categories');
+  }
+};
+
+const fetchCategoriesWithCourses = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/courses/categories/courses`);
+    return response.data.data;
+  } catch (error: any) {
+    console.error('Failed to fetch course categories:', error);
+    throw new Error('Failed to fetch course categories');
+  }
+};
+
+export {
+  fetchCourses,
+  fetchSubjectByCourse,
+  fetchCourseByLevel,
+  fetchPublicCourses,
+  fetchCourseCategories,
+  fetchCategoriesWithCourses,
+};

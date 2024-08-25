@@ -1,14 +1,21 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { Button, Col, Row, notification } from 'antd';
+import { Button, Col, Row, notification, Typography } from 'antd';
+import { CloseOutlined } from '@ant-design/icons';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useForm, useFieldArray } from 'react-hook-form';
+import {
+  useForm,
+  useFieldArray,
+  useWatch,
+  Control,
+  FieldErrors,
+  UseFormRegister,
+} from 'react-hook-form';
 import SCInput from 'apps/admin/components/SCForm/SCInput';
 import SCSelect from 'apps/admin/components/SCForm/SCSelect';
 import SCUpload from 'apps/admin/components/SCForm/SCUpload';
 import SCTextArea from 'apps/admin/components/SCForm/SCTextArea';
-import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg';
-import UniversitySchema from '../validation';
+import SCCheckbox from 'apps/admin/components/SCForm/SCCheckbox';
 import { fetchCourses } from 'apps/admin/app/api/Course';
 import { fetchAllUniversityByDestination } from 'apps/admin/app/api/Destinations';
 import {
@@ -16,9 +23,30 @@ import {
   fetchUniversityById,
   updateUniversity,
 } from 'apps/admin/app/api/University';
-import { zodResolver } from '@hookform/resolvers/zod';
-import SCCheckbox from 'apps/admin/components/SCForm/SCCheckbox';
 import { renderImage } from 'libs/services/helper';
+
+const { Text } = Typography;
+
+// Interfaces for form data structure
+interface Subject {
+  subjectName: string;
+  description: string;
+}
+
+interface Course {
+  courses: string;
+  subjects: Subject[];
+  tuitionFee: number;
+  currency: string;
+  financialAidAvailable: string;
+  scholarshipDetails: string;
+}
+
+interface Campus {
+  location: string;
+  email: string;
+  contact: string;
+}
 
 interface ICreateUniversity {
   universityName: string;
@@ -26,36 +54,26 @@ interface ICreateUniversity {
   universityContactNumber: string;
   universityEmail: string;
   worldRanking: number;
-  countryRanking: number;
+  // countryRanking: number;
   universityImage: any;
   description: string;
-  tuitionFee: number;
-  currency: string;
-  financialAidAvailable: string;
-  scholarshipDetails: string;
-  courses: { courseId: string }[]; // Change course to courses as an array of objects
+  courses: Course[];
   destination: string;
+  campuses: Campus[];
 }
 
-function UniversityForm() {
+const UniversityForm: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
   const [loading, setLoading] = useState(false);
-  const [uniImage, setUniImage] = useState(null);
-  const [availableCourse, setAvailableCourse] = useState<
-    { courseName: string; id: string }[]
-  >([]);
+  const [uniImage, setUniImage] = useState<string | null>(null);
+  const [availableCourse, setAvailableCourse] = useState([]);
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
-  const [selectedCourses, setSelectedCourses] = useState<
-    { courseId: string }[]
-  >([]);
-  const [selectedDestination, setSelectedDestination] = useState<{
-    name: string;
-  }>({ name: '' });
-  const [availableDestination, setAvailableDestination] = useState<
-    { name: string; id: string }[]
-  >([]);
+  const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
+  const [selectedDestination, setSelectedDestination] = useState({ name: '' });
+  const [availableDestination, setAvailableDestination] = useState([]);
+  const [uniCampuses, setUniCampuses] = useState<Campus[]>([]);
 
   const {
     register,
@@ -63,12 +81,23 @@ function UniversityForm() {
     control,
     formState: { errors },
     reset,
+    watch,
   } = useForm<ICreateUniversity>();
-  const { fields, append, remove } = useFieldArray({
+  const {
+    fields: courseFields,
+    append: appendCourse,
+    remove: removeCourse,
+  } = useFieldArray({
     control,
     name: 'courses',
   });
+  const {
+    fields: campusFields,
+    append: appendCampus,
+    remove: removeCampus,
+  } = useFieldArray({ control, name: 'campuses' });
 
+  // Fetch initial data for courses and destinations
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -76,56 +105,60 @@ function UniversityForm() {
           fetchCourses(),
           fetchAllUniversityByDestination(),
         ]);
-
         setAvailableCourse(courseResponse);
         setAvailableDestination(destinationsResponse);
       } catch (error) {
         console.error('Failed to fetch data:', error);
       }
     };
-
     fetchData();
   }, []);
 
+  // Fetch university data if id is present
   useEffect(() => {
     if (id) {
       fetchUniversityById({ id }).then((response) => {
-        setUniImage(response.university?.universityImage);
-        const cover = response.university?.universityImage;
+        const uniData = response.university;
+        setUniImage(uniData?.universityImage);
         const formattedCover = [
           {
-            uid: cover,
-            url: renderImage({ imgPath: cover, size: 'lg' }),
+            uid: uniData?.universityImage,
+            url: renderImage({ imgPath: uniData?.universityImage, size: 'lg' }),
           },
         ];
 
-        const financeDetails = response.university.financeDetails;
-
-        const courses = response.university.courses.map((course: any) => ({
-          courseId: course.id,
+        const courses = uniData.courses.map((course: any) => ({
+          courses: course.id,
+          subjects: course.universityCourseSubject.map((subject: any) => ({
+            subjectName: subject.subject.subjectName || '',
+            description: subject.subject.description || '',
+          })),
+          tuitionFee: course.financeDetails[0]?.tuitionFee || 0,
+          currency: course.financeDetails[0]?.currency || '',
+          financialAidAvailable: course.financeDetails[0]?.financialAidAvailable
+            ? 'yes'
+            : 'no',
+          scholarshipDetails: course.financeDetails[0]?.scholarshipDetails
+            ? 'yes'
+            : 'no',
         }));
 
         setSelectedCourses(courses);
+        setSelectedDestination(uniData.destination);
+        setUniCampuses(uniData?.campuses);
 
-        const destination = response.university.destination;
-        setSelectedDestination(destination);
         reset({
-          universityName: response.university.universityName,
-          universityAddress: response.university.universityAddress,
-          universityEmail: response.university.universityEmail,
-          universityContactNumber: response.university.universityContactNumber,
-          worldRanking: response.university.worldRanking,
-          countryRanking: response.university.countryRanking,
-          description: response.university.description,
+          universityName: uniData.universityName,
+          universityAddress: uniData.universityAddress,
+          universityEmail: uniData.universityEmail,
+          universityContactNumber: uniData.universityContactNumber,
+          worldRanking: uniData.worldRanking,
+          // countryRanking: uniData.countryRanking,
+          description: uniData.description,
           universityImage: formattedCover,
-          tuitionFee: financeDetails.tuitionFee,
-          currency: financeDetails.currency,
-          financialAidAvailable: financeDetails.financialAidAvailable
-            ? 'yes'
-            : 'no',
-          scholarshipDetails: financeDetails.scholarshipDetails ? 'yes' : 'no',
-          courses: courses,
-          destination: destination,
+          courses,
+          destination: uniData.destination,
+          campuses: uniData?.campuses,
         });
       });
     }
@@ -138,144 +171,307 @@ function UniversityForm() {
   const handleFormSubmit = async (data: ICreateUniversity) => {
     setLoading(true);
 
-    const financeDetails = {
-      tuitionFee: data?.tuitionFee,
-      currency: data?.currency,
-      financialAidAvailable: data?.financialAidAvailable === 'yes',
-      scholarshipDetails: data?.scholarshipDetails === 'yes',
+    const courseArray = data.courses.map((course) => ({
+      ...course,
+      financialAidAvailable: course.financialAidAvailable === 'yes',
+      scholarshipDetails: course.scholarshipDetails === 'yes',
+    }));
+
+    const imageUrl =
+      uploadedImageUrls.length > 0 ? uploadedImageUrls : uniImage;
+
+    const universityData = {
+      ...data,
+      universityImage: imageUrl,
+      courses: courseArray,
     };
 
-    const courseArray: string[] = selectedCourses.map(
-      (course) => course.courseId
-    );
-    let imageUrl: any;
-    if (uploadedImageUrls.length > 0) {
-      imageUrl = uploadedImageUrls;
-    } else {
-      imageUrl = uniImage ? uniImage : null;
-    }
-
-    console.log(imageUrl, 'image url');
-
-    if (!id) {
-      const universityData = {
-        ...data,
-        universityImage: imageUrl,
-        financeDetails: financeDetails,
-        courses: courseArray,
-      };
-
-      addUniversity({ universityData })
-        .then((response) => {
-          if (response.status === 201) {
-            router.push('/university');
-            notification.success({
-              message: response.data.message,
-            });
-          } else {
-            notification.error({
-              message: response.data.error(),
-            });
-          }
-        })
-        .catch((error) => {
-          notification.error({ message: error.message });
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    } else {
-      const updatedData = {
-        ...data,
-        id: id,
-        universityImage: imageUrl,
-        courses: courseArray,
-      };
-      updateUniversity(updatedData)
-        .then((response) => {
-          if (response.status === 200) {
-            router.push('/university');
-            notification.success({
-              message: response.data.message,
-            });
-          } else {
-            notification.warning({
-              message: response.data.message,
-            });
-          }
-        })
-        .catch((e) => {
-          notification.error({ message: e.message });
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+    try {
+      if (id) {
+        const updatedData = { ...universityData, id };
+        const response = await updateUniversity(updatedData);
+        notification.success({ message: response.data.message });
+      } else {
+        const response = await addUniversity({ universityData });
+        notification.success({ message: response.data.message });
+      }
+      router.push('/university');
+    } catch (error) {
+      notification.error({ message: error.message });
+    } finally {
+      setLoading(false);
     }
   };
 
-  const removeCourse = ({ indexToRemove }: any) => {
-    remove(indexToRemove);
-    const updatedCourses = selectedCourses.filter(
-      (_, index) => index !== indexToRemove
-    );
-    setSelectedCourses(updatedCourses);
+  const appendCampusField = () => {
+    appendCampus({ location: '', email: '', contact: '' });
   };
 
-  const renderCourseFields = () => {
-    const courseFields = fields.map((course, index) => (
-      <Row key={course.id} gutter={[20, 20]}>
+  // Watch courses outside the render loop
+  const watchedCourses = useWatch({ control, name: 'courses' }) || [];
+
+  // Get selected course IDs
+  const selectedCourseIds = watchedCourses.map((course) => course.courses);
+
+  return (
+    <form
+      onSubmit={handleSubmit(handleFormSubmit)}
+      className="bg-white px-8 pb-8"
+    >
+      <h3 className="text-xl font-bold mt-7 py-8 m-0">
+        {id ? 'Edit' : 'Create'} University
+      </h3>
+      <Row gutter={[20, 20]}>
         <Col xs={24} xl={12}>
-          <SCSelect
+          <SCInput
             register={register}
+            name="universityName"
             control={control}
-            name={`courses[${index}].courseId`}
-            label="Course"
-            error={errors?.courses && errors?.courses[index]?.courseId?.message}
-            allowClear
-            placeholder="Please select a course"
+            label="University Name"
+            error={errors?.universityName?.message}
+            placeholder="University Name"
             size="large"
-            notFoundContent={null}
-            showSearch
-            options={availableCourse.map((ac) => ({
-              label: ac?.courseName,
-              value: ac?.id,
-            }))}
-            value={selectedCourses[index]?.courseId}
-            onChange={(value) => {
-              const updatedCourses = [...selectedCourses];
-              if (value) {
-                updatedCourses[index] = {
-                  courseId: value,
-                };
-              } else {
-                updatedCourses.splice(index, 1); // Remove the course at the specified index
-              }
-              setSelectedCourses(updatedCourses);
-            }}
+            required
           />
         </Col>
-        <Col>
-          {index > 0 && (
-            <Button onClick={() => removeCourse(index)}>Remove</Button>
-          )}
+      </Row>
+      <Row gutter={[20, 20]}>
+        <Col xs={24}>
+          <SCTextArea
+            register={register}
+            name="description"
+            control={control}
+            label="Description"
+            error={errors?.description?.message}
+            placeholder="Description"
+            size="large"
+            required
+          />
         </Col>
       </Row>
-    ));
-
-    return (
-      <>
-        {courseFields}
-        <Row key="add-course" gutter={[20, 20]}>
-          <Col xs={24} xl={12}>
-            <Button onClick={() => append({ courseId: '' })}>Add Course</Button>
-          </Col>
-        </Row>
-      </>
-    );
-  };
-
-  const renderDestinationField = () => {
-    return (
+      <Row gutter={[0, 0]}>
+        <Col xs={24} xl={24}>
+          <SCInput
+            register={register}
+            name="worldRanking"
+            control={control}
+            label="University World Ranking"
+            error={errors?.worldRanking?.message}
+            placeholder="University World Ranking"
+            size="large"
+            type="number"
+            required
+          />
+        </Col>
+      </Row>
+      {/* <Row gutter={[0, 0]}>
+        <Col xs={24} xl={24}>
+          <SCInput
+            register={register}
+            name="countryRanking"
+            control={control}
+            label="University Country Ranking"
+            error={errors?.countryRanking?.message}
+            placeholder="University Country Ranking"
+            size="large"
+            type="number"
+            required
+          />
+        </Col>
+      </Row> */}
+      <h3 className="text-xl font-bold mt-7 py-8 m-0">
+        {id ? 'Edit' : 'Add'} Campuses
+      </h3>
+      {campusFields.map((campus, index) => (
+        <React.Fragment key={campus.id}>
+          <Row gutter={[20, 20]} align="middle">
+            <Col xs={22} xl={11}>
+              <SCInput
+                register={register}
+                name={`campuses[${index}].location`}
+                control={control}
+                label="Campus Location"
+                error={errors?.campuses?.[index]?.location?.message}
+                placeholder="Campus Location"
+                size="large"
+              />
+            </Col>
+            <Col xs={22} xl={11}>
+              <SCInput
+                register={register}
+                name={`campuses[${index}].email`}
+                control={control}
+                label="Campus Email"
+                error={errors?.campuses?.[index]?.email?.message}
+                placeholder="Campus Email"
+                size="large"
+              />
+            </Col>
+            <Col xs={22} xl={11}>
+              <SCInput
+                register={register}
+                name={`campuses[${index}].contact`}
+                control={control}
+                label="Campus Contact Number"
+                error={errors?.campuses?.[index]?.contact?.message}
+                placeholder="Campus Contact Number"
+                size="large"
+              />
+            </Col>
+            <Col xs={2} xl={1}>
+              {index > 0 && (
+                <Button
+                  type="text"
+                  style={{ color: 'red' }}
+                  onClick={() => removeCampus(index)}
+                  icon={<CloseOutlined />}
+                />
+              )}
+            </Col>
+          </Row>
+        </React.Fragment>
+      ))}
+      <Button onClick={appendCampusField}>Add Campus</Button>
+      <h3 className="text-xl font-bold mt-7 py-8 m-0">
+        {id ? 'Edit' : 'Add'} Courses
+      </h3>
+      {courseFields.map((course, courseIndex) => (
+        <React.Fragment key={course.id}>
+          <Row gutter={[20, 20]} align="middle">
+            <Col xs={22} xl={11}>
+              <SCSelect
+                register={register}
+                control={control}
+                name={`courses[${courseIndex}].courses`}
+                label="Course"
+                error={errors?.courses?.[courseIndex]?.courses?.message}
+                allowClear
+                placeholder="Please select a course"
+                size="large"
+                options={availableCourse.map((ac) => ({
+                  label: ac.courseName,
+                  value: ac.id,
+                  disabled: selectedCourseIds.includes(ac.id), // Disable selected courses
+                }))}
+              />
+            </Col>
+            <Col xs={2} xl={1}>
+              <Button
+                type="text"
+                style={{ color: 'red' }}
+                onClick={() => removeCourse(courseIndex)}
+                icon={<CloseOutlined />}
+              />
+            </Col>
+          </Row>
+          {watch(`courses[${courseIndex}].courses`) && (
+            <>
+              <h4 className="mt-4 text-xl font-bold">Financial Details</h4>
+              <Row gutter={[20, 20]}>
+                <Col xs={24} xl={12}>
+                  <SCInput
+                    register={register}
+                    name={`courses[${courseIndex}].tuitionFee`}
+                    control={control}
+                    label="Tuition Fee"
+                    error={errors?.courses?.[courseIndex]?.tuitionFee?.message}
+                    placeholder="Tuition Fee"
+                    size="large"
+                    required
+                    type="number"
+                  />
+                </Col>
+                <Col xs={24} xl={12}>
+                  <SCInput
+                    register={register}
+                    name={`courses[${courseIndex}].currency`}
+                    control={control}
+                    label="Currency"
+                    error={errors?.courses?.[courseIndex]?.currency?.message}
+                    placeholder="Currency"
+                    size="large"
+                    required
+                  />
+                </Col>
+              </Row>
+              <Row gutter={[20, 20]}>
+                <Col xs={24} xl={12}>
+                  <SCCheckbox
+                    register={register}
+                    name={`courses[${courseIndex}].financialAidAvailable`}
+                    control={control}
+                    label="Is Financial Aid Available?"
+                    error={
+                      errors?.courses?.[courseIndex]?.financialAidAvailable
+                        ?.message
+                    }
+                    options={[
+                      {
+                        value: 'yes',
+                        label: 'Yes',
+                        description: 'Financial aid is available',
+                      },
+                      {
+                        value: 'no',
+                        label: 'No',
+                        description: 'No financial aid available',
+                      },
+                    ]}
+                  />
+                </Col>
+                <Col xs={24} xl={12}>
+                  <SCCheckbox
+                    register={register}
+                    name={`courses[${courseIndex}].scholarshipDetails`}
+                    control={control}
+                    label="Is Scholarship Available?"
+                    error={
+                      errors?.courses?.[courseIndex]?.scholarshipDetails
+                        ?.message
+                    }
+                    options={[
+                      {
+                        value: 'yes',
+                        label: 'Yes',
+                        description: 'Scholarship is available',
+                      },
+                      {
+                        value: 'no',
+                        label: 'No',
+                        description: 'No scholarship available',
+                      },
+                    ]}
+                  />
+                </Col>
+              </Row>
+              <SubjectFields
+                courseIndex={courseIndex}
+                control={control}
+                register={register}
+                errors={errors}
+              />
+            </>
+          )}
+        </React.Fragment>
+      ))}
+      <Button
+        onClick={() =>
+          appendCourse({
+            courses: '',
+            subjects: [{ subjectName: '', description: '' }],
+            tuitionFee: 0,
+            currency: '',
+            financialAidAvailable: 'no',
+            scholarshipDetails: 'no',
+          })
+        }
+        style={{ marginBottom: '20px' }}
+      >
+        Add Course
+      </Button>
+      <h3 className="text-xl font-bold mt-7 py-8 m-0">
+        {id ? 'Edit' : 'Add'} Destination
+      </h3>
       <Row gutter={[20, 20]}>
         <Col xs={24} xl={12}>
           <SCSelect
@@ -288,7 +484,6 @@ function UniversityForm() {
             allowClear
             placeholder="Please select destination"
             size="large"
-            showSearch
             notFoundContent={null}
             options={availableDestination?.map((ad) => ({
               label: ad.name,
@@ -299,237 +494,18 @@ function UniversityForm() {
           />
         </Col>
       </Row>
-    );
-  };
-  return (
-    <form
-      onSubmit={handleSubmit(handleFormSubmit)}
-      className="bg-white px-8 pb-8"
-    >
-      <h3 className="text-xl font-bold mt-7 py-8 m-0">
-        {id ? 'Edit' : 'Create'} University
-      </h3>
-      {/* University Name */}
-      <Row gutter={[20, 20]}>
-        <Col xs={24} xl={12}>
-          <SCInput
-            register={register}
-            name="universityName"
-            control={control}
-            label="University Name"
-            parentClass="flex-grow mb-4"
-            error={errors?.universityName?.message}
-            placeholder="University Name"
-            size="large"
-            required
-          />
-        </Col>
-      </Row>
-      {/* University Address */}
-      <Row gutter={[20, 20]}>
-        <Col xs={24} xl={24}>
-          <SCInput
-            register={register}
-            name="universityAddress"
-            control={control}
-            label="University Address"
-            parentClass="flex-grow mb-4"
-            error={errors?.universityAddress?.message}
-            placeholder="University Address"
-            size="large"
-          />
-        </Col>
-      </Row>
-      {/* University Contact Number */}
-      <Row gutter={[0, 0]}>
-        <Col xs={24} xl={24}>
-          <SCInput
-            register={register}
-            name="universityContactNumber"
-            control={control}
-            label="University ContactNumber"
-            parentClass="flex-grow mb-4"
-            error={errors?.universityContactNumber?.message}
-            placeholder="University ContactNumber"
-            size="large"
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={24} xl={24}>
-          <SCTextArea
-            register={register}
-            name="universityEmail"
-            parentClass="flex-grow mb-4"
-            control={control}
-            label="University Email"
-            error={errors?.universityEmail?.message}
-            allowClear
-            placeholder="University Email"
-            size="large"
-          />
-        </Col>
-      </Row>
-      {/* Description */}
-      <Row gutter={[20, 20]}>
-        <Col xs={24}>
-          <SCTextArea
-            register={register}
-            name="description"
-            parentClass="flex-grow mb-4"
-            control={control}
-            label="Description"
-            error={errors?.description?.message}
-          />
-        </Col>
-      </Row>
-
-      {/* University World Ranking */}
-      <Row gutter={[0, 0]}>
-        <Col xs={24} xl={24}>
-          <SCInput
-            register={register}
-            name="worldRanking"
-            control={control}
-            label="University World Ranking"
-            parentClass="flex-grow mb-4"
-            error={errors?.universityContactNumber?.message}
-            placeholder="University ContactNumber"
-            size="large"
-            type="number"
-          />
-        </Col>
-      </Row>
-
-      {/* University Country Ranking */}
-      <Row gutter={[0, 0]}>
-        <Col xs={24} xl={24}>
-          <SCInput
-            register={register}
-            name="countryRanking"
-            control={control}
-            label="University Country Ranking"
-            parentClass="flex-grow mb-4"
-            error={errors?.universityContactNumber?.message}
-            placeholder="University ContactNumber"
-            size="large"
-            type="number"
-          />
-        </Col>
-      </Row>
-      {/* Course */}
-      <h3 className="text-xl font-bold mt-7 py-8 m-0">
-        {id ? 'Edit' : 'Add'} Course
-      </h3>
-      {renderCourseFields()}
-
-      {/* Destination */}
-      <h3 className="text-xl font-bold mt-7 py-8 m-0">
-        {id ? 'Edit' : 'Add'} Destination
-      </h3>
-      {renderDestinationField()}
-
-      {/* finance */}
-      <h3 className="text-xl font-bold mt-7 py-8 m-0">
-        {id ? 'Edit' : 'Add'} Finance Details
-      </h3>
-      <Row gutter={[20, 20]}>
-        <Col xs={24} xl={12}>
-          <SCInput
-            register={register}
-            name="tuitionFee"
-            control={control}
-            label="University tuitionFee"
-            parentClass="flex-grow mb-4"
-            error={errors?.universityName?.message}
-            placeholder="University tuitionFee"
-            size="large"
-            required
-            type="number"
-          />
-        </Col>
-      </Row>
-
-      <Row gutter={[20, 20]}>
-        <Col xs={24} xl={12}>
-          <SCInput
-            register={register}
-            name="currency"
-            control={control}
-            label="currency"
-            parentClass="flex-grow mb-4"
-            error={errors?.currency?.message}
-            placeholder="University tuitionFee"
-            size="large"
-            required
-          />
-        </Col>
-      </Row>
-      <Row gutter={[20, 20]}>
-        <Col xs={24} xl={12}>
-          <SCCheckbox
-            register={register}
-            name="financialAidAvailable"
-            control={control}
-            label="Is Financial Aid Available?"
-            parentClass="flex-grow mb-4"
-            error={errors?.financialAidAvailable?.message}
-            options={[
-              {
-                value: 'yes',
-                label: 'Yes',
-                description: 'Financial aid is available',
-              },
-              {
-                value: 'no',
-                label: 'No',
-                description: 'No financial aid available',
-              },
-            ]}
-            horizontal
-          />
-        </Col>
-      </Row>
-
-      <Row gutter={[20, 20]}>
-        <Col xs={24} xl={12}>
-          <SCCheckbox
-            register={register}
-            name="scholarshipDetails"
-            control={control}
-            label="Is Scholarship Available?"
-            parentClass="flex-grow mb-4"
-            error={errors?.scholarshipDetails?.message}
-            horizontal
-            options={[
-              {
-                value: 'yes',
-                label: 'Yes',
-                description: 'Financial aid is available',
-              },
-              {
-                value: 'no',
-                label: 'No',
-                description: 'No financial aid available',
-              },
-            ]}
-          />
-        </Col>
-      </Row>
-      {/* University Image */}
       <Row>
         <SCUpload
           register={register}
           name="universityImage"
           control={control as any}
-          label="Contents Images"
+          label="University Image"
           multiple
           error={errors?.universityImage?.message}
-          cropAspect={2 / 2}
+          cropAspect={1}
           onFileUpload={handleImageUpload}
         />
       </Row>
-      {/* Form Buttons */}
       <Row>
         <div className="flex mt-4">
           <Button
@@ -541,8 +517,7 @@ function UniversityForm() {
             {id ? 'Update' : 'Create'}
           </Button>
           <Button
-            htmlType="submit"
-            onClick={() => router.push('/blogs')}
+            onClick={() => router.push('/university')}
             className="ml-4"
             size="large"
           >
@@ -552,6 +527,73 @@ function UniversityForm() {
       </Row>
     </form>
   );
+};
+
+interface SubjectFieldsProps {
+  courseIndex: number;
+  control: Control<ICreateUniversity>;
+  register: UseFormRegister<ICreateUniversity>;
+  errors: FieldErrors<ICreateUniversity>;
 }
+
+const SubjectFields: React.FC<SubjectFieldsProps> = ({
+  courseIndex,
+  control,
+  register,
+  errors,
+}) => {
+  const {
+    fields: subjectFields,
+    append: appendSubject,
+    remove: removeSubject,
+  } = useFieldArray({
+    control,
+    name: `courses[${courseIndex}].subjects`,
+  });
+
+  return (
+    <>
+      {subjectFields.map((subject, subjectIndex) => (
+        <React.Fragment key={subject.id}>
+          <Row gutter={[20, 20]} align="middle">
+            <Col xs={22} xl={11}>
+              <SCInput
+                register={register}
+                name={`courses[${courseIndex}].subjects[${subjectIndex}].subjectName`}
+                control={control}
+                label="Subject Name"
+                error={
+                  errors?.courses?.[courseIndex]?.subjects?.[subjectIndex]
+                    ?.subjectName?.message
+                }
+                placeholder="Subject Name"
+                size="large"
+                required
+              />
+            </Col>
+            <Col xs={2} xl={1}>
+              <Button
+                type="text"
+                style={{ color: 'red' }}
+                onClick={() => removeSubject(subjectIndex)}
+                icon={<CloseOutlined />}
+              />
+            </Col>
+          </Row>
+        </React.Fragment>
+      ))}
+      <Row>
+        <Col xs={24}>
+          <Button
+            onClick={() => appendSubject({ subjectName: '', description: '' })}
+            style={{ marginTop: '10px', marginBottom: '20px' }}
+          >
+            Add Subject
+          </Button>
+        </Col>
+      </Row>
+    </>
+  );
+};
 
 export default UniversityForm;
