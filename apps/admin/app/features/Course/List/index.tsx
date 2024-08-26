@@ -59,7 +59,7 @@ const ActiveColumn = ({
 }: {
   id: string;
   isActive: boolean;
-  onActiveToggle: (id) => void;
+  onActiveToggle: (id: any) => void;
 }) => {
   return (
     <Popconfirm
@@ -80,7 +80,7 @@ const ActiveColumn = ({
       <Space size="middle">
         <Switch
           checked={isActive}
-          style={{ backgroundColor: isActive && '#53C31B' }}
+          style={{ backgroundColor: isActive ? '#53C31B' : undefined }}
           id="publishSwitch"
         />
       </Space>

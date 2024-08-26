@@ -95,7 +95,7 @@ const UniversityDetails = ({ searchParams }: any) => {
 
   const coursesTabs = useMemo(() => {
     const studyLevelsMap = new Map();
-    universityDetails?.courses?.forEach((course) => {
+    universityDetails?.courses?.forEach((course: any) => {
       const studyLevel = capitalizeFirstLetter(course.studyLevel.name);
       if (!studyLevelsMap.has(studyLevel)) {
         studyLevelsMap.set(studyLevel, []);

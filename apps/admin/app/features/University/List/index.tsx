@@ -67,7 +67,7 @@ function UniversityList() {
   }: {
     id: string;
     isActive: boolean;
-    onActiveToggle: (id) => void;
+    onActiveToggle: (id: any) => void;
   }) => {
     return (
       <Popconfirm
@@ -88,7 +88,7 @@ function UniversityList() {
         <Space size="middle">
           <Switch
             checked={isActive}
-            style={{ backgroundColor: isActive && '#53C31B' }}
+            style={{ backgroundColor: isActive ? '#53C31B' : undefined }}
             id="publishSwitch"
           />
         </Space>

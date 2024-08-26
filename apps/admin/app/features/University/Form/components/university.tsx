@@ -54,12 +54,16 @@ interface ICreateUniversity {
   universityContactNumber: string;
   universityEmail: string;
   worldRanking: number;
-  // countryRanking: number;
   universityImage: any;
   description: string;
   courses: Course[];
   destination: string;
   campuses: Campus[];
+}
+
+interface Destination {
+  name: string;
+  id: string;
 }
 
 const UniversityForm: React.FC = () => {
@@ -68,11 +72,16 @@ const UniversityForm: React.FC = () => {
   const id = searchParams.get('id');
   const [loading, setLoading] = useState(false);
   const [uniImage, setUniImage] = useState<string | null>(null);
-  const [availableCourse, setAvailableCourse] = useState([]);
+  const [availableCourse, setAvailableCourse] = useState<Course[]>([]);
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
-  const [selectedDestination, setSelectedDestination] = useState({ name: '' });
-  const [availableDestination, setAvailableDestination] = useState([]);
+  const [selectedDestination, setSelectedDestination] = useState<Destination>({
+    name: '',
+    id: '',
+  });
+  const [availableDestination, setAvailableDestination] = useState<
+    Destination[]
+  >([]);
   const [uniCampuses, setUniCampuses] = useState<Campus[]>([]);
 
   const {
@@ -123,7 +132,10 @@ const UniversityForm: React.FC = () => {
         const formattedCover = [
           {
             uid: uniData?.universityImage,
-            url: renderImage({ imgPath: uniData?.universityImage, size: 'lg' }),
+            url: renderImage({
+              imgPath: uniData?.universityImage,
+              size: 'lg',
+            }) as string,
           },
         ];
 
@@ -144,7 +156,10 @@ const UniversityForm: React.FC = () => {
         }));
 
         setSelectedCourses(courses);
-        setSelectedDestination(uniData.destination);
+        setSelectedDestination({
+          name: uniData.destination.name,
+          id: uniData.destination,
+        });
         setUniCampuses(uniData?.campuses);
 
         reset({
@@ -153,11 +168,10 @@ const UniversityForm: React.FC = () => {
           universityEmail: uniData.universityEmail,
           universityContactNumber: uniData.universityContactNumber,
           worldRanking: uniData.worldRanking,
-          // countryRanking: uniData.countryRanking,
           description: uniData.description,
           universityImage: formattedCover,
           courses,
-          destination: uniData.destination,
+          destination: uniData.destination.id,
           campuses: uniData?.campuses,
         });
       });
@@ -196,7 +210,7 @@ const UniversityForm: React.FC = () => {
         notification.success({ message: response.data.message });
       }
       router.push('/university');
-    } catch (error) {
+    } catch (error: any) {
       notification.error({ message: error.message });
     } finally {
       setLoading(false);
@@ -264,21 +278,6 @@ const UniversityForm: React.FC = () => {
           />
         </Col>
       </Row>
-      {/* <Row gutter={[0, 0]}>
-        <Col xs={24} xl={24}>
-          <SCInput
-            register={register}
-            name="countryRanking"
-            control={control}
-            label="University Country Ranking"
-            error={errors?.countryRanking?.message}
-            placeholder="University Country Ranking"
-            size="large"
-            type="number"
-            required
-          />
-        </Col>
-      </Row> */}
       <h3 className="text-xl font-bold mt-7 py-8 m-0">
         {id ? 'Edit' : 'Add'} Campuses
       </h3>
@@ -324,7 +323,12 @@ const UniversityForm: React.FC = () => {
                   type="text"
                   style={{ color: 'red' }}
                   onClick={() => removeCampus(index)}
-                  icon={<CloseOutlined />}
+                  icon={
+                    <CloseOutlined
+                      onPointerEnterCapture={undefined}
+                      onPointerLeaveCapture={undefined}
+                    />
+                  }
                 />
               )}
             </Col>
@@ -349,9 +353,9 @@ const UniversityForm: React.FC = () => {
                 placeholder="Please select a course"
                 size="large"
                 options={availableCourse.map((ac) => ({
-                  label: ac.courseName,
-                  value: ac.id,
-                  disabled: selectedCourseIds.includes(ac.id), // Disable selected courses
+                  label: ac.courses,
+                  value: ac.courses,
+                  disabled: selectedCourseIds.includes(ac.courses), // Disable selected courses
                 }))}
               />
             </Col>
@@ -360,18 +364,23 @@ const UniversityForm: React.FC = () => {
                 type="text"
                 style={{ color: 'red' }}
                 onClick={() => removeCourse(courseIndex)}
-                icon={<CloseOutlined />}
+                icon={
+                  <CloseOutlined
+                    onPointerEnterCapture={undefined}
+                    onPointerLeaveCapture={undefined}
+                  />
+                }
               />
             </Col>
           </Row>
-          {watch(`courses[${courseIndex}].courses`) && (
+          {watch(`courses.${courseIndex}.courses` as const) && (
             <>
               <h4 className="mt-4 text-xl font-bold">Financial Details</h4>
               <Row gutter={[20, 20]}>
                 <Col xs={24} xl={12}>
                   <SCInput
                     register={register}
-                    name={`courses[${courseIndex}].tuitionFee`}
+                    name={`courses.${courseIndex}.tuitionFee`}
                     control={control}
                     label="Tuition Fee"
                     error={errors?.courses?.[courseIndex]?.tuitionFee?.message}
@@ -384,7 +393,7 @@ const UniversityForm: React.FC = () => {
                 <Col xs={24} xl={12}>
                   <SCInput
                     register={register}
-                    name={`courses[${courseIndex}].currency`}
+                    name={`courses.${courseIndex}.currency`}
                     control={control}
                     label="Currency"
                     error={errors?.courses?.[courseIndex]?.currency?.message}
@@ -398,7 +407,7 @@ const UniversityForm: React.FC = () => {
                 <Col xs={24} xl={12}>
                   <SCCheckbox
                     register={register}
-                    name={`courses[${courseIndex}].financialAidAvailable`}
+                    name={`courses.${courseIndex}.financialAidAvailable`}
                     control={control}
                     label="Is Financial Aid Available?"
                     error={
@@ -422,7 +431,7 @@ const UniversityForm: React.FC = () => {
                 <Col xs={24} xl={12}>
                   <SCCheckbox
                     register={register}
-                    name={`courses[${courseIndex}].scholarshipDetails`}
+                    name={`courses.${courseIndex}.scholarshipDetails`}
                     control={control}
                     label="Is Scholarship Available?"
                     error={
@@ -576,7 +585,12 @@ const SubjectFields: React.FC<SubjectFieldsProps> = ({
                 type="text"
                 style={{ color: 'red' }}
                 onClick={() => removeSubject(subjectIndex)}
-                icon={<CloseOutlined />}
+                icon={
+                  <CloseOutlined
+                    onPointerEnterCapture={undefined}
+                    onPointerLeaveCapture={undefined}
+                  />
+                }
               />
             </Col>
           </Row>

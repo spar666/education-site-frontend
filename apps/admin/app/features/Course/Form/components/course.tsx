@@ -155,7 +155,7 @@ const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
           notification.error({ message: response.data.createBlog.error() });
         }
       }
-    } catch (error) {
+    } catch (error:any) {
       notification.error({ message: error.message });
     } finally {
       setLoading(false);
