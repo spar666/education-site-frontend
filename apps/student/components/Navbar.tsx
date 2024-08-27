@@ -22,7 +22,9 @@ const Navbar = () => {
       <MaxWidthWrapper className="relative flex justify-between py-4 items-center text-dark-blue bg-white h-full px-5 sm:px-10 md:px-14 lg:px-24 ">
         <div className="flex gap-2">
           <Link href="/">
-            <Icons.logo className="h-10 w-10 text-electric-violet" />
+            <h1 className="uppercase text-xl font-bold text-primary-blue">
+              Studyandvisa
+            </h1>
           </Link>
           <MobileNav />
         </div>

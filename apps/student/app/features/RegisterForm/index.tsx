@@ -153,7 +153,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="flex bg-yellow-200 justify-center font-['Open_Sans']">
+    <div className="flex bg-[#99caff] justify-center font-['Open_Sans']">
       <div className="w-full max-w-md sm:w-full">
         <Form onFinish={handleSubmit(onSubmit)} className="px-8 pb-8">
           <div className="text-center mb-8">
@@ -328,8 +328,10 @@ const RegisterForm = () => {
           {/* Counseling Options */}
           <div className="flex flex-col space-y-3 mb-3">
             <div
-              className={`w-full md:w-45 h-10 px-4 py-2 bg-dark-blue text-white flex text-bold items-center rounded ${
-                counselingOption === 'online' ? 'bg-blue-500 text-white' : ''
+              className={`w-full md:w-45 h-10 px-4 py-2 bg-[#e7b416] text-[#003366] flex text-bold items-center rounded ${
+                counselingOption === 'online'
+                  ? 'bg-[#e7b416] text-[#003366]'
+                  : ''
               }`}
               onClick={() => handleCounselingOptionChange('online')}
             >
@@ -363,7 +365,12 @@ const RegisterForm = () => {
                 type="primary"
                 size="large"
                 htmlType="submit"
-                style={{ backgroundColor: '#003366', marginTop: '5px' }}
+                className="hover-effect"
+                style={{
+                  backgroundColor: '#e7b416',
+                  color: '#003366',
+                  marginTop: '5px',
+                }}
                 loading={loading}
               >
                 Get an Appointment

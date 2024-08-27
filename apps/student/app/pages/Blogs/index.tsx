@@ -75,7 +75,7 @@ const BlogPage = () => {
           {blogs.length > 0 && (
             <div className="flex justify-center my-5 f">
               <Link href="/blog">
-                <Button className="w-full md:w-52 h-12 px-6 py-2 text-primary-blue bg-secondary-yellow flex justify-center items-center  rounded mt-5  text-base font-bold">
+                <Button className="w-full md:w-52 h-12 px-6 py-2 text-primary-blue hover:bg-[#bf9100] bg-secondary-yellow flex justify-center items-center  rounded mt-5  text-base font-bold">
                   View All Blogs
                 </Button>
               </Link>

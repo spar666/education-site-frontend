@@ -109,3 +109,7 @@ body {
   gap: 20px;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
 }
+
+.hover-effect:hover {
+  background-color: #bf9100;
+}

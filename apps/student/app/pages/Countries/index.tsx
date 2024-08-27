@@ -96,7 +96,7 @@ export const UniversityPage = () => {
           <div className="flex justify-center f">
             <button
               type="button"
-              className="w-full md:w-52 h-12 px-6 text-primary-blue bg-secondary-yellow flex justify-center items-center rounded mt-5  text-base font-bold"
+              className="w-full md:w-52 h-12 px-6 text-primary-blue hover:bg-[#bf9100]  bg-secondary-yellow flex justify-center items-center rounded mt-5  text-base font-bold"
               onClick={handleViewAllClick}
             >
               View All Countries

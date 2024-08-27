@@ -55,7 +55,7 @@ export const FeaturedCourse = () => {
           {courseCategories.slice(0, 3).map((category) => (
             <div
               key={category?.id}
-              className="bg-dark-blue shadow-lg rounded-lg overflow-hidden"
+              className="bg-dark-blue shadow-lg rounded-lg overflow-hidden  max-w-[350px]"
             >
               <div className="p-4 h-72">
                 <h3 className="text-xl font-bold text-gray-900 mb-2 f text-white">
@@ -71,7 +71,7 @@ export const FeaturedCourse = () => {
                           key={index}
                           className="flex items-center gap-3 mt-1 f"
                         >
-                          <a className="flex items-center gap-2">
+                          <a className="flex items-center gap-2 text-base">
                             <ChevronRight size={16} />
                             {course.courseName}
                           </a>

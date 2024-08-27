@@ -19,7 +19,9 @@ const Blog = ({ title, image, contents }: any) => {
           }}
         ></div>
       </div>
-      <h1 className="mt-2 text-xl font-semibold">{title}</h1>
+      <h1 className="p-2 font-bold text-gray-800 items-center hover:text-blue-500">
+        {title}
+      </h1>
     </div>
   );
 };

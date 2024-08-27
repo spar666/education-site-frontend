@@ -128,13 +128,19 @@ const UniversityDetails = ({ searchParams }: any) => {
               <List.Item key={course.courseName}>
                 <Card
                   title={
-                    <Link href={course.courseLink}>
+                    <Link
+                      href={course.courseLink}
+                      className="text-xl font-bold"
+                    >
                       {capitalizeFirstLetter(course.courseName)}
                     </Link>
                   }
                 >
                   <Collapse bordered={false} ghost>
-                    <Panel header={<strong>Subjects</strong>} key="1">
+                    <Panel
+                      header={<h1 className="text-lg">Subjects</h1>}
+                      key="1"
+                    >
                       {course?.universityCourseSubject &&
                       course.universityCourseSubject.length > 0 ? (
                         <ul className="pl-5 space-y-2">
@@ -147,7 +153,7 @@ const UniversityDetails = ({ searchParams }: any) => {
                                 {subject.subject ? (
                                   <Link
                                     href={`/subject/${subject.subject.id}`}
-                                    className="text-blue-500 hover:underline"
+                                    className="text-sm"
                                   >
                                     {subject.subject.subjectName}
                                   </Link>
@@ -162,19 +168,22 @@ const UniversityDetails = ({ searchParams }: any) => {
                         <Empty description="No Subjects Available" />
                       )}
                     </Panel>
-                    <Panel header={<strong>Financial Details</strong>} key="2">
+                    <Panel
+                      header={<h1 className="text-lg">Financial Details</h1>}
+                      key="2"
+                    >
                       {course.financeDetails.length > 0 ? (
                         course.financeDetails.map((finance: any) => (
                           <Card key={finance.id} className="mb-2">
-                            <p>
+                            <p className="text-sm">
                               <strong>Tuition Fee:</strong> {finance.tuitionFee}{' '}
                               {finance.currency}
                             </p>
-                            <p>
+                            <p className="text-sm">
                               <strong>Financial Aid Available:</strong>{' '}
                               {finance.financialAidAvailable ? 'Yes' : 'No'}
                             </p>
-                            <p>
+                            <p className="text-sm">
                               <strong>Scholarship Details:</strong>{' '}
                               {finance.scholarshipDetails}
                             </p>

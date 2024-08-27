@@ -50,7 +50,7 @@ const NewsletterForm = () => (
           <Input type="email" placeholder="Email" />
           <button
             type="submit"
-            className="w-full md:w-52 h-10 px-6 text-dark-blue bg-secondary-yellow flex justify-center items-center rounded  text-base font-bold"
+            className="w-full md:w-52 h-10 px-6 text-dark-blue hover:bg-[#bf9100] bg-secondary-yellow flex justify-center items-center rounded  text-base font-bold"
             //onClick={handleViewAllClick}
           >
             Subscribe

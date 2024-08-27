@@ -10,7 +10,7 @@ export const HeroSection = () => {
         {/* Left Side: Text */}
         <div className="max-w-3xl lg:w-1/2 lg:pr-12 text-white mx-auto lg:pl-0">
           {/* Added padding on the left */}
-          <h1 className="text-center lg:text-start mx-auto text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight">
+          <h1 className="text-center lg:text-start mx-auto text-3xl sm:text-4xl lg:text-[3.1rem] !leading-tight font-bold tracking-tight">
             Your marketplace for high-quality{' '}
             <span className="text-white">Education</span>.
           </h1>
@@ -20,7 +20,7 @@ export const HeroSection = () => {
           </p>
           <button
             type="button"
-            className="w-full md:w-52 h-12 px-6 text-dark-blue bg-secondary-yellow flex justify-center items-center rounded mt-5 text-base font-bold"
+            className="w-full md:w-52 h-12 px-6 text-dark-blue hover:bg-[#bf9100] bg-secondary-yellow flex justify-center items-center rounded mt-5 text-base font-bold"
             //onClick={handleViewAllClick}
           >
             Learn More
