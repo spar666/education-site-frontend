@@ -80,7 +80,7 @@ const { Panel } = Collapse;
 const UniversityDetails = ({ searchParams }: any) => {
   const { uni } = searchParams;
   const [universityDetails, setUniversityDetails] = useState<any>(null);
-
+  /* hii */
   useEffect(() => {
     const fetchData = async () => {
       try {

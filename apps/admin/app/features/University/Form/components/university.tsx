@@ -72,7 +72,8 @@ const UniversityForm: React.FC = () => {
   const id = searchParams.get('id');
   const [loading, setLoading] = useState(false);
   const [uniImage, setUniImage] = useState<string | null>(null);
-  const [availableCourse, setAvailableCourse] = useState<Course[]>([]);
+  const [availableCourse, setAvailableCourse] = useState<any[]>([]);
+
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [selectedDestination, setSelectedDestination] = useState<Destination>({
@@ -123,6 +124,8 @@ const UniversityForm: React.FC = () => {
     fetchData();
   }, []);
 
+  console.log(availableCourse, 'acccc');
+
   // Fetch university data if id is present
   useEffect(() => {
     if (id) {
@@ -140,7 +143,7 @@ const UniversityForm: React.FC = () => {
         ];
 
         const courses = uniData.courses.map((course: any) => ({
-          courses: course.id,
+          courses: course.courseName,
           subjects: course.universityCourseSubject.map((subject: any) => ({
             subjectName: subject.subject.subjectName || '',
             description: subject.subject.description || '',
@@ -352,9 +355,9 @@ const UniversityForm: React.FC = () => {
                 allowClear
                 placeholder="Please select a course"
                 size="large"
-                options={availableCourse.map((ac) => ({
-                  label: ac.courses,
-                  value: ac.courses,
+                options={availableCourse.map((ac: any) => ({
+                  label: ac.courseName,
+                  value: ac.id,
                   disabled: selectedCourseIds.includes(ac.courses), // Disable selected courses
                 }))}
               />
