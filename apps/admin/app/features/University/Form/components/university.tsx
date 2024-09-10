@@ -130,7 +130,8 @@ const UniversityForm: React.FC = () => {
   useEffect(() => {
     if (id) {
       fetchUniversityById({ id }).then((response) => {
-        const uniData = response.university;
+        console.log(response, 'response');
+        const uniData = response;
         setUniImage(uniData?.universityImage);
         const formattedCover = [
           {
@@ -142,39 +143,44 @@ const UniversityForm: React.FC = () => {
           },
         ];
 
-        const courses = uniData.courses.map((course: any) => ({
-          courses: course.courseName,
-          subjects: course.universityCourseSubject.map((subject: any) => ({
-            subjectName: subject.subject.subjectName || '',
-            description: subject.subject.description || '',
-          })),
-          tuitionFee: course.financeDetails[0]?.tuitionFee || 0,
-          currency: course.financeDetails[0]?.currency || '',
-          financialAidAvailable: course.financeDetails[0]?.financialAidAvailable
-            ? 'yes'
-            : 'no',
-          scholarshipDetails: course.financeDetails[0]?.scholarshipDetails
-            ? 'yes'
-            : 'no',
-        }));
+        const courses = uniData?.courseSubject.map((courseSubject: any) => {
+          const firstValidFinanceDetail = courseSubject?.financeDetails.find(
+            (detail: any) =>
+              detail.tuitionFee !== null && detail.tuitionFee !== undefined
+          );
+
+          return {
+            courses: courseSubject?.id,
+            subjects: courseSubject?.subjects,
+
+            // Use the first valid finance detail, if found, otherwise set default values
+            tuitionFee: firstValidFinanceDetail?.tuitionFee || 0,
+            currency: firstValidFinanceDetail?.currency || '',
+            financialAidAvailable:
+              firstValidFinanceDetail?.financialAidAvailable ? 'yes' : 'no',
+            scholarshipDetails: firstValidFinanceDetail?.scholarshipDetails
+              ? 'yes'
+              : 'no',
+          };
+        });
 
         setSelectedCourses(courses);
         setSelectedDestination({
-          name: uniData.destination.name,
-          id: uniData.destination,
+          name: uniData?.destination.name,
+          id: uniData?.destination,
         });
         setUniCampuses(uniData?.campuses);
 
         reset({
-          universityName: uniData.universityName,
-          universityAddress: uniData.universityAddress,
-          universityEmail: uniData.universityEmail,
-          universityContactNumber: uniData.universityContactNumber,
-          worldRanking: uniData.worldRanking,
-          description: uniData.description,
+          universityName: uniData?.universityName,
+          universityAddress: uniData?.universityAddress,
+          universityEmail: uniData?.universityEmail,
+          universityContactNumber: uniData?.universityContactNumber,
+          worldRanking: uniData?.worldRanking,
+          description: uniData?.description,
           universityImage: formattedCover,
           courses,
-          destination: uniData.destination.id,
+          destination: uniData?.destination.id,
           campuses: uniData?.campuses,
         });
       });
@@ -196,7 +202,7 @@ const UniversityForm: React.FC = () => {
 
     const imageUrl =
       uploadedImageUrls.length > 0 ? uploadedImageUrls : uniImage;
-
+    console.log(courseArray, 'array');
     const universityData = {
       ...data,
       universityImage: imageUrl,

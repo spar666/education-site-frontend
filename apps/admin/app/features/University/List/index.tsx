@@ -28,12 +28,12 @@ const ActionColumn = ({ id, onDelete }: any) => (
           />
         </Link>
 
-        <DeleteOutlined
+        {/* <DeleteOutlined
           className="text-2xl text-red-500 mt-[-12px]"
           onPointerEnterCapture={undefined}
           onPointerLeaveCapture={undefined}
           onClick={() => onDelete(id)}
-        />
+        /> */}
       </div>
     </Space>
   </>
@@ -173,7 +173,7 @@ function UniversityList() {
         <ActionColumn
           id={record?.id}
           record={record}
-          // name={record?.universityName}
+          name={record?.universityName}
           // onDelete={handleDelete}
         />
       ),
