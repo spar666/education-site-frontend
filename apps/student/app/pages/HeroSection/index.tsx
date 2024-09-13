@@ -27,13 +27,13 @@ export const HeroSection = () => {
           </button>
         </div>
         {/* Right Side: Image */}
-        <div className="w-full lg:w-1/2 mt-8 lg:mt-0 flex sm:hidden">
-          {/* The `sm:hidden` class will hide the entire div and its contents on small screens */}
-          <Image src={student} className="hidden sm:hidden" alt="" />
+        <div className="w-full lg:w-1/2 mt-8 lg:mt-0 flex hidden lg:block ">
+          {/* Added margin top for smaller screens */}
+          <Image src={student} className="" alt="" />
         </div>
       </div>
       {/* Centered CustomSearch */}
-      <div className="flex justify-center md:justify-start mx-auto max-w-screen-lg px-4 lg:px-0 mt-[-60px] z-10 w-full m-5 sm:hidden lg:align-center  ">
+      <div className="flex justify-center md:justify-start mx-auto max-w-screen-lg px-4 lg:px-0 mt-[-60px] z-10 w-full m-5 lg:align-center">
         <CustomSearch />
       </div>
     </>
