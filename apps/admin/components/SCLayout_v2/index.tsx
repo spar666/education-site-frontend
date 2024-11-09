@@ -1,7 +1,8 @@
 'use client';
+
+import React, { useMemo } from 'react';
 import { Layout } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
-import React from 'react';
 import Head from './Head';
 import useUser from 'apps/admin/store/useUser';
 import { SideBar } from './SideBar';
@@ -12,40 +13,42 @@ type AdminLayoutProps = {
   title?: string;
   authProtected?: boolean;
   showTitle?: boolean;
+  children: React.ReactNode;
 };
 
 function CopyrightComponent() {
   return (
-    <div className={'text-center'}>
+    <div className="text-center">
       © 2023-{new Date().getFullYear()} Study & Visa. All rights reserved.
     </div>
   );
 }
 
-export function NavLogo({ onClick }: any) {
+export function NavLogo({ onClick }: { onClick: () => void }) {
   return (
     <div
       className="logo flex p-3 items-center justify-center"
       onClick={onClick}
     >
-      <h1 className={'text-white pl-1'}>Study & Visa</h1>
+      <h1 className="text-white pl-1">Study & Visa</h1>
     </div>
   );
 }
 
 const AdminLayout = ({
   children,
-  showTitle,
+  showTitle = false,
   title = 'Study Course',
-}: React.PropsWithChildren<AdminLayoutProps>) => {
+}: AdminLayoutProps) => {
   const router = useRouter();
   const pathname = usePathname();
-
   const { isAuthenticated } = useUser();
+  console.log(isAuthenticated, 'user');
 
-  console.log(isAuthenticated, 'isauthnciated');
-
-  const isCalenderSection = () => pathname === '/guides/calender/[id]';
+  const isCalendarSection = useMemo(
+    () => pathname === '/guides/calender/[id]',
+    [pathname]
+  );
 
   return (
     <>
@@ -55,7 +58,7 @@ const AdminLayout = ({
         <Layout className="h-auto">
           <Content
             className={`${
-              isCalenderSection()
+              isCalendarSection
                 ? 'calender-padding'
                 : isAuthenticated
                 ? 'px-20 pt-10'

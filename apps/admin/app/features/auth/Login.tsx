@@ -1,13 +1,11 @@
 'use client';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Alert, Button, Input, Space, notification } from 'antd';
 import { useDispatch } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
 import Link from 'next/link';
 import AuthService from '../../api/Auth';
-
 import Cookies from 'js-cookie';
-import { setCookie } from 'cookies-next';
 import { updateUserDetails } from 'apps/admin/store/userSlice';
 import { isValidEmail } from 'apps/admin/utils/helper/helper';
 
@@ -18,8 +16,7 @@ interface ILogin {
 
 export function LoginAdmin() {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
-  const ref = useRef<any>();
+  const [loading, setLoading] = React.useState(false);
 
   const { handleSubmit, control } = useForm<ILogin>({
     defaultValues: {
@@ -29,14 +26,20 @@ export function LoginAdmin() {
   });
 
   const getMyDetails = async () => {
-    const token = await Cookies.get('accessToken');
-
+    const token = Cookies.get('accessToken');
+    if (!token) {
+      // Handle missing token case
+      return;
+    }
+    console.log(token, 'tokenennenen');
     try {
       const response = await AuthService.profile({ token });
       console.log(response.data.data, 'from profile');
       dispatch(updateUserDetails(response.data.data));
+      // window.location.reload();
     } catch (error) {
-      // Handle error
+      console.error('Error fetching user details:', error);
+      notification.error({ message: 'Failed to fetch user details' });
     }
   };
 
@@ -44,19 +47,22 @@ export function LoginAdmin() {
     try {
       setLoading(true);
       const response = await AuthService.login(data);
-      setCookie('accessToken', response.data.access_token, { maxAge: 86400 });
-      await getMyDetails();
-      notification.success({ message: response.data.message });
-    } catch (error) {
-      notification.error({ message: 'Invalid email or password' });
+      if (response.data.access_token) {
+        Cookies.set('accessToken', response.data.access_token, { expires: 1 }); // Cookie expires in 1 day
+        localStorage.setItem('token', 'accessToken');
+        await getMyDetails();
+        notification.success({ message: response.data.message });
+      } else {
+        notification.error({ message: 'Unexpected response from server' });
+      }
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.message || 'Invalid email or password';
+      notification.error({ message: errorMessage });
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    ref?.current?.focus();
-  }, []);
 
   return (
     <>
@@ -75,7 +81,6 @@ export function LoginAdmin() {
             render={({ field: { onChange, value }, formState: { errors } }) => (
               <>
                 <Input
-                  ref={ref}
                   autoComplete="new-password"
                   placeholder="Email*"
                   type="text"
@@ -100,9 +105,7 @@ export function LoginAdmin() {
           <Controller
             name="password"
             control={control}
-            rules={{
-              required: 'Password is required!',
-            }}
+            rules={{ required: 'Password is required!' }}
             render={({ field: { onChange, value }, formState: { errors } }) => (
               <>
                 <Input.Password
@@ -134,7 +137,7 @@ export function LoginAdmin() {
           >
             Login
           </Button>
-          <div className="block lg:flex md:justify-between ">
+          <div className="block lg:flex md:justify-between">
             <div className="flex justify-center my-1">
               <Link href="/auth/forgot-password">Forgot Password?</Link>
             </div>

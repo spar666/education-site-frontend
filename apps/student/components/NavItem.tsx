@@ -148,7 +148,7 @@ const NavItem = ({
                     ).map((name) => (
                       <div onClick={close} key={name} className="text-lg">
                         <Link
-                          href={`/course?degree=${
+                          href={`/course/degree/${
                             studyLevels.find((item) => item.name === name)?.slug
                           }`}
                           className="text-base text-gray-800 pb-2 pl-2 hover:text-blue-500"
@@ -180,7 +180,7 @@ const NavItem = ({
                                   }`}
                                 >
                                   <Link
-                                    href={`/subject?subjectName=${course.slug}`}
+                                    href={`/subject/${course.slug}`}
                                     className="text-base text-gray-800 hover:text-blue-500"
                                     style={{ width: 'max-content' }}
                                   >
@@ -223,7 +223,7 @@ const NavItem = ({
                     </span>
                     <div className="flex flex-col">
                       <Link
-                        href={`/university?country=${dest.slug}`}
+                        href={`/university/country/${dest.slug}`}
                         className="text-base text-gray-800 items-center hover:text-blue-500"
                       >
                         Universities in {dest.name}

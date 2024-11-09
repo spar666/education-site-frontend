@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import AdminLayout from 'apps/admin/components/SCLayout_v2';
 import { fetchUniversity } from 'apps/admin/app/api/University';
 import { fetchAllUser } from 'apps/admin/app/api/User';
+import { capitalizeInitials } from 'apps/admin/helper/capitalize';
 
 function UserList() {
   const router = useRouter();
@@ -47,35 +48,48 @@ function UserList() {
 
   const columns: ColumnsType<any> = [
     {
-      title: 'First  Name',
+      title: 'First Name',
       dataIndex: 'firstName',
       key: 'firstName',
+      render: (text) => (text ? text : 'N/A'), // Handle null or undefined
     },
     {
       title: 'Last Name',
       dataIndex: 'lastName',
       key: 'lastName',
+      render: (text) => (text ? text : 'N/A'),
     },
     {
       title: 'Email',
       dataIndex: 'email',
       key: 'email',
+      render: (text) => (text ? text : 'N/A'),
     },
     {
       title: 'Phone',
       dataIndex: 'phone',
       key: 'phone',
-    },
-    {
-      title: 'Date of Birth',
-      dataIndex: 'dateOfBirth',
-      key: 'dateofbirth',
+      render: (text) => (text ? text : 'N/A'),
     },
     {
       title: 'Gender',
       dataIndex: 'gender',
       key: 'gender',
+      render: (text) => (text ? text : 'N/A'),
     },
+    {
+      title: 'Role',
+      dataIndex: 'role',
+      key: 'role',
+      render: (text) => {
+        if (text) {
+          return capitalizeInitials(text);
+        } else {
+          return 'N/A'; // Handle null or undefined values
+        }
+      },
+    },
+
     {
       title: 'Edit',
       dataIndex: 'action',

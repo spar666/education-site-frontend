@@ -67,3 +67,15 @@ export const updateUniversityStatus = async (id: string) => {
     throw new Error(`Failed to update university: ${error.message}`);
   }
 };
+
+export const deleteUniversity = async (id: string) => {
+  try {
+    const token = Cookies.get('accessToken');
+
+    const response = await axios.delete(`${API_URL}/university/${id}`);
+
+    return response;
+  } catch (error: any) {
+    throw new Error(`Failed to update university: ${error.message}`);
+  }
+};

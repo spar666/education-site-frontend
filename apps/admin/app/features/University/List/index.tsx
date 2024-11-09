@@ -14,6 +14,7 @@ import AdminLayout from 'apps/admin/components/SCLayout_v2';
 import {
   fetchUniversity,
   updateUniversityStatus,
+  deleteUniversity, // Assuming you have this delete function
 } from 'apps/admin/app/api/University';
 
 const ActionColumn = ({ id, onDelete }: any) => (
@@ -28,12 +29,21 @@ const ActionColumn = ({ id, onDelete }: any) => (
           />
         </Link>
 
-        {/* <DeleteOutlined
+        <DeleteOutlined
           className="text-2xl text-red-500 mt-[-12px]"
           onPointerEnterCapture={undefined}
           onPointerLeaveCapture={undefined}
-          onClick={() => onDelete(id)}
-        /> */}
+          onClick={() => {
+            onDelete(id).catch((error: any) => {
+              // Show notification if delete fails due to dependency
+              notification.error({
+                message: 'Unable to delete',
+                description:
+                  'This item cannot be deleted because it is referenced by other records.',
+              });
+            });
+          }}
+        />
       </div>
     </Space>
   </>
@@ -59,6 +69,24 @@ function UniversityList() {
 
     fetchAllUniversities();
   }, []);
+
+  const handleDelete = async (id: string) => {
+    try {
+      // Call your delete API (make sure it throws an error on failure)
+      const response = await deleteUniversity(id);
+      if (response.status === 200) {
+        notification.success({
+          message: 'University deleted successfully!',
+        });
+        // Optionally reload data
+        fetchUniversity();
+      } else {
+        throw new Error('Unable to delete');
+      }
+    } catch (error) {
+      throw new Error('Failed to delete due to dependency');
+    }
+  };
 
   const ActiveColumn = ({
     id,
@@ -112,7 +140,6 @@ function UniversityList() {
       dataIndex: 'universityEmail',
       key: 'universityEmail',
     },
-
     {
       title: 'Published',
       dataIndex: 'isActive',
@@ -149,33 +176,13 @@ function UniversityList() {
         );
       },
     },
-    // {
-    //   title: 'Contact Number',
-    //   dataIndex: 'universityContactNumber',
-    //   key: 'universityContactNumber',
-    // },
-    // {
-    //   title: 'World Ranking',
-    //   dataIndex: 'worldRanking',
-    //   key: 'worldRanking',
-    // },
-    // {
-    //   title: 'Country Ranking',
-    //   dataIndex: 'countryRanking',
-    //   key: 'countryRanking',
-    // },
     {
       title: 'Action',
       dataIndex: 'action',
       key: 'action',
       align: 'center', // <-- AlignType
       render: (text, record) => (
-        <ActionColumn
-          id={record?.id}
-          record={record}
-          name={record?.universityName}
-          // onDelete={handleDelete}
-        />
+        <ActionColumn id={record?.id} onDelete={handleDelete} />
       ),
     },
   ];
@@ -204,14 +211,6 @@ function UniversityList() {
               <div className="flex items-center gap-3 flex-wrap">
                 <div>
                   <div className="font-bold">Search</div>
-                  {/* <DebounceInput
-                    className="w-[250px] input-h-45"
-                    // text={search + ""}
-                    placeholder="Search Course"
-                    prefix={<SearchOutlined className="mx-2" />}
-                    // callback={changeFilter('search')}
-                    callback=""
-                  /> */}
                 </div>
               </div>
             </>

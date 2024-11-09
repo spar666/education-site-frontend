@@ -86,3 +86,18 @@ export const fetchUniversitiesByIdsForCompare = async (ids: string[]) => {
     throw new Error('Failed to fetch universities');
   }
 };
+
+export const fetchUniversitySubjectByUniversitySlug = async ({
+  course,
+  university,
+}: any) => {
+  try {
+    let url = `${API_URL}/university/unisubjects/${university}/${course}`;
+
+    const response = await axios.get(url);
+    return response;
+  } catch (error) {
+    console.error('Failed to fetch universities:', error);
+    throw new Error('Failed to fetch universities');
+  }
+};

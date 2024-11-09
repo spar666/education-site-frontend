@@ -13,7 +13,7 @@ export function SideBar() {
   // const [logout] = useMutation(LOGOUT);
 
   function logoutHandler() {
-    deleteCookie('accessToken');
+      localStorage.removeItem('token');
     window.location.reload();
   }
 

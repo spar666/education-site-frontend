@@ -58,7 +58,7 @@ const BlogPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {/* Rendering top 3 blogs */}
             {blogs.slice(0, 3).map((blog, index) => (
-              <Link href={`blog/details?blog=${blog?.slug}`}>
+              <Link href={`blog/details/${blog?.slug}`}>
                 <div key={index} className="w-full">
                   {/* Adding a custom class to adjust image opacity */}
                   <Blog

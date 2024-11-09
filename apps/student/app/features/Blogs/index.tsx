@@ -99,7 +99,7 @@ const Blogs = ({ searchParams }: any) => {
                   <Col key={blog.id} xs={24} sm={12} md={8} lg={8} xl={8}>
                     {' '}
                     {/* Adjusted column size to ensure 3 per row */}
-                    <Link href={`/blog/details?blog=${blog.slug}`} passHref>
+                    <Link href={`/blog/details/${blog.slug}`} passHref>
                       <div className="blog-card bg-white py-4">
                         <div>
                           <ProgressiveImageLoading

@@ -1,10 +1,10 @@
 const SideNavItems = [
-  {
-    key: 1,
-    icon: null,
-    name: 'Dashboard',
-    path: '/dashboard',
-  },
+  // {
+  //   key: 1,
+  //   icon: null,
+  //   name: 'Dashboard',
+  //   path: '/dashboard',
+  // },
 
   {
     key: 3,

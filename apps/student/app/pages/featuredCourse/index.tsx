@@ -66,7 +66,11 @@ export const FeaturedCourse = () => {
                 <ul className="text-sm text-muted-foreground text-white">
                   {category.courses.length > 0 ? (
                     category.courses.slice(0, 3).map((course, index) => (
-                      <Link href={`/course/details?course=${course?.slug}`}>
+                      <Link
+                        href={`/course/details/${encodeURIComponent(
+                          course?.slug
+                        )}`}
+                      >
                         <li
                           key={index}
                           className="flex items-center gap-3 mt-1 f"

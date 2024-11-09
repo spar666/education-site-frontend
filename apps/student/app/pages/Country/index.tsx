@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export const Country = ({ country, countryImage, slug }: any) => {
   return (
-    <Link href={`/university?country=${slug}`} className="w-full">
+    <Link href={`/university/country/${slug}`} className="w-full">
       <div className="bg-white f rounded-lg shadow-md  h-[350px] w-full relative overflow-hidden">
         <div
           style={{

@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { Button, Col, Row, notification, Typography } from 'antd';
+import { Button, Col, Row, notification, Typography, Input } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
@@ -73,16 +73,15 @@ const UniversityForm: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [uniImage, setUniImage] = useState<string | null>(null);
   const [availableCourse, setAvailableCourse] = useState<any[]>([]);
-
+  const [newDestination, setNewDestination] = useState('');
+  const [newDestinationVisible, setNewDestinationVisible] = useState(false);
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [selectedDestination, setSelectedDestination] = useState<Destination>({
     name: '',
     id: '',
   });
-  const [availableDestination, setAvailableDestination] = useState<
-    Destination[]
-  >([]);
+  const [availableDestination, setAvailableDestination] = useState<any>([]);
   const [uniCampuses, setUniCampuses] = useState<Campus[]>([]);
 
   const {
@@ -207,6 +206,7 @@ const UniversityForm: React.FC = () => {
       ...data,
       universityImage: imageUrl,
       courses: courseArray,
+      destination: selectedDestination.name,
     };
 
     try {
@@ -235,6 +235,7 @@ const UniversityForm: React.FC = () => {
 
   // Get selected course IDs
   const selectedCourseIds = watchedCourses.map((course) => course.courses);
+  console.log(selectedCourseIds);
 
   return (
     <form
@@ -348,130 +349,147 @@ const UniversityForm: React.FC = () => {
       <h3 className="text-xl font-bold mt-7 py-8 m-0">
         {id ? 'Edit' : 'Add'} Courses
       </h3>
-      {courseFields.map((course, courseIndex) => (
-        <React.Fragment key={course.id}>
-          <Row gutter={[20, 20]} align="middle">
-            <Col xs={22} xl={11}>
-              <SCSelect
-                register={register}
-                control={control}
-                name={`courses[${courseIndex}].courses`}
-                label="Course"
-                error={errors?.courses?.[courseIndex]?.courses?.message}
-                allowClear
-                placeholder="Please select a course"
-                size="large"
-                options={availableCourse.map((ac: any) => ({
-                  label: ac.courseName,
-                  value: ac.id,
-                  disabled: selectedCourseIds.includes(ac.courses), // Disable selected courses
-                }))}
-              />
-            </Col>
-            <Col xs={2} xl={1}>
-              <Button
-                type="text"
-                style={{ color: 'red' }}
-                onClick={() => removeCourse(courseIndex)}
-                icon={
-                  <CloseOutlined
-                    onPointerEnterCapture={undefined}
-                    onPointerLeaveCapture={undefined}
-                  />
-                }
-              />
-            </Col>
-          </Row>
-          {watch(`courses.${courseIndex}.courses` as const) && (
-            <>
-              <h4 className="mt-4 text-xl font-bold">Financial Details</h4>
-              <Row gutter={[20, 20]}>
-                <Col xs={24} xl={12}>
-                  <SCInput
-                    register={register}
-                    name={`courses.${courseIndex}.tuitionFee`}
-                    control={control}
-                    label="Tuition Fee"
-                    error={errors?.courses?.[courseIndex]?.tuitionFee?.message}
-                    placeholder="Tuition Fee"
-                    size="large"
-                    required
-                    type="number"
-                  />
-                </Col>
-                <Col xs={24} xl={12}>
-                  <SCInput
-                    register={register}
-                    name={`courses.${courseIndex}.currency`}
-                    control={control}
-                    label="Currency"
-                    error={errors?.courses?.[courseIndex]?.currency?.message}
-                    placeholder="Currency"
-                    size="large"
-                    required
-                  />
-                </Col>
-              </Row>
-              <Row gutter={[20, 20]}>
-                <Col xs={24} xl={12}>
-                  <SCCheckbox
-                    register={register}
-                    name={`courses.${courseIndex}.financialAidAvailable`}
-                    control={control}
-                    label="Is Financial Aid Available?"
-                    error={
-                      errors?.courses?.[courseIndex]?.financialAidAvailable
-                        ?.message
-                    }
-                    options={[
-                      {
-                        value: 'yes',
-                        label: 'Yes',
-                        description: 'Financial aid is available',
-                      },
-                      {
-                        value: 'no',
-                        label: 'No',
-                        description: 'No financial aid available',
-                      },
-                    ]}
-                  />
-                </Col>
-                <Col xs={24} xl={12}>
-                  <SCCheckbox
-                    register={register}
-                    name={`courses.${courseIndex}.scholarshipDetails`}
-                    control={control}
-                    label="Is Scholarship Available?"
-                    error={
-                      errors?.courses?.[courseIndex]?.scholarshipDetails
-                        ?.message
-                    }
-                    options={[
-                      {
-                        value: 'yes',
-                        label: 'Yes',
-                        description: 'Scholarship is available',
-                      },
-                      {
-                        value: 'no',
-                        label: 'No',
-                        description: 'No scholarship available',
-                      },
-                    ]}
-                  />
-                </Col>
-              </Row>
-              <SubjectFields
-                courseIndex={courseIndex}
-                control={control}
-                register={register}
-                errors={errors}
-              />
-            </>
-          )}
-        </React.Fragment>
-      ))}
+      {courseFields.map((course, courseIndex) => {
+        // Get the currently selected course ID for this course field
+        const currentCourseId = watchedCourses[courseIndex]?.courses;
+
+        // Compute other selected course IDs by excluding the current course ID
+        const otherSelectedCourseIds = selectedCourseIds.filter(
+          (id, index) => index !== courseIndex
+        ); // Exclude the current dropdown's selection
+
+        console.log(otherSelectedCourseIds, 'selctec ourse');
+
+        // Debugging Logs
+
+        return (
+          <React.Fragment key={course.id}>
+            <Row gutter={[20, 20]} align="middle">
+              <Col xs={22} xl={11}>
+                <SCSelect
+                  register={register}
+                  control={control}
+                  name={`courses[${courseIndex}].courses`}
+                  label="Course"
+                  error={errors?.courses?.[courseIndex]?.courses?.message}
+                  allowClear
+                  placeholder="Please select a course"
+                  size="large"
+                  options={availableCourse.map((ac: any) => ({
+                    label: ac.courseName,
+                    value: ac.id,
+                    disabled: ac.id === selectedCourseIds,
+                  }))}
+                />
+              </Col>
+              <Col xs={2} xl={1}>
+                <Button
+                  type="text"
+                  style={{ color: 'red' }}
+                  onClick={() => removeCourse(courseIndex)}
+                  icon={
+                    <CloseOutlined
+                      onPointerEnterCapture={undefined}
+                      onPointerLeaveCapture={undefined}
+                    />
+                  }
+                />
+              </Col>
+            </Row>
+            {watch(`courses.${courseIndex}.courses` as const) && (
+              <>
+                <h4 className="mt-4 text-xl font-bold">Financial Details</h4>
+                <Row gutter={[20, 20]}>
+                  <Col xs={24} xl={12}>
+                    <SCInput
+                      register={register}
+                      name={`courses.${courseIndex}.tuitionFee`}
+                      control={control}
+                      label="Tuition Fee"
+                      error={
+                        errors?.courses?.[courseIndex]?.tuitionFee?.message
+                      }
+                      placeholder="Tuition Fee"
+                      size="large"
+                      required
+                      type="number"
+                    />
+                  </Col>
+                  <Col xs={24} xl={12}>
+                    <SCInput
+                      register={register}
+                      name={`courses.${courseIndex}.currency`}
+                      control={control}
+                      label="Currency"
+                      error={errors?.courses?.[courseIndex]?.currency?.message}
+                      placeholder="Currency"
+                      size="large"
+                      required
+                    />
+                  </Col>
+                </Row>
+                <Row gutter={[20, 20]}>
+                  <Col xs={24} xl={12}>
+                    <SCCheckbox
+                      register={register}
+                      name={`courses.${courseIndex}.financialAidAvailable`}
+                      control={control}
+                      label="Is Financial Aid Available?"
+                      error={
+                        errors?.courses?.[courseIndex]?.financialAidAvailable
+                          ?.message
+                      }
+                      options={[
+                        {
+                          value: 'yes',
+                          label: 'Yes',
+                          description: 'Financial aid is available',
+                        },
+                        {
+                          value: 'no',
+                          label: 'No',
+                          description: 'No financial aid available',
+                        },
+                      ]}
+                    />
+                  </Col>
+                  <Col xs={24} xl={12}>
+                    <SCCheckbox
+                      register={register}
+                      name={`courses.${courseIndex}.scholarshipDetails`}
+                      control={control}
+                      label="Is Scholarship Available?"
+                      error={
+                        errors?.courses?.[courseIndex]?.scholarshipDetails
+                          ?.message
+                      }
+                      options={[
+                        {
+                          value: 'yes',
+                          label: 'Yes',
+                          description: 'Scholarship is available',
+                        },
+                        {
+                          value: 'no',
+                          label: 'No',
+                          description: 'No scholarship available',
+                        },
+                      ]}
+                    />
+                  </Col>
+                </Row>
+                <SubjectFields
+                  courseIndex={courseIndex}
+                  control={control}
+                  register={register}
+                  errors={errors}
+                />
+              </>
+            )}
+          </React.Fragment>
+        );
+      })}
+
       <Button
         onClick={() =>
           appendCourse({
@@ -503,13 +521,55 @@ const UniversityForm: React.FC = () => {
             placeholder="Please select destination"
             size="large"
             notFoundContent={null}
-            options={availableDestination?.map((ad) => ({
-              label: ad.name,
-              value: ad.id,
-            }))}
-            value={selectedDestination?.name}
+            options={[
+              ...availableDestination?.map((ad:any) => ({
+                label: ad.name,
+                value: ad.id,
+              })),
+              { label: 'Add new destination...', value: 'new' }, // Option to add new destination
+            ]}
+            value={selectedDestination?.name || ''}
+            onChange={(value) => {
+              if (value === 'new') {
+                // Logic to open the input field for new destination
+                // You can manage the new destination state here
+                setNewDestinationVisible(true);
+              } else {
+                setSelectedDestination(
+                  availableDestination.find((ad:any) => ad.id === value)
+                );
+              }
+            }}
             required
           />
+
+          {newDestinationVisible && ( // Conditionally render the input for new destination
+            <div style={{ display: 'flex', flexWrap: 'nowrap', padding: 8 }}>
+              <Input
+                style={{ flex: 'auto' }}
+                value={newDestination}
+                onChange={(e) => setNewDestination(e.target.value)}
+                placeholder="Add new destination"
+              />
+              <Button
+                type="link"
+                onClick={() => {
+                  if (newDestination.trim()) {
+                    const newId = `new-${availableDestination.length + 1}`; // Generate a new ID
+                    setAvailableDestination((prev:any) => [
+                      ...prev,
+                      { id: newId, name: newDestination },
+                    ]);
+                    setSelectedDestination({ id: newId, name: newDestination });
+                    setNewDestination('');
+                    setNewDestinationVisible(false); // Hide the input field after adding
+                  }
+                }}
+              >
+                Add
+              </Button>
+            </div>
+          )}
         </Col>
       </Row>
       <Row>

@@ -223,7 +223,7 @@ const Subject = ({ searchParams }: any) => {
                           </p>
                         </div>
                         <Link
-                          href={`/course/details?course=${university.courses[0].slug}`}
+                          href={`/course/details/${university.courses[0].slug}/${university.slug}`}
                         >
                           <div>
                             <p className="flex text-center text-dark-blue font-bold text-base ">

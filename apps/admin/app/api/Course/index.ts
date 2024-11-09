@@ -53,9 +53,8 @@ export const updateCourse = async ( data : any) => {
     const token = await Cookies.get('accessToken');
     console.log(data, 'at from from');
 
-    const response = await axios.put(`${API_URL}/courses/update`, data, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await axios.put(`${API_URL}/courses/update`, data, 
+    );
 
     return response;
   } catch (error:any) {

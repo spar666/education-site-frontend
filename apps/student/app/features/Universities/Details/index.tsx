@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useEffect, useState, useMemo } from 'react';
 import {
   Breadcrumb,
@@ -10,17 +11,91 @@ import {
   List,
   Collapse,
 } from 'antd';
-import { MapPin, ChevronRight } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import MaxWidthWrapper from 'apps/student/components/MaxWidthWrapper';
 import Link from 'next/link';
 import { fetchUniversityBySlug } from 'apps/student/app/api/university';
 import { capitalizeFirstLetter } from 'libs/utils';
 import UniversityRankingCard from './RankingCard';
-import UniversityFinanceDetails from './Finances';
 import { renderImage } from 'libs/services/helper';
 import DetailBanner from 'apps/student/components/DetailBanner';
-import CustomSearch from 'apps/student/components/CustomSearch.tsx';
 import UniversityCampusesDetails from './Campuses';
+
+interface IFinanceDetail {
+  id: string;
+  tuitionFee: string;
+  currency: string;
+  financialAidAvailable: boolean;
+  scholarshipDetails: string;
+  createdAt: Date | null;
+  createdBy: string | null;
+  updatedAt: Date | null;
+  updatedBy: string | null;
+}
+
+interface IStudyLevel {
+  name: string;
+}
+
+interface ICourse {
+  id: string;
+  courseName: string;
+  slug: string;
+  description: string;
+  isFeatured: boolean;
+  createdAt: Date;
+  createdBy: string | null;
+  updatedAt: Date | null;
+  updatedBy: string | null;
+  deletedAt: Date | null;
+  deletedBy: string | null;
+  isActive: boolean;
+  isDelete: boolean;
+  studyLevel: IStudyLevel;
+  financeDetails: IFinanceDetail[];
+}
+
+interface ISubject {
+  id: string;
+  subjectName: string;
+  description: string;
+  isFeatured: boolean;
+  startDate: Date | null;
+  duration: string | null;
+  createdAt: Date | null;
+  createdBy: string | null;
+  updatedAt: Date | null;
+  updatedBy: string | null;
+  deletedAt: Date | null;
+  deletedBy: string | null;
+  isActive: boolean;
+  isDelete: boolean;
+}
+
+interface ICourseSubject {
+  id: string;
+  createdAt: Date | null;
+  createdBy: string | null;
+  updatedAt: Date | null;
+  updatedBy: string | null;
+  deletedAt: Date | null;
+  deletedBy: string | null;
+  isActive: boolean;
+  isDelete: boolean;
+  course: ICourse;
+  subject: ISubject;
+}
+
+interface ICampus {
+  id: string;
+  location: string;
+  email: string;
+  contact: string;
+  createdAt: Date | null;
+  createdBy: string | null;
+  updatedAt: Date | null;
+  updatedBy: string | null;
+}
 
 interface IUniversity {
   id: string;
@@ -43,35 +118,9 @@ interface IUniversity {
   deletedBy: string | null;
   isActive: boolean;
   isDelete: boolean;
-  financeDetails: {
-    id: string;
-    tuitionFee: string;
-    currency: string;
-    financialAidAvailable: boolean;
-    scholarshipDetails: string;
-    createdAt: Date | null;
-    createdBy: string | null;
-    updatedAt: Date | null;
-    updatedBy: string | null;
-  };
-  courses: {
-    id: string;
-    courseName: string;
-    slug: string;
-    description: string;
-    isFeatured: boolean;
-    createdAt: Date;
-    createdBy: string | null;
-    updatedAt: Date | null;
-    updatedBy: string | null;
-    deletedAt: Date | null;
-    deletedBy: string | null;
-    isActive: boolean;
-    isDelete: boolean;
-    studyLevel: {
-      name: string;
-    };
-  }[];
+  financeDetails: IFinanceDetail[]; // Optional: Global financial details
+  courseSubject: ICourseSubject[];
+  campuses: ICampus[];
 }
 
 const { TabPane } = Tabs;
@@ -79,12 +128,14 @@ const { Panel } = Collapse;
 
 const UniversityDetails = ({ searchParams }: any) => {
   const { uni } = searchParams;
-  const [universityDetails, setUniversityDetails] = useState<any>(null);
-  /* hii */
+  const [universityDetails, setUniversityDetails] =
+    useState<IUniversity | null>(null);
+
+  // Fetch university details on component mount or when 'uni' changes
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetchUniversityBySlug({ uni });
+        const response: IUniversity = await fetchUniversityBySlug({ uni });
         setUniversityDetails(response);
       } catch (error) {
         console.error('Failed to fetch university:', error);
@@ -93,27 +144,53 @@ const UniversityDetails = ({ searchParams }: any) => {
     fetchData();
   }, [uni]);
 
+  // Process courses and group them by study level
   const coursesTabs = useMemo(() => {
-    const studyLevelsMap = new Map();
-    universityDetails?.courses?.forEach((course: any) => {
-      const studyLevel = capitalizeFirstLetter(course.studyLevel.name);
+    if (!universityDetails?.courseSubject) return null;
+
+    // Map to group courses by study level
+    const studyLevelsMap = new Map<string, any[]>();
+
+    universityDetails.courseSubject.forEach((courseSubject: ICourseSubject) => {
+      const studyLevel = capitalizeFirstLetter(
+        courseSubject.course.studyLevel.name
+      );
+
+      // Initialize study level in map if not present
       if (!studyLevelsMap.has(studyLevel)) {
         studyLevelsMap.set(studyLevel, []);
       }
-      const coursesForStudyLevel = studyLevelsMap.get(studyLevel);
-      if (
-        !coursesForStudyLevel.some(
-          (c: any) => c.courseName === course.courseName
-        )
-      ) {
+
+      const coursesForStudyLevel: any = studyLevelsMap.get(studyLevel);
+
+      // Check if the course already exists in the study level
+      let existingCourse = coursesForStudyLevel.find(
+        (c: any) => c.courseName === courseSubject.course.courseName
+      );
+
+      if (existingCourse) {
+        // Avoid adding duplicate subjects
+        const subjectExists = existingCourse.universityCourseSubjects.some(
+          (sub: ISubject) => sub.id === courseSubject.subject.id
+        );
+        if (!subjectExists) {
+          existingCourse.universityCourseSubjects.push(courseSubject.subject);
+        }
+
+        // Optionally, merge financial details if they differ
+        // Assuming financial details are consistent per course
+      } else {
+        // If course doesn't exist, add it with the current subject and financial details
         coursesForStudyLevel.push({
-          courseName: course.courseName,
-          courseLink: `/course/details?university=${universityDetails.id}&course=${course.slug}`,
-          financeDetails: course.financeDetails,
-          universityCourseSubject: course.universityCourseSubject || [], // Ensure courseSubject is an array
+          courseName: courseSubject.course.courseName,
+          courseLink: `/course/details?university=${universityDetails.id}&course=${courseSubject.course.slug}`,
+          financeDetails: courseSubject.course.financeDetails,
+          universityCourseSubjects: [courseSubject.subject],
         });
       }
     });
+
+    // Generate Tab Panes for each study level
     return Array.from(studyLevelsMap).map(([studyLevel, courses], index) => (
       <TabPane
         key={index.toString()}
@@ -137,29 +214,25 @@ const UniversityDetails = ({ searchParams }: any) => {
                   }
                 >
                   <Collapse bordered={false} ghost>
+                    {/* Subjects Panel */}
                     <Panel
                       header={<h1 className="text-lg">Subjects</h1>}
                       key="1"
                     >
-                      {course?.universityCourseSubject &&
-                      course.universityCourseSubject.length > 0 ? (
+                      {course.universityCourseSubjects.length > 0 ? (
                         <ul className="pl-5 space-y-2">
-                          {course.universityCourseSubject.map(
-                            (subject: any, index: number) => (
+                          {course.universityCourseSubjects.map(
+                            (subject: ISubject) => (
                               <li
-                                key={index}
+                                key={subject.id}
                                 className="text-base text-gray-800"
                               >
-                                {subject.subject ? (
-                                  <Link
-                                    href={`/subject/${subject.subject.id}`}
-                                    className="text-sm"
-                                  >
-                                    {subject.subject.subjectName}
-                                  </Link>
-                                ) : (
-                                  'No Name'
-                                )}
+                                <Link
+                                  href={`/subject/${subject.id}`}
+                                  className="text-sm"
+                                >
+                                  {subject.subjectName}
+                                </Link>
                               </li>
                             )
                           )}
@@ -168,12 +241,14 @@ const UniversityDetails = ({ searchParams }: any) => {
                         <Empty description="No Subjects Available" />
                       )}
                     </Panel>
+
+                    {/* Financial Details Panel */}
                     <Panel
                       header={<h1 className="text-lg">Financial Details</h1>}
                       key="2"
                     >
                       {course.financeDetails.length > 0 ? (
-                        course.financeDetails.map((finance: any) => (
+                        course.financeDetails.map((finance: IFinanceDetail) => (
                           <Card key={finance.id} className="mb-2">
                             <p className="text-sm">
                               <strong>Tuition Fee:</strong> {finance.tuitionFee}{' '}
@@ -190,7 +265,7 @@ const UniversityDetails = ({ searchParams }: any) => {
                           </Card>
                         ))
                       ) : (
-                        <Empty description="No Data" />
+                        <Empty description="No Financial Details Available" />
                       )}
                     </Panel>
                   </Collapse>
@@ -202,7 +277,7 @@ const UniversityDetails = ({ searchParams }: any) => {
           <Empty
             description={
               <Typography.Text className="text-2xl">
-                No Courses found
+                No Courses Found
               </Typography.Text>
             }
           />
@@ -211,41 +286,48 @@ const UniversityDetails = ({ searchParams }: any) => {
     ));
   }, [universityDetails]);
 
-  function Component() {
+  // Component for the banner
+  function BannerComponent() {
     return (
       <section className="py-4">
-        <div className="flex flex-col text-black md:flex-row gap-6 justify-center md:justify-start  ">
+        <div className="flex flex-col text-black md:flex-row gap-6 justify-center md:justify-start">
           <div className="flex flex-col gap-3">
             <div>
               <h1 className="text-white font-bold text-2xl md:text-3xl">
                 {universityDetails?.universityName}
               </h1>
-              <h1 className="text-white ">
+              <h1 className="text-white">
                 {universityDetails?.universityAddress}
               </h1>
             </div>
 
-            <div className="flex gap-4 flex flex-col">
+            <div className="flex gap-4 flex-col">
               {universityDetails?.worldRanking && (
                 <span className="text-white">
-                  World Ranking: {universityDetails?.worldRanking}
+                  World Ranking: {universityDetails.worldRanking}
                 </span>
               )}
+              {/* Uncomment if country ranking is needed */}
               {/* {universityDetails?.countryRanking && (
                 <span className="text-white">
-                  Country Ranking: {universityDetails?.countryRanking}
+                  Country Ranking: {universityDetails.countryRanking}
                 </span>
-              )}  */}
+              )} */}
             </div>
           </div>
         </div>
       </section>
     );
   }
+
   return (
     <section className="mx-auto overflow-hidden">
-      <DetailBanner height="h-[350px]" component={<Component />} />
+      {/* Detail Banner */}
+      <DetailBanner height="h-[350px]" component={<BannerComponent />} />
+
+      {/* Main Content Wrapper */}
       <MaxWidthWrapper>
+        {/* Breadcrumb Navigation */}
         <section className="pb-5 pt-3 bg-white">
           <div className="px-5 sm:px-10 md:px-14 lg:px-24 mx-auto my-3">
             <Breadcrumb separator=">">
@@ -260,67 +342,38 @@ const UniversityDetails = ({ searchParams }: any) => {
           </div>
         </section>
 
-        <section className="px-5 sm:px-10 md:px-14 lg:px-24 bg-white f leading-1.5 flex items-start flex-col md:flex-row">
+        {/* Main Content Sections */}
+        <section className="px-5 sm:px-10 md:px-14 lg:px-24 bg-white leading-6 flex items-start flex-col md:flex-row">
+          {/* Left Section: University Overview and Courses */}
           <div className="w-full md:w-2/3 md:pr-20">
             {universityDetails ? (
               <>
-                {/* <section className="py-4">
-                <div className="flex flex-col text-black md:flex-row gap-6 justify-center md:justify-start  ">
-                  <div className="flex items-center justify-center border border-gray-900 w-10 h-10 md:w-40 md:h-40">
-                    {universityDetails.universityImage ? (
-                      <Image
-                        src={renderImage({
-                          imgPath: universityDetails.universityImage,
-                          size: 'md',
-                        })}
-                        alt="uniimages"
-                        height={100}
-                        width={100}
-                      />
-                    ) : (
-                      <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                    )}
-                  </div>
-                  <div className="flex flex-col gap-3">
-                    <h1 className="text-dark-blue font-bold text-2xl">
-                      {universityDetails?.universityName}
-                    </h1>
-                    <div className="flex flex-wrap items-center gap-4">
-                      <MapPin size={20} />
-                      <Typography.Text>
-                        {universityDetails?.universityAddress}
-                      </Typography.Text>
-                    </div>
-                    <div className="flex gap-4">
-                      <span className="text-dark-blue">
-                        World Ranking: {universityDetails?.worldRanking}
-                      </span>
-                      <span className="text-dark-blue">
-                        Country Ranking: {universityDetails?.countryRanking}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </section> */}
-
+                {/* University Overview */}
                 <section className="py-4 font-Open_Sans">
-                  <div className="bg-white  ">
+                  <div className="bg-white">
                     <h1 className="text-dark-blue font-bold text-2xl md:text-3xl">
                       University Overview
-                    </h1>{' '}
-                    <p className="text-base f leading-1.5 mt-5">
-                      {universityDetails?.description}
+                    </h1>
+                    <p className="text-base leading-6 mt-5">
+                      {universityDetails.description}
                     </p>
                   </div>
                 </section>
 
+                {/* Courses Section */}
                 <section className="py-4 font-Open_Sans">
-                  <div className="bg-white  ">
+                  <div className="bg-white">
                     <h1 className="text-dark-blue font-bold text-2xl md:text-3xl mb-5">
-                      Courses at {universityDetails?.universityName}
+                      Courses at {universityDetails.universityName}
                     </h1>
 
-                    <Tabs defaultActiveKey="1">{coursesTabs}</Tabs>
+                    {coursesTabs ? (
+                      <Tabs defaultActiveKey="1" type="card">
+                        {coursesTabs}
+                      </Tabs>
+                    ) : (
+                      <Empty description="No Courses Available" />
+                    )}
                   </div>
                 </section>
               </>
@@ -329,21 +382,24 @@ const UniversityDetails = ({ searchParams }: any) => {
             )}
           </div>
 
+          {/* Right Section: Rankings and Campuses */}
           <div className="w-full md:w-1/3">
+            {/* University Ranking */}
             <section className="py-4">
-              <div className="bg-white  ">
+              <div className="bg-white">
                 <h1 className="text-dark-blue font-bold text-2xl md:text-3xl">
                   University Ranking
                 </h1>
                 <UniversityRankingCard
                   worldRanking={universityDetails?.worldRanking}
-                  // countryRanking={universityDetails?.countryRanking}
+                  // countryRanking={universityDetails?.countryRanking} // Uncomment if needed
                 />
               </div>
             </section>
 
+            {/* Campuses */}
             <section className="py-4">
-              <div className="bg-white  ">
+              <div className="bg-white">
                 <h1 className="text-dark-blue font-bold text-2xl md:text-3xl">
                   Campuses
                 </h1>

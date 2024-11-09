@@ -15,10 +15,10 @@ const CourseSchema = object({
   }),
   levels: object({
     levelName: string()
-      ,
-    levelDescription: string()
-      ,
-    otherDescription: string().nullable(),
+    //   ,
+    // levelDescription: string()
+    //   ,
+    // otherDescription: string().nullable(),
   }),
   // subjects: array(object({
   //   subjectName: string(),

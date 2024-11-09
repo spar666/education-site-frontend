@@ -30,7 +30,6 @@ export const UniversityPage = () => {
         }
       } catch (error) {
         console.error('Failed to fetch universities:', error);
-        // Handle error, e.g., show a message to the user
       }
     };
 
@@ -53,33 +52,29 @@ export const UniversityPage = () => {
   };
 
   const handleViewAllClick = () => {
-    // Navigate to university page with the slug of the first country
     if (firstSlug) {
-      window.location.href = `/university?country=${firstSlug}`;
+      window.location.href = `/university/country/${firstSlug}`;
     }
   };
 
   const renderCountries = () => {
-    return destination.map((country, index) => (
-      // <div
-      //   key={index}
-      //   className={`w-full transform duration-200 ease-linear`}
-      //   data-carousel-item={index === 0 ? 'active' : ''}
-      // >
-      <Country
-        country={country.name}
-        slug={country.slug}
-        countryImage={getCountryImage(country.name)}
-      />
-      // </div>
-    ));
+    return destination
+      .slice(0, 4)
+      .map((country, index) => (
+        <Country
+          key={index}
+          country={country.name}
+          slug={country.slug}
+          countryImage={getCountryImage(country.name)}
+        />
+      ));
   };
 
   return (
-    <section className="my-5 ">
+    <section className="my-5">
       <MaxWidthWrapper>
         <div className="flex justify-center flex-col mb-12">
-          <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-center text-dark-blue ">
+          <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-center text-dark-blue">
             Where to Study? Checkout some of
           </h2>
           <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-center text-dark-blue">
@@ -87,16 +82,18 @@ export const UniversityPage = () => {
           </h2>
         </div>
 
-        <div className="relative  rounded-lg scrollbar-hidden">
-          <div className="card-grid">{renderCountries()}</div>
+        <div className="relative w-full mx-auto rounded-lg scrollbar-hidden">
+          {/* Set grid layout with 4 columns */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {renderCountries()}
+          </div>
         </div>
 
-        {/* View All Countries button (conditionally rendered) */}
         {destination.length > 0 && (
-          <div className="flex justify-center f">
+          <div className="flex justify-center">
             <button
               type="button"
-              className="w-full md:w-52 h-12 px-6 text-primary-blue hover:bg-[#bf9100]  bg-secondary-yellow flex justify-center items-center rounded mt-5  text-base font-bold"
+              className="w-full md:w-52 h-12 px-6 text-primary-blue hover:bg-[#bf9100] bg-secondary-yellow flex justify-center items-center rounded mt-5 text-base font-bold"
               onClick={handleViewAllClick}
             >
               View All Countries

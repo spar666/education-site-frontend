@@ -1,8 +1,7 @@
-'use client';
 import React, { useEffect, useState, ReactNode } from 'react';
 import { Button, Col, Row, notification, Select, Input } from 'antd';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   addCourse,
@@ -14,7 +13,7 @@ import CourseSchema from '../validation';
 import SCInput from 'apps/admin/components/SCForm/SCInput';
 import SCTextArea from 'apps/admin/components/SCForm/SCTextArea';
 import JTLoader from '../../../../../components/SCLoader';
-import SCSelect from 'apps/admin/components/SCForm/SCSelect';
+import { fetchStudyLevels } from 'apps/admin/app/api/studylevel';
 
 interface ICourse {
   courseName: string;
@@ -24,23 +23,28 @@ interface ICourse {
   };
   levels: {
     levelName: string;
-    levelDescription: string;
-    otherDescription: string;
   };
+}
+
+interface IStudyLevel {
+  name: string;
 }
 
 const initialCourseState: ICourse = {
   courseName: '',
   description: '',
-  category: {
-    courseCategory: '',
-  },
-  levels: { levelName: '', levelDescription: '', otherDescription: '' },
+  category: { courseCategory: '' },
+  levels: { levelName: '' },
 };
 
 interface CourseCategory {
   id?: string;
   courseCategory: string;
+}
+
+interface CourseLevel {
+  id?: string;
+  levelName: string;
 }
 
 interface CourseFormProps {
@@ -51,6 +55,9 @@ const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState<CourseCategory[]>([]);
   const [newCategory, setNewCategory] = useState('');
+  const [studyLevels, setStudyLevels] = useState<CourseLevel[]>([]);
+  const [newLevel, setNewLevel] = useState('');
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
@@ -61,7 +68,7 @@ const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
     control,
     formState: { errors },
     reset,
-  } = useForm({
+  } = useForm<any>({
     resolver: zodResolver(CourseSchema),
     defaultValues: initialCourseState,
   });
@@ -70,29 +77,36 @@ const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const categoriesData = await fetchCourseCategories();
+        const [categoriesData, levelData] = await Promise.all([
+          fetchCourseCategories(),
+          fetchStudyLevels(),
+        ]);
+
         setCategories(categoriesData);
+        setStudyLevels(
+          levelData.map((level: IStudyLevel) => ({
+            id: `${Date.now()}`,
+            levelName: level.name,
+          }))
+        );
 
         if (id) {
           const courseResponse = await fetchCoursesById({ id });
           reset({
-            courseName: courseResponse.courseName || '',
-            description: courseResponse.description || '',
+            courseName: courseResponse?.courseName || '',
+            description: courseResponse?.description || '',
             category: {
-              courseCategory: courseResponse.courseCategory.courseCategory,
+              courseCategory:
+                courseResponse?.courseCategory?.courseCategory || '',
             },
-            levels: {
-              levelName: courseResponse.studyLevel?.name || '',
-              levelDescription: courseResponse.studyLevel?.description || '',
-              otherDescription:
-                courseResponse.studyLevel?.otherDescription || '',
-            },
+            levels: courseResponse?.levels || initialCourseState.levels,
           });
-
-          setNewCategory(courseResponse.courseCategory.courseCategory);
+          setNewCategory(courseResponse?.courseCategory?.courseCategory || '');
+          setNewLevel(courseResponse?.studyLevel?.name || '');
         }
       } catch (error) {
         console.error('Error fetching data:', error);
+        notification.error({ message: 'Failed to fetch course data' });
       } finally {
         setLoading(false);
       }
@@ -101,31 +115,29 @@ const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
     fetchData();
   }, [id, reset]);
 
-  const onSubmit = async (data: ICourse) => {
+  const onSubmit = async (data: any) => {
+    console.log('clicking');
+    console.log(data, 'dattatat');
     setLoading(true);
     try {
       const updatedData = {
         ...data,
         id,
         category: newCategory ? { courseCategory: newCategory } : data.category,
+        levels: newLevel ? { levelName: newLevel } : data.levels,
       };
 
-      if (id) {
-        const response = await updateCourse(updatedData);
-        if (response.status === 200) {
-          router.push('/course');
-          notification.success({ message: response.data.message });
-        } else {
-          notification.warning({ message: response.data.message });
-        }
+      console.log(updatedData, 'updatedata');
+
+      const response = id
+        ? await updateCourse(updatedData)
+        : await addCourse({ data: updatedData });
+
+      if ([200, 201].includes(response.status)) {
+        router.push('/course');
+        notification.success({ message: response.data.message });
       } else {
-        const response = await addCourse({ data: updatedData });
-        if (response.status === 201) {
-          router.push('/course');
-          notification.success({ message: response.data.message });
-        } else {
-          notification.error({ message: response.data.createBlog.error() });
-        }
+        notification.warning({ message: response.data.message });
       }
     } catch (error: any) {
       notification.error({ message: error.message });
@@ -134,7 +146,25 @@ const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
     }
   };
 
-  const staticStudyLevels = ['Undergraduates', 'Postgradutes', 'Doctoral'];
+  const addNewCategory = () => {
+    if (newCategory.trim()) {
+      setCategories((prev) => [
+        ...prev,
+        { id: `${Date.now()}`, courseCategory: newCategory },
+      ]);
+      setNewCategory('');
+    }
+  };
+
+  const addNewLevel = () => {
+    if (newLevel.trim()) {
+      setStudyLevels((prev) => [
+        ...prev,
+        { id: `${Date.now()}`, levelName: newLevel },
+      ]);
+      setNewLevel(''); // Clear the input after adding
+    }
+  };
 
   return (
     <div style={{ maxHeight: '80vh', overflowY: 'auto' }}>
@@ -143,6 +173,7 @@ const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
         <h3 className="text-xl font-bold mt-7 py-8 m-0">
           {id ? 'Edit' : 'Create'} Course
         </h3>
+
         <Row gutter={[20, 20]}>
           <Col xs={24} xl={12}>
             <SCInput
@@ -158,6 +189,7 @@ const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
             />
           </Col>
         </Row>
+
         <Row gutter={[20, 20]}>
           <Col xs={24} xl={12}>
             <label htmlFor="category">Course Category</label>
@@ -165,7 +197,7 @@ const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
               style={{ width: '100%', marginBottom: '1rem' }}
               placeholder="Select a category"
               value={newCategory || initialCourseState.category.courseCategory}
-              onChange={(value) => setNewCategory(value as string)}
+              onChange={setNewCategory}
               dropdownRender={(menu) => (
                 <>
                   {menu}
@@ -178,25 +210,16 @@ const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
                       onChange={(e) => setNewCategory(e.target.value)}
                       placeholder="Add new category"
                     />
-                    <Button
-                      type="link"
-                      onClick={() => {
-                        setCategories([
-                          ...categories,
-                          { courseCategory: newCategory },
-                        ]);
-                        setNewCategory('');
-                      }}
-                    >
+                    <Button type="link" onClick={addNewCategory}>
                       Add
                     </Button>
                   </div>
                 </>
               )}
             >
-              {categories.map((category, index) => (
+              {categories.map((category) => (
                 <Select.Option
-                  key={category.id || `new-${index}`}
+                  key={category.id}
                   value={category.courseCategory}
                 >
                   {category.courseCategory}
@@ -204,10 +227,13 @@ const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
               ))}
             </Select>
             {errors?.category && (
-              <span className="error">{errors.category.message}</span>
+              <span className="error">
+                {errors.category.message?.toString()}
+              </span>
             )}
           </Col>
         </Row>
+
         <Row gutter={[20, 20]}>
           <Col xs={24} xl={12}>
             <SCTextArea
@@ -223,58 +249,47 @@ const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
             />
           </Col>
         </Row>
-        <h3 className="text-xl font-bold mt-2 py-2 m-0">Add Level</h3>
+
         <Row gutter={[20, 20]}>
-          <Col xs={12}>
-            <SCSelect
-              name="levels.levelName"
-              control={control}
-              options={staticStudyLevels.map((level) => ({
-                value: level,
-                label: level,
-              }))}
-              label="Select Level"
-              error={errors.levels?.levelName?.message}
-              parentClass="mb-4"
-              required={true}
-              register={register}
+          <Col xs={24} xl={12}>
+            <label htmlFor="studyLevl">Study Level</label>
+            <Select
+              style={{ width: '100%', marginBottom: '1rem' }}
               placeholder="Select a level"
-            />
-            {errors.levels?.levelName && (
-              <span className="error">{errors.levels.levelName.message}</span>
-            )}
+              value={newLevel}
+              onChange={setNewLevel}
+              dropdownRender={(menu) => (
+                <>
+                  {menu}
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexWrap: 'nowrap',
+                      padding: 8,
+                    }}
+                  >
+                    <Input
+                      style={{ flex: 'auto' }}
+                      value={newLevel}
+                      onChange={(e) => setNewLevel(e.target.value)}
+                      placeholder="Add new level"
+                    />
+                    <Button type="link" onClick={addNewLevel}>
+                      Add
+                    </Button>
+                  </div>
+                </>
+              )}
+            >
+              {studyLevels.map((level) => (
+                <Select.Option key={level.id} value={level.levelName}>
+                  {level.levelName}
+                </Select.Option>
+              ))}
+            </Select>
           </Col>
         </Row>
-        <Row gutter={[20, 20]}>
-          <Col xs={24} xl={12}>
-            <SCTextArea
-              register={register}
-              name="levels.levelDescription"
-              control={control}
-              label="Study Level Description"
-              parentClass="flex-grow mb-4"
-              error={errors?.description?.message}
-              placeholder="Study Level Description"
-              size="large"
-              required
-            />
-          </Col>
-        </Row>
-        <Row gutter={[20, 20]}>
-          <Col xs={24} xl={12}>
-            <SCTextArea
-              register={register}
-              name="levels.otherDescription"
-              control={control}
-              label="Study Level Other Description"
-              parentClass="flex-grow mb-4"
-              error={errors?.levels?.otherDescription?.message}
-              placeholder="Study Level Other Description"
-              size="large"
-              required
-            />
-          </Col>
-        </Row>
+
         <Row>
           <div className="flex mt-4">
             <Button
@@ -283,7 +298,7 @@ const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
               type="primary"
               size="large"
             >
-              Save Course
+              {id ? 'Update' : 'Create'}
             </Button>
           </div>
         </Row>

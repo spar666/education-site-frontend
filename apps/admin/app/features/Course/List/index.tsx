@@ -41,12 +41,13 @@ const ActionColumn = ({ id, onDelete }: any) => (
           />
         </Link>
 
-        {/* <DeleteOutlined
+        {/* Delete icon */}
+        <DeleteOutlined
           className="text-2xl text-red-500 mt-[-12px]"
+          onClick={() => onDelete(id)} // Triggers the delete function
           onPointerEnterCapture={undefined}
           onPointerLeaveCapture={undefined}
-          onClick={() => onDelete(id)}
-        /> */}
+        />
       </div>
     </Space>
   </>
@@ -130,7 +131,6 @@ function CourseList() {
       setLoading(true);
       try {
         const response = await fetchCourses();
-        console.log(response, 'from api');
         setCourse(response);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -186,48 +186,42 @@ function CourseList() {
         </span>
       ),
     },
-
     {
       title: 'Published',
       dataIndex: 'isActive',
       key: 'isActive',
       align: 'center',
       sorter: (a, b) => a.isActive - b.isActive,
-      render: (text, record) => {
-        return (
-          <ActiveColumn
-            id={record.id}
-            isActive={record.isActive}
-            onActiveToggle={(id) => {
-              updateCourseStatus(id)
-                .then((response) => {
-                  // Handle success response
-                  if (response?.status === 200) {
-                    notification.success({
-                      message: response.data.message,
-                    });
-                  } else {
-                    notification.error({
-                      message: response.data.message,
-                    });
-                  }
-                  // Perform any additional actions like refetching
-                  window.location.reload();
-                })
-                .catch((error) => {
-                  // Handle error
-                  notification.error({ message: error.message });
-                });
-            }}
-          />
-        );
-      },
+      render: (text, record) => (
+        <ActiveColumn
+          id={record.id}
+          isActive={record.isActive}
+          onActiveToggle={(id) => {
+            updateCourseStatus(id)
+              .then((response) => {
+                if (response?.status === 200) {
+                  notification.success({
+                    message: response.data.message,
+                  });
+                } else {
+                  notification.error({
+                    message: response.data.message,
+                  });
+                }
+                window.location.reload();
+              })
+              .catch((error) => {
+                notification.error({ message: error.message });
+              });
+          }}
+        />
+      ),
     },
     {
       title: 'Featured',
       dataIndex: 'isFeatured',
       key: 'isFeatured',
-      align: 'center', // <-- AlignType
+      align: 'center',
       render: (text, record) => (
         <FeatureColumn id={record.key} featured={record.isFeatured} />
       ),
@@ -236,81 +230,36 @@ function CourseList() {
       title: 'Action',
       dataIndex: 'action',
       key: 'action',
-      align: 'center', // <-- AlignType
+      align: 'center',
       render: (text, record) => (
-        <ActionColumn
-          id={record?.id}
-          record={record}
-          name={record?.courseName}
-          onDelete={handleDelete}
-        />
+        <ActionColumn id={record?.id} onDelete={handleDelete} />
       ),
     },
   ];
 
-  // const changeFilter =
-  //   (filterType) =>
-  //   (value = null) => {
-  //     router.push({
-  //       pathname: '/blogs',
-  //       query: {
-  //         ...router.query,
-  //         page: 1,
-  //         [filterType]: value,
-  //       },
-  //     });
-  //   };
-
   return (
     <AdminLayout title="Course">
       <Table
-        title={() => {
-          return (
-            <>
-              <div className="flex items-start justify-between my-3">
-                <h3 className="text-xl font-bold">Courses</h3>
-
-                <div className="flex justify-between  items-center">
-                  <Button
-                    type="primary"
-                    onClick={() => router.push('/course/create')}
-                    id="addGuide"
-                    size={'large'}
-                  >
-                    Add New Course
-                  </Button>
-                </div>
+        title={() => (
+          <>
+            <div className="flex items-start justify-between my-3">
+              <h3 className="text-xl font-bold">Courses</h3>
+              <div className="flex justify-between items-center">
+                <Button
+                  type="primary"
+                  onClick={() => router.push('/course/create')}
+                  size="large"
+                >
+                  Add New Course
+                </Button>
               </div>
-              <div className="flex items-center gap-3 flex-wrap">
-                <div>
-                  <div className="font-bold">Search</div>
-                  {/* <DebounceInput
-                    className="w-[250px] input-h-45"
-                    // text={search + ""}
-                    placeholder="Search Course"
-                    prefix={<SearchOutlined className="mx-2" />}
-                    // callback={changeFilter('search')}
-                    callback=""
-                  /> */}
-                </div>
-              </div>
-            </>
-          );
-        }}
+            </div>
+          </>
+        )}
         columns={columns}
         dataSource={course}
-        // pagination={{
-        //   current: Number(page),
-        //   hideOnSinglePage: true,
-        //   showSizeChanger: false,
-        //   total: 10,
-        // }}
-        // onChange={(pagination) => {
-        //   router.push(`/blogs?page=${pagination.current}`, undefined, {
-        //     shallow: true,
-        //   });
-        // }}
       />
+
       {/* Delete Confirmation Modal */}
       <Modal
         title="Confirm Delete"
