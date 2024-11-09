@@ -53,3 +53,29 @@ export const fetchUniversityById = async ({ id }: any) => {
     throw new Error('Failed to fetch courses');
   }
 };
+
+export const updateUniversityStatus = async (id: string) => {
+  try {
+    const token = Cookies.get('accessToken');
+
+    const response = await axios.put(`${API_URL}/university/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return response;
+  } catch (error: any) {
+    throw new Error(`Failed to update university: ${error.message}`);
+  }
+};
+
+export const deleteUniversity = async (id: string) => {
+  try {
+    const token = Cookies.get('accessToken');
+
+    const response = await axios.delete(`${API_URL}/university/${id}`);
+
+    return response;
+  } catch (error: any) {
+    throw new Error(`Failed to update university: ${error.message}`);
+  }
+};

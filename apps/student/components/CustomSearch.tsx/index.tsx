@@ -2,7 +2,10 @@ import { Search } from 'lucide-react';
 import MaxWidthWrapper from '../MaxWidthWrapper';
 import { useEffect, useState } from 'react';
 import { fetchStudyLevels } from 'apps/student/app/api/studyLevel';
-import { fetchCourses } from 'apps/student/app/api/courses';
+import {
+  fetchCourseCategories,
+  fetchCourses,
+} from 'apps/student/app/api/courses';
 import { fetchAllUniversityByDestination } from 'apps/student/app/api/studyDestination';
 import { useRouter } from 'next/navigation';
 
@@ -27,7 +30,7 @@ interface Location {
 const CustomSearch = () => {
   const router = useRouter();
   const [levels, setLevels] = useState<Level[]>([]);
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [courses, setCourses] = useState<any[]>([]);
   const [locations, setLocations] = useState<Location[]>([]);
 
   useEffect(() => {
@@ -35,7 +38,7 @@ const CustomSearch = () => {
       .then((data) => setLevels(data))
       .catch((error) => console.error('Error fetching levels:', error));
 
-    fetchCourses()
+    fetchCourseCategories()
       .then((data) => setCourses(data))
       .catch((error) => console.error('Error fetching courses:', error));
 
@@ -77,10 +80,10 @@ const CustomSearch = () => {
             name="course"
             className="w-full md:w-auto h-10 px-2 md:px-4 bg-white rounded-lg text-black mb-2 md:mb-0"
           >
-            <option value="">Select Course</option>
+            <option value="">Select Course Category</option>
             {courses.map((course) => (
               <option key={course?.id} value={course?.id}>
-                {course?.courseName}
+                {course?.courseCategory}
               </option>
             ))}
           </select>
@@ -97,10 +100,10 @@ const CustomSearch = () => {
           </select>
           <button
             type="button"
-            className="w-full md:w-auto h-10 px-2 md:px-4 bg-dark-blue text-white flex items-center justify-center hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
+            className="w-full md:w-auto h-10 px-2 md:px-4 bg-dark-blue text-white flex items-center justify-center "
             onClick={handleSearch}
           >
-            <Search className="h-full text-white text-bold" />
+            Search
           </button>
         </div>
       </div>

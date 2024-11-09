@@ -53,12 +53,49 @@ export const updateCourse = async ( data : any) => {
     const token = await Cookies.get('accessToken');
     console.log(data, 'at from from');
 
-    const response = await axios.put(`${API_URL}/courses/update`, data, {
+    const response = await axios.put(`${API_URL}/courses/update`, data, 
+    );
+
+    return response;
+  } catch (error:any) {
+    throw new Error(`Failed to add blog: ${error.message}`);
+  }
+};
+
+export const deleteCourse = async (id:string) => {
+  try {
+    const token = Cookies.get('accessToken');
+
+    const response = await axios.delete(`${API_URL}/courses/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
     return response;
   } catch (error:any) {
-    throw new Error(`Failed to add blog: ${error.message}`);
+    throw new Error(`Failed to delete course: ${error.message}`);
+  }
+};
+
+export const updateCourseStatus = async (id:string) => {
+  try {
+    const token = Cookies.get('accessToken');
+
+    const response = await axios.put(`${API_URL}/courses/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return response;
+  } catch (error:any) {
+    throw new Error(`Failed to update course: ${error.message}`);
+  }
+};
+
+export const fetchCourseCategories = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/courses/categories/all`);
+    return response.data.data;
+  } catch (error: any) {
+    console.error('Failed to fetch course categories:', error);
+    throw new Error('Failed to fetch course categories');
   }
 };

@@ -2,28 +2,34 @@
 import { useEffect, useState } from 'react';
 import MaxWidthWrapper from 'apps/student/components/MaxWidthWrapper';
 import { ArrowDownToLine, CheckCircle, ChevronRight, Leaf } from 'lucide-react';
-import { fetchCourses } from '../../api/courses';
+import { fetchCourses, fetchCategoriesWithCourses } from '../../api/courses';
 import Link from 'next/link';
 
-interface IPopularCourse {
+interface ICourse {
   id: string;
   courseName: string;
   slug: string;
-  subject: { id: string; subjectName: string }[];
+}
+
+interface ICourseCategory {
+  id: string;
+  courseCategory: string;
+  courses: ICourse[];
 }
 
 export const FeaturedCourse = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [courses, setCourses] = useState<IPopularCourse[]>([]);
+  const [courseCategories, setCourseCategories] = useState<ICourseCategory[]>(
+    []
+  );
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function fetchTopCourses() {
       setLoading(true);
       try {
-        const response = await fetchCourses();
+        const response = await fetchCategoriesWithCourses();
         console.log(response, 'from api');
-        setCourses(response);
+        setCourseCategories(response);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -34,39 +40,44 @@ export const FeaturedCourse = () => {
     fetchTopCourses();
   }, []);
 
-  const handleSlideChange = ({ direction }: any) => {};
-
   return (
-    <section className="m-5 font-[quicksand]">
-      <MaxWidthWrapper className="py-5 lg:py-10">
-        <div className="flex justify-center">
-          <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-center text-dark-blue">
-            What to Study? Checkout some of popular courses
+    <section className="my-5 ">
+      <MaxWidthWrapper className="pb-5 lg:pb-10">
+        <div className="flex justify-center flex-col">
+          <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-center text-dark-blue">
+            What to Study? Checkout some of
+          </h2>
+          <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-center text-dark-blue">
+            popular courses
           </h2>
         </div>
-        <div className="mt-5  lg:mt-10 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-x-8">
-          {courses.slice(0, 3).map((course) => (
+        <div className="mt-5  lg:mt-10 card-grid">
+          {courseCategories.slice(0, 3).map((category) => (
             <div
-              key={course?.id}
-              className="bg-white shadow-lg rounded-lg overflow-hidden"
+              key={category?.id}
+              className="bg-dark-blue shadow-lg rounded-lg overflow-hidden  max-w-[350px]"
             >
-              <div className="p-4">
-                <h3 className="text-xl font-bold text-gray-900 mb-2 font-['Open_Sans'] ">
-                  {course?.courseName}
+              <div className="p-4 h-72">
+                <h3 className="text-xl font-bold text-gray-900 mb-2 f text-white">
+                  {category.courseCategory}
                 </h3>
-                <hr className="w-full border-t border-blue-500 mb-4 mx-auto" />
+                <hr className="w-full border-t-2 border-[#e7b416] mb-4 mx-auto" />
 
-                <ul className="text-sm text-muted-foreground">
-                  {course.subject.length > 0 ? (
-                    course.subject.slice(0, 3).map((sub, index) => (
-                      <Link href={`/course/details?course=${course?.slug}`}>
+                <ul className="text-sm text-muted-foreground text-white">
+                  {category.courses.length > 0 ? (
+                    category.courses.slice(0, 3).map((course, index) => (
+                      <Link
+                        href={`/course/details/${encodeURIComponent(
+                          course?.slug
+                        )}`}
+                      >
                         <li
                           key={index}
-                          className="flex items-center gap-2 font-['Open_Sans']"
+                          className="flex items-center gap-3 mt-1 f"
                         >
-                          <a className="flex items-center gap-2">
+                          <a className="flex items-center gap-2 text-base">
                             <ChevronRight size={16} />
-                            {sub.subjectName}
+                            {course.courseName}
                           </a>
                         </li>
                       </Link>
@@ -80,7 +91,7 @@ export const FeaturedCourse = () => {
           ))}
         </div>
         {/* {courses.length > 0 && (
-          <div className="flex justify-center font-['Open_Sans']">
+          <div className="flex justify-center f">
             <Link href={`/course/details?course=${courses[0]?.slug}`}>
               <button
                 type="button"

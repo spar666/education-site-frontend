@@ -1,18 +1,22 @@
 'use client';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Row, Col, Select, Button, Input, Spin } from 'antd';
-import { Award, DollarSign, Filter, TrendingUp, X } from 'lucide-react';
+import { DollarSign, Filter, TrendingUp, Award } from 'lucide-react';
 import { search } from '../../api/search';
+import { fetchCourseCategories } from '../../api/courses';
 import { renderImage } from 'libs/services/helper';
 import Image from 'next/image';
 import Link from 'next/link';
+
+const { Option } = Select;
 
 const Search = ({ searchParams }: any) => {
   const { location, level, course } = searchParams;
   const [universities, setUniversities] = useState([]);
   const [rankingOrder, setRankingOrder] = useState<'ASC' | 'DESC'>('DESC');
   const [feesOrder, setFeesOrder] = useState<'ASC' | 'DESC'>('DESC');
-  const [scholarshipOrder, setScholarshipOrder] = useState<'yes' | 'no'>('no');
+  const [categoryOrder, setCategoryOrder] = useState<string>('');
+  const [categories, setCategories] = useState([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -25,7 +29,7 @@ const Search = ({ searchParams }: any) => {
         location,
         rankingOrder,
         feesOrder,
-        scholarshipOrder,
+        categoryOrder,
       });
       setUniversities(response);
       setError(null);
@@ -39,7 +43,19 @@ const Search = ({ searchParams }: any) => {
 
   useEffect(() => {
     fetchData();
-  }, [course, level, location, rankingOrder, feesOrder, scholarshipOrder]);
+  }, [course, level, location, rankingOrder, feesOrder, categoryOrder]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetchCourseCategories();
+        setCategories(response);
+      } catch (error) {
+        console.error('Failed to fetch course categories:', error);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const handleRankingOrderChange = async (value: 'ASC' | 'DESC') => {
     setRankingOrder(value);
@@ -51,8 +67,8 @@ const Search = ({ searchParams }: any) => {
     await fetchData();
   };
 
-  const handleScholarshipOrderChange = async (value: 'yes' | 'no') => {
-    setScholarshipOrder(value);
+  const handleCategoryOrderChange = async (value: string) => {
+    setCategoryOrder(value);
     await fetchData();
   };
 
@@ -66,7 +82,7 @@ const Search = ({ searchParams }: any) => {
       <section className="container py-5 bg-gray-50 mx-auto">
         <Row gutter={[16, 16]}>
           <Col xs={24} lg={18}>
-            <div className="flex  flex-wrap gap-4 mx-auto md:gap-6 font-bold justify-center md:justify-start">
+            <div className="flex flex-wrap gap-4 mx-auto md:gap-6 font-bold justify-center md:justify-start">
               <Filter className="h-30 mt-1.5" />
               <div className="relative">
                 <Input
@@ -83,14 +99,11 @@ const Search = ({ searchParams }: any) => {
                 <Select
                   defaultValue={rankingOrder}
                   onChange={handleRankingOrderChange}
+                  placeholder="Filter By Ranking"
                   className="absolute inset-0 opacity-0"
                 >
-                  <Select.Option value="ASC">
-                    Ranking: Low to High
-                  </Select.Option>
-                  <Select.Option value="DESC">
-                    Ranking: High to Low
-                  </Select.Option>
+                  <Option value="ASC">Ranking: Low to High</Option>
+                  <Option value="DESC">Ranking: High to Low</Option>
                 </Select>
               </div>
               <div className="relative">
@@ -108,31 +121,37 @@ const Search = ({ searchParams }: any) => {
                 <Select
                   defaultValue={feesOrder}
                   onChange={handleFeesOrderChange}
+                  placeholder="Filter By Fees"
                   className="absolute inset-0 opacity-0"
                 >
-                  <Select.Option value="ASC">Fees: Low to High</Select.Option>
-                  <Select.Option value="DESC">Fees: High to Low</Select.Option>
+                  <Option value="ASC">Fees: Low to High</Option>
+                  <Option value="DESC">Fees: High to Low</Option>
                 </Select>
               </div>
               <div className="relative">
                 <Input
                   prefix={<Award className="h-4 w-4 mr-2" />}
-                  placeholder="Filter By Scholarship"
+                  placeholder="Filter By Course Category"
                   className="rounded-md px-2 py-1 mr-2"
                   value={
-                    scholarshipOrder === 'yes'
-                      ? 'Scholarship: yes'
-                      : 'Scholarship: No'
+                    categoryOrder
+                      ? `Category: ${categoryOrder}`
+                      : 'Filter By Course Category'
                   }
                   readOnly
                 />
                 <Select
-                  defaultValue={scholarshipOrder}
-                  onChange={handleScholarshipOrderChange}
+                  defaultValue={categoryOrder}
+                  onChange={handleCategoryOrderChange}
+                  placeholder="Filter By Course Category"
                   className="absolute inset-0 opacity-0"
                 >
-                  <Select.Option value="yes">Scholarship: yes</Select.Option>
-                  <Select.Option value="no">Scholarship: no</Select.Option>
+                  <Option value="">All Categories</Option>
+                  {categories.map((category: any) => (
+                    <Option key={category.id} value={category.courseCategory}>
+                      {category.courseCategory}
+                    </Option>
+                  ))}
                 </Select>
               </div>
             </div>
@@ -204,45 +223,6 @@ const UniversityCard = ({ university }: any) => {
           </div>
         </div>
       </Link>
-    </div>
-  );
-};
-
-const FilterInput: React.FC<any> = ({ icon, placeholder, order, onChange }) => {
-  return (
-    <div className="relative text-dark-blue ">
-      <Input
-        prefix={icon}
-        placeholder={placeholder}
-        className="rounded-md px-2 py-1 mr-2 text-dark-blue"
-        value={
-          order === 'ASC' || order === 'DESC'
-            ? order === 'ASC'
-              ? 'Low to High'
-              : 'High to Low'
-            : order === 'yes'
-            ? 'yes'
-            : 'no'
-        }
-        readOnly
-      />
-      <Select
-        defaultValue={order}
-        onChange={(value: 'ASC' | 'DESC' | 'yes' | 'no') => onChange(value)}
-        className="absolute inset-0 opacity-0"
-      >
-        {order === 'ASC' || order === 'DESC' ? (
-          <>
-            <Select.Option value="ASC">Low to High</Select.Option>
-            <Select.Option value="DESC">High to Low</Select.Option>
-          </>
-        ) : (
-          <>
-            <Select.Option value="yes">yes</Select.Option>
-            <Select.Option value="no">no</Select.Option>
-          </>
-        )}
-      </Select>
     </div>
   );
 };

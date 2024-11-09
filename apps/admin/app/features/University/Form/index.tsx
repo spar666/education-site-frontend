@@ -1,5 +1,4 @@
 'use client';
-import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 import AdminLayout from 'apps/admin/components/SCLayout_v2';
 import UniversityForm from './components/university';

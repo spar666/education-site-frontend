@@ -1,4 +1,4 @@
-import { object, string, array } from 'zod';
+import { object, string, enum as zEnum } from 'zod';
 
 const UserSchema = object({
   firstName: string()
@@ -22,6 +22,7 @@ const UserSchema = object({
     .trim(),
   dateOfBirth: string().nonempty({ message: 'Date of Birth is required' }).trim(),
   gender: string().nonempty({ message: 'Gender is required' }).trim(),
+  role: zEnum(['admin', 'user', 'manager']).optional(), // Correctly define the role
 });
 
 export default UserSchema;

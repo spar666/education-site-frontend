@@ -1,23 +1,52 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Button, Space, Table } from 'antd';
+import { Button, Popconfirm, Space, Switch, Table, notification } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
-import { EditTwoTone, VerifiedOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  EditTwoTone,
+  QuestionCircleOutlined,
+  VerifiedOutlined,
+} from '@ant-design/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import AdminLayout from 'apps/admin/components/SCLayout_v2';
-import { fetchUniversity } from 'apps/admin/app/api/University';
+import {
+  fetchUniversity,
+  updateUniversityStatus,
+  deleteUniversity, // Assuming you have this delete function
+} from 'apps/admin/app/api/University';
 
-const ActionColumn = ({ id }: { id: string }) => (
-  <Space size="middle" className="test">
-    <Link href={`/blogs/edit/${id}`} passHref>
-      <EditTwoTone
-        className="text-2xl"
-        onPointerEnterCapture={undefined}
-        onPointerLeaveCapture={undefined}
-      />
-    </Link>
-  </Space>
+const ActionColumn = ({ id, onDelete }: any) => (
+  <>
+    <Space size={[16, 16]} className="test">
+      <div className="flex gap-5 items-center">
+        <Link href={`/university/edit?id=${id}`} passHref>
+          <EditTwoTone
+            className="text-2xl"
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
+          />
+        </Link>
+
+        <DeleteOutlined
+          className="text-2xl text-red-500 mt-[-12px]"
+          onPointerEnterCapture={undefined}
+          onPointerLeaveCapture={undefined}
+          onClick={() => {
+            onDelete(id).catch((error: any) => {
+              // Show notification if delete fails due to dependency
+              notification.error({
+                message: 'Unable to delete',
+                description:
+                  'This item cannot be deleted because it is referenced by other records.',
+              });
+            });
+          }}
+        />
+      </div>
+    </Space>
+  </>
 );
 
 function UniversityList() {
@@ -41,19 +70,57 @@ function UniversityList() {
     fetchAllUniversities();
   }, []);
 
-  const ActionColumn = ({ record }: { record: any }) => {
-    console.log(record, 'rec');
-    const { id } = record || {};
+  const handleDelete = async (id: string) => {
+    try {
+      // Call your delete API (make sure it throws an error on failure)
+      const response = await deleteUniversity(id);
+      if (response.status === 200) {
+        notification.success({
+          message: 'University deleted successfully!',
+        });
+        // Optionally reload data
+        fetchUniversity();
+      } else {
+        throw new Error('Unable to delete');
+      }
+    } catch (error) {
+      throw new Error('Failed to delete due to dependency');
+    }
+  };
+
+  const ActiveColumn = ({
+    id,
+    isActive,
+    onActiveToggle,
+  }: {
+    id: string;
+    isActive: boolean;
+    onActiveToggle: (id: any) => void;
+  }) => {
     return (
-      <Space size="middle" className="test">
-        <Link href={`/university/edit?id=${id}`} passHref>
-          <EditTwoTone
-            className="text-2xl"
+      <Popconfirm
+        id="popConfirm"
+        title={`Are you sure you want to ${
+          isActive ? 'Unpublish' : 'Publish'
+        } this item?`}
+        icon={
+          <QuestionCircleOutlined
+            style={{ color: 'red' }}
             onPointerEnterCapture={undefined}
             onPointerLeaveCapture={undefined}
           />
-        </Link>
-      </Space>
+        }
+        onConfirm={() => onActiveToggle(id)}
+        okText="Yes"
+      >
+        <Space size="middle">
+          <Switch
+            checked={isActive}
+            style={{ backgroundColor: isActive ? '#53C31B' : undefined }}
+            id="publishSwitch"
+          />
+        </Space>
+      </Popconfirm>
     );
   };
 
@@ -74,26 +141,49 @@ function UniversityList() {
       key: 'universityEmail',
     },
     {
-      title: 'Contact Number',
-      dataIndex: 'universityContactNumber',
-      key: 'universityContactNumber',
+      title: 'Published',
+      dataIndex: 'isActive',
+      key: 'isActive',
+      align: 'center',
+      sorter: (a, b) => a.isActive - b.isActive,
+      render: (text, record) => {
+        return (
+          <ActiveColumn
+            id={record.key}
+            isActive={record.isActive}
+            onActiveToggle={(id) => {
+              updateUniversityStatus(id)
+                .then((response) => {
+                  // Handle success response
+                  if (response?.status === 200) {
+                    notification.success({
+                      message: response.data.message,
+                    });
+                  } else {
+                    notification.error({
+                      message: response.data.message,
+                    });
+                  }
+                  // Perform any additional actions like refetching
+                  window.location.reload();
+                })
+                .catch((error) => {
+                  // Handle error
+                  notification.error({ message: error.message });
+                });
+            }}
+          />
+        );
+      },
     },
     {
-      title: 'World Ranking',
-      dataIndex: 'worldRanking',
-      key: 'worldRanking',
-    },
-    {
-      title: 'Country Ranking',
-      dataIndex: 'countryRanking',
-      key: 'countryRanking',
-    },
-    {
-      title: 'Edit',
+      title: 'Action',
       dataIndex: 'action',
       key: 'action',
-      align: 'center',
-      render: (text, record) => <ActionColumn record={record} />,
+      align: 'center', // <-- AlignType
+      render: (text, record) => (
+        <ActionColumn id={record?.id} onDelete={handleDelete} />
+      ),
     },
   ];
 
@@ -121,14 +211,6 @@ function UniversityList() {
               <div className="flex items-center gap-3 flex-wrap">
                 <div>
                   <div className="font-bold">Search</div>
-                  {/* <DebounceInput
-                    className="w-[250px] input-h-45"
-                    // text={search + ""}
-                    placeholder="Search Course"
-                    prefix={<SearchOutlined className="mx-2" />}
-                    // callback={changeFilter('search')}
-                    callback=""
-                  /> */}
                 </div>
               </div>
             </>

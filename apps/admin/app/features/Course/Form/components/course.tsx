@@ -1,64 +1,63 @@
-'use client';
-import React, { useEffect, useState, lazy, Suspense, ReactNode } from 'react';
-import { Button, Col, Row, notification } from 'antd';
+import React, { useEffect, useState, ReactNode } from 'react';
+import { Button, Col, Row, notification, Select, Input } from 'antd';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { quillValidate } from 'apps/admin/helper/quillValidate';
-import StudyLevelForm from './Level';
 import {
   addCourse,
   fetchCoursesById,
   updateCourse,
+  fetchCourseCategories,
 } from 'apps/admin/app/api/Course';
 import CourseSchema from '../validation';
-import SCSelect from 'apps/admin/components/SCForm/SCSelect';
+import SCInput from 'apps/admin/components/SCForm/SCInput';
+import SCTextArea from 'apps/admin/components/SCForm/SCTextArea';
+import JTLoader from '../../../../../components/SCLoader';
 import { fetchStudyLevels } from 'apps/admin/app/api/studylevel';
 
 interface ICourse {
   courseName: string;
   description: string;
+  category: {
+    courseCategory: string;
+  };
   levels: {
     levelName: string;
-    levelDescription: string;
-    otherDescription: string;
   };
-  subjects: {
-    subjectName: string;
-    description: string;
-    otherDescription: string;
-  }[];
+}
+
+interface IStudyLevel {
+  name: string;
 }
 
 const initialCourseState: ICourse = {
   courseName: '',
   description: '',
-  levels: { levelName: '', levelDescription: '', otherDescription: '' },
-  subjects: [{ subjectName: '', description: '', otherDescription: '' }],
+  category: { courseCategory: '' },
+  levels: { levelName: '' },
 };
 
-// Lazy-loaded component imports
-const JTLoader = lazy(() => import('../../../../../components/SCLoader'));
+interface CourseCategory {
+  id?: string;
+  courseCategory: string;
+}
 
-const SCTextArea = lazy(
-  () => import('../../../../../components/SCForm/SCTextArea')
-);
-const SCInput = lazy(() => import('../../../../../components/SCForm/SCInput'));
-
-interface StudyLevel {
-  id: string;
-  name: string;
-  slug: string;
-  description: string;
+interface CourseLevel {
+  id?: string;
+  levelName: string;
 }
 
 interface CourseFormProps {
   children: ReactNode;
 }
 
-function CourseForm({ children }: CourseFormProps) {
+const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
   const [loading, setLoading] = useState(false);
-  const [studyLevels, setStudyLevels] = useState<StudyLevel[]>([]);
+  const [categories, setCategories] = useState<CourseCategory[]>([]);
+  const [newCategory, setNewCategory] = useState('');
+  const [studyLevels, setStudyLevels] = useState<CourseLevel[]>([]);
+  const [newLevel, setNewLevel] = useState('');
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
@@ -68,304 +67,244 @@ function CourseForm({ children }: CourseFormProps) {
     handleSubmit,
     control,
     formState: { errors },
-    setError,
     reset,
-  } = useForm({
+  } = useForm<any>({
     resolver: zodResolver(CourseSchema),
     defaultValues: initialCourseState,
   });
 
-  const {
-    fields: subjectFields,
-    append: appendSubject,
-    remove: removeSubject,
-  } = useFieldArray({
-    control,
-    name: 'subjects',
-  });
-
-  const fetchAllCourseById = async () => {
-    setLoading(true);
-    try {
-      const response = await fetchCoursesById({ id });
-      console.log('Response:', response);
-
-      reset({
-        courseName: response.courseName,
-        description: response.description,
-        levels: {
-          levelName: response.studyLevel?.name,
-          levelDescription: response.studyLevel?.description,
-          otherDescription: response.studyLevel?.otherDescription,
-        },
-        subjects:
-          response.subject?.map(({ subject }: any) => ({
-            subjectName: subject.subjectName || '',
-            description: subject.description || '',
-            otherDescription: '', // Set default value for otherDescription if needed
-          })) || [],
-      });
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchAllCourseById();
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [categoriesData, levelData] = await Promise.all([
+          fetchCourseCategories(),
+          fetchStudyLevels(),
+        ]);
+
+        setCategories(categoriesData);
+        setStudyLevels(
+          levelData.map((level: IStudyLevel) => ({
+            id: `${Date.now()}`,
+            levelName: level.name,
+          }))
+        );
+
+        if (id) {
+          const courseResponse = await fetchCoursesById({ id });
+          reset({
+            courseName: courseResponse?.courseName || '',
+            description: courseResponse?.description || '',
+            category: {
+              courseCategory:
+                courseResponse?.courseCategory?.courseCategory || '',
+            },
+            levels: courseResponse?.levels || initialCourseState.levels,
+          });
+          setNewCategory(courseResponse?.courseCategory?.courseCategory || '');
+          setNewLevel(courseResponse?.studyLevel?.name || '');
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        notification.error({ message: 'Failed to fetch course data' });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [id, reset]);
 
-  const fetchAllStudyLevel = async () => {
+  const onSubmit = async (data: any) => {
+    console.log('clicking');
+    console.log(data, 'dattatat');
     setLoading(true);
     try {
-      const [levelsData] = await Promise.all([fetchStudyLevels()]);
-      setStudyLevels(levelsData);
-    } catch (error) {
-      console.error('Error fetching data:', error);
+      const updatedData = {
+        ...data,
+        id,
+        category: newCategory ? { courseCategory: newCategory } : data.category,
+        levels: newLevel ? { levelName: newLevel } : data.levels,
+      };
+
+      console.log(updatedData, 'updatedata');
+
+      const response = id
+        ? await updateCourse(updatedData)
+        : await addCourse({ data: updatedData });
+
+      if ([200, 201].includes(response.status)) {
+        router.push('/course');
+        notification.success({ message: response.data.message });
+      } else {
+        notification.warning({ message: response.data.message });
+      }
+    } catch (error: any) {
+      notification.error({ message: error.message });
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchAllStudyLevel();
-  }, []);
-
-  const onSubmit = async (data: any) => {
-    console.log(data, 'data');
-    setLoading(true);
-    if (id) {
-      console.log(data, 'data');
-      const updatedData: any = {
-        ...data,
-        id: id,
-        subjects: data.subjects.map((subject: any) => ({
-          subjectName: subject.subjectName,
-          description: subject.description,
-          otherDescription: subject.otherDescription,
-        })),
-      };
-
-      console.log(updatedData, 'up');
-
-      updateCourse(updatedData)
-        .then((response) => {
-          console.log(response, 'response');
-          if (response.status === 200) {
-            router.push('/course');
-            notification.success({
-              message: response.data.message,
-            });
-          } else {
-            notification.warning({
-              message: response.data.message,
-            });
-          }
-        })
-        .catch((e) => {
-          notification.error({ message: e.message });
-        });
-    } else {
-      console.log(data, 'in comp');
-      addCourse({ data })
-        .then((response) => {
-          if (response.status === 201) {
-            router.push('/course');
-            notification.success({
-              message: response.data.message,
-            });
-          } else {
-            notification.error({
-              message: response.data.createBlog.error(),
-            });
-          }
-        })
-        .catch((error) => {
-          notification.error({ message: error.message });
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+  const addNewCategory = () => {
+    if (newCategory.trim()) {
+      setCategories((prev) => [
+        ...prev,
+        { id: `${Date.now()}`, courseCategory: newCategory },
+      ]);
+      setNewCategory('');
     }
-    // Handle form submission
+  };
+
+  const addNewLevel = () => {
+    if (newLevel.trim()) {
+      setStudyLevels((prev) => [
+        ...prev,
+        { id: `${Date.now()}`, levelName: newLevel },
+      ]);
+      setNewLevel(''); // Clear the input after adding
+    }
   };
 
   return (
-    <>
-      <div style={{ maxHeight: '80vh', overflowY: 'auto' }}>
-        <JTLoader visible={loading} />
-        <form onSubmit={handleSubmit(onSubmit)} className="bg-white px-8 pb-8">
-          <h3 className="text-xl font-bold mt-7  py-8 m-0">
-            {id ? 'Edit' : 'Create'} Course
-          </h3>
-          <Row gutter={[20, 20]}>
-            <Col xs={24} xl={12}>
-              <SCInput
-                register={register}
-                name="courseName"
-                control={control}
-                label="Course Name"
-                parentClass="flex-grow mb-4"
-                error={errors?.courseName?.message}
-                placeholder="Course Name"
-                size="large"
-                required
-              />
-            </Col>
-          </Row>
-          <Row gutter={[20, 20]}>
-            <Col xs={24} xl={12}>
-              <SCTextArea
-                register={register}
-                name="description"
-                control={control}
-                label="Course Description"
-                parentClass="flex-grow mb-4"
-                error={errors?.description?.message}
-                placeholder="Course Description"
-                size="large"
-                required
-              />
-            </Col>
-          </Row>
-          <h3 className="text-xl font-bold mt-2  py-2 m-0">Add Level</h3>
-          <Row gutter={[20, 20]}>
-            <Col xs={12}>
-              <SCInput
-                register={register}
-                name="levels.levelName"
-                control={control}
-                label="Level"
-                parentClass="flex-grow mb-4"
-                error={errors.levels?.levelName?.message}
-                placeholder="Enter Level"
-                required
-              />
-            </Col>
-          </Row>
-          <Row gutter={[20, 20]}>
-            <Col xs={24} xl={12}>
-              <SCTextArea
-                register={register}
-                name="levels.levelDescription"
-                control={control}
-                label="Study Level Description"
-                parentClass="flex-grow mb-4"
-                error={errors.levels?.levelDescription?.message}
-                placeholder="Study Level Description"
-                size="large"
-                required
-              />
-            </Col>
-          </Row>
-          <Row gutter={[20, 20]}>
-            <Col xs={24} xl={12}>
-              <SCTextArea
-                register={register}
-                name="levels.otherDescription"
-                control={control}
-                label="Study Level other Description"
-                parentClass="flex-grow mb-4"
-                error={errors.levels?.otherDescription?.message}
-                placeholder="Study Level other Description"
-                size="large"
-                required
-              />
-            </Col>
-          </Row>
+    <div style={{ maxHeight: '80vh', overflowY: 'auto' }}>
+      <JTLoader visible={loading} />
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-white px-8 pb-8">
+        <h3 className="text-xl font-bold mt-7 py-8 m-0">
+          {id ? 'Edit' : 'Create'} Course
+        </h3>
 
-          <h3 className="text-xl font-bold mt-2  py-2 m-0">Add Subject</h3>
-          {subjectFields.map((subject, index) => (
-            <div key={subject.id}>
-              <Row gutter={[20, 20]}>
-                <Col xs={12}>
-                  <SCInput
-                    register={register}
-                    name={`subjects[${index}].subjectName`}
-                    control={control}
-                    label="Subject Name"
-                    error={errors?.subjects?.[index]?.subjectName?.message}
-                    defaultValue={subject.id ? subject.subjectName : ''}
-                    placeholder="Subject Name"
-                    size="large"
-                    required
-                  />
-                </Col>
-              </Row>
-              <Row gutter={[20, 20]}>
-                <Col xs={24} xl={12}>
-                  <SCTextArea
-                    register={register}
-                    name={`subjects[${index}].description`}
-                    control={control}
-                    label="Subject Description"
-                    error={errors?.subjects?.[index]?.description?.message}
-                    defaultValue={subject.id ? subject.description : ''}
-                    placeholder="Subject Description"
-                    size="large"
-                    required
-                  />
-                </Col>
-              </Row>
-              <Row gutter={[20, 20]}>
-                <Col xs={24} xl={12}>
-                  <SCTextArea
-                    register={register}
-                    name={`subjects[${index}].otherDescription`}
-                    control={control}
-                    label="Other Description"
-                    error={errors?.subjects?.[index]?.otherDescription?.message}
-                    defaultValue={subject.id ? subject.otherDescription : ''}
-                    placeholder="Other Description"
-                    size="large"
-                    required
-                  />
-                </Col>
-              </Row>
-              <Button type="dashed" onClick={() => removeSubject(index)}>
-                Remove Subject
-              </Button>
-            </div>
-          ))}
+        <Row gutter={[20, 20]}>
+          <Col xs={24} xl={12}>
+            <SCInput
+              register={register}
+              name="courseName"
+              control={control}
+              label="Course Name"
+              parentClass="flex-grow mb-4"
+              error={errors?.courseName?.message}
+              placeholder="Course Name"
+              size="large"
+              required
+            />
+          </Col>
+        </Row>
 
-          <Button
-            type="dashed"
-            onClick={() =>
-              appendSubject({
-                subjectName: '',
-                description: '',
-                otherDescription: '',
-              })
-            }
-          >
-            Add Subject
-          </Button>
+        <Row gutter={[20, 20]}>
+          <Col xs={24} xl={12}>
+            <label htmlFor="category">Course Category</label>
+            <Select
+              style={{ width: '100%', marginBottom: '1rem' }}
+              placeholder="Select a category"
+              value={newCategory || initialCourseState.category.courseCategory}
+              onChange={setNewCategory}
+              dropdownRender={(menu) => (
+                <>
+                  {menu}
+                  <div
+                    style={{ display: 'flex', flexWrap: 'nowrap', padding: 8 }}
+                  >
+                    <Input
+                      style={{ flex: 'auto' }}
+                      value={newCategory}
+                      onChange={(e) => setNewCategory(e.target.value)}
+                      placeholder="Add new category"
+                    />
+                    <Button type="link" onClick={addNewCategory}>
+                      Add
+                    </Button>
+                  </div>
+                </>
+              )}
+            >
+              {categories.map((category) => (
+                <Select.Option
+                  key={category.id}
+                  value={category.courseCategory}
+                >
+                  {category.courseCategory}
+                </Select.Option>
+              ))}
+            </Select>
+            {errors?.category && (
+              <span className="error">
+                {errors.category.message?.toString()}
+              </span>
+            )}
+          </Col>
+        </Row>
 
-          <Row>
-            <div className="flex mt-4">
-              <Button
-                loading={loading}
-                htmlType="submit"
-                type="primary"
-                size="large"
-              >
-                {id ? 'Update' : 'Create'}
-              </Button>
-              <Button
-                htmlType="submit"
-                onClick={() => router.push('/blogs')}
-                className="ml-4"
-                size="large"
-              >
-                Cancel
-              </Button>
-            </div>
-          </Row>
-        </form>
-      </div>
-    </>
+        <Row gutter={[20, 20]}>
+          <Col xs={24} xl={12}>
+            <SCTextArea
+              register={register}
+              name="description"
+              control={control}
+              label="Course Description"
+              parentClass="flex-grow mb-4"
+              error={errors?.description?.message}
+              placeholder="Course Description"
+              size="large"
+              required
+            />
+          </Col>
+        </Row>
+
+        <Row gutter={[20, 20]}>
+          <Col xs={24} xl={12}>
+            <label htmlFor="studyLevl">Study Level</label>
+            <Select
+              style={{ width: '100%', marginBottom: '1rem' }}
+              placeholder="Select a level"
+              value={newLevel}
+              onChange={setNewLevel}
+              dropdownRender={(menu) => (
+                <>
+                  {menu}
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexWrap: 'nowrap',
+                      padding: 8,
+                    }}
+                  >
+                    <Input
+                      style={{ flex: 'auto' }}
+                      value={newLevel}
+                      onChange={(e) => setNewLevel(e.target.value)}
+                      placeholder="Add new level"
+                    />
+                    <Button type="link" onClick={addNewLevel}>
+                      Add
+                    </Button>
+                  </div>
+                </>
+              )}
+            >
+              {studyLevels.map((level) => (
+                <Select.Option key={level.id} value={level.levelName}>
+                  {level.levelName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Col>
+        </Row>
+
+        <Row>
+          <div className="flex mt-4">
+            <Button
+              loading={loading}
+              htmlType="submit"
+              type="primary"
+              size="large"
+            >
+              {id ? 'Update' : 'Create'}
+            </Button>
+          </div>
+        </Row>
+      </form>
+    </div>
   );
-}
+};
 
 export default CourseForm;

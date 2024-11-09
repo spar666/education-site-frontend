@@ -153,12 +153,12 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="flex bg-gray-100 justify-center font-['Open_Sans']">
+    <div className="flex bg-[#99caff] justify-center font-['Open_Sans']">
       <div className="w-full max-w-md sm:w-full">
         <Form onFinish={handleSubmit(onSubmit)} className="px-8 pb-8">
           <div className="text-center mb-8">
-            <h1 className="font-bold text-2xl text-dark-blue mt-5 text-center">
-              Get Appointment
+            <h1 className="text-2xl font-bold text-dark-blue mt-5 text-center">
+              Get an Appointment
             </h1>
           </div>
           {/* First Name Input Field */}
@@ -169,7 +169,7 @@ const RegisterForm = () => {
             <Input
               placeholder="First Name"
               {...register('firstName')}
-              className="flex-grow text-black mb-4 border-1 border-blue-500"
+              className="flex-grow text-black border-1 border-gray-400"
               style={{ height: '40px' }}
               onChange={(e) => setFirstName(e.target.value)}
             />
@@ -182,7 +182,7 @@ const RegisterForm = () => {
             <Input
               placeholder="Middle Name"
               {...register('middleName')}
-              className="flex-grow text-black mb-4 border-1 border-blue-500"
+              className="flex-grow text-black  border-1 border-gray-400"
               style={{ height: '40px' }}
               onChange={(e) => setMiddleName(e.target.value)}
             />
@@ -195,7 +195,7 @@ const RegisterForm = () => {
             <Input
               placeholder="Last Name"
               {...register('lastName')}
-              className="flex-grow text-black mb-4 border-1 border-blue-500"
+              className="flex-grow text-black  border-1 border-gray-400"
               style={{ height: '40px' }}
               onChange={(e) => setLastName(e.target.value)}
             />
@@ -208,7 +208,7 @@ const RegisterForm = () => {
             <Input
               placeholder="Email"
               {...register('email')}
-              className="flex-grow text-black mb-4 border-1 border-blue-500"
+              className="flex-grow h-10 text-black  border-1 border-gray-400"
               onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Item>
@@ -220,7 +220,7 @@ const RegisterForm = () => {
             <Input
               placeholder="Phone"
               {...register('phone')}
-              className="flex-grow text-black mb-4 border-1 border-blue-500"
+              className="flex-grow h-10 text-black  border-1 border-gray-400"
               onChange={(e) => setPhone(e.target.value)}
             />
           </Form.Item>
@@ -234,7 +234,7 @@ const RegisterForm = () => {
                 showSearch
                 placeholder="Nationality"
                 {...register('nationality')}
-                className="flex-grow text-black mb-4 border border-blue-500 rounded"
+                className="flex-grow h-10 text-black  border border-gray-400 rounded"
                 onChange={hanldeNationalityChange}
                 defaultValue={selectedNationality} // Use defaultValue instead of value
               >
@@ -258,7 +258,7 @@ const RegisterForm = () => {
               showSearch
               placeholder="Select Destination Country"
               {...register('destination')}
-              className="flex-grow text-black mb-4 border border-blue-500 rounded"
+              className="flex-grow h-10 text-black  border border-gray-400 rounded"
               onChange={handleDestinationChange}
               defaultValue={selectedDestination} // Use defaultValue instead of value
             >
@@ -278,7 +278,7 @@ const RegisterForm = () => {
               showSearch
               placeholder="Select Level"
               {...register('studyLevel')}
-              className="flex-grow text-black mb-4 border border-blue-500 rounded"
+              className="flex-grow h-10 text-black  border border-gray-400 rounded"
               onChange={handleLevelChange}
               defaultValue={selectedLevel} // Use defaultValue instead of value
             >
@@ -297,7 +297,7 @@ const RegisterForm = () => {
             <DatePicker
               placeholder="Select Start Date"
               {...register('startDate')}
-              className="flex-grow text-black mb-4 border-1 border-blue-500"
+              className="flex-grow text-black  border-1 border-gray-400"
               style={{ width: '100%', height: '40px' }}
               onChange={(date, dateString) => {
                 if (typeof dateString === 'string') {
@@ -315,7 +315,7 @@ const RegisterForm = () => {
             <DatePicker
               placeholder="Select Birth Date"
               {...register('dateOfBirth')}
-              className="flex-grow text-black mb-4 border-1 border-blue-500"
+              className="flex-grow text-black  border-1 border-gray-400"
               style={{ width: '100%', height: '40px' }}
               onChange={(date, dateString) => {
                 if (typeof dateString === 'string') {
@@ -326,17 +326,19 @@ const RegisterForm = () => {
             />
           </Form.Item>
           {/* Counseling Options */}
-          <div className="flex flex-col space-y-3 mb-3 font-['Open_Sans']">
+          <div className="flex flex-col space-y-3 mb-3">
             <div
-              className={`w-full md:w-60 h-10 px-4 py-2 bg-dark-blue text-white flex text-bold items-center rounded ${
-                counselingOption === 'online' ? 'bg-blue-500 text-white' : ''
+              className={`w-full md:w-45 h-10 px-4 py-2 bg-[#e7b416] text-[#003366] flex text-bold items-center rounded ${
+                counselingOption === 'online'
+                  ? 'bg-[#e7b416] text-[#003366]'
+                  : ''
               }`}
               onClick={() => handleCounselingOptionChange('online')}
             >
               Online Counselling
             </div>
             <div
-              className={`w-full md:w-60 h-10 px-4 py-2 bg-dark-blue text-white flex text-bold items-center rounded ${
+              className={`w-full md:w-45 h-10 px-4 py-2 bg-dark-blue text-white flex text-bold items-center rounded ${
                 counselingOption === 'inPerson' ? 'bg-blue-500' : ''
               }`}
               onClick={() => handleCounselingOptionChange('inPerson')}
@@ -353,7 +355,7 @@ const RegisterForm = () => {
                 setIsTermsAndConditionsAccepted(e.target.checked)
               }
             >
-              I agree to the terms and conditions
+              I agree to the Terms and Conditions.
             </Checkbox>
           </div>
           {/* Submit Button */}
@@ -363,10 +365,15 @@ const RegisterForm = () => {
                 type="primary"
                 size="large"
                 htmlType="submit"
-                style={{ backgroundColor: '#003366', marginTop: '5px' }}
+                className="hover-effect"
+                style={{
+                  backgroundColor: '#e7b416',
+                  color: '#003366',
+                  marginTop: '5px',
+                }}
                 loading={loading}
               >
-                Get Appointment
+                Get an Appointment
               </Button>
             </Form.Item>
           )}

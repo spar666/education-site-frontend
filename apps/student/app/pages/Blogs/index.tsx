@@ -48,17 +48,17 @@ const BlogPage = () => {
   }, []);
 
   return (
-    <section className="m-5 font-['Open_Sans']">
+    <section className="my-10 f">
       <MaxWidthWrapper>
-        <div className="relative w-full">
-          <h2 className="font-bold text-xl md:text-2xl tracking-tight text-center text-dark-blue mb-5">
+        <div className="relative w-full ">
+          <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-center text-dark-blue mb-10">
             Explore Further Study Options: Read Our Blogs
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8 mt-5 md:mt-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {/* Rendering top 3 blogs */}
             {blogs.slice(0, 3).map((blog, index) => (
-              <Link href={`blog/details?blog=${blog?.slug}`}>
+              <Link href={`blog/details/${blog?.slug}`}>
                 <div key={index} className="w-full">
                   {/* Adding a custom class to adjust image opacity */}
                   <Blog
@@ -73,9 +73,9 @@ const BlogPage = () => {
 
           {/* View All Blogs Button */}
           {blogs.length > 0 && (
-            <div className="flex justify-center mt-5 font-['Open_Sans']">
+            <div className="flex justify-center my-5 f">
               <Link href="/blog">
-                <Button className="w-full md:w-52 h-12 px-6 py-2 bg-dark-blue text-white flex justify-center items-center rounded">
+                <Button className="w-full md:w-52 h-12 px-6 py-2 text-primary-blue hover:bg-[#bf9100] bg-secondary-yellow flex justify-center items-center  rounded mt-5  text-base font-bold">
                   View All Blogs
                 </Button>
               </Link>

@@ -90,7 +90,7 @@ const CustomModal = ({ visible, onClose }: any) => {
   return (
     <>
       <Modal visible={visible} onCancel={onClose} footer={null}>
-        <div className="flex flex-col h-[350px] w-[500px] font-['Open_Sans']">
+        <div className="flex flex-col h-[350px] w-[500px] f">
           <h1 className="font-bold text-2xl">My Favorites</h1>
           <Tabs defaultActiveKey="1" tabPosition="top">
             <TabPane tab="University" key="1">
@@ -170,7 +170,7 @@ const CustomModal = ({ visible, onClose }: any) => {
         visible={comparisonModalVisible}
         onCancel={handleComparisonModalClose}
       >
-        <div className="flex flex-col h-screen w-[480px] font-['Open_Sans']">
+        <div className="flex flex-col h-screen w-[480px] f">
           <h1 className="font-bold text-2xl text-center mb-4">Comparison</h1>
           <div className="grid grid-cols-2 gap-4">
             {comparisonData.map((uni: any, index: number) => (

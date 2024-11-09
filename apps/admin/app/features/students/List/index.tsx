@@ -85,7 +85,6 @@ function StudentList() {
       dataIndex: 'email',
       key: 'email',
     },
-
     {
       title: 'Counseling Option',
       dataIndex: 'counselingOption',
@@ -93,32 +92,43 @@ function StudentList() {
       render: (counselingOption) => {
         let buttonText = '';
         let buttonStyle = {};
-        if (counselingOption.toLowerCase() === 'inperson') {
-          buttonText = 'In Person';
-          buttonStyle = {
-            backgroundColor: 'green',
-            borderColor: 'green',
-            color: 'white',
-          };
-        } else if (counselingOption.toLowerCase() === 'online') {
-          buttonText = 'Online';
-          buttonStyle = {
-            backgroundColor: 'blue',
-            borderColor: 'blue',
-            color: 'white',
-          };
+
+        // Check if counselingOption is a valid string before calling toLowerCase
+        if (typeof counselingOption === 'string') {
+          if (counselingOption.toLowerCase() === 'inperson') {
+            buttonText = 'In Person';
+            buttonStyle = {
+              backgroundColor: 'green',
+              borderColor: 'green',
+              color: 'white',
+            };
+          } else if (counselingOption.toLowerCase() === 'online') {
+            buttonText = 'Online';
+            buttonStyle = {
+              backgroundColor: 'blue',
+              borderColor: 'blue',
+              color: 'white',
+            };
+          } else {
+            buttonText = counselingOption;
+            buttonStyle = {
+              backgroundColor: 'black',
+              borderColor: 'black',
+              color: 'white',
+            };
+          }
         } else {
-          buttonText = counselingOption;
+          buttonText = '-'; // Default value when counselingOption is null or not a string
           buttonStyle = {
-            backgroundColor: 'black',
-            borderColor: 'black',
+            backgroundColor: 'gray',
+            borderColor: 'gray',
             color: 'white',
           };
         }
+
         return <Button style={buttonStyle}>{buttonText}</Button>;
       },
     },
-
     {
       title: 'View',
       dataIndex: 'action',

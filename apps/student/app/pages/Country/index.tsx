@@ -2,8 +2,8 @@ import Link from 'next/link';
 
 export const Country = ({ country, countryImage, slug }: any) => {
   return (
-    <Link href={`/university?country=${slug}`}>
-      <div className="bg-white font-['Open_Sans'] rounded-lg shadow-md mx-2 xl:mx-10 h-[300px] w-[400px] relative overflow-hidden">
+    <Link href={`/university/country/${slug}`} className="w-full">
+      <div className="bg-white f rounded-lg shadow-md  h-[350px] w-full relative overflow-hidden">
         <div
           style={{
             backgroundImage: `url(${countryImage.src})`,
@@ -18,7 +18,7 @@ export const Country = ({ country, countryImage, slug }: any) => {
 
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-white text-center px-4">
-              <h5 className="text-lg font-['Open_Sans']">Study in {country}</h5>
+              <h5 className="text-xl f font-semibold">Study in {country}</h5>
             </div>
           </div>
         </div>

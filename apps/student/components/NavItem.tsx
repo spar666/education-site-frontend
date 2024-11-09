@@ -104,22 +104,24 @@ const NavItem = ({
     <div className="flex z-20">
       <div className="relative flex items-center">
         <Button
-          className="gap-1.5"
+          className="gap-1.5 text-md"
           onClick={handleOpen}
           variant={
             isCourse ? 'secondary' : isDestination ? 'secondary' : 'ghost'
           }
         >
           {category.label}
-          <ChevronDown
-            className={cn(
-              'h-4 w-4 transition-all text-muted-foreground text-dark-navy',
-              {
-                '-rotate-180': isCourse && !isDestination,
-                'rotate-180': !isCourse && isDestination,
-              }
-            )}
-          />
+          {!(category.label === 'Our Blogs') && (
+            <ChevronDown
+              className={cn(
+                'h-4 w-4 transition-all text-muted-foreground text-dark-navy',
+                {
+                  '-rotate-180': isCourse && !isDestination,
+                  'rotate-180': !isCourse && isDestination,
+                }
+              )}
+            />
+          )}
         </Button>
       </div>
       {/* if find course open */}
@@ -127,62 +129,59 @@ const NavItem = ({
         <div
           onClick={() => close()}
           className={cn(
-            'absolute inset-x-0 top-full text-sm text-muted-foreground overflow-y-auto max-h-60', // Adjust max-height as needed
+            'absolute inset-x-0 top-full text-sm text-muted-foreground overflow-y-auto  flex items-center justify-center ', // Adjust max-height as needed
             {
               'animate-in fade-in-10 slide-in-from-top-5': !isAnyOpen,
             }
           )}
         >
-          <div
-            className="absolute inset-0 top-1/2 bg-white shadow"
-            aria-hidden="true"
-          />
-
-          <div className="relative bg-white">
-            <div className="mx-auto  max-w-7xl">
-              <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-4 py-10">
+          <div className="relative bg-white w-full">
+            <div className="mx-auto">
+              <div className="flex justify-between items-start gap-10 pb-5">
                 <div>
-                  <span className="block font-bold text-gray-900">
+                  <h1 className="block font-bold text-gray-900 pb-2 pl-2">
                     Study Level
-                  </span>
+                  </h1>
                   <div className="flex flex-col">
-                    {studyLevels?.map((item) => (
-                      <div
-                        onClick={() => close}
-                        key={item?.name}
-                        className="group relative text-base sm:text-sm"
-                      >
+                    {Array.from(
+                      new Set(studyLevels?.map((item) => item?.name))
+                    ).map((name) => (
+                      <div onClick={close} key={name} className="text-lg">
                         <Link
-                          href={`/course?degree=${item?.slug}`}
-                          className="mt-2 block font-small text-blue-900 font-[quicksand]"
+                          href={`/course/degree/${
+                            studyLevels.find((item) => item.name === name)?.slug
+                          }`}
+                          className="text-base text-gray-800 pb-2 pl-2 hover:text-blue-500"
                         >
-                          {item?.name}
+                          {name}
                         </Link>
                       </div>
                     ))}
                   </div>
                 </div>
                 <div>
-                  <span className="block font-bold text-gray-900">Courses</span>
-                  <div className="flex  gap-40">
+                  <span className="block font-bold text-gray-900 pb-2">
+                    Courses
+                  </span>
+                  <div className="flex flex-wrap items-start gap-6 mt-2">
                     {courses &&
-                      Array(Math.ceil(courses.length / 3))
-                        .fill(3)
-                        .map((_, columnIndex) => (
-                          <div key={columnIndex} className="w-1/3 gap-[12rem]">
+                      Array(Math.ceil(courses.length / 4)) // Create groups of 4 columns
+                        .fill(4)
+                        .map((_, groupIndex) => (
+                          <div key={groupIndex} className="w-full sm:w-1/4">
                             {courses
-                              .slice(columnIndex * 3, columnIndex * 3 + 3)
+                              .slice(groupIndex * 4, groupIndex * 4 + 4) // Fetch 4 courses per column
                               .map((course, index) => (
                                 <div
-                                  onClick={() => close}
+                                  onClick={close}
                                   key={course.slug}
-                                  className={`group relative text-base sm:text-sm font-[quicksand] ${
+                                  className={`group relative sm:text-sm ${
                                     index > 0 ? 'mt-2' : ''
                                   }`}
                                 >
                                   <Link
-                                    href={`/subject?subjectName=${course.slug}`}
-                                    className="block font-small text-blue-900"
+                                    href={`/subject/${course.slug}`}
+                                    className="text-base text-gray-800 hover:text-blue-500"
                                     style={{ width: 'max-content' }}
                                   >
                                     {course.courseName}
@@ -215,17 +214,17 @@ const NavItem = ({
           />
 
           <div className="relative bg-white">
-            <div className="mx-auto max-w-7xl">
-              <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-4 py-10">
+            <div className=" max-w-[800px] mx-auto">
+              <div className="flex justify-between items-center gap-4 pb-5">
                 {destination?.map((dest: Destination) => (
                   <div key={dest.id}>
-                    <span className="block font-bold text-gray-900">
+                    <span className="font-bold text-gray-800 items-center hover:text-blue-500">
                       {dest.name}
                     </span>
                     <div className="flex flex-col">
                       <Link
-                        href={`/university?country=${dest.slug}`}
-                        className="mt-2 block font-small text-blue-900"
+                        href={`/university/country/${dest.slug}`}
+                        className="text-base text-gray-800 items-center hover:text-blue-500"
                       >
                         Universities in {dest.name}
                       </Link>
