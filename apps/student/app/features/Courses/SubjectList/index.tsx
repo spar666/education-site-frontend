@@ -35,7 +35,7 @@ const SubjectList = ({
               {currentSubjects.map((subject) => (
                 <div
                   key={subject?.id}
-                  className="bg-white w-full font-semibold rounded-lg shadow-md overflow-hidden max-w-[350px] border border-gray-200 hover:shadow-lg transition duration-300"
+                  className="bg-white w-full font-semibold rounded-lg shadow-md overflow-hidden min-w-[350px] border border-gray-200 hover:shadow-lg transition duration-300"
                 >
                   <div className="p-6">
                     <h3 className="text-2xl font-bold mb-4 text-dark-blue">

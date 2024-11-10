@@ -102,6 +102,7 @@ body {
 .card-grid {
   display: grid;
   gap: 20px;
+  width: 100%;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 .card-grid-two {

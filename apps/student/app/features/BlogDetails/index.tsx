@@ -120,7 +120,7 @@ const BlogDetails = ({ searchParams }: any) => {
                     key={blogItem.id}
                     className="mb-6 bg-[#EBF5FF] px-5 py-4 rounded-lg text-base font-Open_Sans flex items-start gap-4"
                   >
-                    <div className="bg-[#000] w-[120px] h-[80px] relative overflow-hidden rounded-lg">
+                    <div className="bg-[#000] w-[100px] h-[80px] relative  rounded-lg flex">
                       <div
                         style={{
                           backgroundImage: `url(${renderImage({
@@ -132,6 +132,7 @@ const BlogDetails = ({ searchParams }: any) => {
                           width: '100%',
                           height: '100%',
                         }}
+                        className="min-w-[100px] max-w-[100px]"
                       ></div>
                     </div>
                     <div>

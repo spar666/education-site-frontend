@@ -4,7 +4,7 @@ import { renderImage } from 'libs/services/helper';
 
 const Blog = ({ title, image, contents }: any) => {
   return (
-    <div className="rounded-lg w-[350px] ">
+    <div className="rounded-lg  ">
       <div className="bg-white  h-[300px]  relative overflow-hidden">
         <div
           style={{

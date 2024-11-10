@@ -55,11 +55,14 @@ const BlogPage = () => {
             Explore Further Study Options: Read Our Blogs
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="card-grid gap-5">
             {/* Rendering top 3 blogs */}
             {blogs.slice(0, 3).map((blog, index) => (
-              <Link href={`blog/details/${blog?.slug}`}>
-                <div key={index} className="w-full">
+              <Link
+                href={`blog/details/${blog?.slug}`}
+                className="w-full min-w-[350px]"
+              >
+                <div key={index}>
                   {/* Adding a custom class to adjust image opacity */}
                   <Blog
                     title={blog.title}
