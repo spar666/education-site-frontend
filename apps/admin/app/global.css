@@ -194,6 +194,10 @@ span[style="color: blueviolet;"] {
     display: none !important;
 } */
 
+div[style*="z-index:9999"] {
+    display: none !important;
+}
+
 .fr-wrapper ol,
 ul,
 menu {
