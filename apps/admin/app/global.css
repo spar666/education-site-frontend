@@ -153,6 +153,10 @@ pre {
     line-height: 45px !important;
 }
 
+.fr-second-toolbar {
+    display: none !important;
+}
+
 @media only screen and (max-width: 1366px) {
     .calender-padding {
         padding-top: 2.5rem;

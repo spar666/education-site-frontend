@@ -28,7 +28,7 @@ const UniversityCampusesDetails = ({ campuses }: any) => {
                   {campus.location}
                 </h2>
               </div>
-              <div className="flex  justify-between mt-2">
+              {/* <div className="flex  justify-between mt-2">
                 <h1 className="text-base">Email:</h1>
                 <h2 className="py-2 font-bold text-sm  text-center">
                   {campus.email}
@@ -39,7 +39,7 @@ const UniversityCampusesDetails = ({ campuses }: any) => {
                 <h2 className="py-2 font-bold text-sm  text-center">
                   {campus.contact}
                 </h2>
-              </div>
+              </div> */}
             </li>
           ))}
         </ul>

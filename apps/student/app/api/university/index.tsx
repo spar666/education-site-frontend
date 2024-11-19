@@ -89,10 +89,9 @@ export const fetchUniversitiesByIdsForCompare = async (ids: string[]) => {
 
 export const fetchUniversitySubjectByUniversitySlug = async ({
   course,
-  university,
 }: any) => {
   try {
-    let url = `${API_URL}/university/unisubjects/${university}/${course}`;
+    let url = `${API_URL}/university/unisubjects/${course}`;
 
     const response = await axios.get(url);
     return response;

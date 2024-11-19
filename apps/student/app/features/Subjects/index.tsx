@@ -222,7 +222,7 @@ const Subject = ({ searchParams }: any) => {
                               : university?.description}
                           </p>
                         </div>
-                        <Link
+                        {/* <Link
                           href={`/course/details/${university.courses[0].slug}/${university.slug}`}
                         >
                           <div>
@@ -233,7 +233,7 @@ const Subject = ({ searchParams }: any) => {
                               <ChevronRight className="h-5" />
                             </p>
                           </div>
-                        </Link>
+                        </Link> */}
                       </div>
                     </Link>
                   ))

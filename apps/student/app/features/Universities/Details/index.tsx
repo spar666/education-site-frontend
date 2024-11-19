@@ -227,12 +227,12 @@ const UniversityDetails = ({ searchParams }: any) => {
                                 key={subject.id}
                                 className="text-base text-gray-800"
                               >
-                                <Link
+                                {/* <Link
                                   href={`/subject/${subject.id}`}
                                   className="text-sm"
                                 >
                                   {subject.subjectName}
-                                </Link>
+                                </Link> */}
                               </li>
                             )
                           )}
@@ -354,9 +354,13 @@ const UniversityDetails = ({ searchParams }: any) => {
                     <h1 className="text-dark-blue font-bold text-2xl md:text-3xl">
                       University Overview
                     </h1>
-                    <p className="text-base leading-6 mt-5">
-                      {universityDetails.description}
-                    </p>
+
+                    <div
+                      className="text-base leading-1.5"
+                      dangerouslySetInnerHTML={{
+                        __html: universityDetails.description || '',
+                      }}
+                    ></div>
                   </div>
                 </section>
 
@@ -367,13 +371,15 @@ const UniversityDetails = ({ searchParams }: any) => {
                       Courses at {universityDetails.universityName}
                     </h1>
 
-                    {coursesTabs ? (
-                      <Tabs defaultActiveKey="1" type="card">
-                        {coursesTabs}
-                      </Tabs>
-                    ) : (
-                      <Empty description="No Courses Available" />
-                    )}
+                    <div
+                      className="text-base leading-1.5"
+                      dangerouslySetInnerHTML={{
+                        __html:
+                          universityDetails?.courseSubject.map(
+                            (cs) => cs.course.description
+                          ) || '',
+                      }}
+                    ></div>
                   </div>
                 </section>
               </>

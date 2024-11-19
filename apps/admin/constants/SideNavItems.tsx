@@ -19,6 +19,12 @@ const SideNavItems = [
         label: 'Course',
         path: '/course',
       },
+      {
+        key: 2,
+        icon: null,
+        label: 'Course Category',
+        path: '/course-category',
+      },
     ],
   },
   {

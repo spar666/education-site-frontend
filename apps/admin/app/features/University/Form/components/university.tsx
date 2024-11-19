@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { Button, Col, Row, notification, Typography, Input } from 'antd';
+import { Button, Col, Row, notification, Input } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
@@ -15,7 +15,6 @@ import SCInput from 'apps/admin/components/SCForm/SCInput';
 import SCSelect from 'apps/admin/components/SCForm/SCSelect';
 import SCUpload from 'apps/admin/components/SCForm/SCUpload';
 import SCTextArea from 'apps/admin/components/SCForm/SCTextArea';
-import SCCheckbox from 'apps/admin/components/SCForm/SCCheckbox';
 import { fetchCourses } from 'apps/admin/app/api/Course';
 import { fetchAllUniversityByDestination } from 'apps/admin/app/api/Destinations';
 import {
@@ -24,22 +23,11 @@ import {
   updateUniversity,
 } from 'apps/admin/app/api/University';
 import { renderImage } from 'libs/services/helper';
-
-const { Text } = Typography;
-
-// Interfaces for form data structure
-interface Subject {
-  subjectName: string;
-  description: string;
-}
+import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg/index';
 
 interface Course {
   courses: string;
-  subjects: Subject[];
-  tuitionFee: number;
-  currency: string;
-  financialAidAvailable: string;
-  scholarshipDetails: string;
+  courseContents: string;
 }
 
 interface Campus {
@@ -143,23 +131,9 @@ const UniversityForm: React.FC = () => {
         ];
 
         const courses = uniData?.courseSubject.map((courseSubject: any) => {
-          const firstValidFinanceDetail = courseSubject?.financeDetails.find(
-            (detail: any) =>
-              detail.tuitionFee !== null && detail.tuitionFee !== undefined
-          );
-
           return {
-            courses: courseSubject?.id,
-            subjects: courseSubject?.subjects,
-
-            // Use the first valid finance detail, if found, otherwise set default values
-            tuitionFee: firstValidFinanceDetail?.tuitionFee || 0,
-            currency: firstValidFinanceDetail?.currency || '',
-            financialAidAvailable:
-              firstValidFinanceDetail?.financialAidAvailable ? 'yes' : 'no',
-            scholarshipDetails: firstValidFinanceDetail?.scholarshipDetails
-              ? 'yes'
-              : 'no',
+            courses: courseSubject?.course?.id,
+            courseContents: courseSubject?.courseContents,
           };
         });
 
@@ -195,8 +169,7 @@ const UniversityForm: React.FC = () => {
 
     const courseArray = data.courses.map((course) => ({
       ...course,
-      financialAidAvailable: course.financialAidAvailable === 'yes',
-      scholarshipDetails: course.scholarshipDetails === 'yes',
+      courseContents: course.courseContents,
     }));
 
     const imageUrl =
@@ -234,7 +207,10 @@ const UniversityForm: React.FC = () => {
   const watchedCourses = useWatch({ control, name: 'courses' }) || [];
 
   // Get selected course IDs
-  const selectedCourseIds = watchedCourses.map((course) => course.courses);
+  const selectedCourseIds = [
+    ...watchedCourses.map((course) => course.courses),
+    ...selectedCourses.map((course) => course.courses),
+  ];
   console.log(selectedCourseIds);
 
   return (
@@ -259,7 +235,7 @@ const UniversityForm: React.FC = () => {
           />
         </Col>
       </Row>
-      <Row gutter={[20, 20]}>
+      {/* <Row gutter={[20, 20]}>
         <Col xs={24}>
           <SCTextArea
             register={register}
@@ -270,6 +246,19 @@ const UniversityForm: React.FC = () => {
             placeholder="Description"
             size="large"
             required
+          />
+        </Col>
+      </Row> */}
+
+      <Row gutter={[20, 20]}>
+        <Col xs={24}>
+          <SCWysiwyg
+            name="description"
+            register={register}
+            control={control}
+            parentClass="flex-grow mb-4"
+            label="Description"
+            error={errors?.description?.message}
           />
         </Col>
       </Row>
@@ -350,18 +339,13 @@ const UniversityForm: React.FC = () => {
         {id ? 'Edit' : 'Add'} Courses
       </h3>
       {courseFields.map((course, courseIndex) => {
-        // Get the currently selected course ID for this course field
         const currentCourseId = watchedCourses[courseIndex]?.courses;
 
         // Compute other selected course IDs by excluding the current course ID
         const otherSelectedCourseIds = selectedCourseIds.filter(
           (id, index) => index !== courseIndex
-        ); // Exclude the current dropdown's selection
-
+        );
         console.log(otherSelectedCourseIds, 'selctec ourse');
-
-        // Debugging Logs
-
         return (
           <React.Fragment key={course.id}>
             <Row gutter={[20, 20]} align="middle">
@@ -378,7 +362,7 @@ const UniversityForm: React.FC = () => {
                   options={availableCourse.map((ac: any) => ({
                     label: ac.courseName,
                     value: ac.id,
-                    disabled: ac.id === selectedCourseIds,
+                    disabled: otherSelectedCourseIds.includes(ac.id),
                   }))}
                 />
               </Col>
@@ -396,95 +380,21 @@ const UniversityForm: React.FC = () => {
                 />
               </Col>
             </Row>
-            {watch(`courses.${courseIndex}.courses` as const) && (
-              <>
-                <h4 className="mt-4 text-xl font-bold">Financial Details</h4>
-                <Row gutter={[20, 20]}>
-                  <Col xs={24} xl={12}>
-                    <SCInput
-                      register={register}
-                      name={`courses.${courseIndex}.tuitionFee`}
-                      control={control}
-                      label="Tuition Fee"
-                      error={
-                        errors?.courses?.[courseIndex]?.tuitionFee?.message
-                      }
-                      placeholder="Tuition Fee"
-                      size="large"
-                      required
-                      type="number"
-                    />
-                  </Col>
-                  <Col xs={24} xl={12}>
-                    <SCInput
-                      register={register}
-                      name={`courses.${courseIndex}.currency`}
-                      control={control}
-                      label="Currency"
-                      error={errors?.courses?.[courseIndex]?.currency?.message}
-                      placeholder="Currency"
-                      size="large"
-                      required
-                    />
-                  </Col>
-                </Row>
-                <Row gutter={[20, 20]}>
-                  <Col xs={24} xl={12}>
-                    <SCCheckbox
-                      register={register}
-                      name={`courses.${courseIndex}.financialAidAvailable`}
-                      control={control}
-                      label="Is Financial Aid Available?"
-                      error={
-                        errors?.courses?.[courseIndex]?.financialAidAvailable
-                          ?.message
-                      }
-                      options={[
-                        {
-                          value: 'yes',
-                          label: 'Yes',
-                          description: 'Financial aid is available',
-                        },
-                        {
-                          value: 'no',
-                          label: 'No',
-                          description: 'No financial aid available',
-                        },
-                      ]}
-                    />
-                  </Col>
-                  <Col xs={24} xl={12}>
-                    <SCCheckbox
-                      register={register}
-                      name={`courses.${courseIndex}.scholarshipDetails`}
-                      control={control}
-                      label="Is Scholarship Available?"
-                      error={
-                        errors?.courses?.[courseIndex]?.scholarshipDetails
-                          ?.message
-                      }
-                      options={[
-                        {
-                          value: 'yes',
-                          label: 'Yes',
-                          description: 'Scholarship is available',
-                        },
-                        {
-                          value: 'no',
-                          label: 'No',
-                          description: 'No scholarship available',
-                        },
-                      ]}
-                    />
-                  </Col>
-                </Row>
-                <SubjectFields
-                  courseIndex={courseIndex}
-                  control={control}
-                  register={register}
-                  errors={errors}
-                />
-              </>
+            {otherSelectedCourseIds && (
+              <Row gutter={[20, 20]}>
+                <Col xs={24}>
+                  <SCWysiwyg
+                    name={`courses.${courseIndex}.courseContents`}
+                    register={register}
+                    control={control}
+                    parentClass="flex-grow mb-4"
+                    label="Course description"
+                    error={
+                      errors?.courses?.[courseIndex]?.courseContents?.message
+                    }
+                  />
+                </Col>
+              </Row>
             )}
           </React.Fragment>
         );
@@ -494,11 +404,7 @@ const UniversityForm: React.FC = () => {
         onClick={() =>
           appendCourse({
             courses: '',
-            subjects: [{ subjectName: '', description: '' }],
-            tuitionFee: 0,
-            currency: '',
-            financialAidAvailable: 'no',
-            scholarshipDetails: 'no',
+            courseContents: '',
           })
         }
         style={{ marginBottom: '20px' }}
@@ -522,7 +428,7 @@ const UniversityForm: React.FC = () => {
             size="large"
             notFoundContent={null}
             options={[
-              ...availableDestination?.map((ad:any) => ({
+              ...availableDestination?.map((ad: any) => ({
                 label: ad.name,
                 value: ad.id,
               })),
@@ -536,7 +442,7 @@ const UniversityForm: React.FC = () => {
                 setNewDestinationVisible(true);
               } else {
                 setSelectedDestination(
-                  availableDestination.find((ad:any) => ad.id === value)
+                  availableDestination.find((ad: any) => ad.id === value)
                 );
               }
             }}
@@ -556,7 +462,7 @@ const UniversityForm: React.FC = () => {
                 onClick={() => {
                   if (newDestination.trim()) {
                     const newId = `new-${availableDestination.length + 1}`; // Generate a new ID
-                    setAvailableDestination((prev:any) => [
+                    setAvailableDestination((prev: any) => [
                       ...prev,
                       { id: newId, name: newDestination },
                     ]);
@@ -604,78 +510,6 @@ const UniversityForm: React.FC = () => {
         </div>
       </Row>
     </form>
-  );
-};
-
-interface SubjectFieldsProps {
-  courseIndex: number;
-  control: Control<ICreateUniversity>;
-  register: UseFormRegister<ICreateUniversity>;
-  errors: FieldErrors<ICreateUniversity>;
-}
-
-const SubjectFields: React.FC<SubjectFieldsProps> = ({
-  courseIndex,
-  control,
-  register,
-  errors,
-}) => {
-  const {
-    fields: subjectFields,
-    append: appendSubject,
-    remove: removeSubject,
-  } = useFieldArray({
-    control,
-    name: `courses[${courseIndex}].subjects`,
-  });
-
-  return (
-    <>
-      {subjectFields.map((subject, subjectIndex) => (
-        <React.Fragment key={subject.id}>
-          <Row gutter={[20, 20]} align="middle">
-            <Col xs={22} xl={11}>
-              <SCInput
-                register={register}
-                name={`courses[${courseIndex}].subjects[${subjectIndex}].subjectName`}
-                control={control}
-                label="Subject Name"
-                error={
-                  errors?.courses?.[courseIndex]?.subjects?.[subjectIndex]
-                    ?.subjectName?.message
-                }
-                placeholder="Subject Name"
-                size="large"
-                required
-              />
-            </Col>
-            <Col xs={2} xl={1}>
-              <Button
-                type="text"
-                style={{ color: 'red' }}
-                onClick={() => removeSubject(subjectIndex)}
-                icon={
-                  <CloseOutlined
-                    onPointerEnterCapture={undefined}
-                    onPointerLeaveCapture={undefined}
-                  />
-                }
-              />
-            </Col>
-          </Row>
-        </React.Fragment>
-      ))}
-      <Row>
-        <Col xs={24}>
-          <Button
-            onClick={() => appendSubject({ subjectName: '', description: '' })}
-            style={{ marginTop: '10px', marginBottom: '20px' }}
-          >
-            Add Subject
-          </Button>
-        </Col>
-      </Row>
-    </>
   );
 };
 

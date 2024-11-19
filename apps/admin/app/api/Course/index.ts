@@ -99,3 +99,24 @@ export const fetchCourseCategories = async () => {
     throw new Error('Failed to fetch course categories');
   }
 };
+
+export const fetchCourseCategoriesById = async (id:string) => {
+  try {
+    const response = await axios.get(`${API_URL}/courses/categories/${id}`);
+    return response;
+  } catch (error: any) {
+    console.error('Failed to fetch course categories:', error);
+    throw new Error('Failed to fetch course categories');
+  }
+};
+
+export const updateCourseCategoriesById = async (data:any) => {
+  try {
+    const response = await axios.put(`${API_URL}/courses/categories/update`, data);
+    return response;
+  } catch (error: any) {
+    console.error('Failed to fetch course categories:', error);
+    throw new Error('Failed to fetch course categories');
+  }
+};
+

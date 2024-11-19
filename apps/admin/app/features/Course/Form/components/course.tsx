@@ -14,6 +14,7 @@ import SCInput from 'apps/admin/components/SCForm/SCInput';
 import SCTextArea from 'apps/admin/components/SCForm/SCTextArea';
 import JTLoader from '../../../../../components/SCLoader';
 import { fetchStudyLevels } from 'apps/admin/app/api/studylevel';
+import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg/index';
 
 interface ICourse {
   courseName: string;
@@ -167,7 +168,7 @@ const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
   };
 
   return (
-    <div style={{ maxHeight: '80vh', overflowY: 'auto' }}>
+    <div style={{ maxHeight: '80vh', overflowY: 'auto', maxWidth: '100%' }}>
       <JTLoader visible={loading} />
       <form onSubmit={handleSubmit(onSubmit)} className="bg-white px-8 pb-8">
         <h3 className="text-xl font-bold mt-7 py-8 m-0">
@@ -236,7 +237,7 @@ const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
 
         <Row gutter={[20, 20]}>
           <Col xs={24} xl={12}>
-            <SCTextArea
+            <SCWysiwyg
               register={register}
               name="description"
               control={control}
@@ -249,6 +250,8 @@ const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
             />
           </Col>
         </Row>
+
+      
 
         <Row gutter={[20, 20]}>
           <Col xs={24} xl={12}>

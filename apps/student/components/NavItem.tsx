@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { fetchStudyLevels } from '../app/api/studyLevel';
 import { fetchCourses } from '../app/api/courses';
 import { fetchAllUniversityByDestination } from '../app/api/studyDestination';
+import { useRouter } from 'next/navigation';
 
 type Category = (typeof MENU_CATEGORIES)[number];
 
@@ -58,6 +59,15 @@ const NavItem = ({
   const [studyLevels, setStudyLevels] = useState<StudyLevel[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
   const [destination, setDestination] = useState<Destination[]>([]);
+  const router = useRouter();
+
+  const handleRedirect = () => {
+    if (category.label === 'Our Blogs') {
+      router.push('/blog'); // Ensure the route is correct
+    } else {
+      handleOpen();
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -105,13 +115,13 @@ const NavItem = ({
       <div className="relative flex items-center">
         <Button
           className="gap-1.5 text-md"
-          onClick={handleOpen}
+          onClick={handleRedirect}
           variant={
             isCourse ? 'secondary' : isDestination ? 'secondary' : 'ghost'
           }
         >
           {category.label}
-          {!(category.label === 'Our Blogs') && (
+          {category.label !== 'Our Blogs' && (
             <ChevronDown
               className={cn(
                 'h-4 w-4 transition-all text-muted-foreground text-dark-navy',
