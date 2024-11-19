@@ -113,3 +113,7 @@ body {
 .hover-effect:hover {
   background-color: #bf9100;
 }
+
+[data-f-id="pbf"] {
+  display: none !important;
+}

@@ -44,9 +44,9 @@ const SCSelect = ({
         control={control}
         render={({ field }) => (
           <Select className="w-full" {...field} {...rest} id={name}>
-            {options?.map(({ value, label, isDisable }) => {
+            {options?.map(({ value, label, disabled }) => {
               return (
-                <Option key={value} disabled={disableOptions && isDisable}>
+                <Option key={value} disabled={disabled}>
                   {label}
                 </Option>
               ); // TODO: better RNG key value

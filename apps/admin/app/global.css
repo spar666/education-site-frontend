@@ -190,6 +190,10 @@ span[style="color: blueviolet;"] {
   display: none;
 } */
 
+.fr-wrapper {
+    display: none !important;
+}
+
 .fr-wrapper ol,
 ul,
 menu {
