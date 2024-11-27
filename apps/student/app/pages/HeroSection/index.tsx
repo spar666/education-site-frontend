@@ -33,7 +33,7 @@ export const HeroSection = () => {
         </div>
       </div>
       {/* Centered CustomSearch */}
-      <div className="flex justify-center md:justify-start mx-auto max-w-screen-lg px-4 lg:px-0 mt-[-60px] z-10 w-full m-5 lg:align-center">
+      <div className="flex justify-center md:justify-start mx-auto max-w-screen-lg px-4 lg:px-0 lg:mt-[-60px] z-10 w-full m-5 lg:align-center">
         <CustomSearch />
       </div>
     </>

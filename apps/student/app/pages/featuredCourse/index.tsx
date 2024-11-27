@@ -41,7 +41,7 @@ export const FeaturedCourse = () => {
   }, []);
 
   return (
-    <section className="my-5 ">
+    <section className="my-5 px-3">
       <MaxWidthWrapper className="pb-5 lg:pb-10">
         <div className="flex justify-center flex-col">
           <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-center text-dark-blue">
@@ -55,7 +55,7 @@ export const FeaturedCourse = () => {
           {courseCategories.slice(0, 3).map((category) => (
             <div
               key={category?.id}
-              className="bg-dark-blue shadow-lg rounded-lg overflow-hidden  min-w-[350px]"
+              className="bg-dark-blue shadow-lg rounded-lg overflow-hidden  min-w-[300px]"
             >
               <div className="p-4 h-72">
                 <h3 className="text-xl font-bold text-gray-900 mb-2 f text-white">

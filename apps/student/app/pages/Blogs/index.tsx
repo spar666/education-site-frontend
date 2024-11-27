@@ -10,8 +10,10 @@ import { fetchBlog } from '../../api/blog';
 import USA from '../../../assets/images/usa.jpg';
 import Aus from '../../../assets/images/australia.jpg';
 import Uk from '../../../assets/images/uk.jpg';
-import Frn from '../../../assets/images/france.jpg';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
+import Slider from 'react-slick';
 // Static data for top 3 blogs
 const topBlogs = [
   { title: 'Blog 1', image: USA, description: 'Description of Blog 1' },
@@ -30,6 +32,35 @@ interface IBlogs {
 const BlogPage = () => {
   const [blogs, setBlogs] = useState<IBlogs[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const sliderSettings = {
+    dots: true,
+    slidesToShow: 3,
+    arrows: false,
+    slidesToScroll: 1,
+    speed: 500,
+    touchMove: true,
+    cssEase: 'linear',
+
+    responsive: [
+      {
+        breakpoint: 1280,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 715,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 1,
+        },
+      },
+    ],
+  };
 
   useEffect(() => {
     async function fetchAllBlogs() {
@@ -55,24 +86,26 @@ const BlogPage = () => {
             Explore Further Study Options: Read Our Blogs
           </h2>
 
-          <div className="card-grid gap-5">
+          <Slider {...sliderSettings}>
             {/* Rendering top 3 blogs */}
             {blogs.slice(0, 3).map((blog, index) => (
-              <Link
-                href={`blog/details/${blog?.slug}`}
-                className="w-full min-w-[350px]"
-              >
-                <div key={index}>
-                  {/* Adding a custom class to adjust image opacity */}
-                  <Blog
-                    title={blog.title}
-                    image={blog.coverImage}
-                    className="transparent-image"
-                  />
-                </div>
-              </Link>
+              <div key={index} className=" px-3">
+                <Link
+                  href={`blog/details/${blog?.slug}`}
+                  className="w-full min-w-[350px]"
+                >
+                  <div>
+                    {/* Adding a custom class to adjust image opacity */}
+                    <Blog
+                      title={blog.title}
+                      image={blog.coverImage}
+                      className="transparent-image"
+                    />
+                  </div>
+                </Link>
+              </div>
             ))}
-          </div>
+          </Slider>
 
           {/* View All Blogs Button */}
           {blogs.length > 0 && (

@@ -114,3 +114,6 @@ body {
 .hover-effect:hover {
   background-color: #bf9100;
 }
+.slick-dots {
+  bottom: -18px !important;
+}

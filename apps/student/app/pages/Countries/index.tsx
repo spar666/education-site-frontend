@@ -6,11 +6,10 @@ import USA from '../../../assets/images/usa.jpg';
 import Aus from '../../../assets/images/australia.jpg';
 import Uk from '../../../assets/images/uk.jpg';
 import Frn from '../../../assets/images/france.jpg';
-import CarouselControls from 'apps/student/components/CarouselControls';
-import { cn } from 'libs/utils';
-import Link from 'next/link';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import { fetchAllUniversityByDestination } from '../../api/studyDestination';
-
+import Slider from 'react-slick';
 interface IDestination {
   name: string;
   slug: string;
@@ -36,6 +35,35 @@ export const UniversityPage = () => {
     fetchUniversities();
   }, []);
 
+  const sliderSettings = {
+    dots: true,
+    slidesToShow: 3,
+    arrows: false,
+    slidesToScroll: 1,
+    speed: 500,
+    touchMove: true,
+    cssEase: 'linear',
+
+    responsive: [
+      {
+        breakpoint: 1280,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 715,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 1,
+        },
+      },
+    ],
+  };
+
   const getCountryImage = (countryName: string) => {
     switch (countryName) {
       case 'New Zealand':
@@ -57,19 +85,6 @@ export const UniversityPage = () => {
     }
   };
 
-  const renderCountries = () => {
-    return destination
-      .slice(0, 4)
-      .map((country, index) => (
-        <Country
-          key={index}
-          country={country.name}
-          slug={country.slug}
-          countryImage={getCountryImage(country.name)}
-        />
-      ));
-  };
-
   return (
     <section className="my-5">
       <MaxWidthWrapper>
@@ -83,10 +98,17 @@ export const UniversityPage = () => {
         </div>
 
         <div className="relative w-full mx-auto rounded-lg scrollbar-hidden">
-          {/* Set grid layout with 4 columns */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {renderCountries()}
-          </div>
+          <Slider {...sliderSettings}>
+            {destination.slice(0, 4).map((country, index) => (
+              <div key={index} className="px-3">
+                <Country
+                  country={country.name}
+                  slug={country.slug}
+                  countryImage={getCountryImage(country.name)}
+                />
+              </div>
+            ))}
+          </Slider>
         </div>
 
         {destination.length > 0 && (
