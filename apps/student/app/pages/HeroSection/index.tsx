@@ -66,7 +66,12 @@ export const HeroSection = () => {
         </div>
 
         {/* Right Side: Image */}
-        <div className="w-full lg:w-1/2 mt-8 lg:mt-0 flex hidden lg:block opacity-0 animate-fadeInUp">
+        <div
+          className="w-full lg:w-1/2 mt-8 lg:mt-0 flex hidden lg:block opacity-0 animate-fadeInUp"
+          style={{
+            background: 'inherit',
+          }}
+        >
           {/* Image with scale-up effect on hover */}
           <Image
             src={`${renderImage({
