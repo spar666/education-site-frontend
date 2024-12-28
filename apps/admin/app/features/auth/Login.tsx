@@ -8,6 +8,8 @@ import AuthService from '../../api/Auth';
 import Cookies from 'js-cookie';
 import { updateUserDetails } from 'apps/admin/store/userSlice';
 import { isValidEmail } from 'apps/admin/utils/helper/helper';
+import { cookies } from 'next/headers';
+
 
 interface ILogin {
   email: string;
@@ -24,6 +26,9 @@ export function LoginAdmin() {
       password: '',
     },
   });
+
+  // Async function to create a 'name' cookie
+ 
 
   const getMyDetails = async () => {
     const token = Cookies.get('accessToken');

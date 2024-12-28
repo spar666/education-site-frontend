@@ -40,6 +40,7 @@ interface IStudyLevel {
 interface ICourse {
   id: string;
   courseName: string;
+  courseContents: string;
   slug: string;
   description: string;
   isFeatured: boolean;
@@ -151,7 +152,7 @@ const UniversityDetails = ({ searchParams }: any) => {
     // Map to group courses by study level
     const studyLevelsMap = new Map<string, any[]>();
 
-    universityDetails.courseSubject.forEach((courseSubject: ICourseSubject) => {
+    universityDetails.courseSubject.forEach((courseSubject: any) => {
       const studyLevel = capitalizeFirstLetter(
         courseSubject.course.studyLevel.name
       );
@@ -170,22 +171,19 @@ const UniversityDetails = ({ searchParams }: any) => {
 
       if (existingCourse) {
         // Avoid adding duplicate subjects
-        const subjectExists = existingCourse.universityCourseSubjects.some(
-          (sub: ISubject) => sub.id === courseSubject.subject.id
-        );
-        if (!subjectExists) {
-          existingCourse.universityCourseSubjects.push(courseSubject.subject);
-        }
-
+        // const subjectExists = existingCourse.universityCourseSubjects.some(
+        //   (sub: ISubject) => sub.id === courseSubject.subject.id
+        // );
+        // if (!subjectExists) {
+        //   existingCourse.universityCourseSubjects.push(courseSubject.subject);
+        // }
         // Optionally, merge financial details if they differ
         // Assuming financial details are consistent per course
       } else {
         // If course doesn't exist, add it with the current subject and financial details
         coursesForStudyLevel.push({
           courseName: courseSubject.course.courseName,
-          courseLink: `/course/details?university=${universityDetails.id}&course=${courseSubject.course.slug}`,
-          financeDetails: courseSubject.course.financeDetails,
-          universityCourseSubjects: [courseSubject.subject],
+          courseDescription: courseSubject.courseContents,
         });
       }
     });
@@ -203,70 +201,21 @@ const UniversityDetails = ({ searchParams }: any) => {
             dataSource={courses}
             renderItem={(course: any) => (
               <List.Item key={course.courseName}>
-                <Card
-                  title={
-                    <Link
-                      href={course.courseLink}
-                      className="text-xl font-bold"
-                    >
-                      {capitalizeFirstLetter(course.courseName)}
-                    </Link>
-                  }
-                >
+                <Card title className="text-xl font-bold">
+                  {capitalizeFirstLetter(course.courseName)}
+
                   <Collapse bordered={false} ghost>
                     {/* Subjects Panel */}
                     <Panel
-                      header={<h1 className="text-lg">Subjects</h1>}
+                      header={<h1 className="text-md">Course Descripton</h1>}
                       key="1"
                     >
-                      {course.universityCourseSubjects.length > 0 ? (
-                        <ul className="pl-5 space-y-2">
-                          {course.universityCourseSubjects.map(
-                            (subject: ISubject) => (
-                              <li
-                                key={subject.id}
-                                className="text-base text-gray-800"
-                              >
-                                {/* <Link
-                                  href={`/subject/${subject.id}`}
-                                  className="text-sm"
-                                >
-                                  {subject.subjectName}
-                                </Link> */}
-                              </li>
-                            )
-                          )}
-                        </ul>
-                      ) : (
-                        <Empty description="No Subjects Available" />
-                      )}
-                    </Panel>
-
-                    {/* Financial Details Panel */}
-                    <Panel
-                      header={<h1 className="text-lg">Financial Details</h1>}
-                      key="2"
-                    >
-                      {course.financeDetails.length > 0 ? (
-                        course.financeDetails.map((finance: IFinanceDetail) => (
-                          <Card key={finance.id} className="mb-2">
-                            <p className="text-sm">
-                              <strong>Tuition Fee:</strong> {finance.tuitionFee}{' '}
-                              {finance.currency}
-                            </p>
-                            <p className="text-sm">
-                              <strong>Financial Aid Available:</strong>{' '}
-                              {finance.financialAidAvailable ? 'Yes' : 'No'}
-                            </p>
-                            <p className="text-sm">
-                              <strong>Scholarship Details:</strong>{' '}
-                              {finance.scholarshipDetails}
-                            </p>
-                          </Card>
-                        ))
-                      ) : (
-                        <Empty description="No Financial Details Available" />
-                      )}
+                      <div
+                        className="text-base leading-1.5 text-sm font-normal"
+                        dangerouslySetInnerHTML={{
+                          __html: course.courseDescription || '',
+                        }}
+                      ></div>
                     </Panel>
                   </Collapse>
                 </Card>
@@ -371,7 +320,9 @@ const UniversityDetails = ({ searchParams }: any) => {
                       Courses at {universityDetails.universityName}
                     </h1>
 
-                    <div
+                    <Tabs defaultActiveKey="1">{coursesTabs}</Tabs>
+
+                    {/* <div
                       className="text-base leading-1.5"
                       dangerouslySetInnerHTML={{
                         __html:
@@ -379,7 +330,7 @@ const UniversityDetails = ({ searchParams }: any) => {
                             (cs) => cs.course.description
                           ) || '',
                       }}
-                    ></div>
+                    ></div> */}
                   </div>
                 </section>
               </>

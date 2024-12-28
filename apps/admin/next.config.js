@@ -12,6 +12,18 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
+
+  images: {
+    minimumCacheTTL: 15768000,
+    domains: [
+      "source.unsplash.com",
+      "storage.googleapis.com",
+      "lh3.googleusercontent.com",
+      "graph.facebook.com",
+      "localhost",
+      "studycourse-be-fd3578bd8022.herokuapp.com"
+    ],
+  },
 };
 
 const plugins = [

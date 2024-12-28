@@ -15,12 +15,15 @@ import { EditTwoTone } from '@ant-design/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import AdminLayout from 'apps/admin/components/SCLayout_v2';
+import Logo from '../../../../../student/assets/Logo/Logo.png';
 import {
   deleteCourse,
   fetchCourseCategories,
   fetchCourses,
   updateCourseStatus,
 } from 'apps/admin/app/api/Course';
+import Image from 'next/image';
+import { renderImage } from 'libs/services/helper';
 
 const ActionColumn = ({ id, onDelete }: any) => (
   <>
@@ -102,6 +105,25 @@ function CourseCategoryList() {
         <span className="block overflow-hidden whitespace-nowrap overflow-ellipsis line-clamp-1 w-40">
           {text}
         </span>
+      ),
+    },
+    {
+      title: 'Icon',
+      dataIndex: 'icon',
+      key: 'icon',
+      render: (icon: string) => (
+        <div className="relative w-10 h-10 overflow-hidden rounded-md">
+          <Image
+            src={`${renderImage({
+              imgPath: icon || '',
+              size: 'md',
+            })}`}
+            alt="Icon"
+            layout="fill"
+            objectFit="cover"
+            className="block"
+          />
+        </div>
       ),
     },
     // {

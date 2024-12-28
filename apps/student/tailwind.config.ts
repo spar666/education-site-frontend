@@ -16,6 +16,17 @@ module.exports = {
       },
     },
     extend: {
+        keyframes: {
+        fadeIn: {
+          '0%': { opacity: 0, transform: 'translateY(20px)' },
+          '100%': { opacity: 1, transform: 'translateY(0)' },
+        },
+      },
+      animation: {
+        fadeIn: 'fadeIn 1s ease-out',
+      },
+    
+  
       fontFamily: {
         sans: ['ui-sans-serif', 'system-ui'],
         serif: ['ui-serif', 'Georgia'],
@@ -39,6 +50,7 @@ module.exports = {
         'secondary-yellow': '#e7b416',
         'electric-violet': '#5c0dff',
         'winter-sky-blue': '#f8fcff',
+        'new-blue' : '#184883',
         serene: '#d7fbea',
         mint: '#a4eac4',
         peach: '#f9eee8',
@@ -48,7 +60,11 @@ module.exports = {
         'light-gray': '#ECECEC',
         'dark-blue': '#003366',
         'polynesian-blue': '#204A9B',
+        'new-color': '#c8d3df',
+        'gradient-radial-custom': 'radial-gradient(circle, rgba(226, 229, 233, 1) 50%, rgba(195, 218, 249, 1) 100%)'
+        
       },
+      
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -89,20 +105,7 @@ module.exports = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
-      keyframes: {
-        'accordion-down': {
-          from: { height: 0 },
-          to: { height: 'var(--radix-accordion-content-height)' },
-        },
-        'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: 0 },
-        },
-      },
-      animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
-      },
+     
     },
   },
   plugins: [require('tailwindcss-animate')],

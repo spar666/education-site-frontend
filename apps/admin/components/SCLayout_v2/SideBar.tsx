@@ -13,7 +13,7 @@ export function SideBar() {
   // const [logout] = useMutation(LOGOUT);
 
   function logoutHandler() {
-      localStorage.removeItem('token');
+    localStorage.removeItem('token');
     window.location.reload();
   }
 
@@ -45,7 +45,7 @@ export function SideBar() {
     // for permissions
   ];
 
-  const menu = [
+  const menu: any = [
     {
       key: 'logo',
       // label: <NavLogo onClick={() => router.push("/")} />,

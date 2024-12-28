@@ -24,6 +24,7 @@ interface IBlogs {
   title: string;
   coverImage: string;
   contents: string;
+  createdAt: any;
   slug: string;
 }
 
@@ -51,36 +52,24 @@ const BlogPage = () => {
     <section className="my-10 f">
       <MaxWidthWrapper>
         <div className="relative w-full ">
-          <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-center text-dark-blue mb-10">
-            Explore Further Study Options: Read Our Blogs
+          <h2 className="text-xl sm:text-3xl font-bold italic tracking-tight text-dark-blue mb-4">
+            Latest Blog
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="mt-2 grid grid-cols-1 md:grid-cols-3 gap-5">
             {/* Rendering top 3 blogs */}
             {blogs.slice(0, 3).map((blog, index) => (
-              <Link href={`blog/details/${blog?.slug}`}>
-                <div key={index} className="w-full">
-                  {/* Adding a custom class to adjust image opacity */}
-                  <Blog
-                    title={blog.title}
-                    image={blog.coverImage}
-                    className="transparent-image"
-                  />
-                </div>
-              </Link>
+              <div key={index} className="w-full">
+                {/* Adding a custom class to adjust image opacity */}
+                <Blog
+                  title={blog.title}
+                  image={blog.coverImage}
+                  slug={blog.slug}
+                  createdDate={blog.createdAt}
+                />
+              </div>
             ))}
           </div>
-
-          {/* View All Blogs Button */}
-          {blogs.length > 0 && (
-            <div className="flex justify-center my-5 f">
-              <Link href="/blog">
-                <Button className="w-full md:w-52 h-12 px-6 py-2 text-primary-blue hover:bg-[#bf9100] bg-secondary-yellow flex justify-center items-center  rounded mt-5  text-base font-bold">
-                  View All Blogs
-                </Button>
-              </Link>
-            </div>
-          )}
         </div>
       </MaxWidthWrapper>
 

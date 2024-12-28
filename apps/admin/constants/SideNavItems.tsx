@@ -1,13 +1,6 @@
 const SideNavItems = [
-  // {
-  //   key: 1,
-  //   icon: null,
-  //   name: 'Dashboard',
-  //   path: '/dashboard',
-  // },
-
   {
-    key: 3,
+    key: 1,
     icon: null,
     name: 'Course Management',
     path: '/dashboard-course',
@@ -48,13 +41,6 @@ const SideNavItems = [
     path: '/students',
   },
 
-  // {
-  //   key: 6,
-  //   icon: null,
-  //   name: 'FAQs',
-  //   path: '/faqs',
-  // },
-
   {
     key: 6,
     icon: null,
@@ -67,26 +53,47 @@ const SideNavItems = [
     name: 'Add User',
     path: '/user',
   },
-  // {
-  //   key: 6,
-  //   icon: null,
-  //   name: "Blogs",
-  //   path: "/blogs",
-  //   children: [
-  //     {
-  //       key: 7,
-  //       icon: null,
-  //       label: "Blogs List",
-  //       path: "/blogs",
-  //     },
-  //     {
-  //       key: 8,
-  //       icon: null,
-  //       label: "Blog Categories",
-  //       path: "/blogs/category",
-  //     },
-  //   ],
-  // },
+
+  {
+    key: 8,
+    icon: null,
+    name: 'Faq',
+    path: '/faq',
+  },
+
+  {
+    key: 9,
+    icon: null,
+    name: 'Content Management',
+    children: [
+      {
+        key: 1,
+        icon: null,
+        label: 'About Us',
+        path: '/about',
+      },
+      {
+        key: 2,
+        icon: null,
+        label: 'Banner',
+        path: '/banner',
+      },
+
+      {
+        key: 3,
+        icon: null,
+        label: 'Service',
+        path: '/service',
+      },
+    ],
+  },
+
+  {
+    key: 10,
+    icon: null,
+    name: 'Destination',
+    path: '/destination',
+  },
 ];
 
 export default SideNavItems;

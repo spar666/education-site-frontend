@@ -1,9 +1,12 @@
 'use client';
 import { useEffect, useState } from 'react';
 import MaxWidthWrapper from 'apps/student/components/MaxWidthWrapper';
-import { ArrowDownToLine, CheckCircle, ChevronRight, Leaf } from 'lucide-react';
-import { fetchCourses, fetchCategoriesWithCourses } from '../../api/courses';
+import { ChevronRight, MoveLeftIcon, MoveRightIcon } from 'lucide-react';
+import { fetchCategoriesWithCourses } from '../../api/courses';
 import Link from 'next/link';
+import Logo from '../../../assets/Logo/Logo.png';
+import Image from 'next/image';
+import { renderImage } from 'libs/services/helper';
 
 interface ICourse {
   id: string;
@@ -14,22 +17,20 @@ interface ICourse {
 interface ICourseCategory {
   id: string;
   courseCategory: string;
+  icon: any; // URL or SVG for the icon
   courses: ICourse[];
 }
 
 export const FeaturedCourse = () => {
-  const [courseCategories, setCourseCategories] = useState<ICourseCategory[]>(
-    []
-  );
+  const [categories, setCategories] = useState<ICourseCategory[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    async function fetchTopCourses() {
+    async function fetchCategories() {
       setLoading(true);
       try {
-        const response = await fetchCategoriesWithCourses();
-        console.log(response, 'from api');
-        setCourseCategories(response);
+        const response = await fetchCategoriesWithCourses(); // Fetch categories with icons
+        setCategories(response);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -37,71 +38,55 @@ export const FeaturedCourse = () => {
       }
     }
 
-    fetchTopCourses();
+    fetchCategories();
   }, []);
 
   return (
     <section className="my-5 ">
       <MaxWidthWrapper className="pb-5 lg:pb-10">
-        <div className="flex justify-center flex-col">
-          <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-center text-dark-blue">
-            What to Study? Checkout some of
-          </h2>
-          <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-center text-dark-blue">
-            popular courses
+        <div className="flex justify-center flex-col  ">
+          <h2 className="text-xl sm:text-3xl font-bold italic tracking-tight text-dark-blue mb-4">
+            Categories
           </h2>
         </div>
-        <div className="mt-5  lg:mt-10 card-grid">
-          {courseCategories.slice(0, 3).map((category) => (
-            <div
-              key={category?.id}
-              className="bg-dark-blue shadow-lg rounded-lg overflow-hidden  max-w-[350px]"
-            >
-              <div className="p-4 h-72">
-                <h3 className="text-xl font-bold text-gray-900 mb-2 f text-white">
-                  {category.courseCategory}
-                </h3>
-                <hr className="w-full border-t-2 border-[#e7b416] mb-4 mx-auto" />
 
-                <ul className="text-sm text-muted-foreground text-white">
-                  {category.courses.length > 0 ? (
-                    category.courses.slice(0, 3).map((course, index) => (
-                      <Link
-                        href={`/course/details/${encodeURIComponent(
-                          course?.slug
-                        )}`}
-                      >
-                        <li
-                          key={index}
-                          className="flex items-center gap-3 mt-1 f"
-                        >
-                          <a className="flex items-center gap-2 text-base">
-                            <ChevronRight size={16} />
-                            {course.courseName}
-                          </a>
-                        </li>
-                      </Link>
-                    ))
-                  ) : (
-                    <li className="text-gray-500">No Subjects Found</li>
-                  )}
-                </ul>
-              </div>
-            </div>
-          ))}
-        </div>
-        {/* {courses.length > 0 && (
-          <div className="flex justify-center f">
-            <Link href={`/course/details?course=${courses[0]?.slug}`}>
-              <button
-                type="button"
-                className="w-full lg:w-auto h-10 px-4 py-2 bg-dark-blue text-white flex justify-center items-center rounded mt-5"
+        {loading ? (
+          <p className="text-center text-gray-500">Loading categories...</p>
+        ) : (
+          <div className="mt-5 lg:mt-10 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-6">
+            {categories.slice(0, 4).map((category) => (
+              <div
+                key={category.id}
+                className="flex flex-col border border-shadow shadow-lg rounded-lg overflow-hidden  "
               >
-                View All Courses
-              </button>
-            </Link>
+                {/* Image Section */}
+                <div className="p-4">
+                  <Image
+                    src={`${renderImage({
+                      imgPath: category?.icon || '',
+                      size: 'sm',
+                    })}`}
+                    height={30}
+                    width={30}
+                    alt="Icon"
+                    className="block"
+                  />
+                </div>
+                {/* Text Section */}
+                <h3 className="text-xl font-bold text-black mb-4 text-left pl-4">
+                  {category.courseCategory || 'Unknown Category'}{' '}
+                  {/* Fallback for missing category */}
+                </h3>
+                <span className="text-base text-gray-700 mb-4 text-left pl-4">
+                  Enroll today and take the first step toward your dream career!
+                </span>
+                <button className="flex text-sm  text-navy-blue w-40 h-10  mb-4 mx-2 text-left pl-4 gap-2 ">
+                  <MoveRightIcon />
+                </button>
+              </div>
+            ))}
           </div>
-        )} */}
+        )}
       </MaxWidthWrapper>
     </section>
   );

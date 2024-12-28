@@ -47,6 +47,8 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
   }
+
+  
 }
 
 @layer base {
@@ -116,4 +118,26 @@ body {
 
 [data-f-id="pbf"] {
   display: none !important;
+}
+
+.ant-card-head  {
+  display: none !important;
+}
+
+/* globals.css or wherever your custom CSS resides */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add this class to your tailwind config */
+.animate-fadeInUp {
+  animation: fadeInUp 1s ease-out forwards;
 }

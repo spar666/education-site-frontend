@@ -3,21 +3,28 @@ import axios from 'axios';
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const search = async ({
-  course,
+  courseCategory,
   level,
   location,
+  university,
   rankingOrder,
   feesOrder,
   scholarshipOrder,
+  destination,
+  qualification,
 }: any) => {
+  console.log(level, 'levelsss');
   try {
     const response = await axios.post(`${API_URL}/university/search`, {
-      course,
+      courseCategory,
       level,
       location,
+      university,
       rankingOrder,
       feesOrder,
       scholarshipOrder,
+      destination,
+      qualification,
     });
 
     console.log(response, 'response');

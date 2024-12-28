@@ -104,7 +104,7 @@ const SCUpload = ({
           render={({ field }) => {
             const { value, onChange } = field;
             return (
-              <ImgCrop aspect={cropAspect || 2 / 1} quality={1}>
+              <ImgCrop aspect={cropAspect || 4 / 4} quality={1}>
                 <Upload
                   customRequest={customRequest}
                   listType="picture-card"

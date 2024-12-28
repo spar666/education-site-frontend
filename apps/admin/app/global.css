@@ -186,9 +186,9 @@ span[style="color: blueviolet;"] {
     display: none;
 }
 
-.fr-wrapper div:first-child {
+/* .fr-wrapper div:first-child {
   display: none;
-}
+} */
 
 /* .fr-wrapper {
     display: none !important;
