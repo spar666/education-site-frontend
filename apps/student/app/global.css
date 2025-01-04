@@ -83,7 +83,7 @@ body {
   background: rgba(255, 255, 255, 0.2);
   scale: 0.9 !important;
 }
-
+/* swipper */
 .swiper-pagination-bullet-active {
   color: #fff;
   background: white !important;
