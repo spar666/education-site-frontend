@@ -5,10 +5,6 @@ const CourseSchema = object({
     .min(3, { message: 'Course Name should be at least 3 characters' })
     .nonempty({ message: 'Course Name is required' })
     .trim(),
-  description: string()
-    .trim()
-    .optional()
-    .nullable(),
    category: object({
     courseCategory: string()
       

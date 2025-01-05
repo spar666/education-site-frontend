@@ -2,7 +2,6 @@
 
 export const defaults = {
   courseName: null,
-  description: null,
   levelName: null,
   levelDescription:null,
   otherdescription:null,

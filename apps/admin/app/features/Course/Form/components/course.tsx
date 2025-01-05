@@ -18,7 +18,6 @@ import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg/index';
 
 interface ICourse {
   courseName: string;
-  description: string;
   category: {
     courseCategory: string;
   };
@@ -33,7 +32,6 @@ interface IStudyLevel {
 
 const initialCourseState: ICourse = {
   courseName: '',
-  description: '',
   category: { courseCategory: '' },
   levels: { levelName: '' },
 };
@@ -95,7 +93,7 @@ const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
           const courseResponse = await fetchCoursesById({ id });
           reset({
             courseName: courseResponse?.courseName || '',
-            description: courseResponse?.description || '',
+            // description: courseResponse?.description || '',
             category: {
               courseCategory:
                 courseResponse?.courseCategory?.courseCategory || '',
@@ -235,7 +233,7 @@ const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
           </Col>
         </Row>
 
-        <Row gutter={[20, 20]}>
+        {/* <Row gutter={[20, 20]}>
           <Col xs={24} xl={12}>
             <SCWysiwyg
               register={register}
@@ -249,9 +247,7 @@ const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
               required
             />
           </Col>
-        </Row>
-
-      
+        </Row> */}
 
         <Row gutter={[20, 20]}>
           <Col xs={24} xl={12}>

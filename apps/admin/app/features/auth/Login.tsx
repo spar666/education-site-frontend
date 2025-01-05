@@ -5,11 +5,9 @@ import { useDispatch } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
 import Link from 'next/link';
 import AuthService from '../../api/Auth';
-import Cookies from 'js-cookie';
 import { updateUserDetails } from 'apps/admin/store/userSlice';
 import { isValidEmail } from 'apps/admin/utils/helper/helper';
-import { cookies } from 'next/headers';
-
+import { setCookie, getCookie } from 'cookies-next';
 
 interface ILogin {
   email: string;
@@ -28,10 +26,9 @@ export function LoginAdmin() {
   });
 
   // Async function to create a 'name' cookie
- 
 
   const getMyDetails = async () => {
-    const token = Cookies.get('accessToken');
+    const token = getCookie('accessToken');
     if (!token) {
       // Handle missing token case
       return;
@@ -53,8 +50,7 @@ export function LoginAdmin() {
       setLoading(true);
       const response = await AuthService.login(data);
       if (response.data.access_token) {
-        Cookies.set('accessToken', response.data.access_token, { expires: 1 }); // Cookie expires in 1 day
-        localStorage.setItem('token', 'accessToken');
+        setCookie('accessToken', response.data.access_token);
         await getMyDetails();
         notification.success({ message: response.data.message });
       } else {
