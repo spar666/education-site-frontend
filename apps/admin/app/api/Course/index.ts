@@ -3,15 +3,28 @@ import Cookies from 'js-cookie';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export const fetchCourses = async () => {
+export const fetchCourses = async (filters: any) => {
   try {
-    const response = await axios.get(`${API_URL}/courses/all`);
+    const params: { [key: string]: string } = {};
+
+    // Only include filters if they exist
+    if (filters.level) {
+      params.level = filters.level;
+    }
+    if (filters.category) {
+      params.category = filters.category;
+    }
+
+    // Send the filters as query parameters in the API request
+    const response = await axios.get(`${API_URL}/courses/all`, { params });
+
     return response.data.data;
-  } catch (error:any) {
+  } catch (error: any) {
     console.error('Failed to fetch courses:', error);
     throw new Error('Failed to fetch courses');
   }
 };
+
 
 export const fetchSubjectByCourse = async ({ course }: any) => {
   try {
@@ -118,5 +131,29 @@ export const updateCourseCategoriesById = async (data:any) => {
     console.error('Failed to fetch course categories:', error);
     throw new Error('Failed to fetch course categories');
   }
+
+  
+};
+
+export const fetchStudyLevelsById = async (id:string) => {
+  try {
+    const response = await axios.get(`${API_URL}/courses/levels/${id}`);
+    return response;
+  } catch (error: any) {
+    console.error('Failed to fetch level:', error);
+    throw new Error('Failed to fetch level');
+  }
+};
+
+export const updateStudyLevelsById = async (data:any) => {
+  try {
+    const response = await axios.put(`${API_URL}/courses/levels/update`, data);
+    return response;
+  } catch (error: any) {
+    console.error('Failed to fetch level:', error);
+    throw new Error('Failed to fetch level');
+  }
+
+  
 };
 

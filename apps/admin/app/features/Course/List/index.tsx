@@ -1,149 +1,98 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import {
-  Button,
-  Modal,
-  Popconfirm,
-  Select,
-  Space,
-  Switch,
-  Table,
-  notification,
-} from 'antd';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Button, Modal, Select, Space, Table, notification } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
-import {
-  CheckCircleTwoTone,
-  CloseCircleTwoTone,
-  DeleteOutlined,
-  EditTwoTone,
-  QuestionCircleOutlined,
-  SearchOutlined,
-  VerifiedOutlined,
-} from '@ant-design/icons';
+import { DeleteOutlined, EditTwoTone, FilterOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import AdminLayout from 'apps/admin/components/SCLayout_v2';
 import {
   deleteCourse,
+  fetchCourseCategories,
   fetchCourses,
-  updateCourseStatus,
 } from 'apps/admin/app/api/Course';
+import { fetchStudyLevels } from 'apps/admin/app/api/studylevel';
+import debounce from 'lodash/debounce';
 
-const ActionColumn = ({ id, onDelete }: any) => (
-  <>
-    <Space size={[16, 16]} className="test">
-      <div className="flex gap-5 items-center">
-        <Link href={`/course/edit?id=${id}`} passHref>
-          <EditTwoTone
-            className="text-2xl"
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
-          />
-        </Link>
+const { Option } = Select;
 
-        {/* Delete icon */}
-        <DeleteOutlined
-          className="text-2xl text-red-500 mt-[-12px]"
-          onClick={() => onDelete(id)} // Triggers the delete function
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
-        />
-      </div>
-    </Space>
-  </>
-);
+// Define the Course interface
+interface Course {
+  id: string;
+  courseName: string;
+  level: string;
+  category: string;
+}
 
-const ActiveColumn = ({
+interface Filters {
+  level?: string;
+  category?: string;
+}
+
+const ActionColumn = ({
   id,
-  isActive,
-  onActiveToggle,
+  onDelete,
 }: {
   id: string;
-  isActive: boolean;
-  onActiveToggle: (id: any) => void;
-}) => {
-  return (
-    <Popconfirm
-      id="popConfirm"
-      title={`Are you sure you want to ${
-        isActive ? 'Unpublish' : 'Publish'
-      } this item?`}
-      icon={
-        <QuestionCircleOutlined
-          style={{ color: 'red' }}
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
-        />
-      }
-      onConfirm={() => onActiveToggle(id)}
-      okText="Yes"
-    >
-      <Space size="middle">
-        <Switch
-          checked={isActive}
-          style={{ backgroundColor: isActive ? '#53C31B' : undefined }}
-          id="publishSwitch"
-        />
-      </Space>
-    </Popconfirm>
-  );
-};
-
-const FeatureColumn = ({ id, featured, onActiveToggle, disable }: any) => (
+  onDelete: (id: string) => void;
+}) => (
   <Space size="middle">
-    <Switch
-      checked={featured}
-      disabled={disable}
-      style={{ backgroundColor: featured && '#53C31B' }}
-      id="publishSwitch"
-    />
-  </Space>
-);
-
-const PublishColumn = ({ id, publish, onActiveToggle, disable }: any) => (
-  <Space size="middle">
-    <Switch
-      checked={publish}
-      style={{ backgroundColor: publish && '#53C31B' }}
-      id="publishSwitch"
-    />
-  </Space>
-);
-
-const ReviewColumn = ({ id }: any) => (
-  <Space size="middle" className="test">
-    <Link href={`/blogs/comments/${id}`} passHref>
-      <Button size="small">Comment</Button>
+    <Link href={`/course/edit?id=${id}`} passHref>
+      <EditTwoTone
+        className="text-2xl"
+        onPointerEnterCapture={undefined}
+        onPointerLeaveCapture={undefined}
+      />
     </Link>
+    <DeleteOutlined
+      className="text-2xl text-red-500"
+      onClick={() => onDelete(id)}
+      onPointerEnterCapture={undefined}
+      onPointerLeaveCapture={undefined}
+    />
   </Space>
 );
 
 function CourseList() {
   const router = useRouter();
-  const [course, setCourse] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-  const [courseToDelete, setCourseToDelete] = useState('');
-  const [courseNameToDelete, setCourseNameToDelete] = useState('');
+  const [course, setCourse] = useState<Course[]>([]);
+  const [level, setLevel] = useState<any[]>([]);
+  const [category, setCategory] = useState<any[]>([]);
+  const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [deleteModalVisible, setDeleteModalVisible] = useState<boolean>(false);
+  const [courseToDelete, setCourseToDelete] = useState<string>('');
+  const [filters, setFilters] = useState<Filters>({});
 
   useEffect(() => {
-    async function fetchAllCourses() {
-      setLoading(true);
-      try {
-        const response = await fetchCourses();
-        setCourse(response);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchAllCourses();
+    fetchAllCourses(); // Initial fetch when component mounts
   }, []);
 
-  const handleDelete = async (id: string) => {
-    // Show the delete confirmation modal
+  const fetchAllCourses = async (filters: Filters = {}) => {
+    setLoading(true);
+    try {
+      const [coursesResponse, levelsResponse, categoriesResponse] =
+        await Promise.all([
+          fetchCourses(filters), // Pass filters here to fetch filtered courses
+          fetchStudyLevels(),
+          fetchCourseCategories(),
+        ]);
+
+      setLevel(levelsResponse);
+      setCategory(categoriesResponse);
+
+      // Set filtered courses after fetching based on the current filters
+      setCourse(coursesResponse);
+      setFilteredCourses(coursesResponse); // Make sure to update the filteredCourses state
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      notification.error({ message: 'Failed to fetch courses.' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = (id: string) => {
     setCourseToDelete(id);
     setDeleteModalVisible(true);
   };
@@ -152,115 +101,108 @@ function CourseList() {
     try {
       await deleteCourse(courseToDelete);
       setDeleteModalVisible(false);
-      notification.success({
-        message: 'Course deleted succesfully',
-      });
+      notification.success({ message: 'Course deleted successfully' });
+
+      // Refetch courses after deletion
+      fetchAllCourses(filters);
     } catch (error) {
       console.error('Error deleting course:', error);
-      notification.error({
-        message: 'Error',
-        description: 'Failed to delete course.',
-      });
+      notification.error({ message: 'Failed to delete course.' });
     }
   };
 
-  // Define your columns
-  const columns: ColumnsType<any> = [
+  // Debounced filter change handler
+  const debouncedFilterChange = useCallback(
+    debounce((updatedFilters: Filters) => {
+      fetchAllCourses(updatedFilters); // Fetch filtered courses after debounce
+    }, 500), // 500ms debounce time
+    []
+  );
+
+  const handleFilterChange = (key: keyof Filters, value?: string) => {
+    const updatedFilters = { ...filters, [key]: value };
+    setFilters(updatedFilters);
+    debouncedFilterChange(updatedFilters); // Call debounced function
+  };
+
+  const resetFilters = () => {
+    setFilters({});
+    fetchAllCourses(); // Fetch all courses when filters are reset
+  };
+
+  const columns: ColumnsType<Course> = [
     {
       title: 'Course Name',
       dataIndex: 'courseName',
       key: 'courseName',
-      render: (text) => (
-        <span className="block overflow-hidden whitespace-nowrap overflow-ellipsis line-clamp-1 w-40">
-          {text}
-        </span>
-      ),
-    },
-    {
-      title: 'Course Slug',
-      dataIndex: 'slug',
-      key: 'slug',
-      render: (text) => (
-        <span className="block overflow-hidden whitespace-nowrap overflow-ellipsis line-clamp-1 w-40">
-          {text}
-        </span>
-      ),
-    },
-    {
-      title: 'Published',
-      dataIndex: 'isActive',
-      key: 'isActive',
-      align: 'center',
-      sorter: (a, b) => a.isActive - b.isActive,
-      render: (text, record) => (
-        <ActiveColumn
-          id={record.id}
-          isActive={record.isActive}
-          onActiveToggle={(id) => {
-            updateCourseStatus(id)
-              .then((response) => {
-                if (response?.status === 200) {
-                  notification.success({
-                    message: response.data.message,
-                  });
-                } else {
-                  notification.error({
-                    message: response.data.message,
-                  });
-                }
-                window.location.reload();
-              })
-              .catch((error) => {
-                notification.error({ message: error.message });
-              });
-          }}
-        />
-      ),
-    },
-    {
-      title: 'Featured',
-      dataIndex: 'isFeatured',
-      key: 'isFeatured',
-      align: 'center',
-      render: (text, record) => (
-        <FeatureColumn id={record.key} featured={record.isFeatured} />
-      ),
     },
     {
       title: 'Action',
-      dataIndex: 'action',
       key: 'action',
       align: 'center',
-      render: (text, record) => (
-        <ActionColumn id={record?.id} onDelete={handleDelete} />
+      render: (_, record) => (
+        <ActionColumn id={record.id} onDelete={handleDelete} />
       ),
     },
   ];
 
   return (
     <AdminLayout title="Course">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-xl font-bold">Courses</h3>
+        <Button
+          type="primary"
+          onClick={() => router.push('/course/create')}
+          size="large"
+        >
+          Add New Course
+        </Button>
+      </div>
+
+      <div className="flex gap-4 mb-4">
+        <FilterOutlined
+          size={70}
+          onPointerEnterCapture={undefined}
+          onPointerLeaveCapture={undefined}
+        />
+        <Select
+          placeholder="Filter by Level"
+          allowClear
+          style={{ width: 200 }}
+          value={filters.level}
+          onChange={(value) => handleFilterChange('level', value)}
+        >
+          {level.map((lev) => (
+            <Option key={lev.id} value={lev.id}>
+              {lev.name}
+            </Option>
+          ))}
+        </Select>
+
+        <Select
+          placeholder="Filter by Category"
+          allowClear
+          style={{ width: 200 }}
+          value={filters.category}
+          onChange={(value) => handleFilterChange('category', value)}
+        >
+          {category.map((cat) => (
+            <Option key={cat.id} value={cat.id}>
+              {cat.courseCategory}
+            </Option>
+          ))}
+        </Select>
+
+        <Button onClick={resetFilters}>Reset Filters</Button>
+      </div>
+
       <Table
-        title={() => (
-          <>
-            <div className="flex items-start justify-between my-3">
-              <h3 className="text-xl font-bold">Courses</h3>
-              <div className="flex justify-between items-center">
-                <Button
-                  type="primary"
-                  onClick={() => router.push('/course/create')}
-                  size="large"
-                >
-                  Add New Course
-                </Button>
-              </div>
-            </div>
-          </>
-        )}
+        loading={loading}
         columns={columns}
-        dataSource={course}
+        dataSource={filteredCourses}
+        rowKey="id"
       />
 
-      {/* Delete Confirmation Modal */}
       <Modal
         title="Confirm Delete"
         visible={deleteModalVisible}
@@ -269,7 +211,7 @@ function CourseList() {
         okText="Delete"
         okButtonProps={{ style: { backgroundColor: 'red', color: 'white' } }}
       >
-        <p>Are you sure you want to delete the course?</p>
+        <p>Are you sure you want to delete this course?</p>
       </Modal>
     </AdminLayout>
   );

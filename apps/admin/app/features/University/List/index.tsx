@@ -130,16 +130,7 @@ function UniversityList() {
       dataIndex: 'universityName',
       key: 'universityName',
     },
-    {
-      title: 'Address',
-      dataIndex: 'universityAddress',
-      key: 'universityAddress',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'universityEmail',
-      key: 'universityEmail',
-    },
+
     {
       title: 'Published',
       dataIndex: 'isActive',

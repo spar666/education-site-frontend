@@ -72,7 +72,7 @@ const Search: React.FC<SearchProps> = ({ searchParams }) => {
   };
 
   return (
-    <section className="container py-6 mx-auto bg-gray-50">
+    <section className="container py-6 mx-auto bg-white bg-full">
       {error && (
         <Alert message={error} type="error" showIcon className="mb-4" />
       )}

@@ -99,7 +99,7 @@ const UniversityForm: React.FC = () => {
     const fetchData = async () => {
       try {
         const [courseResponse, destinationsResponse] = await Promise.all([
-          fetchCourses(),
+          fetchCourses({}),
           fetchAllUniversityByDestination(),
         ]);
         setAvailableCourse(courseResponse);

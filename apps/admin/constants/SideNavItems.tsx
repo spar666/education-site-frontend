@@ -18,6 +18,12 @@ const SideNavItems = [
         label: 'Course Category',
         path: '/course-category',
       },
+      {
+        key: 3,
+        icon: null,
+        label: 'Study Levels',
+        path: '/study-levels',
+      },
     ],
   },
   {
