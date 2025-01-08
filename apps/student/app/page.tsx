@@ -1,3 +1,4 @@
+'use client';
 import {
   ArrowDownToLine,
   CheckCircle,
@@ -20,6 +21,7 @@ import CustomSearch from '../components/CustomSearch.tsx';
 import About from './pages/About';
 import Services from './pages/Services';
 import FAQ from './pages/Faq';
+import { FloatingWhatsApp } from '../components/WhatApps';
 
 export default async function Index() {
   return (
@@ -35,21 +37,14 @@ export default async function Index() {
       </div>
 
       {/* WhatsApp Icon */}
-      <Link
-        href="https://wa.me/+9779860409629"
-        target="_blank"
-        className="fixed bottom-5 right-5 bg-navy-blue text-white p-4 rounded-full shadow-xl hover:bg-green-600 transition-all duration-300 group"
-      >
-        <div className="relative">
-          {/* Animated Pulse Effect */}
-          <span className="absolute inset-0 w-full h-full rounded-full bg-green-500 opacity-70 animate-ping"></span>
-          {/* WhatsApp Icon */}
-          <MessageCircle
-            size={28}
-            className="relative z-10 group-hover:scale-110 transform transition-transform duration-200"
-          />
-        </div>
-      </Link>
+
+      <FloatingWhatsApp
+        phoneNumber="+61 466 658 522"
+        accountName="StudyAndVisa"
+        allowEsc
+        notification
+        notificationSound
+      />
     </div>
   );
 }
