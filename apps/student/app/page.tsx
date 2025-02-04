@@ -21,30 +21,36 @@ import CustomSearch from '../components/CustomSearch.tsx';
 import About from './pages/About';
 import Services from './pages/Services';
 import FAQ from './pages/Faq';
-import { FloatingWhatsApp } from '../components/WhatApps';
+// import { FloatingWhatsApp } from '../components/WhatApps';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
-export default async function Index() {
+export default function Index() {
   return (
-    <div className="min-h-screen bg-white flex justify-center items-center flex-col gap-2 relative">
-      <HeroSection />
-      <div className="px-5 sm:px-10 md:px-14 lg:px-24 w-full">
-        <FeaturedCourse />
-        <Services />
-        <UniversityPage />
-        <About />
-        <BlogPage />
-        <FAQ />
+    <main className="relative flex flex-col ">
+      <Navbar />
+      <div className="min-h-screen bg-white flex justify-center items-center flex-col gap-2 relative">
+        <HeroSection />
+        <div className="px-5 sm:px-10 md:px-14 lg:px-24 w-full">
+          <FeaturedCourse />
+          <Services />
+          <UniversityPage />
+          <About />
+          <BlogPage />
+          <FAQ />
+        </div>
+
+        {/* WhatsApp Icon */}
+
+        {/* <FloatingWhatsApp
+          phoneNumber="+61 466 658 522"
+          accountName="StudyAndVisa"
+          allowEsc
+          notification
+          notificationSound
+        /> */}
       </div>
-
-      {/* WhatsApp Icon */}
-
-      <FloatingWhatsApp
-        phoneNumber="+61 466 658 522"
-        accountName="StudyAndVisa"
-        allowEsc
-        notification
-        notificationSound
-      />
-    </div>
+      <Footer />
+    </main>
   );
 }
