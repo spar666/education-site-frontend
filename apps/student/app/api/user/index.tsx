@@ -11,3 +11,13 @@ export const addUserForAppointment = async ({ data }: any) => {
     throw new Error(`Failed to add blog: ${error.message}`);
   }
 };
+
+export const updateUser = async (data: any) => {
+  try {
+    const response = await axios.put(`${API_URL}/user/update`, data);
+
+    return response;
+  } catch ({ error }: any) {
+    throw new Error(`Failed to add blog: ${error.message}`);
+  }
+};

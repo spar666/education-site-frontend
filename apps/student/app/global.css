@@ -48,48 +48,49 @@
     --ring: 224.3 76.3% 48%;
   }
 
-  
-}
-
-@layer base {
   * {
     @apply border-border;
   }
 
   body {
-    @apply bg-background text-foreground;
+    background: linear-gradient(to bottom, #eef2ff, #ffffff);
+    min-height: 100vh;
+    /* Ensures gradient covers full viewport */
   }
 }
-/* body {
-  background-color: hsl(var(--muted));
-} */
+
+/* Container styles */
 .container {
   max-width: 1350px;
   margin-left: auto;
   margin-right: auto;
 }
+
 @media (min-width: 768px) {
   .container {
-    padding: 0px 90px;
+    padding: 0 90px;
   }
+
   .container-padding {
-    padding: 0px 90px;
+    padding: 0 90px;
   }
 }
 
+/* Swiper pagination */
 .swiper-pagination-bullet {
   width: 7px !important;
   height: 7px !important;
   background: rgba(255, 255, 255, 0.2);
   scale: 0.9 !important;
 }
-/* swipper */
+
 .swiper-pagination-bullet-active {
   color: #fff;
   background: white !important;
   scale: 1 !important;
 }
 
+/* Scrollbar hiding */
 .scrollbar-hidden {
   scrollbar-width: none;
   /* Firefox */
@@ -101,30 +102,32 @@
   display: none;
   /* Chrome, Safari, Opera */
 }
+
+/* Card grid layouts */
 .card-grid {
   display: grid;
   gap: 20px;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
+
 .card-grid-two {
   display: grid;
   gap: 20px;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
 }
 
+/* Hover effect */
 .hover-effect:hover {
   background-color: #bf9100;
 }
 
-[data-f-id="pbf"] {
+/* Hide specific elements */
+[data-f-id="pbf"],
+.ant-card-head {
   display: none !important;
 }
 
-.ant-card-head  {
-  display: none !important;
-}
-
-/* globals.css or wherever your custom CSS resides */
+/* Fade-in animation */
 @keyframes fadeInUp {
   0% {
     opacity: 0;
@@ -137,34 +140,32 @@
   }
 }
 
-/* Add this class to your tailwind config */
 .animate-fadeInUp {
   animation: fadeInUp 1s ease-out forwards;
 }
 
- /* for desktop */
- .whatsapp_float {
-   position: fixed;
-   width: 60px;
-   height: 60px;
-   bottom: 40px;
-   right: 40px;
-   background-color: #25d366;
-   color: #FFF;
-   border-radius: 50px;
-   text-align: center;
-   font-size: 30px;
-   box-shadow: 2px 2px 3px #999;
-   z-index: 100;
- }
+/* WhatsApp button */
+.whatsapp_float {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 40px;
+  right: 40px;
+  background-color: #25d366;
+  color: #fff;
+  border-radius: 50px;
+  text-align: center;
+  font-size: 30px;
+  box-shadow: 2px 2px 3px #999;
+  z-index: 100;
+}
 
- .whatsapp-icon {
-   margin-top: 16px;
- }
+.whatsapp-icon {
+  margin-top: 16px;
+}
 
- /* for mobile */
- @media screen and (max-width: 767px) {
-   .whatsapp-icon {
-     margin-top: 10px;
-   }
+@media screen and (max-width: 767px) {
+  .whatsapp-icon {
+    margin-top: 10px;
   }
+}

@@ -1,5 +1,5 @@
 'use client';
-
+import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
 export interface Destination {
@@ -11,7 +11,7 @@ export interface Destination {
     id: string;
     universityName: string;
     slug: string;
-  };
+  }[];
 }
 
 interface DestinationListProps {
@@ -23,25 +23,30 @@ export const DestinationList = ({
   destinations,
   onClose,
 }: DestinationListProps) => (
-  <div className="relative bg-white">
-    <div className="max-w-[800px] mx-auto">
-      <div className="flex justify-between items-center gap-4 pb-5">
-        {destinations?.map((dest: Destination) => (
-          <div key={dest.id}>
-            <span className="font-bold text-gray-800 items-center hover:text-blue-500">
+  <div className="bg-white rounded-lg shadow-lg p-6 w-full  mx-auto">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+      {destinations?.map((dest) => (
+        <div
+          key={dest.id}
+          className="group transition-colors duration-200"
+          onClick={onClose}
+        >
+          <div className="flex flex-col space-y-2">
+            <h3 className="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
               {dest.name}
-            </span>
-            <div className="flex flex-col">
-              <Link
-                href={`/university/country/${dest.slug}`}
-                className="text-base text-gray-800 items-center hover:text-blue-500"
-              >
-                Universities in {dest.name}
-              </Link>
-            </div>
+            </h3>
+            <Link
+              href={`/university/country/${dest.slug}`}
+              className="text-sm text-gray-600 hover:text-blue-500 transition-colors flex items-center"
+            >
+              <span>
+                {dest.universities?.length || 0} Universities
+                <span className="ml-1 text-blue-500">→</span>
+              </span>
+            </Link>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   </div>
 );

@@ -71,8 +71,8 @@ const BlogDetails = ({ searchParams }: any) => {
     <section className="mx-auto overflow-hidden bg-white">
       <DetailBanner height="h-[350px]" component={<Component />} />
       <MaxWidthWrapper>
-        <section className="py-5">
-          <div className="px-5 sm:px-10 md:px-14 lg:px-24 my-3">
+        <section className="py-5 md:py-8">
+          <div className="px-5 sm:px-10 md:px-14 lg:px-24 my-3 md:my-6">
             <Breadcrumb separator=">">
               <Breadcrumb.Item className="text-dark-blue">Home</Breadcrumb.Item>
               <Breadcrumb.Item className="text-dark-blue">Blog</Breadcrumb.Item>

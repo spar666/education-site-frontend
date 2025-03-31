@@ -42,12 +42,16 @@ export const FeaturedCourse = () => {
   }, []);
 
   return (
-    <section className="my-5 ">
+    <section className="py-16 px-4">
       <MaxWidthWrapper className="pb-5 lg:pb-10">
         <div className="flex justify-center flex-col  ">
           <h2 className="text-xl sm:text-3xl font-bold italic tracking-tight text-dark-blue mb-4">
-            Categories
+            Explore Categories
           </h2>
+          <p className="text-gray-500 mt-2">
+            Discover your perfect learning path with our carefully curated
+            course categories
+          </p>
         </div>
 
         {loading ? (
@@ -57,31 +61,42 @@ export const FeaturedCourse = () => {
             {categories.slice(0, 4).map((category) => (
               <div
                 key={category.id}
-                className="flex flex-col border border-shadow shadow-lg rounded-lg overflow-hidden  "
+                className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1 border border-indigo-50"
               >
                 {/* Image Section */}
                 <div className="p-4">
                   <Image
                     src={`${renderImage({
                       imgPath: category?.icon || '',
-                      size: 'sm',
+                      size: 'lg',
                     })}`}
                     height={30}
                     width={30}
                     alt="Icon"
                     className="block"
+                    loading="lazy"
                   />
                 </div>
-                {/* Text Section */}
-                <h3 className="text-xl font-bold text-black mb-4 text-left pl-4">
-                  {category.courseCategory || 'Unknown Category'}{' '}
-                  {/* Fallback for missing category */}
+
+                <h3 className="text-xl font-bold text-black mb-3">
+                  {category.courseCategory}{' '}
                 </h3>
-                <span className="text-base text-gray-700 mb-4 text-left pl-4">
-                  Enroll today and take the first step toward your dream career!
-                </span>
-                <button className="flex text-sm  text-navy-blue w-40 h-10  mb-4 mx-2 text-left pl-4 gap-2 ">
-                  <MoveRightIcon />
+                <button className="group flex items-center text-black font-semibold hover:text-indigo-800 transition-colors duration-200">
+                  Explore Courses
+                  <svg
+                    className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform duration-200"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
                 </button>
               </div>
             ))}

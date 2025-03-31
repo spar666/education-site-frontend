@@ -7,7 +7,8 @@ export const fetchUniversityByDestination = async (country: any) => {
     const response = await axios.get(
       `${API_URL}/destination/fetchUniversity/${country}`
     );
-    return response.data.data;
+    console.log(response, 'response');
+    return response.data.data.data;
   } catch (error) {
     console.error('Failed to fetch university:', error);
     throw new Error('Failed to fetch university');

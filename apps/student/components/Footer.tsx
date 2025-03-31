@@ -66,11 +66,11 @@ const Footer = () => {
   const pathsToMinimize = ['/verify-email', '/sign-up', '/sign-in'];
 
   return (
-    <footer className="bg-dark-blue w-full justify-between px-5 sm:px-10 md:px-14 lg:px-24  py-6 sm:py-10 lg:mt-0">
+    <footer className="bg-dark-blue w-full justify-between px-5 sm:px-10 md:px-14 lg:px-24   sm:py-10 lg:mt-0">
       <div className="w-full">
         {pathsToMinimize.includes(pathname) ? null : (
           <div className="relative flex flex-col w-full text-white justify-between sm:flex-row ">
-            <div className="flex flex-col justify-between pr-8 py-5">
+            <div className="flex flex-col justify-between pr-8 py-5 space-y-3">
               <span className="font-bold tracking-tight text-white mb-3">
                 Useful Links
               </span>
@@ -78,7 +78,7 @@ const Footer = () => {
             </div>
 
             {/* Middle part containing contact details */}
-            <div className="flex flex-col py-5">
+            <div className="flex flex-col py-5 space-y-3">
               <span className="font-bold tracking-tight text-white mb-3">
                 Contact Information
               </span>
@@ -86,7 +86,7 @@ const Footer = () => {
             </div>
 
             {/* Right part containing newsletter form */}
-            <div className="flex flex-col py-5">
+            <div className="flex flex-col py-5 space-y-3">
               <span className="font-bold tracking-tight text-white mb-3">
                 Subscribe to our newsletter
               </span>
@@ -95,7 +95,7 @@ const Footer = () => {
           </div>
         )}
       </div>
-      <hr className="w-full border-t-2 border-[#e7b416] my-4 mx-auto" />
+      <hr className="w-full border-t-2 border-[#e7b416] my-4" />
       <div className="py-5 flex flex-col md:flex-row  md:justify-between gap-2 h-full">
         <div className="md:text-left">
           <p className="text-sm  text-white">

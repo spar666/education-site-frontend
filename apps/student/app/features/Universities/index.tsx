@@ -31,9 +31,10 @@ const University = ({ searchParams }: any) => {
       setLoading(true);
       try {
         const response = await fetchUniversityByDestination(country);
-        setUniversity(response.universities);
+        setUniversity(response?.universities || []);
       } catch (error) {
         console.error('Failed to fetch university:', error);
+        setUniversity([]);
       } finally {
         setLoading(false);
       }
@@ -41,10 +42,11 @@ const University = ({ searchParams }: any) => {
     fetchData();
   }, [country]);
 
-  const paginatedData = university.slice(
-    (pagination.page - 1) * pagination.limit,
-    pagination.page * pagination.limit
-  );
+  const paginatedData =
+    university?.slice(
+      (pagination.page - 1) * pagination.limit,
+      pagination.page * pagination.limit
+    ) || [];
 
   return (
     <section className="bg-white overflow-hidden">
