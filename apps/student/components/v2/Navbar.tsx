@@ -48,8 +48,13 @@ const Navbar: React.FC = () => {
   const [studyLevels, setStudyLevels] = useState<any[]>([]);
   const [courses, setCourses] = useState<any[]>([]);
   const [destinations, setDestinations] = useState<any[]>([]);
+  const [isClient, setIsClient] = useState(false);
   const router = useRouter();
   const { user, isAuthenticated } = useUser() as UserHook;
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -99,24 +104,29 @@ const Navbar: React.FC = () => {
   };
 
   const toggleDropdown = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     e.stopPropagation();
     setIsDropdownOpen((prev) => !prev);
   };
 
   const toggleMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     e.stopPropagation();
     setIsMenuOpen((prev) => !prev);
   };
 
   const toggleNavDropdown = (name: string, e: React.MouseEvent) => {
+    e.preventDefault();
     e.stopPropagation();
     setActiveDropdown(activeDropdown === name ? null : name);
   };
 
   const renderAuthSection = (): JSX.Element => {
+    if (!isClient) return <div className="w-24 h-10" />; // Placeholder for SSR
+
     if (isAuthenticated && user) {
       return (
-        <div className="relative">
+        <div className="relative dropdown-container">
           <button
             type="button"
             onClick={toggleDropdown}
@@ -126,13 +136,16 @@ const Navbar: React.FC = () => {
             <span className="font-medium">{user.firstName}</span>
           </button>
           {isDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl py-2 z-50 dropdown-container border border-gray-100">
+            <div
+              className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl py-2 z-50 border border-gray-100"
+              onClick={(e) => e.stopPropagation()}
+            >
               <Link
-                href="/dashboard"
+                href="auth/profile"
                 className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                 onClick={() => setIsDropdownOpen(false)}
               >
-                <span>Dashboard</span>
+                <span>Profile</span>
                 <ChevronRight className="h-4 w-4 ml-auto text-gray-400" />
               </Link>
               <button
@@ -183,7 +196,10 @@ const Navbar: React.FC = () => {
                   />
                 </button>
                 {activeDropdown === link.name && (
-                  <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-[800px] bg-white rounded-lg shadow-xl py-5 px-6 z-50 border border-gray-100">
+                  <div
+                    className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-[800px] bg-white rounded-lg shadow-xl py-5 px-6 z-50 border border-gray-100"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     {link.name === 'Study Destination' ? (
                       <DestinationList
                         destinations={destinations}
@@ -218,8 +234,8 @@ const Navbar: React.FC = () => {
           type="button"
           className="p-2 text-gray-700 hover:text-blue-600 transition-colors"
           onClick={(e) => {
+            e.preventDefault();
             e.stopPropagation();
-            // Add your heart icon functionality here
           }}
         >
           <Heart className="h-5 w-5" />
@@ -230,6 +246,8 @@ const Navbar: React.FC = () => {
   };
 
   const renderMobileMenu = () => {
+    if (!isClient) return null;
+
     return (
       <div
         className={`md:hidden py-4 space-y-1 mobile-menu-container ${
@@ -322,11 +340,11 @@ const Navbar: React.FC = () => {
         {isAuthenticated ? (
           <>
             <Link
-              href="/dashboard"
+              href="auth/profile"
               className="block px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors font-medium"
               onClick={() => setIsMenuOpen(false)}
             >
-              Dashboard
+              Profile
             </Link>
             <button
               type="button"

@@ -63,6 +63,7 @@ export default function LoginPage() {
         setCookie('accessToken', response.data.access_token);
         await getMyDetails();
         notification.success({ message: response.data.message });
+        router.push('/');
       } else {
         notification.error({ message: 'Unexpected response from server' });
       }

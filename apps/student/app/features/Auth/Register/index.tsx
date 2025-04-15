@@ -7,6 +7,7 @@ import AuthService from 'apps/student/app/api/auth';
 import Link from 'next/link';
 import { useState } from 'react';
 import * as z from 'zod';
+import { useRouter } from 'next/navigation';
 
 // Define the form data interface based on the schema
 interface FormData {
@@ -53,7 +54,8 @@ type FormItemProps = {
 
 export default function RegisterPage() {
   const [loading, setLoading] = useState<boolean>(false);
-  const [form] = Form.useForm<FormData>(); // Add form instance with type
+  const [form] = Form.useForm<FormData>();
+  const router = useRouter();
 
   const onFinish = async (data: FormData) => {
     setLoading(true);
@@ -67,7 +69,8 @@ export default function RegisterPage() {
         notification.success({
           message: response.data.message,
         });
-        form.resetFields(); // Reset form on success
+        form.resetFields();
+        router.push('/auth/sign-in');
       } else {
         notification.error({
           message: response.data.error || 'Registration failed',

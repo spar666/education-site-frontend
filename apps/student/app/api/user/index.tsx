@@ -21,3 +21,5 @@ export const updateUser = async (data: any) => {
     throw new Error(`Failed to add blog: ${error.message}`);
   }
 };
+
+

@@ -83,7 +83,7 @@ const CustomSearch = () => {
             <option value="">Select Course Category</option>
             {courses.map((course) => (
               <option key={course?.id} value={course?.id}>
-                {course?.courseCategory}
+                {course?.name}
               </option>
             ))}
           </select>
