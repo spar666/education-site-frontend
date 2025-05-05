@@ -124,7 +124,7 @@ const DestinationForm: React.FC<any> = () => {
           throw new Error('Invalid destination data received');
         }
 
-        const formattedCover: UploadFile[] = image
+        const formattedCover: any = image
           ? [
               {
                 uid: image,
