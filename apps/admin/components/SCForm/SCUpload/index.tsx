@@ -120,7 +120,7 @@ const SCUpload = <T extends Record<string, any>>({
       onSuccess?.(data);
       const { publicId, url } = data.data;
 
-      const newFile: UploadFile = {
+      const newFile: any = {
         uid: publicId,
         name: (file as File).name || publicId.split('/').pop() || 'image',
         status: 'done',
