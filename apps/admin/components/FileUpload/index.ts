@@ -1,129 +1,102 @@
-import { notification } from 'antd';
-import axios, { AxiosResponse } from 'axios';
+import axios from "axios";
 
-export interface UploadedFile {
+interface MediaFile {
   uid: string;
   name: string;
-  status: 'done' | 'error' | 'uploading' | 'removed' | 'success' | 'removed';
+  status: 'pending' | 'uploading' | 'done' | 'error';
   url: string;
+  metadata?: {
+    width?: number;
+    height?: number;
+    format?: string;
+    size?: number;
+  };
 }
-const UPLOAD_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export const getImage = async (filename: string): Promise<string> => {
-  try {
-    const response: AxiosResponse<{ url: string[] }> = await axios.get(
-      `${UPLOAD_URL}?uploads/image=${filename}`
-    );
-    return response.data.url[0];
-  } catch (error) {
-    console.error('Error fetching image:', error);
-    throw new Error('Failed to fetch image');
-  }
-};
+interface UploadOptions {
+  folder?: string;
+  transformations?: {
+    width?: number;
+    height?: number;
+    crop?: string;
+    quality?: number;
+    [key: string]: any;
+  };
+  tags?: string[];
+}
 
-export const uploadFile = async (file: File): Promise<UploadedFile> => {
-  try {
-    if (!file) {
-      throw new Error('File is undefined');
-    }
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-    const formData = new FormData();
-    formData.append('file', file);
-    const response: any = await axios.post(`${UPLOAD_URL}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+class MediaUploader {
+  static async uploadFile(
+    file: File,
+    folder: any 
+  ): Promise<any> {
+    if (!file) throw new Error('No file provided');
 
-    if (response.data.length > 0) {
-      const filename = response.data[0].filename;
-      const url = await getImage(filename);
-      const fileObj: UploadedFile = {
-        uid: filename,
-        name: filename,
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      if (folder) formData.append('folder', folder);
+     
+
+      const response = await axios.post<{
+        data: {
+          url: string;
+          publicId: string;
+          dimensions?: { width?: number; height?: number };
+          format?: string;
+          size?: number;
+        };
+      }>(`${API_BASE_URL}/media/upload`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        onUploadProgress: (progressEvent) => {
+          // Optional: Add progress tracking
+        }
+      });
+
+      return {
+        uid: response.data.data.publicId,
+        name: file.name,
         status: 'done',
-        url: url,
+        url: response.data.data.url,
+        metadata: {
+          width: response.data.data.dimensions?.width,
+          height: response.data.data.dimensions?.height,
+          format: response.data.data.format,
+          size: response.data.data.size
+        }
       };
-      notification.success({ message: 'File uploaded successfully.' });
-      return fileObj;
-    } else {
-      throw new Error('No file data received');
+    } catch (error) {
+      console.error('Upload failed:', error);
+      throw error;
     }
-  } catch (error) {
-    console.error('Error uploading file:', error);
-    notification.error({ message: 'File upload failed.' });
-    throw new Error('File upload failed');
   }
-};
 
-export const uploadPrivateFile = async (file: File): Promise<UploadedFile> => {
-  try {
-    if (!file) {
-      throw new Error('File is undefined');
-    }
-
-    const formData = new FormData();
-    formData.append('file', file);
-    const response: AxiosResponse<{ filename: string }[]> = await axios.post(
-      `${UPLOAD_URL}`,
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }
-    );
-
-    if (response.data.length > 0) {
-      const filename = response.data[0].filename;
-      const url = await getImage(filename);
-      const fileObj: UploadedFile = {
-        uid: filename,
-        name: filename,
-        status: 'done',
-        url: url,
-      };
-      notification.success({ message: 'File uploaded successfully.' });
-      return fileObj;
-    } else {
-      throw new Error('No file data received');
-    }
-  } catch (error) {
-    console.error('Error uploading private file:', error);
-    notification.error({ message: 'File upload failed.' });
-    throw new Error('File upload failed');
+  static async uploadFiles(
+    files: File[],
+    folder: string
+  ): Promise<MediaFile[]> {
+    return Promise.all(files.map(file => this.uploadFile(file, folder)));
   }
-};
 
-export const splitUrls = (urls: string[]): UploadedFile[] => {
-  return urls.map((url) => ({
-    uid: url,
-    name: url.split('/').pop() || url,
-    status: 'done',
-    url: url,
-  }));
-};
-
-export const splitUrlString = (url: string): UploadedFile[] => {
-  return [
-    {
+  static createMediaFiles(urls: string[]): MediaFile[] {
+    return urls.map(url => ({
       uid: url,
-      name: url,
+      name: this.extractFilename(url),
       status: 'done',
-      url: url,
-    },
-  ];
-};
+      url
+    }));
+  }
 
-export const splitPrivateUrls = (urls: string[]): UploadedFile[] => {
-  return urls.map((url) => {
-    const parts = url.split('/');
-    const filename = parts[parts.length - 1].split('?')[0];
-    return {
-      uid: filename,
-      name: filename,
-      status: 'done',
-      url: url,
-    };
-  });
-};
+  private static extractFilename(url: string): string {
+    try {
+      return new URL(url).pathname.split('/').pop() || url;
+    } catch {
+      return url.split('/').pop() || url;
+    }
+  }
+}
+
+export default MediaUploader;

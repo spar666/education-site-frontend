@@ -99,8 +99,8 @@ function CourseCategoryList() {
   const columns: ColumnsType<any> = [
     {
       title: 'Course Category',
-      dataIndex: 'courseCategory',
-      key: 'courseCategory',
+      dataIndex: 'name',
+      key: 'name',
       render: (text) => (
         <span className="block overflow-hidden whitespace-nowrap overflow-ellipsis line-clamp-1 w-40">
           {text}
@@ -116,7 +116,6 @@ function CourseCategoryList() {
           <Image
             src={`${renderImage({
               imgPath: icon || '',
-              size: 'md',
             })}`}
             alt="Icon"
             layout="fill"

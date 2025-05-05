@@ -7,13 +7,9 @@ export const addUniversity = async (uni: any) => {
   try {
     const token = await Cookies.get('accessToken');
 
-    const response = await axios.post(
-      `${API_URL}/university/create`,
-      uni.universityData,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
+    const response = await axios.post(`${API_URL}/university/create`, uni, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
     return response;
   } catch (error: any) {

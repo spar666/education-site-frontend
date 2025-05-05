@@ -125,7 +125,6 @@ const BlogDetails = ({ searchParams }: any) => {
                         style={{
                           backgroundImage: `url(${renderImage({
                             imgPath: blogItem.coverImage || '',
-                            size: 'md',
                           })})`,
                           backgroundSize: 'cover',
                           backgroundPosition: 'center',

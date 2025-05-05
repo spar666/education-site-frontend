@@ -1,19 +1,56 @@
 'use client';
+
 import { Button, Col, Row, notification } from 'antd';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useCallback, useEffect, useState } from 'react';
+import { SubmitHandler, useForm, Control } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import BlogSchema from '../validation';
 import SCUpload from 'apps/admin/components/SCForm/SCUpload';
 import { addBlog, fetchBlogById, updateBlog } from 'apps/admin/app/api/Blogs';
-import { zodResolver } from '@hookform/resolvers/zod';
 import SCInput from 'apps/admin/components/SCForm/SCInput';
 import SCSelect from 'apps/admin/components/SCForm/SCSelect';
 import SCTextArea from 'apps/admin/components/SCForm/SCTextArea';
 import { renderImage } from 'libs/services/helper';
 import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg/index';
 
-interface ICreate {
+// Define UploadFile interface
+interface UploadFile {
+  uid: string;
+  url: string;
+  name?: string;
+  status?: string;
+  publicId?: string;
+}
+
+// Define BlogResponse interface
+interface BlogResponse {
+  data: {
+    id?: string;
+    title: string;
+    tags: string[];
+    slug: string;
+    metaTitle: string;
+    metaDescription: string;
+    schemaMarkup: string;
+    author: { id: string };
+    contents: string;
+    coverImage: string;
+    images: string[];
+    status?: number;
+    message?: string;
+  };
+}
+
+// Define API error type
+interface ApiError {
+  message: string;
+  status?: number;
+}
+
+// Define BlogPayload for API calls
+interface BlogPayload {
+  id?: string;
   title: string;
   tags: string[];
   slug: string;
@@ -26,163 +63,181 @@ interface ICreate {
   images: string[];
 }
 
-function BlogForm() {
+// Type definitions for API functions
+interface FetchBlogByIdParams {
+  id: string;
+}
+
+// Define BlogForm props
+interface BlogFormProps {}
+
+// Helper function to map size to dimensions
+const getImageDimensions = (size: 'sm' | 'md' | 'lg') => {
+  switch (size) {
+    case 'lg':
+      return { width: 1200, height: 800 }; // Adjust dimensions as needed
+    case 'md':
+      return { width: 800, height: 600 };
+    case 'sm':
+      return { width: 400, height: 300 };
+    default:
+      return { width: 1200, height: 800 }; // Fallback
+  }
+};
+
+const BlogForm: React.FC<BlogFormProps> = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
-  const [loading, setLoading] = useState(false);
-  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
-  const [authorId, setAuthorId] = useState(null);
-  const [blogCoverImage, setBlogCoverImage] = useState(null);
-  const [blogContentImage, setBlogContentImage] = useState<string[]>([]);
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [authorId, setAuthorId] = useState<string | null>(null);
+  const [blogCoverImage, setBlogCoverImage] = useState<string | null>(null);
+  const [blogContentImages, setBlogContentImages] = useState<string[]>([]);
 
   const {
     control,
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors },
-    setError,
     reset,
-  } = useForm({
+  } = useForm<any>({
     resolver: zodResolver(BlogSchema),
+    defaultValues: {
+      title: '',
+      tags: [],
+      slug: '',
+      metaTitle: '',
+      metaDescription: '',
+      schemaMarkup: '',
+      author: '',
+      contents: '',
+      coverImage: [],
+      images: [],
+    },
   });
+
   useEffect(() => {
     if (id) {
       fetchBlogById({ id })
-        .then((response) => {
-          setBlogCoverImage(response.data.coverImage || '');
-          setBlogContentImage(response.data.images || []);
+        .then((response: BlogResponse) => {
+          const { data } = response;
+          setBlogCoverImage(data.coverImage || null);
+          setBlogContentImages(data.images || []);
+          setAuthorId(data.author.id);
 
-          const cover = response.data.coverImage;
-          const contentsImages = [response.data.images];
-          const formattedCover = [
-            {
-              uid: cover,
-              url: renderImage({ imgPath: cover, size: 'lg' }),
-            },
-          ];
+          const formattedCover: UploadFile[] = data.coverImage
+            ? [
+                {
+                  uid: data.coverImage,
+                  url: renderImage({
+                    imgPath: data.coverImage,
+                    ...getImageDimensions('lg'), // Map size to dimensions
+                  }),
+                },
+              ]
+            : [];
 
-          const formattedGallery = contentsImages?.map((item) => {
-            return {
+          const formattedGallery: UploadFile[] =
+            data.images?.map((item: string) => ({
               uid: item,
-              url: renderImage({ imgPath: item, size: 'lg' }),
-            };
-          });
-          setAuthorId(response.data.author.id);
+              url: renderImage({
+                imgPath: item,
+                ...getImageDimensions('lg'), // Map size to dimensions
+              }),
+            })) || [];
+
           reset({
-            title: response.data.title,
-            tags: response.data.tags,
-            slug: response.data.slug,
-            metaTitle: response.data.metaTitle,
-            metaDescription: response.data.metaDescription,
-            schemaMarkup: response.data.schemaMarkup,
-            contents: response.data.contents,
+            title: data.title,
+            tags: data.tags,
+            slug: data.slug,
+            metaTitle: data.metaTitle,
+            metaDescription: data.metaDescription,
+            schemaMarkup: data.schemaMarkup,
+            contents: data.contents,
             coverImage: formattedCover,
             images: formattedGallery,
-            author: response.data.author.id,
+            author: data.author.id,
           });
         })
-        .catch((error) => {
+        .catch((error: ApiError) => {
           console.error('Error fetching blog:', error);
+          notification.error({
+            message: error.message || 'Failed to load blog data',
+          });
         });
     }
   }, [id, reset]);
 
-  let coverImageUrl: any, contentImageUrl: any;
-  if (uploadedImageUrls.length > 0) {
-    coverImageUrl = uploadedImageUrls;
-    contentImageUrl = uploadedImageUrls;
-  } else {
-    coverImageUrl = blogCoverImage;
-    contentImageUrl = [blogContentImage];
-  }
+  const handleCoverImageUpload = useCallback((publicId: string) => {
+    setBlogCoverImage(publicId);
+    notification.success({
+      message: 'Upload Successful',
+      description: 'Blog cover image has been uploaded',
+    });
+  }, []);
 
-  console.log(coverImageUrl, 'coverimage');
+  const handleContentImagesUpload = useCallback((publicIds: string[]) => {
+    setBlogContentImages(publicIds);
+    notification.success({
+      message: 'Upload Successful',
+      description: 'Content images have been uploaded',
+    });
+  }, []);
 
-  console.log(contentImageUrl, 'contentimageurl');
-
-  const blogHandler = async (data: any) => {
+  const blogHandler: SubmitHandler<any> = async (data) => {
     setLoading(true);
 
-    // Update or add the blog
+    const payload: BlogPayload = {
+      ...data,
+      coverImage: blogCoverImage || data.coverImage[0]?.uid || '',
+      images:
+        blogContentImages.length > 0
+          ? blogContentImages
+          : data.images.map((img: any) => img.uid),
+      ...(id && { id }),
+      author: authorId || data.author,
+    };
 
-    if (id) {
-      const updatedData = {
-        ...data,
-        id: id,
-        slug: data?.slug || '',
-        author: authorId,
-      };
+    try {
+      const response: BlogResponse = id
+        ? await updateBlog(payload)
+        : await addBlog({ data: payload });
 
-      // Only update coverImage if new coverImage is provided
-      if (data.coverImage) {
-        updatedData.coverImage = coverImageUrl;
-      }
-
-      // Only update images if new images are provided
-      if (data.images && data.images.length > 0) {
-        updatedData.images = contentImageUrl;
-      }
-
-      updateBlog(updatedData)
-        .then((response) => {
-          if (response.data.status === 201) {
-            router.push('/blogs');
-            notification.success({
-              message: response.data.message,
-            });
-          } else {
-            notification.warning({
-              message: response.data.message,
-            });
-          }
-        })
-        .catch((e) => {
-          notification.error({ message: e.message });
+      if (response.data.status === 201) {
+        notification.success({
+          message: response.data.message || 'Operation successful',
         });
-    } else {
-      data.coverImage = coverImageUrl;
-      data.images = contentImageUrl;
-
-      console.log(data, 'for upload');
-      addBlog({ data })
-        .then((response) => {
-          if (response.data.status === 201) {
-            router.push('/blogs');
-            notification.success({
-              message: response.data.message,
-            });
-          } else {
-            notification.error({
-              message: response.data.createBlog.error(),
-            });
-          }
-        })
-        .catch((error) => {
-          notification.error({ message: error.message });
-        })
-        .finally(() => {
-          setLoading(false);
+        router.push('/blogs');
+      } else {
+        notification.warning({
+          message: response.data.message || 'Operation completed with warnings',
         });
+      }
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      notification.error({
+        message: err.message || 'An error occurred while saving the blog',
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleImageUpload = (urls: string[]) => {
-    setUploadedImageUrls(urls);
-  };
-
   return (
-    <>
-      <form onSubmit={handleSubmit(blogHandler)} className="bg-white px-8 pb-8">
-        <h3 className="text-xl font-bold mt-7  py-8 m-0">
-          {id ? 'Edit' : 'Create'} Blog
-        </h3>
+    <div className="bg-white px-8 pb-8">
+      <h3 className="text-xl font-bold mt-7 py-8 m-0">
+        {id ? 'Edit' : 'Create'} Blog
+      </h3>
+      <form onSubmit={handleSubmit(blogHandler)}>
         <Row gutter={[20, 20]}>
           <Col xs={24} xl={12}>
             <SCInput
               register={register}
               name="title"
-              control={control}
+              control={control as Control<any>}
               label="Title"
               parentClass="flex-grow mb-4"
               error={errors?.title?.message}
@@ -196,7 +251,7 @@ function BlogForm() {
               register={register}
               parentClass="flex-grow mb-4"
               name="tags"
-              control={control as any}
+              control={control as Control<any>}
               label="Tags"
               error={errors?.tags?.message}
               allowClear
@@ -214,7 +269,7 @@ function BlogForm() {
               register={register}
               parentClass="flex-grow mb-4"
               name="slug"
-              control={control as any}
+              control={control as Control<any>}
               label="Slug"
               error={errors?.slug?.message}
               placeholder="title-in-this-format"
@@ -228,7 +283,7 @@ function BlogForm() {
               register={register}
               parentClass="flex-grow mb-4"
               name="metaTitle"
-              control={control as any}
+              control={control as Control<any>}
               label="Meta Title"
               error={errors?.metaTitle?.message}
               placeholder="Meta Title"
@@ -240,7 +295,7 @@ function BlogForm() {
               register={register}
               name="metaDescription"
               parentClass="flex-grow mb-4"
-              control={control as any}
+              control={control as Control<any>}
               label="Meta Description"
               error={errors?.metaDescription?.message}
               allowClear
@@ -256,7 +311,7 @@ function BlogForm() {
               rows={7}
               name="schemaMarkup"
               parentClass="flex-grow mb-4"
-              control={control}
+              control={control as Control<any>}
               label="Schema Markup"
               error={errors?.schemaMarkup?.message}
               allowClear
@@ -270,7 +325,7 @@ function BlogForm() {
             <SCWysiwyg
               name="contents"
               register={register}
-              control={control}
+              control={control as Control<any>}
               parentClass="flex-grow mb-4"
               label="Contents"
               error={errors?.contents?.message}
@@ -279,27 +334,30 @@ function BlogForm() {
         </Row>
         <Row>
           <SCUpload
-            register={register}
             name="coverImage"
-            control={control as any}
+            control={control as Control<any>}
             label="Cover Photo"
-            error={errors?.coverImage?.message}
+            error={errors.coverImage?.message}
+            cropAspect={1}
+            folder="blog"
+            onFileUpload={handleCoverImageUpload}
+            multiple={false}
+            defaultFileList={watch('coverImage')}
             required
-            onFileUpload={handleImageUpload}
           />
         </Row>
-        <Row>
+        {/* <Row>
           <SCUpload
-            register={register}
             name="images"
-            control={control as any}
-            label="Contents Images"
-            multiple
-            error={errors?.images?.message}
-            cropAspect={2 / 2}
-            onFileUpload={handleImageUpload}
+            control={control as Control<any>}
+            label="Content Images"
+            error={errors.images?.message}
+            folder="blog/content"
+            onFileUpload={handleContentImagesUpload}
+            multiple={true}
+            defaultFileList={watch('images')}
           />
-        </Row>
+        </Row> */}
         <Row>
           <div className="flex mt-4">
             <Button
@@ -311,7 +369,6 @@ function BlogForm() {
               {id ? 'Update' : 'Create'}
             </Button>
             <Button
-              htmlType="submit"
               onClick={() => router.push('/blogs')}
               className="ml-4"
               size="large"
@@ -321,8 +378,8 @@ function BlogForm() {
           </div>
         </Row>
       </form>
-    </>
+    </div>
   );
-}
+};
 
 export default BlogForm;

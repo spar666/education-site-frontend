@@ -122,7 +122,6 @@ const CustomModal = ({ visible, onClose }: any) => {
                     <Image
                       src={renderImage({
                         imgPath: uni?.universityImage,
-                        size: 'sm',
                       })}
                       alt="University Image"
                       className="object-cover w-16 h-16 md:w-24 md:h-24"
@@ -182,7 +181,6 @@ const CustomModal = ({ visible, onClose }: any) => {
                   <Image
                     src={renderImage({
                       imgPath: uni?.universityImage,
-                      size: 'sm',
                     })}
                     alt="University Image"
                     className="object-cover w-16 h-16 md:w-24 md:h-24 mr-4"

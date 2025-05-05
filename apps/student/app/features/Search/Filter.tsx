@@ -68,11 +68,10 @@ const SearchFilter: React.FC<any> = ({ onFiltersChange }) => {
           fetchAllUniversity(),
         ]);
 
+      console.log(courseCategories, 'courseCategories');
+
       setData({
-        courseCategory: courseCategories.map((c: any) => ({
-          id: c.id,
-          name: c.courseCategory,
-        })),
+        courseCategory: courseCategories,
         studyLevel: studyLevels,
         destination: destinations,
         university: universities,

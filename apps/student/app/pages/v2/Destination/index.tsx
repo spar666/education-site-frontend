@@ -44,7 +44,6 @@ function index() {
                 <Image
                   src={`${renderImage({
                     imgPath: destination?.image || '',
-                    size: 'md',
                   })}`}
                   height={300}
                   width={300}

@@ -31,7 +31,7 @@ const CategoryCard: React.FC<{ category: ICourseCategory }> = ({
     <div className="bg-white p-6 rounded-2xl items-center shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 border border-gray-100 group flex items-center gap-6 h-25">
       <div className="relative w-16 h-16 flex-shrink-0">
         <Image
-          src={renderImage({ imgPath: category.icon || '', size: 'lg' })}
+          src={renderImage({ imgPath: category.icon || '' })}
           alt={`${category.name} category icon`}
           fill
           sizes="64px"

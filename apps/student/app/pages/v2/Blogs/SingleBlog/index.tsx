@@ -43,7 +43,6 @@ const Blog: React.FC<BlogProps> = ({ title, image, slug, createdDate }) => {
             style={{
               backgroundImage: `url(${renderImage({
                 imgPath: image || '',
-                size: 'md',
               })})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',

@@ -14,14 +14,14 @@ interface IAboutUs {
 }
 
 const About = () => {
-  const [about, setAbout] = useState<IAboutUs[]>([]); 
+  const [about, setAbout] = useState<IAboutUs[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchAboutUs = async () => {
       try {
         const response = await fetchAllAboutUs();
-        setAbout(response.data.data); 
+        setAbout(response.data.data);
       } catch (error) {
         console.error('Failed to fetch about us data:', error);
       } finally {
@@ -91,7 +91,6 @@ const About = () => {
               <Image
                 src={`${renderImage({
                   imgPath: firstAbout.coverImage || student,
-                  size: 'lg',
                 })}`}
                 alt="About Us"
                 height={400}

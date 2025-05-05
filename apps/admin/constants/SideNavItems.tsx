@@ -85,12 +85,12 @@ const SideNavItems = [
         path: '/banner',
       },
 
-      {
-        key: 3,
-        icon: null,
-        label: 'Service',
-        path: '/service',
-      },
+      // {
+      //   key: 3,
+      //   icon: null,
+      //   label: 'Service',
+      //   path: '/service',
+      // },
     ],
   },
 

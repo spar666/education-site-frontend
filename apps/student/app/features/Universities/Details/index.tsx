@@ -257,7 +257,6 @@ const UniversityDetails: React.FC<UniversityDetailsProps> = ({
         component={<BannerComponent />}
         imageUrl={renderImage({
           imgPath: universityDetails.universityImage,
-          size: 'lg',
         })}
       />
 

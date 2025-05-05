@@ -136,7 +136,6 @@ function AboutList() {
           <Image
             src={`${renderImage({
               imgPath: coverImage || '',
-              size: 'md',
             })}`}
             alt="Icon"
             layout="fill"

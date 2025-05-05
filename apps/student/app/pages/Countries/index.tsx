@@ -28,7 +28,6 @@ export const Country = ({ country, countryImage, slug }: any) => {
         <Image
           src={`${renderImage({
             imgPath: countryImage || '',
-            size: 'lg',
           })}`}
           height={500}
           width={500}

@@ -14,7 +14,6 @@ export const HeroImage = ({ imagePath }: HeroImageProps) => (
       <Image
         src={renderImage({
           imgPath: imagePath || student,
-          size: 'md',
         })}
         alt="Student"
         width={300}

@@ -21,7 +21,8 @@ const nextConfig = {
       "lh3.googleusercontent.com",
       "graph.facebook.com",
       "localhost",
-      "studycourse-be-fd3578bd8022.herokuapp.com"
+      "studycourse-be-fd3578bd8022.herokuapp.com",
+      "res.cloudinary.com"
     ],
   },
 

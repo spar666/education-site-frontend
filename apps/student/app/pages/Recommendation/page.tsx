@@ -147,7 +147,6 @@ const Recommendation = () => {
                   <Image
                     src={renderImage({
                       imgPath: university.universityImage || '',
-                      size: 'md',
                     })}
                     alt={university.name}
                     className="w-full h-40 object-cover rounded-t-lg"

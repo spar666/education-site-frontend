@@ -109,7 +109,6 @@ const Blogs = ({ searchParams }: any) => {
                             srcImage={
                               renderImage({
                                 imgPath: blog?.coverImage,
-                                size: 'sm',
                               }) || process.env.NEXT_PUBLIC_PLACEHOLDER_IMAGE
                             }
                           />

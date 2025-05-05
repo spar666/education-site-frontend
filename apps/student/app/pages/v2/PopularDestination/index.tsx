@@ -94,7 +94,6 @@ const Index: React.FC = () => {
                   <img
                     src={`${renderImage({
                       imgPath: destination?.destination_image || '',
-                      size: 'lg',
                     })}`}
                     alt={destination.destination_name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"

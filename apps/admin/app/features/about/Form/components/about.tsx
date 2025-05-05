@@ -1,8 +1,9 @@
 'use client';
+
 import { Button, Col, Row, notification } from 'antd';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useCallback, useEffect, useState } from 'react';
+import { SubmitHandler, useForm, Control } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import SCInput from 'apps/admin/components/SCForm/SCInput';
 import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg/index';
@@ -15,138 +16,188 @@ import {
 } from 'apps/admin/app/api/AboutUs';
 import AboutUsSchema from '../validation';
 
-interface ICreate {
+// Define UploadFile interface (aligned with SCUpload and BannerForm)
+interface UploadFile {
+  uid: string;
+  name: string;
+  status: 'uploading' | 'done' | 'error' | 'removed';
+  url: string;
+  thumbUrl?: string;
+  size?: number;
+  type?: string;
+  percent?: number;
+  originFileObj?: File;
+  response?: any;
+  error?: any;
+  publicId?: string;
+}
+
+// Define AboutResponse interface
+interface AboutResponse {
+  data: {
+    id?: string;
+    title: string;
+    contents: string;
+    coverImage: string;
+    status?: number;
+    message?: string;
+  };
+}
+
+// Define API error type
+interface ApiError {
+  message: string;
+  status?: number;
+}
+
+// Define AboutPayload for API calls
+interface AboutPayload {
+  id?: string;
   title: string;
   contents: string;
   coverImage: string;
 }
 
-function AboutForm() {
+// Type definitions for API functions
+interface FetchAboutUsByIdParams {
+  id: string;
+}
+
+// Define AboutForm props (for future extensibility)
+interface AboutFormProps {}
+
+// Helper function to map size to dimensions (same as BlogForm and BannerForm)
+const getImageDimensions = (size: 'sm' | 'md' | 'lg') => {
+  switch (size) {
+    case 'lg':
+      return { width: 1200, height: 800 }; // Adjust dimensions as needed
+    case 'md':
+      return { width: 800, height: 600 };
+    case 'sm':
+      return { width: 400, height: 300 };
+    default:
+      return { width: 1200, height: 800 }; // Fallback
+  }
+};
+
+const AboutForm: React.FC<AboutFormProps> = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
-  const [loading, setLoading] = useState(false);
-  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
-  const [aboutUsCoverImage, setAboutUsCoverImage] = useState(null);
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [coverImageId, setCoverImageId] = useState<string | null>(null);
 
   const {
     control,
     register,
     handleSubmit,
-    formState: { errors },
-    setError,
+    watch,
     reset,
-  } = useForm({
+    formState: { errors },
+  } = useForm<any>({
     resolver: zodResolver(AboutUsSchema),
+    defaultValues: {
+      title: '',
+      contents: '',
+      coverImage: [],
+    },
   });
+
   useEffect(() => {
     if (id) {
       fetchAboutUsById({ id })
-        .then((response) => {
-          setAboutUsCoverImage(response.data.coverImage || '');
-          const cover = response.data.coverImage;
-          const formattedCover = [
-            {
-              uid: cover,
-              url: renderImage({ imgPath: cover, size: 'lg' }),
-            },
-          ];
+        .then((response: AboutResponse) => {
+          const { data } = response;
+          setCoverImageId(data.coverImage || null);
+
+          const formattedCover: UploadFile[] = data.coverImage
+            ? [
+                {
+                  uid: data.coverImage,
+                  name: data.coverImage.split('/').pop() || 'about-image',
+                  status: 'done',
+                  url: renderImage({
+                    imgPath: data.coverImage,
+                    ...getImageDimensions('lg'), // Map size to dimensions
+                  }),
+                },
+              ]
+            : [];
+
           reset({
-            title: response.data.title,
-            contents: response.data.contents,
+            title: data.title,
+            contents: data.contents,
             coverImage: formattedCover,
           });
         })
-        .catch((error) => {
-          console.error('Error fetching faq:', error);
+        .catch((error: ApiError) => {
+          console.error('Error fetching about us:', error);
+          notification.error({
+            message: error.message || 'Failed to load about us data',
+          });
         });
     }
   }, [id, reset]);
 
-  let coverImageUrl: any;
-  if (uploadedImageUrls.length > 0) {
-    coverImageUrl = uploadedImageUrls;
-  } else {
-    coverImageUrl = aboutUsCoverImage;
-  }
+  const handleCoverImageUpload = useCallback((publicId: string) => {
+    setCoverImageId(publicId);
+    notification.success({
+      message: 'Upload Successful',
+      description: 'Cover image has been uploaded',
+    });
+  }, []);
 
-  const handleImageUpload = (urls: string[]) => {
-    setUploadedImageUrls(urls);
-  };
-
-  const AboutUsHandler = async (data: any) => {
+  const onSubmit: SubmitHandler<any> = async (data) => {
     setLoading(true);
 
-    // Update or add the blog
+    const payload: AboutPayload = {
+      title: data.title,
+      contents: data.contents,
+      coverImage: coverImageId || data.coverImage[0]?.uid || '',
+      ...(id && { id }),
+    };
 
-    if (id) {
-      const updatedData = {
-        ...data,
-        id: id,
-        question: data?.question || '',
-        answer: data?.answer || '',
-      };
+    try {
+      const response: AboutResponse = id
+        ? await updateAboutUs(payload)
+        : await addAboutUs({ data: payload });
 
-      // Only update coverImage if new coverImage is provided
-      if (data.coverImage) {
-        updatedData.coverImage = coverImageUrl;
+      if (response.data.status === 201) {
+        notification.success({
+          message: response.data.message || 'Operation successful',
+        });
+        router.push('/about');
+      } else {
+        notification.warning({
+          message: response.data.message || 'Operation completed with warnings',
+        });
       }
-
-      updateAboutUs(updatedData)
-        .then((response) => {
-          if (response.data.status === 201) {
-            router.push('/about');
-            notification.success({
-              message: response.data.message,
-            });
-          } else {
-            notification.warning({
-              message: response.data.message,
-            });
-          }
-        })
-        .catch((e) => {
-          notification.error({ message: e.message });
-        });
-    } else {
-      data.coverImage = coverImageUrl;
-      addAboutUs({ data })
-        .then((response) => {
-          if (response.data.status === 201) {
-            router.push('/about');
-            notification.success({
-              message: response.data.message,
-            });
-          } else {
-            notification.error({
-              message: response.data.createBlog.error(),
-            });
-          }
-        })
-        .catch((error) => {
-          notification.error({ message: error.message });
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      notification.error({
+        message: err.message || 'An error occurred while saving',
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
+  // Safely get the coverImage value
+  const coverImageValue = watch('coverImage') || [];
+
   return (
-    <>
-      <form
-        onSubmit={handleSubmit(AboutUsHandler)}
-        className="bg-white px-8 pb-8"
-      >
-        <h3 className="text-xl font-bold mt-7  py-8 m-0">
-          {id ? 'Edit' : 'Create'} About
-        </h3>
+    <div className="bg-white px-8 pb-8">
+      <h3 className="text-xl font-bold mt-7 py-8 m-0">
+        {id ? 'Edit' : 'Create'} About
+      </h3>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Row gutter={12}>
           <Col xs={24} xl={12}>
             <SCInput
               register={register}
               name="title"
-              control={control}
+              control={control as Control<any>}
               label="Title"
               parentClass="flex-grow mb-4"
               error={errors?.title?.message}
@@ -162,7 +213,7 @@ function AboutForm() {
             <SCWysiwyg
               name="contents"
               register={register}
-              control={control}
+              control={control as Control<any>}
               parentClass="flex-grow mb-4"
               label="Contents"
               error={errors?.contents?.message}
@@ -172,13 +223,22 @@ function AboutForm() {
 
         <Row>
           <SCUpload
-            register={register}
             name="coverImage"
-            control={control as any}
+            control={control as Control<any>}
             label="Cover Photo"
-            error={errors?.coverImage?.message}
+            error={
+              errors.coverImage && 'message' in errors.coverImage
+                ? errors.coverImage.message
+                : undefined
+            }
+            cropAspect={16 / 9}
+            folder="about"
+            onFileUpload={handleCoverImageUpload}
+            multiple={false}
+            defaultFileList={
+              Array.isArray(coverImageValue) ? coverImageValue : []
+            }
             required
-            onFileUpload={handleImageUpload}
           />
         </Row>
 
@@ -193,7 +253,6 @@ function AboutForm() {
               {id ? 'Update' : 'Create'}
             </Button>
             <Button
-              htmlType="submit"
               onClick={() => router.push('/about')}
               className="ml-4"
               size="large"
@@ -203,8 +262,8 @@ function AboutForm() {
           </div>
         </Row>
       </form>
-    </>
+    </div>
   );
-}
+};
 
 export default AboutForm;

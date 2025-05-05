@@ -104,7 +104,6 @@ const University = ({ searchParams }: any) => {
                         <Image
                           src={renderImage({
                             imgPath: uni.universityImage,
-                            size: 'md',
                           })}
                           alt={uni.universityName}
                           className="w-full h-40 object-cover rounded-t-lg"

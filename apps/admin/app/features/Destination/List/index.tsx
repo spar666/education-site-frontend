@@ -69,7 +69,6 @@ function DestinationList() {
           <Image
             src={`${renderImage({
               imgPath: image || '',
-              size: 'md',
             })}`}
             alt="Icon"
             layout="fill"

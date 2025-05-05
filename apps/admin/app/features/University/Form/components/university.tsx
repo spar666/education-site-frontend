@@ -1,20 +1,27 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+
 import { Button, Col, Row, notification, Input } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 import {
+  SubmitHandler,
   useForm,
   useFieldArray,
   useWatch,
   Control,
-  FieldErrors,
   UseFormRegister,
+  UseFormSetValue,
+  UseFormWatch,
+  FieldErrors,
 } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { UploadFile } from 'antd/es/upload/interface';
 import SCInput from 'apps/admin/components/SCForm/SCInput';
 import SCSelect from 'apps/admin/components/SCForm/SCSelect';
 import SCUpload from 'apps/admin/components/SCForm/SCUpload';
-import SCTextArea from 'apps/admin/components/SCForm/SCTextArea';
+import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg';
 import { fetchCourses } from 'apps/admin/app/api/Course';
 import { fetchAllUniversityByDestination } from 'apps/admin/app/api/Destinations';
 import {
@@ -23,397 +30,700 @@ import {
   updateUniversity,
 } from 'apps/admin/app/api/University';
 import { renderImage } from 'libs/services/helper';
-import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg/index';
+import React from 'react';
 
+// Zod schema for form validation
+const UniversitySchema = z.object({
+  universityName: z.string().min(1, 'University name is required'),
+
+  worldRanking: z
+    .number({ invalid_type_error: 'World ranking must be a number' })
+    .min(1, 'World ranking is required'),
+  universityImage: z
+    .array(
+      z.object({
+        uid: z.string(),
+        name: z.string(),
+        status: z.enum(['done', 'uploading', 'error', 'removed']),
+        url: z.string(),
+        thumbUrl: z.string().optional(),
+        size: z.number().optional(),
+        type: z.string().optional(),
+        percent: z.number().optional(),
+        originFileObj: z.any().optional(),
+        response: z.any().optional(),
+        error: z.any().optional(),
+        publicId: z.string().optional(),
+      })
+    )
+    .min(1, 'University image is required'),
+  description: z.string().min(1, 'Description is required'),
+  courses: z
+    .array(
+      z.object({
+        courses: z.string().min(1, 'Course selection is required'),
+        courseContents: z.string().min(1, 'Course description is required'),
+      })
+    )
+    .min(1, 'At least one course is required'),
+  destination: z.string().min(1, 'Destination is required'),
+  campuses: z
+    .array(
+      z.object({
+        location: z.string().min(1, 'Campus location is required'),
+        email: z
+          .string()
+          .email('Invalid email')
+          .min(1, 'Campus email is required'),
+        contact: z.string().min(1, 'Campus contact is required'),
+      })
+    )
+    .min(1, 'At least one campus is required'),
+});
+
+type UniversityFormData = z.infer<typeof UniversitySchema>;
+
+// Type definitions
 interface Course {
-  courses: string;
-  courseContents: string;
+  id: string;
+  courseName: string;
 }
 
 interface Campus {
+  id?: string;
   location: string;
   email: string;
   contact: string;
 }
 
-interface ICreateUniversity {
+interface Destination {
+  id: string;
+  name: string;
+}
+
+interface UniversityImage extends UploadFile {
+  publicId?: string;
+}
+
+interface UniversityResponse {
   universityName: string;
   universityAddress: string;
   universityContactNumber: string;
   universityEmail: string;
   worldRanking: number;
-  universityImage: any;
+  universityImage: string;
   description: string;
-  courses: Course[];
+  courseSubject: { course: { id: string }; courseContents: string }[];
+  destination: { name: string };
+  campuses: Campus[];
+}
+
+interface ApiError {
+  message: string;
+  status?: number;
+}
+
+interface UniversityPayload {
+  id?: string;
+  universityName: string;
+  universityAddress: string;
+  universityContactNumber: string;
+  universityEmail: string;
+  worldRanking: number;
+  universityImage: string;
+  description: string;
+  courses: { courses: string; courseContents: string }[];
   destination: string;
   campuses: Campus[];
 }
 
-interface Destination {
-  name: string;
-  id: string;
-}
+// Helper function to map size to dimensions
+const getImageDimensions = (size: 'sm' | 'md' | 'lg') => {
+  switch (size) {
+    case 'lg':
+      return { width: 1200, height: 800 }; // Adjust dimensions as needed
+    case 'md':
+      return { width: 800, height: 600 };
+    case 'sm':
+      return { width: 400, height: 300 };
+    default:
+      return { width: 1200, height: 800 }; // Fallback
+  }
+};
 
-const UniversityForm: React.FC = () => {
+// Define UniversityForm props
+interface UniversityFormProps {}
+
+// Main component
+const UniversityForm: React.FC<UniversityFormProps> = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
+
   const [loading, setLoading] = useState(false);
-  const [uniImage, setUniImage] = useState<string | null>(null);
-  const [availableCourse, setAvailableCourse] = useState<any[]>([]);
+  const [availableCourses, setAvailableCourses] = useState<Course[]>([]);
+  const [availableDestinations, setAvailableDestinations] = useState<
+    Destination[]
+  >([]);
   const [newDestination, setNewDestination] = useState('');
-  const [newDestinationVisible, setNewDestinationVisible] = useState(false);
-  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
-  const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
-  const [selectedDestination, setSelectedDestination] = useState<Destination>({
-    name: '',
-    id: '',
-  });
-  const [availableDestination, setAvailableDestination] = useState<any>([]);
-  const [uniCampuses, setUniCampuses] = useState<Campus[]>([]);
+  const [showNewDestination, setShowNewDestination] = useState(false);
 
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors },
     reset,
     watch,
-  } = useForm<ICreateUniversity>();
+    setValue,
+    formState: { errors },
+  } = useForm<UniversityFormData>({
+    resolver: zodResolver(UniversitySchema),
+    defaultValues: {
+      universityName: '',
+      worldRanking: 0,
+      universityImage: [],
+      description: '',
+      courses: [],
+      destination: '',
+      campuses: [],
+    },
+  });
+
   const {
     fields: courseFields,
     append: appendCourse,
     remove: removeCourse,
-  } = useFieldArray({
-    control,
-    name: 'courses',
-  });
+  } = useFieldArray({ control, name: 'courses' });
+
   const {
     fields: campusFields,
     append: appendCampus,
     remove: removeCampus,
   } = useFieldArray({ control, name: 'campuses' });
 
-  // Fetch initial data for courses and destinations
+  // Fetch initial data (courses and destinations)
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchInitialData = async () => {
       try {
-        const [courseResponse, destinationsResponse] = await Promise.all([
+        const [courses, destinations] = await Promise.all([
           fetchCourses({}),
           fetchAllUniversityByDestination(),
         ]);
-        setAvailableCourse(courseResponse);
-        setAvailableDestination(destinationsResponse);
-      } catch (error) {
-        console.error('Failed to fetch data:', error);
+        setAvailableCourses(courses);
+        setAvailableDestinations(destinations);
+      } catch (error: unknown) {
+        const err = error as ApiError;
+        console.error('Failed to fetch initial data:', err);
+        notification.error({
+          message: err.message || 'Failed to load required data',
+        });
       }
     };
-    fetchData();
+    fetchInitialData();
   }, []);
 
-  console.log(availableCourse, 'acccc');
-
-  // Fetch university data if id is present
+  // Fetch university data for editing
   useEffect(() => {
     if (id) {
-      fetchUniversityById({ id }).then((response) => {
-        console.log(response, 'response');
-        const uniData = response;
-        setUniImage(uniData?.universityImage);
-        const formattedCover = [
-          {
-            uid: uniData?.universityImage,
-            url: renderImage({
-              imgPath: uniData?.universityImage,
-              size: 'lg',
-            }) as string,
-          },
-        ];
+      const fetchUniversityData = async () => {
+        try {
+          const uniData: UniversityResponse = await fetchUniversityById({ id });
+          const cover = uniData?.universityImage;
 
-        const courses = uniData?.courseSubject.map((courseSubject: any) => {
-          return {
-            courses: courseSubject?.course?.id,
-            courseContents: courseSubject?.courseContents,
-          };
-        });
+          const formattedCover: UniversityImage[] = cover
+            ? [
+                {
+                  uid: cover,
+                  name: cover.split('/').pop() || 'university-image',
+                  status: 'done',
+                  url: renderImage({
+                    imgPath: cover,
+                    ...getImageDimensions('lg'), // Map size to dimensions
+                  }),
+                  publicId: cover,
+                },
+              ]
+            : [];
 
-        setSelectedCourses(courses);
-        setSelectedDestination({
-          name: uniData?.destination.name,
-          id: uniData?.destination,
-        });
-        setUniCampuses(uniData?.campuses);
-
-        reset({
-          universityName: uniData?.universityName,
-          universityAddress: uniData?.universityAddress,
-          universityEmail: uniData?.universityEmail,
-          universityContactNumber: uniData?.universityContactNumber,
-          worldRanking: uniData?.worldRanking,
-          description: uniData?.description,
-          universityImage: formattedCover,
-          courses,
-          destination: uniData?.destination.id,
-          campuses: uniData?.campuses,
-        });
-      });
+          reset({
+            universityName: uniData?.universityName || '',
+            worldRanking: uniData?.worldRanking || 0,
+            description: uniData?.description || '',
+            universityImage: formattedCover,
+            courses:
+              uniData?.courseSubject?.map((courseSubject) => ({
+                courses: courseSubject.course.id,
+                courseContents: courseSubject.courseContents,
+              })) || [],
+            destination: uniData?.destination?.name || '',
+            campuses: uniData?.campuses || [],
+          });
+        } catch (error: unknown) {
+          const err = error as ApiError;
+          console.error('Failed to fetch university data:', err);
+          notification.error({
+            message: err.message || 'Failed to load university data',
+          });
+        }
+      };
+      fetchUniversityData();
     }
   }, [id, reset]);
 
-  const handleImageUpload = (urls: string[]) => {
-    setUploadedImageUrls(urls);
-  };
+  const handleImageUpload = useCallback(
+    (publicId: string) => {
+      const newImage: any = {
+        uid: publicId,
+        name: publicId.split('/').pop() || 'university-image',
+        status: 'done',
+        url: renderImage({
+          imgPath: publicId,
+          ...getImageDimensions('lg'), // Map size to dimensions
+        }),
+        publicId,
+      };
+      setValue('universityImage', [newImage]);
+      notification.success({
+        message: 'Upload Successful',
+        description: 'University image has been uploaded',
+      });
+    },
+    [setValue]
+  );
 
-  const handleFormSubmit = async (data: ICreateUniversity) => {
+  const onSubmit: SubmitHandler<UniversityFormData> = async (data) => {
     setLoading(true);
-
-    const courseArray = data.courses.map((course) => ({
-      ...course,
-      courseContents: course.courseContents,
-    }));
-
-    const imageUrl =
-      uploadedImageUrls.length > 0 ? uploadedImageUrls : uniImage;
-    console.log(courseArray, 'array');
-    const universityData = {
-      ...data,
-      universityImage: imageUrl,
-      courses: courseArray,
-      destination: selectedDestination.name,
-    };
-
     try {
+      const universityData: any = {
+        universityName: data.universityName,
+        worldRanking: data.worldRanking,
+        universityImage: data.universityImage[0]?.publicId || '',
+        description: data.description,
+        courses: data.courses,
+        destination: data.destination,
+        campuses: data.campuses,
+        ...(id && { id }),
+      };
+
       if (id) {
-        const updatedData = { ...universityData, id };
-        const response = await updateUniversity(updatedData);
-        notification.success({ message: response.data.message });
+        await updateUniversity(universityData);
+        notification.success({ message: 'University updated successfully' });
       } else {
-        const response = await addUniversity({ universityData });
-        notification.success({ message: response.data.message });
+        await addUniversity(universityData);
+        notification.success({ message: 'University created successfully' });
       }
       router.push('/university');
-    } catch (error: any) {
-      notification.error({ message: error.message });
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      console.error('Failed to submit university:', err);
+      notification.error({ message: err.message || 'An error occurred' });
     } finally {
       setLoading(false);
     }
   };
 
-  const appendCampusField = () => {
-    appendCampus({ location: '', email: '', contact: '' });
-  };
+  const addNewDestination = useCallback(() => {
+    if (newDestination.trim()) {
+      const newId = `new-${Date.now()}`;
+      const newDest: Destination = { id: newId, name: newDestination };
+      setAvailableDestinations((prev) => [...prev, newDest]);
+      setValue('destination', newId);
+      setNewDestination('');
+      setShowNewDestination(false);
+    } else {
+      notification.error({ message: 'Please enter a valid destination name' });
+    }
+  }, [newDestination, setValue]);
 
-  // Watch courses outside the render loop
   const watchedCourses = useWatch({ control, name: 'courses' }) || [];
-
-  // Get selected course IDs
-  const selectedCourseIds = [
-    ...watchedCourses.map((course) => course.courses),
-    ...selectedCourses.map((course) => course.courses),
-  ];
-  console.log(selectedCourseIds);
+  const selectedCourseIds = watchedCourses
+    .map((course) => course.courses)
+    .filter(Boolean);
 
   return (
-    <form
-      onSubmit={handleSubmit(handleFormSubmit)}
-      className="bg-white px-8 pb-8"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className="bg-white px-8 pb-8">
       <h3 className="text-xl font-bold mt-7 py-8 m-0">
         {id ? 'Edit' : 'Create'} University
       </h3>
-      <Row gutter={[20, 20]}>
-        <Col xs={24} xl={12}>
-          <SCInput
-            register={register}
-            name="universityName"
-            control={control}
-            label="University Name"
-            error={errors?.universityName?.message}
-            placeholder="University Name"
-            size="large"
-            required
-          />
-        </Col>
-      </Row>
-      {/* <Row gutter={[20, 20]}>
-        <Col xs={24}>
-          <SCTextArea
-            register={register}
-            name="description"
-            control={control}
-            label="Description"
-            error={errors?.description?.message}
-            placeholder="Description"
-            size="large"
-            required
-          />
-        </Col>
-      </Row> */}
 
-      <Row gutter={[20, 20]}>
-        <Col xs={24}>
-          <SCWysiwyg
-            name="description"
+      <UniversityBasicInfo
+        register={register}
+        control={control}
+        errors={errors}
+      />
+
+      <SCWysiwyg
+        name="description"
+        register={register}
+        control={control}
+        parentClass="flex-grow mb-4"
+        label="Description"
+        error={errors?.description?.message}
+      />
+
+      <CampusesSection
+        campusFields={campusFields}
+        register={register}
+        control={control}
+        errors={errors}
+        removeCampus={removeCampus}
+        appendCampus={appendCampus}
+      />
+
+      <CoursesSection
+        courseFields={courseFields}
+        availableCourses={availableCourses}
+        selectedCourseIds={selectedCourseIds}
+        register={register}
+        control={control}
+        errors={errors}
+        removeCourse={removeCourse}
+        appendCourse={appendCourse}
+      />
+
+      <DestinationSection
+        availableDestinations={availableDestinations}
+        showNewDestination={showNewDestination}
+        newDestination={newDestination}
+        register={register}
+        control={control}
+        errors={errors}
+        setShowNewDestination={setShowNewDestination}
+        setNewDestination={setNewDestination}
+        addNewDestination={addNewDestination}
+        setValue={setValue}
+        watch={watch}
+      />
+
+      <SCUpload
+        name="universityImage"
+        control={control}
+        label="University Image"
+        error={
+          errors.universityImage && 'message' in errors.universityImage
+            ? errors.universityImage.message
+            : undefined
+        }
+        cropAspect={1}
+        folder="university"
+        onFileUpload={handleImageUpload}
+        multiple={false}
+        defaultFileList={watch('universityImage') || []}
+        required
+      />
+
+      <FormActions loading={loading} id={id} router={router} />
+    </form>
+  );
+};
+
+// Sub-component props
+interface UniversityBasicInfoProps {
+  register: UseFormRegister<UniversityFormData>;
+  control: Control<UniversityFormData>;
+  errors: FieldErrors<UniversityFormData>;
+}
+
+interface CampusesSectionProps {
+  campusFields: { id: string }[];
+  register: UseFormRegister<UniversityFormData>;
+  control: Control<UniversityFormData>;
+  errors: FieldErrors<UniversityFormData>;
+  removeCampus: (index: number) => void;
+  appendCampus: (value: Campus) => void;
+}
+
+interface CampusFieldProps {
+  index: number;
+  register: UseFormRegister<UniversityFormData>;
+  control: Control<UniversityFormData>;
+  errors: FieldErrors<UniversityFormData>;
+}
+
+interface CoursesSectionProps {
+  courseFields: { id: string }[];
+  availableCourses: Course[];
+  selectedCourseIds: string[];
+  register: UseFormRegister<UniversityFormData>;
+  control: Control<UniversityFormData>;
+  errors: FieldErrors<UniversityFormData>;
+  removeCourse: (index: number) => void;
+  appendCourse: (value: { courses: string; courseContents: string }) => void;
+}
+
+interface DestinationSectionProps {
+  availableDestinations: Destination[];
+  showNewDestination: boolean;
+  newDestination: string;
+  register: UseFormRegister<UniversityFormData>;
+  control: Control<UniversityFormData>;
+  errors: FieldErrors<UniversityFormData>;
+  setShowNewDestination: (value: boolean) => void;
+  setNewDestination: (value: string) => void;
+  addNewDestination: () => void;
+  setValue: UseFormSetValue<UniversityFormData>;
+  watch: UseFormWatch<UniversityFormData>;
+}
+
+interface FormActionsProps {
+  loading: boolean;
+  id: string | null;
+  router: ReturnType<typeof useRouter>;
+}
+
+// Sub-components
+const UniversityBasicInfo: React.FC<UniversityBasicInfoProps> = ({
+  register,
+  control,
+  errors,
+}) => (
+  <Row gutter={[20, 20]}>
+    <Col xs={24} xl={12}>
+      <SCInput
+        register={register}
+        name="universityName"
+        control={control}
+        label="University Name"
+        error={errors.universityName?.message}
+        placeholder="University Name"
+        size="large"
+        required
+      />
+    </Col>
+    <Col xs={24} xl={12}>
+      <SCInput
+        register={register}
+        name="worldRanking"
+        control={control}
+        label="World Ranking"
+        error={errors.worldRanking?.message}
+        placeholder="World Ranking"
+        size="large"
+        type="number"
+        required
+      />
+    </Col>
+    {/* <Col xs={24} xl={12}>
+      <SCInput
+        register={register}
+        name="universityAddress"
+        control={control}
+        label="Address"
+        error={errors.universityAddress?.message}
+        placeholder="University Address"
+        size="large"
+        required
+      />
+    </Col>
+    <Col xs={24} xl={12}>
+      <SCInput
+        register={register}
+        name="universityContactNumber"
+        control={control}
+        label="Contact Number"
+        error={errors.universityContactNumber?.message}
+        placeholder="Contact Number"
+        size="large"
+        required
+      />
+    </Col>
+    <Col xs={24} xl={12}>
+      <SCInput
+        register={register}
+        name="universityEmail"
+        control={control}
+        label="Email"
+        error={errors.universityEmail?.message}
+        placeholder="Email"
+        size="large"
+        required
+      />
+    </Col> */}
+  </Row>
+);
+
+const CampusesSection: React.FC<CampusesSectionProps> = ({
+  campusFields,
+  register,
+  control,
+  errors,
+  removeCampus,
+  appendCampus,
+}) => (
+  <>
+    <h3 className="text-xl font-bold mt-7 py-8 m-0">Campuses</h3>
+    {campusFields.map((campus, index) => (
+      <React.Fragment key={campus.id}>
+        <Row gutter={[20, 20]} align="middle">
+          <CampusField
+            index={index}
             register={register}
             control={control}
-            parentClass="flex-grow mb-4"
-            label="Description"
-            error={errors?.description?.message}
+            errors={errors}
           />
-        </Col>
-      </Row>
-      <Row gutter={[0, 0]}>
-        <Col xs={24} xl={24}>
-          <SCInput
-            register={register}
-            name="worldRanking"
-            control={control}
-            label="University World Ranking"
-            error={errors?.worldRanking?.message}
-            placeholder="University World Ranking"
-            size="large"
-            type="number"
-            required
-          />
-        </Col>
-      </Row>
-      <h3 className="text-xl font-bold mt-7 py-8 m-0">
-        {id ? 'Edit' : 'Add'} Campuses
-      </h3>
-      {campusFields.map((campus, index) => (
-        <React.Fragment key={campus.id}>
+          {index > 0 && (
+            <Col xs={2} xl={1}>
+              <Button
+                type="text"
+                style={{ color: 'red' }}
+                onClick={() => removeCampus(index)}
+                icon={
+                  <CloseOutlined
+                    onPointerEnterCapture={undefined}
+                    onPointerLeaveCapture={undefined}
+                  />
+                }
+              />
+            </Col>
+          )}
+        </Row>
+      </React.Fragment>
+    ))}
+    <Button
+      onClick={() => appendCampus({ location: '', email: '', contact: '' })}
+      style={{ marginBottom: '20px' }}
+    >
+      Add Campus
+    </Button>
+  </>
+);
+
+const CampusField: React.FC<CampusFieldProps> = ({
+  index,
+  register,
+  control,
+  errors,
+}) => (
+  <>
+    <Col xs={22} xl={11}>
+      <SCInput
+        register={register}
+        name={`campuses.${index}.location`}
+        control={control}
+        label="Location"
+        error={errors.campuses?.[index]?.location?.message}
+        placeholder="Campus Location"
+        size="large"
+      />
+    </Col>
+    <Col xs={22} xl={11}>
+      <SCInput
+        register={register}
+        name={`campuses.${index}.email`}
+        control={control}
+        label="Email"
+        error={errors.campuses?.[index]?.email?.message}
+        placeholder="Campus Email"
+        size="large"
+      />
+    </Col>
+    <Col xs={22} xl={11}>
+      <SCInput
+        register={register}
+        name={`campuses.${index}.contact`}
+        control={control}
+        label="Contact"
+        error={errors.campuses?.[index]?.contact?.message}
+        placeholder="Campus Contact"
+        size="large"
+      />
+    </Col>
+  </>
+);
+
+const CoursesSection: React.FC<CoursesSectionProps> = ({
+  courseFields,
+  availableCourses,
+  selectedCourseIds,
+  register,
+  control,
+  errors,
+  removeCourse,
+  appendCourse,
+}) => (
+  <>
+    <h3 className="text-xl font-bold mt-7 py-8 m-0">Courses</h3>
+    {courseFields.map((course, index) => {
+      const otherSelectedCourseIds = selectedCourseIds.filter(
+        (_: string, i: number) => i !== index
+      );
+
+      return (
+        <React.Fragment key={course.id}>
           <Row gutter={[20, 20]} align="middle">
             <Col xs={22} xl={11}>
-              <SCInput
+              <SCSelect
                 register={register}
-                name={`campuses[${index}].location`}
                 control={control}
-                label="Campus Location"
-                error={errors?.campuses?.[index]?.location?.message}
-                placeholder="Campus Location"
+                name={`courses.${index}.courses`}
+                label="Course"
+                error={errors.courses?.[index]?.courses?.message}
+                allowClear
+                placeholder="Select a course"
                 size="large"
-              />
-            </Col>
-            <Col xs={22} xl={11}>
-              <SCInput
-                register={register}
-                name={`campuses[${index}].email`}
-                control={control}
-                label="Campus Email"
-                error={errors?.campuses?.[index]?.email?.message}
-                placeholder="Campus Email"
-                size="large"
-              />
-            </Col>
-            <Col xs={22} xl={11}>
-              <SCInput
-                register={register}
-                name={`campuses[${index}].contact`}
-                control={control}
-                label="Campus Contact Number"
-                error={errors?.campuses?.[index]?.contact?.message}
-                placeholder="Campus Contact Number"
-                size="large"
+                options={availableCourses.map((course: Course) => ({
+                  label: course.courseName,
+                  value: course.id,
+                  disabled: otherSelectedCourseIds.includes(course.id),
+                }))}
               />
             </Col>
             <Col xs={2} xl={1}>
-              {index > 0 && (
-                <Button
-                  type="text"
-                  style={{ color: 'red' }}
-                  onClick={() => removeCampus(index)}
-                  icon={
-                    <CloseOutlined
-                      onPointerEnterCapture={undefined}
-                      onPointerLeaveCapture={undefined}
-                    />
-                  }
-                />
-              )}
+              <Button
+                type="text"
+                style={{ color: 'red' }}
+                onClick={() => removeCourse(index)}
+                icon={
+                  <CloseOutlined
+                    onPointerEnterCapture={undefined}
+                    onPointerLeaveCapture={undefined}
+                  />
+                }
+              />
+            </Col>
+          </Row>
+          <Row gutter={[20, 20]}>
+            <Col xs={24}>
+              <SCWysiwyg
+                name={`courses.${index}.courseContents`}
+                register={register}
+                control={control}
+                parentClass="flex-grow mb-4"
+                label="Course Description"
+                error={errors.courses?.[index]?.courseContents?.message}
+              />
             </Col>
           </Row>
         </React.Fragment>
-      ))}
-      <Button onClick={appendCampusField}>Add Campus</Button>
-      <h3 className="text-xl font-bold mt-7 py-8 m-0">
-        {id ? 'Edit' : 'Add'} Courses
-      </h3>
-      {courseFields.map((course, courseIndex) => {
-        const currentCourseId = watchedCourses[courseIndex]?.courses;
+      );
+    })}
+    <Button
+      onClick={() => appendCourse({ courses: '', courseContents: '' })}
+      style={{ marginBottom: '20px' }}
+    >
+      Add Course
+    </Button>
+  </>
+);
 
-        // Compute other selected course IDs by excluding the current course ID
-        const otherSelectedCourseIds = selectedCourseIds.filter(
-          (id, index) => index !== courseIndex
-        );
-        console.log(otherSelectedCourseIds, 'selctec ourse');
-        return (
-          <React.Fragment key={course.id}>
-            <Row gutter={[20, 20]} align="middle">
-              <Col xs={22} xl={11}>
-                <SCSelect
-                  register={register}
-                  control={control}
-                  name={`courses[${courseIndex}].courses`}
-                  label="Course"
-                  error={errors?.courses?.[courseIndex]?.courses?.message}
-                  allowClear
-                  placeholder="Please select a course"
-                  size="large"
-                  options={availableCourse.map((ac: any) => ({
-                    label: ac.courseName,
-                    value: ac.id,
-                    disabled: otherSelectedCourseIds.includes(ac.id),
-                  }))}
-                />
-              </Col>
-              <Col xs={2} xl={1}>
-                <Button
-                  type="text"
-                  style={{ color: 'red' }}
-                  onClick={() => removeCourse(courseIndex)}
-                  icon={
-                    <CloseOutlined
-                      onPointerEnterCapture={undefined}
-                      onPointerLeaveCapture={undefined}
-                    />
-                  }
-                />
-              </Col>
-            </Row>
-            {otherSelectedCourseIds && (
-              <Row gutter={[20, 20]}>
-                <Col xs={24}>
-                  <SCWysiwyg
-                    name={`courses.${courseIndex}.courseContents`}
-                    register={register}
-                    control={control}
-                    parentClass="flex-grow mb-4"
-                    label="Course description"
-                    error={
-                      errors?.courses?.[courseIndex]?.courseContents?.message
-                    }
-                  />
-                </Col>
-              </Row>
-            )}
-          </React.Fragment>
-        );
-      })}
+const DestinationSection: React.FC<DestinationSectionProps> = ({
+  availableDestinations,
+  showNewDestination,
+  newDestination,
+  register,
+  control,
+  errors,
+  setShowNewDestination,
+  setNewDestination,
+  addNewDestination,
+  setValue,
+  watch,
+}) => {
+  const selectedDestination = watch('destination');
 
-      <Button
-        onClick={() =>
-          appendCourse({
-            courses: '',
-            courseContents: '',
-          })
-        }
-        style={{ marginBottom: '20px' }}
-      >
-        Add Course
-      </Button>
-      <h3 className="text-xl font-bold mt-7 py-8 m-0">
-        {id ? 'Edit' : 'Add'} Destination
-      </h3>
+  return (
+    <>
+      <h3 className="text-xl font-bold mt-7 py-8 m-0">Destination</h3>
       <Row gutter={[20, 20]}>
         <Col xs={24} xl={12}>
           <SCSelect
@@ -422,95 +732,64 @@ const UniversityForm: React.FC = () => {
             name="destination"
             control={control}
             label="Destination"
-            error={errors?.destination?.message}
+            error={errors.destination?.message}
             allowClear
-            placeholder="Please select destination"
+            placeholder="Select destination"
             size="large"
             notFoundContent={null}
             options={[
-              ...availableDestination?.map((ad: any) => ({
-                label: ad.name,
-                value: ad.id,
+              ...availableDestinations.map((dest) => ({
+                label: dest.name,
+                value: dest.id,
               })),
-              { label: 'Add new destination...', value: 'new' }, // Option to add new destination
+              { label: 'Add new destination...', value: 'new' },
             ]}
-            value={selectedDestination?.name || ''}
-            onChange={(value) => {
+            onChange={(value: string) => {
               if (value === 'new') {
-                // Logic to open the input field for new destination
-                // You can manage the new destination state here
-                setNewDestinationVisible(true);
+                setShowNewDestination(true);
+                setValue('destination', '');
               } else {
-                setSelectedDestination(
-                  availableDestination.find((ad: any) => ad.id === value)
-                );
+                setValue('destination', value);
+                setShowNewDestination(false);
               }
             }}
+            value={selectedDestination}
             required
           />
-
-          {newDestinationVisible && ( // Conditionally render the input for new destination
+          {showNewDestination && (
             <div style={{ display: 'flex', flexWrap: 'nowrap', padding: 8 }}>
               <Input
                 style={{ flex: 'auto' }}
                 value={newDestination}
                 onChange={(e) => setNewDestination(e.target.value)}
-                placeholder="Add new destination"
+                placeholder="New destination name"
               />
-              <Button
-                type="link"
-                onClick={() => {
-                  if (newDestination.trim()) {
-                    const newId = `new-${availableDestination.length + 1}`; // Generate a new ID
-                    setAvailableDestination((prev: any) => [
-                      ...prev,
-                      { id: newId, name: newDestination },
-                    ]);
-                    setSelectedDestination({ id: newId, name: newDestination });
-                    setNewDestination('');
-                    setNewDestinationVisible(false); // Hide the input field after adding
-                  }
-                }}
-              >
+              <Button type="link" onClick={addNewDestination}>
                 Add
               </Button>
             </div>
           )}
         </Col>
       </Row>
-      <Row>
-        <SCUpload
-          register={register}
-          name="universityImage"
-          control={control as any}
-          label="University Image"
-          multiple
-          error={errors?.universityImage?.message}
-          cropAspect={1}
-          onFileUpload={handleImageUpload}
-        />
-      </Row>
-      <Row>
-        <div className="flex mt-4">
-          <Button
-            loading={loading}
-            htmlType="submit"
-            type="primary"
-            size="large"
-          >
-            {id ? 'Update' : 'Create'}
-          </Button>
-          <Button
-            onClick={() => router.push('/university')}
-            className="ml-4"
-            size="large"
-          >
-            Cancel
-          </Button>
-        </div>
-      </Row>
-    </form>
+    </>
   );
 };
+
+const FormActions: React.FC<FormActionsProps> = ({ loading, id, router }) => (
+  <Row>
+    <div className="flex mt-4">
+      <Button loading={loading} htmlType="submit" type="primary" size="large">
+        {id ? 'Update' : 'Create'}
+      </Button>
+      <Button
+        onClick={() => router.push('/university')}
+        className="ml-4"
+        size="large"
+      >
+        Cancel
+      </Button>
+    </div>
+  </Row>
+);
 
 export default UniversityForm;

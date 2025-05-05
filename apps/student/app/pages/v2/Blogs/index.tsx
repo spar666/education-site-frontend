@@ -97,7 +97,6 @@ function BlogSection() {
                     <Image
                       src={renderImage({
                         imgPath: post.coverImage,
-                        size: 'md',
                       })}
                       layout="fill"
                       objectFit="cover"

@@ -160,7 +160,6 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ searchParams }) => {
                               <Image
                                 src={renderImage({
                                   imgPath: university?.universityImage,
-                                  size: 'lg',
                                 })}
                                 alt="Australian university"
                                 className="object-cover"

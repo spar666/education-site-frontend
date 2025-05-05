@@ -68,7 +68,6 @@ export const FeaturedCourse = () => {
                   <Image
                     src={`${renderImage({
                       imgPath: category?.icon || '',
-                      size: 'lg',
                     })}`}
                     height={30}
                     width={30}
