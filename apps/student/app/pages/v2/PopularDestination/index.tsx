@@ -122,7 +122,7 @@ const Index: React.FC = () => {
                     </div>
                   </div>
                   <a
-                    href={`#${destination.destination_slug}`}
+                    href={`/PopularDestination/${destination.destination_slug}`}
                     className="inline-block w-full text-center bg-blue-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-800 transition-colors"
                   >
                     Explore Universities

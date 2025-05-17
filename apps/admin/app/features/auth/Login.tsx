@@ -35,7 +35,7 @@ export function LoginAdmin() {
     }
     console.log(token, 'tokenennenen');
     try {
-      const response = await AuthService.profile({ token });
+      const response = await AuthService.profile( token );
       console.log(response.data.data, 'from profile');
       dispatch(updateUserDetails(response.data.data));
       // window.location.reload();

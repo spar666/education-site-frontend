@@ -140,15 +140,16 @@ const UniversityCard: React.FC<{ university: University }> = React.memo(
 UniversityCard.displayName = 'UniversityCard';
 
 const Search: React.FC<SearchProps> = ({ searchParams = {} }) => {
+  console.log(searchParams, 'serachparmas');
   // Existing state and data fetching logic remains exactly the same
   const [universities, setUniversities] = useState<University[]>([]);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState<any>({
+    destination: searchParams.destination || '',
     courseCategory: searchParams.courseCategory || '',
     qualification: searchParams.qualification || '',
-    destination: searchParams.destination || '',
   });
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);

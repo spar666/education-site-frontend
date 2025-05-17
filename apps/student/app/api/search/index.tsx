@@ -16,15 +16,15 @@ export const search = async ({
   console.log(level, 'levelsss');
   try {
     const response = await axios.post(`${API_URL}/university/search`, {
-      courseCategory,
+      qualification,
       level,
       location,
       university,
       rankingOrder,
       feesOrder,
       scholarshipOrder,
+      courseCategory,
       destination,
-      qualification,
     });
 
     console.log(response, 'response');

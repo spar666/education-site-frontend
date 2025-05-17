@@ -48,17 +48,53 @@ const CustomSearch = () => {
   }, []);
 
   const handleSearch = () => {
-    const level =
-      document.querySelector<HTMLSelectElement>('select[name="level"]')
-        ?.value || '';
-    const course =
-      document.querySelector<HTMLSelectElement>('select[name="course"]')
-        ?.value || '';
-    const location =
-      document.querySelector<HTMLSelectElement>('select[name="location"]')
-        ?.value || '';
+    try {
+      // Helper function to safely get select values
+      const getSelectValue = (name: string): string | null => {
+        const select = document.querySelector<HTMLSelectElement>(
+          `select[name="${name}"]`
+        );
+        return select?.value.trim() || null;
+      };
 
-    router.push(`/search?level=${level}&course=${course}&location=${location}`);
+      // Get selected values with null checks
+      const levelId = getSelectValue('level');
+      const courseId = getSelectValue('course');
+      const locationId = getSelectValue('location');
+
+      // Find corresponding slugs with proper error handling
+      const findSlug = <T extends { id: string; slug: string }>(
+        items: T[],
+        id: string | null
+      ): string | null => {
+        if (!id) return null;
+        const item = items.find((item) => item.id === id);
+        return item?.slug || null;
+      };
+
+      const levelSlug = findSlug(levels, levelId);
+      const courseSlug = findSlug(courses, courseId);
+      const locationSlug = findSlug(locations, locationId);
+
+      // Build URL path segments with correct parameter mapping
+      const pathSegments = ['search'];
+
+      // Correct parameter mapping:
+      if (locationSlug) pathSegments.push(`destination=${locationSlug}`);
+      if (levelSlug) pathSegments.push(`qualification=${levelSlug}`);
+      if (courseSlug) pathSegments.push(`course=${courseSlug}`);
+
+      // Only navigate if we have at least one parameter
+      if (pathSegments.length > 1) {
+        const searchPath = `/${pathSegments.join('/')}`;
+        router.push(searchPath);
+      } else {
+        router.push('/search');
+      }
+    } catch (error) {
+      console.error('Search failed:', error);
+      router.push('/search'); // Fallback on error
+    }
   };
 
   return (

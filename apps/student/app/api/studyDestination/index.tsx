@@ -21,3 +21,17 @@ export const fetchAllPopularDestination = async () => {
     throw new Error('Failed to fetch university');
   }
 };
+
+export const fetchAllUniversitiesByPopularDestination = async ({
+  slug,
+}: any) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/destination/popularDestination/${slug}`
+    );
+    return response.data.data;
+  } catch (error) {
+    console.error('Failed to fetch university:', error);
+    throw new Error('Failed to fetch university');
+  }
+};

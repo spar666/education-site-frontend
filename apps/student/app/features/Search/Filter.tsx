@@ -1,13 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import {
-  Globe,
-  GraduationCap,
-  Star,
-  Search as SearchIcon,
-  X,
-} from 'lucide-react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Globe, GraduationCap, Star, X } from 'lucide-react';
 import { Button, Drawer, Spin, Alert, Badge } from 'antd';
 import { fetchStudyLevels } from '../../api/studyLevel';
 import { fetchCourseCategories } from '../../api/courses';
@@ -17,14 +11,14 @@ import { fetchAllUniversity } from '../../api/university';
 interface FilterOption {
   id: string;
   name: string;
-  courseCategory?: string; // Only for course categories
+  slug?: string;
 }
 
 interface FilterData {
-  courseCategory: FilterOption[];
-  studyLevel: FilterOption[];
-  destination: FilterOption[];
-  university: FilterOption[];
+  courseCategories: FilterOption[];
+  studyLevels: FilterOption[];
+  destinations: FilterOption[];
+  universities: FilterOption[];
 }
 
 interface FilterState {
@@ -35,31 +29,38 @@ interface FilterState {
 
 interface SearchFilterProps {
   onFiltersChange: (filters: FilterState) => void;
+  initialFilters?: Partial<FilterState>;
 }
 
-const SearchFilter: React.FC<any> = ({ onFiltersChange }) => {
+const SearchFilter: React.FC<any> = ({
+  onFiltersChange,
+  initialFilters = {},
+}) => {
   const [filters, setFilters] = useState<FilterState>({
     courseCategory: '',
     qualification: '',
     destination: '',
+    ...initialFilters,
   });
 
   const [data, setData] = useState<FilterData>({
-    courseCategory: [],
-    studyLevel: [],
-    destination: [],
-    university: [],
+    courseCategories: [],
+    studyLevels: [],
+    destinations: [],
+    universities: [],
   });
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [drawerVisible, setDrawerVisible] = useState(false);
 
-  // Count active filters for badge
   const activeFilterCount = Object.values(filters).filter(Boolean).length;
 
-  const fetchFilterData = async () => {
+  const fetchFilterData = useCallback(async () => {
     try {
+      setLoading(true);
+      setError(null);
+
       const [studyLevels, courseCategories, destinations, universities] =
         await Promise.all([
           fetchStudyLevels(),
@@ -68,34 +69,34 @@ const SearchFilter: React.FC<any> = ({ onFiltersChange }) => {
           fetchAllUniversity(),
         ]);
 
-      console.log(courseCategories, 'courseCategories');
-
       setData({
-        courseCategory: courseCategories,
-        studyLevel: studyLevels,
-        destination: destinations,
-        university: universities,
+        courseCategories,
+        studyLevels,
+        destinations,
+        universities,
       });
     } catch (err) {
-      console.error('Fetch error:', err);
-      setError('Failed to load filter options. Please refresh the page.');
+      console.error('Failed to load filters:', err);
+      setError('Failed to load filter options. Please try again.');
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchFilterData();
-  }, []);
+  }, [fetchFilterData]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    const newFilters = { ...filters, [name]: value };
-    setFilters(newFilters);
-    onFiltersChange(newFilters);
-  };
+  const handleFilterChange = useCallback(
+    (name: keyof FilterState, value: string) => {
+      const newFilters = { ...filters, [name]: value };
+      setFilters(newFilters);
+      onFiltersChange(newFilters);
+    },
+    [filters, onFiltersChange]
+  );
 
-  const resetFilters = () => {
+  const resetFilters = useCallback(() => {
     const resetState = {
       courseCategory: '',
       qualification: '',
@@ -103,7 +104,7 @@ const SearchFilter: React.FC<any> = ({ onFiltersChange }) => {
     };
     setFilters(resetState);
     onFiltersChange(resetState);
-  };
+  }, [onFiltersChange]);
 
   const renderSelect = (
     name: keyof FilterState,
@@ -112,24 +113,20 @@ const SearchFilter: React.FC<any> = ({ onFiltersChange }) => {
     icon: React.ReactNode
   ) => (
     <div className="mb-4">
-      <label
-        htmlFor={name}
-        className="flex items-center text-gray-700 font-medium mb-2"
-      >
-        {icon}
-        <span className="ml-2">{label}</span>
+      <label className="flex items-center text-gray-700 font-medium mb-2">
+        <span className="mr-2">{icon}</span>
+        {label}
       </label>
       <select
-        id={name}
         name={name}
         value={filters[name]}
-        onChange={handleChange}
+        onChange={(e) => handleFilterChange(name, e.target.value)}
         className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all hover:border-gray-400"
         disabled={loading}
       >
-        <option value="">All {label}s</option>
+        <option value="">All {label}</option>
         {options.map((item) => (
-          <option key={item.id} value={item.id}>
+          <option key={item.id} value={item.slug || item.id}>
             {item.name}
           </option>
         ))}
@@ -145,82 +142,80 @@ const SearchFilter: React.FC<any> = ({ onFiltersChange }) => {
           type="error"
           showIcon
           closable
+          onClose={() => setError(null)}
           className="mb-4"
         />
       )}
 
       {renderSelect(
         'destination',
-        'Destination',
-        data.destination,
+        'Destinations',
+        data.destinations,
         <Globe className="h-4 w-4 text-blue-600" />
       )}
 
       {renderSelect(
         'courseCategory',
-        'Category',
-        data.courseCategory,
+        'Categories',
+        data.courseCategories,
         <GraduationCap className="h-4 w-4 text-blue-600" />
       )}
 
       {renderSelect(
         'qualification',
-        'Qualification',
-        data.studyLevel,
+        'Qualifications',
+        data.studyLevels,
         <Star className="h-4 w-4 text-blue-600" />
       )}
 
       <div className="flex space-x-3 pt-3 border-t border-gray-200">
-        <button
+        <Button
           onClick={resetFilters}
           disabled={loading || activeFilterCount === 0}
-          className={`flex-1 py-2 px-4 rounded-lg transition-colors flex items-center justify-center border ${
-            activeFilterCount === 0
-              ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
-              : 'bg-white text-blue-600 border-blue-600 hover:bg-blue-50'
+          className={`flex-1 ${
+            activeFilterCount === 0 ? 'opacity-50 cursor-not-allowed' : ''
           }`}
+          icon={<X size={16} />}
         >
-          <X className="h-4 w-4 mr-2" />
           Clear All
-        </button>
+        </Button>
 
-        <button
+        <Button
+          type="primary"
           onClick={() => setDrawerVisible(false)}
-          className="lg:hidden flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+          className="lg:hidden flex-1"
         >
           Show Results
-        </button>
+        </Button>
       </div>
     </div>
   );
 
   return (
     <div className="bg-white">
-      {/* Mobile Filter Button */}
+      {/* Mobile Filter Trigger */}
       <Button
         type="default"
         onClick={() => setDrawerVisible(true)}
         className="lg:hidden w-full mb-4 flex items-center justify-between"
       >
         <span>Filters</span>
-        {activeFilterCount > 0 && (
-          <Badge count={activeFilterCount} className="ml-2" />
-        )}
+        {activeFilterCount > 0 && <Badge count={activeFilterCount} />}
       </Button>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Filter Drawer */}
       <Drawer
         title={
-          <div className="flex justify-between items-center">
+          <div className="flex items-center gap-2">
             <span>Filters</span>
             {activeFilterCount > 0 && <Badge count={activeFilterCount} />}
           </div>
         }
         placement="left"
-        onClose={() => setDrawerVisible(false)}
         open={drawerVisible}
+        onClose={() => setDrawerVisible(false)}
         width={320}
-        closable={true}
+        closable
         className="lg:hidden"
       >
         {loading ? (
@@ -232,17 +227,14 @@ const SearchFilter: React.FC<any> = ({ onFiltersChange }) => {
         )}
       </Drawer>
 
-      {/* Desktop Filters */}
-      <div className="hidden lg:block bg-white rounded-xl shadow-sm border border-gray-200 p-5 sticky top-4">
+      {/* Desktop Filter Panel */}
+      <div className="hidden lg:block bg-white rounded-lg shadow-sm border border-gray-200 p-5 sticky top-4">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold">Filters</h3>
           {activeFilterCount > 0 && (
-            <button
-              onClick={resetFilters}
-              className="text-sm text-blue-600 hover:text-blue-800"
-            >
+            <Button type="link" onClick={resetFilters} className="p-0">
               Clear all
-            </button>
+            </Button>
           )}
         </div>
 

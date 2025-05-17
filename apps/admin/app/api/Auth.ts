@@ -42,7 +42,7 @@ const register = ({
   });
 };
 
-const profile = ({ token }: any) => {
+const profile = (token : any) => {
   console.log(token, "toekn")
   return axios.get(process.env.NEXT_PUBLIC_API_URL + "/user/profile", {
     headers: { Authorization: `Bearer ${token}` },

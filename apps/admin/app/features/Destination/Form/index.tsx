@@ -1,6 +1,7 @@
 'use client';
 
-import { Button, Col, Row, notification } from 'antd';
+import { Button, Col, Row, notification, Input, Space } from 'antd';
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { SubmitHandler, useForm, Control } from 'react-hook-form';
@@ -15,10 +16,17 @@ import {
   updateDestinationById,
 } from 'apps/admin/app/api/Destinations';
 import { renderImage } from 'libs/services/helper';
+import SCWysiwyg from 'apps/admin/components/SCForm/SCWysiwyg';
 
 // Zod schema for form validation
 const DestinationSchema = z.object({
   destination: z.string().min(1, 'Destination name is required'),
+  description: z.string().min(1, 'Description is required'),
+  totalAverageCost: z.string().min(1, 'Total average cost is required'),
+  totalLivingCost: z.string().min(1, 'Total living cost is required'),
+  requirements: z
+    .array(z.string().min(1, 'Requirement cannot be empty'))
+    .min(1, 'At least one requirement is required'),
   image: z
     .array(
       z.object({
@@ -58,6 +66,10 @@ interface DestinationResponse {
     deletedBy: string | null;
     isActive: boolean;
     isDelete: boolean;
+    description?: string;
+    totalAverageCost?: string;
+    totalLivingCost?: string;
+    requirements?: string[];
   };
 }
 
@@ -70,19 +82,23 @@ interface UpdateDestinationPayload {
   id: string;
   name: string;
   image: string;
+  description?: string;
+  totalAverageCost?: string;
+  totalLivingCost?: string;
+  requirements?: string[];
 }
 
 // Helper function to map size to dimensions
 const getImageDimensions = (size: 'sm' | 'md' | 'lg') => {
   switch (size) {
     case 'lg':
-      return { width: 1200, height: 800 }; // Adjust dimensions as needed
+      return { width: 1200, height: 800 };
     case 'md':
       return { width: 800, height: 600 };
     case 'sm':
       return { width: 400, height: 300 };
     default:
-      return { width: 1200, height: 800 }; // Fallback
+      return { width: 1200, height: 800 };
   }
 };
 
@@ -93,6 +109,9 @@ const DestinationForm: React.FC<any> = () => {
   const id = searchParams.get('id');
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [requirements, setRequirements] = useState<
+    { id: string; value: string }[]
+  >([]);
 
   const {
     handleSubmit,
@@ -106,6 +125,10 @@ const DestinationForm: React.FC<any> = () => {
     resolver: zodResolver(DestinationSchema),
     defaultValues: {
       destination: '',
+      description: '',
+      totalAverageCost: '',
+      totalLivingCost: '',
+      requirements: [],
       image: [],
     },
   });
@@ -118,7 +141,14 @@ const DestinationForm: React.FC<any> = () => {
       try {
         const response: any = await fetchDestinationById(id);
 
-        const { name, image } = response.data.data;
+        const {
+          name,
+          image,
+          description,
+          totalAverageCost,
+          totalLivingCost,
+          requirements,
+        } = response.data.data;
 
         if (!name || !image) {
           throw new Error('Invalid destination data received');
@@ -132,7 +162,7 @@ const DestinationForm: React.FC<any> = () => {
                 status: 'done',
                 url: renderImage({
                   imgPath: image,
-                  ...getImageDimensions('lg'), // Map size to dimensions
+                  ...getImageDimensions('lg'),
                 }),
                 publicId: image,
               },
@@ -141,8 +171,21 @@ const DestinationForm: React.FC<any> = () => {
 
         reset({
           destination: name,
+          description: description || '',
+          totalAverageCost: totalAverageCost || '',
+          totalLivingCost: totalLivingCost || '',
+          requirements: requirements || [],
           image: formattedCover,
         });
+
+        if (requirements) {
+          setRequirements(
+            requirements.map((req: string, index: number) => ({
+              id: `req-${index}-${Date.now()}`,
+              value: req,
+            }))
+          );
+        }
       } catch (error: unknown) {
         const err = error as ApiError;
         notification.error({
@@ -165,7 +208,7 @@ const DestinationForm: React.FC<any> = () => {
         status: 'done',
         url: renderImage({
           imgPath: publicId,
-          ...getImageDimensions('lg'), // Map size to dimensions
+          ...getImageDimensions('lg'),
         }),
         publicId,
       };
@@ -177,6 +220,39 @@ const DestinationForm: React.FC<any> = () => {
     },
     [setValue]
   );
+
+  // Handle adding requirement
+  const handleAddRequirement = () => {
+    const newRequirement = {
+      id: `req-${Date.now()}`,
+      value: '',
+    };
+    setRequirements([...requirements, newRequirement]);
+  };
+
+  // Handle requirement change
+  const handleRequirementChange = (id: string, value: string) => {
+    const updatedRequirements = requirements.map((req) =>
+      req.id === id ? { ...req, value } : req
+    );
+    setRequirements(updatedRequirements);
+    updateFormRequirements(updatedRequirements);
+  };
+
+  // Handle removing requirement
+  const handleRemoveRequirement = (id: string) => {
+    const updatedRequirements = requirements.filter((req) => req.id !== id);
+    setRequirements(updatedRequirements);
+    updateFormRequirements(updatedRequirements);
+  };
+
+  // Update form requirements value
+  const updateFormRequirements = (reqs: { id: string; value: string }[]) => {
+    const validRequirements = reqs
+      .map((req) => req.value.trim())
+      .filter((value) => value !== '');
+    setValue('requirements', validRequirements, { shouldValidate: true });
+  };
 
   // Form Submit Handler
   const onSubmit: SubmitHandler<DestinationFormData> = async (data) => {
@@ -193,7 +269,11 @@ const DestinationForm: React.FC<any> = () => {
       const updatedData: any = {
         id,
         name: data.destination,
-        image: data.image[0].publicId!, // Non-null assertion since schema ensures image exists
+        description: data.description,
+        totalAverageCost: data.totalAverageCost,
+        totalLivingCost: data.totalLivingCost,
+        requirements: data.requirements,
+        image: data.image[0].publicId!,
       };
 
       const response = await updateDestinationById(updatedData);
@@ -231,7 +311,7 @@ const DestinationForm: React.FC<any> = () => {
               register={register}
               name="destination"
               control={control}
-              label="Destination"
+              label="Destination Name"
               error={errors.destination?.message}
               placeholder="Enter Destination Name"
               size="large"
@@ -240,27 +320,133 @@ const DestinationForm: React.FC<any> = () => {
           </Col>
         </Row>
 
-        <Row>
-          <SCUpload
-            name="image"
-            control={control}
-            label="Image"
-            error={
-              errors.image && 'message' in errors.image
-                ? errors.image.message
-                : undefined
-            }
-            cropAspect={1}
-            folder="destination"
-            onFileUpload={handleImageUpload}
-            multiple={false}
-            defaultFileList={imageValue}
-            required
-          />
+        <Row gutter={[20, 20]}>
+          <Col xs={24} xl={12}>
+            <SCWysiwyg
+              register={register}
+              name="description"
+              control={control}
+              label="Description"
+              error={errors.description?.message}
+              placeholder="Enter destination description"
+              size="large"
+              required
+            />
+          </Col>
+        </Row>
+
+        <Row gutter={[20, 20]}>
+          <Col xs={24} xl={12}>
+            <SCInput
+              register={register}
+              name="totalAverageCost"
+              control={control}
+              label="Total Average Cost"
+              error={errors.totalAverageCost?.message}
+              placeholder="Enter Total Average Cost"
+              size="large"
+              required
+            />
+          </Col>
+        </Row>
+
+        <Row gutter={[20, 20]}>
+          <Col xs={24} xl={12}>
+            <SCInput
+              register={register}
+              name="totalLivingCost"
+              control={control}
+              label="Total Living Cost"
+              error={errors.totalLivingCost?.message}
+              placeholder="Enter Total Living Cost"
+              size="large"
+              required
+            />
+          </Col>
+        </Row>
+
+        {/* Enhanced Requirements Section */}
+        <Row gutter={[20, 20]}>
+          <Col xs={24} xl={12}>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Requirements <span className="text-red-500">*</span>
+              </label>
+
+              <div className="space-y-3 mb-3">
+                {requirements.map((req) => (
+                  <Space key={req.id} className="flex items-start w-full">
+                    <Input.TextArea
+                      value={req.value}
+                      onChange={(e) =>
+                        handleRequirementChange(req.id, e.target.value)
+                      }
+                      placeholder="Enter requirement"
+                      autoSize={{ minRows: 1, maxRows: 3 }}
+                      className="flex-1"
+                    />
+                    <Button
+                      type="text"
+                      danger
+                      icon={
+                        <DeleteOutlined
+                          onPointerEnterCapture={undefined}
+                          onPointerLeaveCapture={undefined}
+                        />
+                      }
+                      onClick={() => handleRemoveRequirement(req.id)}
+                      className="mt-1"
+                    />
+                  </Space>
+                ))}
+              </div>
+
+              <Button
+                type="dashed"
+                onClick={handleAddRequirement}
+                icon={
+                  <PlusOutlined
+                    onPointerEnterCapture={undefined}
+                    onPointerLeaveCapture={undefined}
+                  />
+                }
+                block
+              >
+                Add Requirement
+              </Button>
+
+              {errors.requirements?.message && (
+                <p className="text-red-500 text-xs mt-2">
+                  {errors.requirements.message}
+                </p>
+              )}
+            </div>
+          </Col>
+        </Row>
+
+        <Row gutter={[20, 20]}>
+          <Col xs={24} xl={12}>
+            <SCUpload
+              name="image"
+              control={control}
+              label="Image"
+              error={
+                errors.image && 'message' in errors.image
+                  ? errors.image.message
+                  : undefined
+              }
+              cropAspect={1}
+              folder="destination"
+              onFileUpload={handleImageUpload}
+              multiple={false}
+              defaultFileList={imageValue}
+              required
+            />
+          </Col>
         </Row>
 
         <Row>
-          <div className="flex mt-4">
+          <div className="flex mt-4 gap-4">
             <Button
               loading={loading}
               htmlType="submit"
@@ -268,6 +454,13 @@ const DestinationForm: React.FC<any> = () => {
               size="large"
             >
               Update
+            </Button>
+            <Button
+              type="default"
+              size="large"
+              onClick={() => router.push('/destination')}
+            >
+              Cancel
             </Button>
           </div>
         </Row>

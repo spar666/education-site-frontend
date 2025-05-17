@@ -52,7 +52,7 @@ export default function Index() {
         <PopularDestination />
         <Services />
         {/* <UniversityPage /> */}
-        <Destination />
+        {/* <Destination /> */}
 
         <About />
         <Blogs />
