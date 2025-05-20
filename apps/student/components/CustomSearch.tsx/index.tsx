@@ -49,51 +49,35 @@ const CustomSearch = () => {
 
   const handleSearch = () => {
     try {
-      // Helper function to safely get select values
-      const getSelectValue = (name: string): string | null => {
-        const select = document.querySelector<HTMLSelectElement>(
-          `select[name="${name}"]`
-        );
-        return select?.value.trim() || null;
-      };
+      // Helper to get select value by name
+      const getSelectValue = (name: string): string | null =>
+        document
+          .querySelector<HTMLSelectElement>(`select[name="${name}"]`)
+          ?.value.trim() || null;
 
-      // Get selected values with null checks
-      const levelId = getSelectValue('level');
-      const courseId = getSelectValue('course');
-      const locationId = getSelectValue('location');
-
-      // Find corresponding slugs with proper error handling
+      // Helper to find slug by id
       const findSlug = <T extends { id: string; slug: string }>(
         items: T[],
         id: string | null
-      ): string | null => {
-        if (!id) return null;
-        const item = items.find((item) => item.id === id);
-        return item?.slug || null;
-      };
+      ): string | null =>
+        id ? items.find((item) => item.id === id)?.slug || null : null;
 
-      const levelSlug = findSlug(levels, levelId);
-      const courseSlug = findSlug(courses, courseId);
-      const locationSlug = findSlug(locations, locationId);
+      const levelSlug = findSlug(levels, getSelectValue('level'));
+      const courseSlug = findSlug(courses, getSelectValue('course'));
+      const locationSlug = findSlug(locations, getSelectValue('location'));
 
-      // Build URL path segments with correct parameter mapping
-      const pathSegments = ['search'];
+      const searchParams = new URLSearchParams();
+      if (locationSlug) searchParams.append('destination', locationSlug);
+      if (levelSlug) searchParams.append('qualification', levelSlug);
+      if (courseSlug) searchParams.append('course', courseSlug);
 
-      // Correct parameter mapping:
-      if (locationSlug) pathSegments.push(`destination=${locationSlug}`);
-      if (levelSlug) pathSegments.push(`qualification=${levelSlug}`);
-      if (courseSlug) pathSegments.push(`course=${courseSlug}`);
-
-      // Only navigate if we have at least one parameter
-      if (pathSegments.length > 1) {
-        const searchPath = `/${pathSegments.join('/')}`;
-        router.push(searchPath);
-      } else {
-        router.push('/search');
-      }
+      const searchPath = `/search${
+        searchParams.toString() ? '?' + searchParams.toString() : ''
+      }`;
+      router.push(searchPath);
     } catch (error) {
       console.error('Search failed:', error);
-      router.push('/search'); // Fallback on error
+      router.push('/search');
     }
   };
 

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface University {
   id: string;
@@ -57,12 +58,6 @@ const UniversityRow = ({
   slug: string;
   location?: string;
 }) => {
-  const router = useRouter();
-
-  const handleViewClick = () => {
-    router.push(`/university/details?uni=${slug}`);
-  };
-
   return (
     <tr className="hover:bg-blue-50 transition-colors">
       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -101,12 +96,12 @@ const UniversityRow = ({
         {courses}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-        <button
-          onClick={handleViewClick}
+        <Link
+          href={`/university/${encodeURIComponent(slug)}`}
           className="text-blue-600 hover:text-blue-800 font-medium"
         >
           View →
-        </button>
+        </Link>
       </td>
     </tr>
   );
@@ -125,11 +120,13 @@ const StatsCard = ({
     </p>
     <p className="text-2xl font-bold text-gray-800">
       {typeof value === 'number' && !isNaN(value)
-        ? value.toLocaleString('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            maximumFractionDigits: 0,
-          })
+        ? label.toLowerCase().includes('cost')
+          ? value.toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD',
+              maximumFractionDigits: 0,
+            })
+          : value
         : value}
     </p>
   </div>
@@ -181,33 +178,71 @@ export default function DestinationPage() {
     useState<DestinationData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchLoading, setSearchLoading] = useState<boolean>(false);
 
-  const handleSearch = () => {
-    const level =
-      document.querySelector<HTMLSelectElement>('select[name="level"]')
-        ?.value || '';
-    const course =
-      document.querySelector<HTMLSelectElement>('select[name="course"]')
-        ?.value || '';
+  const handleSearch = async () => {
+    try {
+      setSearchLoading(true);
+      setError(null);
 
-    router.push(`/search?level=${level}&course=${course}&location=${slug}`);
+      // Get values from select elements (if present)
+      const level =
+        (
+          document.querySelector('select[name="level"]') as HTMLSelectElement
+        )?.value?.trim() || '';
+      const course =
+        (
+          document.querySelector('select[name="course"]') as HTMLSelectElement
+        )?.value?.trim() || '';
+
+      // Require at least one parameter (destination is always required)
+      if (!slug) {
+        setError('Invalid destination.');
+        return;
+      }
+
+      const searchParams = new URLSearchParams();
+      searchParams.append('destination', slug);
+      if (level) searchParams.append('level', level);
+      if (course) searchParams.append('course', course);
+
+      router.push(`/search?${searchParams.toString()}`);
+    } catch (error) {
+      console.error('Search navigation failed:', error);
+      setError(
+        error instanceof Error
+          ? error.message
+          : 'Failed to perform search. Please try again.'
+      );
+    } finally {
+      setSearchLoading(false);
+    }
   };
 
   useEffect(() => {
-    if (!slug) return;
+    if (!slug || typeof slug !== 'string') {
+      setError('Invalid destination slug');
+      setLoading(false);
+      return;
+    }
 
     const fetchData = async () => {
       try {
         setLoading(true);
         setError(null);
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/destination/popularDestination/${slug}`
+          `${
+            process.env.NEXT_PUBLIC_API_URL
+          }/destination/popularDestination/${encodeURIComponent(slug)}`
         );
-        const destinationData = response.data.data.data;
-        if (!destinationData)
+
+        if (!response.data?.data?.data) {
           throw new Error('Invalid data structure received from API');
-        setDestinationData(destinationData);
+        }
+
+        setDestinationData(response.data.data.data);
       } catch (err) {
+        console.error('Error fetching destination data:', err);
         setError(
           axios.isAxiosError(err)
             ? err.response?.data?.message || err.message
@@ -223,6 +258,15 @@ export default function DestinationPage() {
     fetchData();
   }, [slug]);
 
+  // Prefetch university routes for better performance
+  useEffect(() => {
+    if (destinationData?.universities) {
+      destinationData.universities.forEach((univ) => {
+        router.prefetch(`/university/${univ.slug}`);
+      });
+    }
+  }, [destinationData, router]);
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -235,7 +279,7 @@ export default function DestinationPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="bg-white p-6 rounded-xl shadow-md max-w-md text-center">
-          <h3 className="text-lg font-bold text-red-600 mb-2">Loading Error</h3>
+          <h3 className="text-lg font-bold text-red-600 mb-2">Error</h3>
           <p className="text-gray-600 mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
@@ -251,7 +295,20 @@ export default function DestinationPage() {
   if (!destinationData) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-600">No destination data available</p>
+        <div className="bg-white p-6 rounded-xl shadow-md max-w-md text-center">
+          <h3 className="text-lg font-bold text-gray-800 mb-2">
+            No Data Found
+          </h3>
+          <p className="text-gray-600 mb-4">
+            The requested destination could not be found.
+          </p>
+          <Link
+            href="/destinations"
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors inline-block"
+          >
+            Browse Destinations
+          </Link>
+        </div>
       </div>
     );
   }
@@ -303,47 +360,57 @@ export default function DestinationPage() {
           <div className="lg:col-span-2">
             <DetailSection title="About Studying Here">
               <div className="prose max-w-none text-gray-700">
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: destinationData.destination_description || '',
-                  }}
-                />
+                {destinationData.destination_description ? (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: destinationData.destination_description,
+                    }}
+                  />
+                ) : (
+                  <p>No description available for this destination.</p>
+                )}
               </div>
             </DetailSection>
 
             <DetailSection
               title={`Top Universities (${topUniversities.length})`}
             >
-              <div className="overflow-hidden rounded-xl border border-gray-200">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Rank
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        University
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Programs
-                      </th>
-                      <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {topUniversities.map((univ) => (
-                      <UniversityRow
-                        key={univ.id}
-                        rank={univ.worldRanking}
-                        name={univ.universityName}
-                        courses="350+"
-                        slug={univ.slug}
-                        location={univ.location}
-                      />
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              {topUniversities.length > 0 ? (
+                <div className="overflow-hidden rounded-xl border border-gray-200">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Rank
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          University
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Programs
+                        </th>
+                        <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {topUniversities.map((univ) => (
+                        <UniversityRow
+                          key={univ.id}
+                          rank={univ.worldRanking}
+                          name={univ.universityName}
+                          courses="350+"
+                          slug={univ.slug}
+                          location={univ.location}
+                        />
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <p className="text-gray-500">
+                  No universities available for this destination.
+                </p>
+              )}
             </DetailSection>
           </div>
 
@@ -372,16 +439,18 @@ export default function DestinationPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                Study Requirements
-              </h3>
-              <ul className="space-y-2">
-                {destinationData.destination_requirements?.map((req, i) => (
-                  <ListItem key={i}>{req}</ListItem>
-                ))}
-              </ul>
-            </div>
+            {destinationData.destination_requirements?.length > 0 && (
+              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                  Study Requirements
+                </h3>
+                <ul className="space-y-2">
+                  {destinationData.destination_requirements.map((req, i) => (
+                    <ListItem key={i}>{req}</ListItem>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             <div className="bg-gradient-to-br from-blue-700 to-blue-800 rounded-xl shadow-md p-6 text-white">
               <h3 className="text-lg font-semibold mb-3">
@@ -391,12 +460,12 @@ export default function DestinationPage() {
                 Our experts can guide you through the entire process to study in{' '}
                 {destinationData.destination_name}.
               </p>
-              <button
-                onClick={() => router.push('/contact')}
-                className="w-full bg-white text-blue-700 hover:bg-blue-50 py-2 rounded-lg font-medium transition-colors"
+              <Link
+                href="/contact"
+                className="w-full bg-white text-blue-700 hover:bg-blue-50 py-2 rounded-lg font-medium transition-colors block text-center"
               >
                 Free Consultation
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -405,17 +474,13 @@ export default function DestinationPage() {
           <div className="flex flex-wrap gap-4">
             <button
               onClick={handleSearch}
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              disabled={searchLoading}
+              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Browse All Universities
+              {searchLoading ? 'Loading...' : 'Browse All Universities'}
             </button>
-            {/* <button
-              onClick={() => router.push('/compare')}
-              className="bg-white text-blue-600 px-6 py-3 rounded-lg border border-blue-200 hover:bg-blue-50 transition-colors font-medium"
-            >
-              Compare Programs
-            </button> */}
           </div>
+          {error && <p className="text-red-500 mt-2">{error}</p>}
         </DetailSection>
       </div>
     </div>

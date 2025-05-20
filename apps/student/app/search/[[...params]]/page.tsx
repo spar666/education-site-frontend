@@ -1,69 +1,46 @@
+'use client';
 import Search from '../../features/Search';
 import { redirect } from 'next/navigation';
 
-type SearchParams = {
-  destination: string | null;
-  course: string | null;
-  qualification: string | null;
-};
+type SearchParamKey = 'destination' | 'course' | 'qualification';
+type SearchParams = Partial<Record<SearchParamKey, string>>;
 
 interface SearchPageProps {
-  params: {
-    params?: string[];
-  };
+  params: { params?: string[] };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-export default function SearchPage({ params }: SearchPageProps) {
-  // Initialize with proper types and default values
-  const searchParams: any = {
-    destination: null,
-    course: null,
-    qualification: null,
-  };
+const validKeys: SearchParamKey[] = ['destination', 'course', 'qualification'];
 
-  try {
-    // Parse route segments
-    if (params.params) {
-      for (const encodedSegment of params.params) {
-        // First decode the entire segment
-        const decodedSegment = decodeURIComponent(encodedSegment);
+export default function SearchPage({
+  params,
+  searchParams = {},
+}: SearchPageProps) {
+  const parsedParams: SearchParams = {};
 
-        // Then split on the equals sign
-        if (!decodedSegment.includes('=')) {
-          console.warn(`Invalid route segment format: ${decodedSegment}`);
-          continue;
-        }
-
-        const [key, value] = decodedSegment.split('=');
-
-        switch (key) {
-          case 'destination':
-            searchParams.destination = value || null;
-            break;
-          case 'course':
-            searchParams.course = value || null;
-            break;
-          case 'qualification':
-            searchParams.qualification = value || null;
-            break;
-          default:
-            console.warn(`Unknown route parameter: ${key}`);
-        }
-      }
+  // Parse from query parameters
+  for (const key of validKeys) {
+    const value = searchParams[key];
+    if (typeof value === 'string' && value.trim()) {
+      parsedParams[key] = decodeURIComponent(value.trim());
     }
-
-    // If no valid parameters found, redirect to clean search page
-    if (
-      !searchParams.destination &&
-      !searchParams.course &&
-      !searchParams.qualification
-    ) {
-      redirect('/search');
-    }
-  } catch (error) {
-    console.error('Error parsing search parameters:', error);
-    redirect('/search'); // Fallback to default search page on error
   }
 
-  return <Search searchParams={searchParams} />;
+  // Parse from route segments
+  if (Array.isArray(params.params)) {
+    for (const segment of params.params) {
+      const [key, value] = decodeURIComponent(segment).split('=');
+      if (validKeys.includes(key as SearchParamKey) && value?.trim()) {
+        parsedParams[key as SearchParamKey] = value.trim();
+      }
+    }
+  }
+
+  // Only redirect if this is NOT the base /search route
+  const isBaseSearch = !params.params || params.params.length === 0;
+  if (!Object.values(parsedParams).some(Boolean) && !isBaseSearch) {
+    redirect('/search');
+  }
+
+  return <Search searchParams={parsedParams} />;
 }
