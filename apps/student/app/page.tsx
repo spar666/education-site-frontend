@@ -4,26 +4,13 @@ import {
   CheckCircle,
   Leaf,
   MessageCircle,
-} from 'lucide-react'; // Add MessageCircle for WhatsApp
+} from 'lucide-react';
 import Link from 'next/link';
 import MaxWidthWrapper from '../components/MaxWidthWrapper';
 import {
   Button,
   buttonVariants,
 } from 'libs/ui-components/src/components/ui/button';
-
-// import { HeroSection } from './pages/HeroSection';
-import Course from './pages/course/page';
-import { UniversityPage } from './pages/Countries';
-// import BlogPage from './pages/Blogs';
-// import { FeaturedCourse } from './pages/featuredCourse';
-import CustomSearch from '../components/CustomSearch.tsx';
-// import About from './pages/About';
-// import Services from './pages/Services';
-// import FAQ from './pages/Faq';
-// import { FloatingWhatsApp } from '../components/WhatApps';
-// import Navbar from '../components/Navbar';
-// import Footer from '../components/Footer';
 import Recommendation from './pages/Recommendation/page';
 import useUser from '../hook/useUser';
 import Navbar from '../components/v2/Navbar';
@@ -41,35 +28,21 @@ export default function Index() {
   const { isAuthenticated } = useUser();
 
   return (
-    // <main className="relative flex flex-col bg-gradient-to-b from-indigo-50 to-white">
-    //   <Navbar />
-    <div className="flex  flex-col gap-2 relative">
+    <div className="flex flex-col gap-2 relative min-h-screen bg-white overflow-x-hidden">
+      {/* <Navbar /> */}
       <HeroSection />
-      <div className="px-5 sm:px-10 md:px-14 lg:px-24 w-full">
+      <div className="w-full max-w-screen-xl mx-auto px-3 sm:px-5 md:px-10 lg:px-16 xl:px-24 overflow-hidden">
         {isAuthenticated && <Recommendation />}
 
         <FeaturedCourse />
         <PopularDestination />
         <Services />
-        {/* <UniversityPage /> */}
-        {/* <Destination /> */}
 
         <About />
         <Blogs />
         <Faq />
       </div>
-
-      {/* WhatsApp Icon */}
-
-      {/* <FloatingWhatsApp
-          phoneNumber="+61 466 658 522"
-          accountName="StudyAndVisa"
-          allowEsc
-          notification
-          notificationSound
-        /> */}
+      {/* <Footer /> */}
     </div>
-    // <Footer />
-    // </main>
   );
 }
