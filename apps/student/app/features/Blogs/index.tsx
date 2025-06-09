@@ -55,7 +55,7 @@ export const metadata = {
   },
 };
 
-const Blogs = ({ searchParams }: BlogsProps) => {
+const Blogs = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
