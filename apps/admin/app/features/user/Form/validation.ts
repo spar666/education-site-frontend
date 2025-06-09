@@ -17,12 +17,24 @@ const UserSchema = object({
     .nonempty({ message: 'Email is required' })
     .trim(),
   phone: string()
+    .min(10, { message: 'Phone number should be at least 10 characters' })
     .max(15, { message: 'Phone number should not exceed 15 characters' })
     .nonempty({ message: 'Phone number is required' })
+    .regex(/^[0-9+\-() ]+$/, { message: 'Invalid phone number format' })
     .trim(),
-  dateOfBirth: string().nonempty({ message: 'Date of Birth is required' }).trim(),
-  gender: string().nonempty({ message: 'Gender is required' }).trim(),
-  role: zEnum(['admin', 'user', 'manager']).optional(), // Correctly define the role
+  dateOfBirth: string()
+    .nonempty({ message: 'Date of Birth is required' })
+    .regex(/^\d{4}-\d{2}-\d{2}$/, { message: 'Invalid date format (YYYY-MM-DD)' })
+    .trim(),
+  gender: string()
+    .nonempty({ message: 'Gender is required' })
+    .refine((val) => ['male', 'female', 'other'].includes(val.toLowerCase()), {
+      message: 'Invalid gender value'
+    }),
+  role: zEnum(['admin', 'superadmin', 'manager'])
+    .refine((value) => value !== undefined && value !== null, {
+      message: 'Role is required'
+    })
 });
 
 export default UserSchema;

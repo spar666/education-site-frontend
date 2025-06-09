@@ -6,234 +6,292 @@ import {
   DeleteOutlined,
   EditTwoTone,
   QuestionCircleOutlined,
-  VerifiedOutlined,
+  PlusOutlined,
 } from '@ant-design/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import AdminLayout from 'apps/admin/components/SCLayout_v2';
-import { fetchBlog } from 'apps/admin/app/api/Blogs';
-import { fetchFaq } from 'apps/admin/app/api/FAQ';
 import Image from 'next/image';
 import { renderImage } from 'libs/services/helper';
 import { fetchAboutUs, updateAboutStatus } from 'apps/admin/app/api/AboutUs';
 
+interface AboutUs {
+  id: string;
+  title: string;
+  contents: string;
+  coverImage: string;
+  isActive: boolean;
+}
+
+interface AboutUsTableItem extends AboutUs {
+  key: string;
+}
+
+interface ActionColumnProps {
+  record: AboutUsTableItem;
+}
+
+interface ActiveColumnProps {
+  id: string;
+  isActive: boolean;
+  disable?: boolean;
+  onActiveToggle: (id: string, newStatus: boolean) => void;
+}
+
 function AboutList() {
   const router = useRouter();
-  const [aboutUs, setAboutUs] = useState([]);
+  const [aboutUs, setAboutUs] = useState<AboutUs[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    async function fetchAllAboutUs() {
-      setLoading(true);
-      try {
-        const response = await fetchAboutUs();
-        setAboutUs(response?.data.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
     fetchAllAboutUs();
   }, []);
 
-  const ActionColumn = ({ record }: { record: any }) => {
-    console.log(record, 'rec');
-    const { key } = record || {};
-    return (
-      <Space size="middle" className="test">
-        <div className="flex items-center  space-x-5">
-          <Link href={`/about/edit?id=${key}`} passHref>
-            <span style={{ fontSize: '24px' }}>
-              {' '}
-              {/* Adjust the font size as needed */}
-              <EditTwoTone
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
-              />
-              <DeleteOutlined
-                className="text-2xl text-red-500 mt-[-12px]"
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
-              />
-            </span>
-          </Link>
-        </div>
-      </Space>
-    );
+  const fetchAllAboutUs = async () => {
+    setLoading(true);
+    try {
+      const response = await fetchAboutUs();
+      setAboutUs(response?.data.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      notification.error({
+        message: 'Failed to fetch about us data',
+        description: 'Please try again later',
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const ActiveColumn = ({
+  const handleStatusUpdate = async (id: string) => {
+    try {
+      const response = await updateAboutStatus({ id });
+      if (response.data.status === '201') {
+        notification.success({
+          message: 'Status updated successfully',
+        });
+        fetchAllAboutUs(); // Refresh the data
+      } else {
+        notification.error({
+          message: 'Failed to update status',
+        });
+      }
+    } catch (error: any) {
+      notification.error({
+        message: 'Error updating status',
+        description: error.message,
+      });
+    }
+  };
+
+  const ActionColumn: React.FC<ActionColumnProps> = ({ record }) => (
+    <Space size="middle">
+      <div className="flex items-center gap-4">
+        <Link href={`/about/edit?id=${record.key}`} passHref>
+          <Button
+            type="text"
+            icon={
+              <EditTwoTone
+                className="text-lg"
+                onPointerEnterCapture={undefined}
+                onPointerLeaveCapture={undefined}
+              />
+            }
+            className="hover:bg-blue-50 transition-colors rounded-lg h-9 w-9 flex items-center justify-center border-0"
+          />
+        </Link>
+        <Button
+          type="text"
+          icon={
+            <DeleteOutlined
+              className="text-lg"
+              onPointerEnterCapture={undefined}
+              onPointerLeaveCapture={undefined}
+            />
+          }
+          className="hover:bg-red-50 text-red-500 transition-colors rounded-lg h-9 w-9 flex items-center justify-center border-0"
+        />
+      </div>
+    </Space>
+  );
+
+  const ActiveColumn: React.FC<ActiveColumnProps> = ({
     id,
     isActive,
     disable,
     onActiveToggle,
-  }: {
-    id: string;
-    isActive: boolean;
-    disable?: boolean;
-    onActiveToggle: (id: string, newStatus: boolean) => void;
-  }) => {
-    console.log(isActive, 'isactve');
-    return (
-      <Popconfirm
-        id="popConfirm"
-        title={`Are you sure you want to ${
-          isActive ? 'Unpublish' : 'Publish'
-        } this about us?`}
-        icon={
-          <QuestionCircleOutlined
-            style={{ color: 'red' }}
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
-          />
-        }
-        onConfirm={() => onActiveToggle(id, !isActive)} // Pass the new status
-        okText="Yes"
-      >
-        <Space size="middle">
-          <Switch
-            checked={isActive}
-            disabled={disable}
-            style={{ backgroundColor: isActive ? '#53C31B' : undefined }}
-            id="ratingSwitch"
-          />
-        </Space>
-      </Popconfirm>
-    );
-  };
+  }) => (
+    <Popconfirm
+      title={`Are you sure you want to ${
+        isActive ? 'unpublish' : 'publish'
+      } this content?`}
+      icon={
+        <QuestionCircleOutlined
+          style={{ color: '#1677ff' }}
+          onPointerEnterCapture={undefined}
+          onPointerLeaveCapture={undefined}
+        />
+      }
+      onConfirm={() => onActiveToggle(id, !isActive)}
+      okText="Yes"
+      cancelText="No"
+      placement="left"
+    >
+      <Switch
+        checked={isActive}
+        disabled={disable}
+        className={isActive ? 'bg-green-500' : ''}
+      />
+    </Popconfirm>
+  );
 
-  const columns: ColumnsType<any> = [
+  const columns: ColumnsType<AboutUsTableItem> = [
     {
-      title: 'Title',
+      title: () => <span className="text-base font-semibold">Title</span>,
       dataIndex: 'title',
       key: 'title',
-      render: (text) => (
-        <span className="block overflow-hidden whitespace-nowrap overflow-ellipsis line-clamp-1 w-40">
-          {text}
-        </span>
+      width: '25%',
+      render: (text: string) => (
+        <div className="py-4 pl-4">
+          <span className="text-base font-medium text-gray-800">{text}</span>
+        </div>
       ),
     },
     {
-      title: 'Contents',
+      title: () => <span className="text-base font-semibold">Content</span>,
       dataIndex: 'contents',
-      render: (text) => (
-        <div
-          className="block  overflow-hidden whitespace-nowrap overflow-ellipsis line-clamp-1 truncate"
-          dangerouslySetInnerHTML={{
-            __html: text || '',
-          }}
-        ></div>
-      ),
-    },
-
-    {
-      title: 'Cover Image',
-      dataIndex: 'coverImage',
-      render: (coverImage: any) => (
-        <div className="relative w-10 h-10 overflow-hidden rounded-md">
-          <Image
-            src={`${renderImage({
-              imgPath: coverImage || '',
-            })}`}
-            alt="Icon"
-            layout="fill"
-            objectFit="cover"
-            className="block"
+      key: 'contents',
+      width: '35%',
+      render: (text: string) => (
+        <div className="py-4">
+          <div
+            className="text-gray-600 line-clamp-2 text-sm"
+            dangerouslySetInnerHTML={{ __html: text || '' }}
           />
         </div>
       ),
     },
-
     {
-      title: 'Published',
+      title: () => <span className="text-base font-semibold">Image</span>,
+      dataIndex: 'coverImage',
+      key: 'coverImage',
+      width: '15%',
+      render: (coverImage: string) => (
+        <div className="py-4">
+          <div className="relative w-12 h-12 overflow-hidden rounded-lg border border-gray-200">
+            <Image
+              src={renderImage({ imgPath: coverImage || '' })}
+              alt="Cover"
+              layout="fill"
+              objectFit="cover"
+              className="transition-transform hover:scale-110"
+            />
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: () => <span className="text-base font-semibold">Status</span>,
       dataIndex: 'isActive',
       key: 'isActive',
+      width: '15%',
       align: 'center',
-      sorter: (a, b) => a.isActive - b.isActive,
-      render: (text, record) => {
-        console.log(record?.isActive, 'is i am active now');
-        return (
+      render: (_, record) => (
+        <div className="py-4">
           <ActiveColumn
-            id={record?.key}
-            isActive={record?.isActive}
-            onActiveToggle={async (id) => {
-              console.log(id, 'id for status update');
-              try {
-                const response = await updateAboutStatus({ id });
-                if (response.data.status === '201') {
-                  notification.success({
-                    message: 'About update succesfully',
-                  });
-                  router.push('/banner');
-                } else {
-                  console.log(response, 'response');
-                  notification.error({
-                    message: 'Error',
-                  });
-                }
-              } catch (error: any) {
-                notification.error({ message: 'Error: ' + error.message });
-              }
-            }}
+            id={record.key}
+            isActive={record.isActive}
+            onActiveToggle={handleStatusUpdate}
           />
-        );
-      },
+        </div>
+      ),
     },
-
     {
-      title: 'Edit',
-      dataIndex: 'action',
+      title: () => <span className="text-base font-semibold">Actions</span>,
       key: 'action',
+      width: '10%',
       align: 'center',
-      render: (text, record) => <ActionColumn record={record} />,
+      render: (_, record) => <ActionColumn record={record} />,
     },
   ];
 
-  const dataSource = aboutUs.map((item) => {
-    const { id, title, contents, coverImage, isActive } = item;
-
-    return {
-      key: id,
-      title,
-      contents,
-      coverImage,
-      isActive,
-    };
-  });
+  const dataSource: AboutUsTableItem[] = aboutUs.map((item: AboutUs) => ({
+    key: item.id,
+    ...item,
+  }));
 
   return (
-    <AdminLayout title="Blogs">
-      <Table
-        title={() => (
-          <div className="flex items-start justify-between my-3">
-            <h3 className="text-xl font-bold">List of About</h3>
-            <div className="flex justify-between  items-center">
+    <AdminLayout title="About Us">
+      <div className="p-6 bg-gray-50 min-h-screen">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            {/* Header Section */}
+            <div className="flex justify-between items-center mb-8">
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900">
+                  About Us Management
+                </h3>
+                <p className="text-gray-500 mt-1">
+                  Manage your organization's about us content
+                </p>
+              </div>
+
               <Button
                 type="primary"
                 onClick={() => router.push('/about/create')}
-                id="addGuide"
                 size="large"
+                className="bg-dark-navy hover:bg-blue-700 text-white h-10 flex items-center gap-2 px-4"
+                icon={
+                  <PlusOutlined
+                    onPointerEnterCapture={undefined}
+                    onPointerLeaveCapture={undefined}
+                  />
+                }
               >
-                Add New
+                Add New Content
               </Button>
             </div>
+
+            {/* Table Section */}
+            <div className="overflow-hidden rounded-lg border border-gray-200">
+              <Table<AboutUsTableItem>
+                loading={loading}
+                columns={columns}
+                dataSource={dataSource}
+                rowKey="key"
+                className="custom-table"
+                pagination={{
+                  pageSize: 10,
+                  hideOnSinglePage: true,
+                  showSizeChanger: false,
+                  total: aboutUs.length,
+                  className: 'pagination-custom',
+                }}
+                onChange={(pagination) => {
+                  router.push(`/about?page=${pagination.current}`, undefined);
+                }}
+                locale={{
+                  emptyText: (
+                    <div className="py-8 text-center">
+                      <QuestionCircleOutlined
+                        className="text-4xl text-gray-300 mb-3"
+                        onPointerEnterCapture={undefined}
+                        onPointerLeaveCapture={undefined}
+                      />
+                      <h3 className="text-gray-500 font-medium">
+                        No content found
+                      </h3>
+                      <p className="text-gray-400">
+                        Add some content to get started
+                      </p>
+                    </div>
+                  ),
+                }}
+              />
+            </div>
           </div>
-        )}
-        columns={columns}
-        dataSource={dataSource}
-        loading={loading}
-        pagination={{
-          pageSize: 10,
-          hideOnSinglePage: true,
-          showSizeChanger: false,
-          total: aboutUs.length,
-        }}
-        onChange={(pagination) => {
-          router.push(`/about?page=${pagination.current}`, undefined);
-        }}
-      />
+        </div>
+      </div>
     </AdminLayout>
   );
 }

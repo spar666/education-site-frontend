@@ -300,82 +300,98 @@ const DestinationForm: React.FC<any> = () => {
   const imageValue = watch('image') || [];
 
   return (
-    <div style={{ maxHeight: '80vh', overflowY: 'auto' }}>
+    <div className="min-h-screen bg-gray-50 py-8 px-4">
       <JTLoader visible={loading} />
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-white px-8 pb-8">
-        <h3 className="text-xl font-bold mt-7 py-8">Edit Destination</h3>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="bg-white rounded-lg shadow-sm max-w-5xl mx-auto"
+      >
+        <div className="border-b border-gray-200 px-8 py-6">
+          <h3 className="text-2xl font-semibold text-gray-900">
+            Edit Destination
+          </h3>
+        </div>
 
-        <Row gutter={[20, 20]}>
-          <Col xs={24} xl={12}>
-            <SCInput
-              register={register}
-              name="destination"
-              control={control}
-              label="Destination Name"
-              error={errors.destination?.message}
-              placeholder="Enter Destination Name"
-              size="large"
-              required
-            />
-          </Col>
-        </Row>
+        <div className="px-8 py-6 space-y-6">
+          {/* Basic Information Section */}
+          <div className="space-y-6">
+            <Row gutter={[24, 24]}>
+              <Col xs={24} xl={12}>
+                <SCInput
+                  register={register}
+                  name="destination"
+                  control={control}
+                  label="Destination Name"
+                  error={errors.destination?.message}
+                  placeholder="Enter Destination Name"
+                  size="large"
+                  required
+                />
+              </Col>
+            </Row>
 
-        <Row gutter={[20, 20]}>
-          <Col xs={24} xl={12}>
-            <SCWysiwyg
-              register={register}
-              name="description"
-              control={control}
-              label="Description"
-              error={errors.description?.message}
-              placeholder="Enter destination description"
-              size="large"
-              required
-            />
-          </Col>
-        </Row>
+            <Row gutter={[24, 24]}>
+              <Col xs={24}>
+                <SCWysiwyg
+                  register={register}
+                  name="description"
+                  control={control}
+                  label="Description"
+                  error={errors.description?.message}
+                  placeholder="Enter destination description"
+                  size="large"
+                  required
+                />
+              </Col>
+            </Row>
+          </div>
 
-        <Row gutter={[20, 20]}>
-          <Col xs={24} xl={12}>
-            <SCInput
-              register={register}
-              name="totalAverageCost"
-              control={control}
-              label="Total Average Cost"
-              error={errors.totalAverageCost?.message}
-              placeholder="Enter Total Average Cost"
-              size="large"
-              required
-            />
-          </Col>
-        </Row>
+          {/* Cost Information Section */}
+          <div className="border-t border-gray-100 pt-6">
+            <h4 className="text-lg font-medium text-gray-900 mb-4">
+              Cost Information
+            </h4>
+            <Row gutter={[24, 24]}>
+              <Col xs={24} md={12}>
+                <SCInput
+                  register={register}
+                  name="totalAverageCost"
+                  control={control}
+                  label="Total Average Cost"
+                  error={errors.totalAverageCost?.message}
+                  placeholder="Enter Total Average Cost"
+                  size="large"
+                  required
+                />
+              </Col>
+              <Col xs={24} md={12}>
+                <SCInput
+                  register={register}
+                  name="totalLivingCost"
+                  control={control}
+                  label="Total Living Cost"
+                  error={errors.totalLivingCost?.message}
+                  placeholder="Enter Total Living Cost"
+                  size="large"
+                  required
+                />
+              </Col>
+            </Row>
+          </div>
 
-        <Row gutter={[20, 20]}>
-          <Col xs={24} xl={12}>
-            <SCInput
-              register={register}
-              name="totalLivingCost"
-              control={control}
-              label="Total Living Cost"
-              error={errors.totalLivingCost?.message}
-              placeholder="Enter Total Living Cost"
-              size="large"
-              required
-            />
-          </Col>
-        </Row>
-
-        {/* Enhanced Requirements Section */}
-        <Row gutter={[20, 20]}>
-          <Col xs={24} xl={12}>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+          {/* Requirements Section */}
+          <div className="border-t border-gray-100 pt-6">
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <label className="block text-lg font-medium text-gray-900 mb-4">
                 Requirements <span className="text-red-500">*</span>
               </label>
 
-              <div className="space-y-3 mb-3">
+              <div className="space-y-4 mb-4">
                 {requirements.map((req) => (
-                  <Space key={req.id} className="flex items-start w-full">
+                  <Space
+                    key={req.id}
+                    className="flex items-start w-full bg-white rounded-md p-2"
+                  >
                     <Input.TextArea
                       value={req.value}
                       onChange={(e) =>
@@ -410,60 +426,64 @@ const DestinationForm: React.FC<any> = () => {
                     onPointerLeaveCapture={undefined}
                   />
                 }
-                block
+                className="w-full"
               >
                 Add Requirement
               </Button>
 
               {errors.requirements?.message && (
-                <p className="text-red-500 text-xs mt-2">
+                <p className="text-red-500 text-sm mt-2">
                   {errors.requirements.message}
                 </p>
               )}
             </div>
-          </Col>
-        </Row>
-
-        <Row gutter={[20, 20]}>
-          <Col xs={24} xl={12}>
-            <SCUpload
-              name="image"
-              control={control}
-              label="Image"
-              error={
-                errors.image && 'message' in errors.image
-                  ? errors.image.message
-                  : undefined
-              }
-              cropAspect={1}
-              folder="destination"
-              onFileUpload={handleImageUpload}
-              multiple={false}
-              defaultFileList={imageValue}
-              required
-            />
-          </Col>
-        </Row>
-
-        <Row>
-          <div className="flex mt-4 gap-4">
-            <Button
-              loading={loading}
-              htmlType="submit"
-              type="primary"
-              size="large"
-            >
-              Update
-            </Button>
-            <Button
-              type="default"
-              size="large"
-              onClick={() => router.push('/destination')}
-            >
-              Cancel
-            </Button>
           </div>
-        </Row>
+
+          {/* Image Upload Section */}
+          <div className="border-t border-gray-100 pt-6">
+            <Row gutter={[24, 24]}>
+              <Col xs={24} xl={12}>
+                <SCUpload
+                  name="image"
+                  control={control}
+                  label="Image"
+                  error={
+                    errors.image && 'message' in errors.image
+                      ? errors.image.message
+                      : undefined
+                  }
+                  cropAspect={1}
+                  folder="destination"
+                  onFileUpload={handleImageUpload}
+                  multiple={false}
+                  defaultFileList={imageValue}
+                  required
+                />
+              </Col>
+            </Row>
+          </div>
+
+          {/* Form Actions */}
+          <div className="border-t border-gray-100 pt-6">
+            <div className="flex gap-4">
+              <Button
+                loading={loading}
+                htmlType="submit"
+                type="primary"
+                size="large"
+              >
+                Update
+              </Button>
+              <Button
+                type="default"
+                size="large"
+                onClick={() => router.push('/destination')}
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </div>
       </form>
     </div>
   );

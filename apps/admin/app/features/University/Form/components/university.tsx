@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Col, Row, notification, Input } from 'antd';
-import { CloseOutlined } from '@ant-design/icons';
+import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import {
@@ -61,24 +61,23 @@ const UniversitySchema = z.object({
   courses: z
     .array(
       z.object({
-        courses: z.string().min(1, 'Course selection is required'),
-        courseContents: z.string().min(1, 'Course description is required'),
+        courses: z.string().optional(),
+        courseContents: z.string().optional(),
       })
     )
-    .min(1, 'At least one course is required'),
-  destination: z.string().min(1, 'Destination is required'),
+    .optional()
+    .default([]),
+  destination: z.string().optional().default(''),
   campuses: z
     .array(
       z.object({
-        location: z.string().min(1, 'Campus location is required'),
-        email: z
-          .string()
-          .email('Invalid email')
-          .min(1, 'Campus email is required'),
-        contact: z.string().min(1, 'Campus contact is required'),
+        location: z.string().optional(),
+        email: z.string().email('Invalid email if provided').optional(),
+        contact: z.string().optional(),
       })
     )
-    .min(1, 'At least one campus is required'),
+    .optional()
+    .default([]),
 });
 
 type UniversityFormData = z.infer<typeof UniversitySchema>;
@@ -91,9 +90,9 @@ interface Course {
 
 interface Campus {
   id?: string;
-  location: string;
-  email: string;
-  contact: string;
+  location?: string | undefined;
+  email?: string | undefined;
+  contact?: string | undefined;
 }
 
 interface Destination {
@@ -115,7 +114,7 @@ interface UniversityResponse {
   description: string;
   courseSubject: { course: { id: string }; courseContents: string }[];
   destination: { name: string };
-  campuses: Campus[];
+  campuses?: Campus[];
 }
 
 interface ApiError {
@@ -272,13 +271,21 @@ const UniversityForm: React.FC<UniversityFormProps> = () => {
 
   const handleImageUpload = useCallback(
     (publicId: string) => {
-      const newImage: any = {
+      if (!publicId) {
+        notification.error({
+          message: 'Upload Failed',
+          description: 'Failed to get image URL. Please try again.',
+        });
+        return;
+      }
+
+      const newImage = {
         uid: publicId,
         name: publicId.split('/').pop() || 'university-image',
-        status: 'done',
+        status: 'done' as const,
         url: renderImage({
           imgPath: publicId,
-          ...getImageDimensions('lg'), // Map size to dimensions
+          ...getImageDimensions('lg'),
         }),
         publicId,
       };
@@ -294,14 +301,45 @@ const UniversityForm: React.FC<UniversityFormProps> = () => {
   const onSubmit: SubmitHandler<UniversityFormData> = async (data) => {
     setLoading(true);
     try {
-      const universityData: any = {
-        universityName: data.universityName,
+      console.log('Form data being submitted:', data);
+
+      if (!data.universityImage?.[0]?.publicId) {
+        throw new Error('University image is required');
+      }
+
+      // Clean and validate campus data
+      // Clean and validate all data
+      const cleanedCampuses =
+        data.campuses
+          ?.filter(
+            (campus) => campus.location || campus.email || campus.contact
+          )
+          .map((campus) => ({
+            location: campus.location?.trim() || '',
+            email: campus.email?.trim() || '',
+            contact: campus.contact?.trim() || '',
+          })) || [];
+
+      const cleanedCourses =
+        data.courses
+          ?.filter((course) => course.courses || course.courseContents)
+          .map((course) => ({
+            courses: course.courses?.trim() || '',
+            courseContents: course.courseContents?.trim() || '',
+          })) || [];
+
+      const universityData: UniversityPayload = {
+        universityName: data.universityName.trim(),
         worldRanking: data.worldRanking,
-        universityImage: data.universityImage[0]?.publicId || '',
-        description: data.description,
-        courses: data.courses,
-        destination: data.destination,
-        campuses: data.campuses,
+        universityImage: data.universityImage[0].publicId,
+        description: data.description.trim(),
+        courses: cleanedCourses,
+        destination: data.destination.trim(),
+        campuses: cleanedCampuses,
+        // Required by UniversityPayload interface
+        universityAddress: '',
+        universityContactNumber: '',
+        universityEmail: '',
         ...(id && { id }),
       };
 
@@ -336,84 +374,173 @@ const UniversityForm: React.FC<UniversityFormProps> = () => {
   }, [newDestination, setValue]);
 
   const watchedCourses = useWatch({ control, name: 'courses' }) || [];
-  const selectedCourseIds = watchedCourses
+  const selectedCourseIds: string[] = watchedCourses
     .map((course) => course.courses)
-    .filter(Boolean);
+    .filter((id): id is string => typeof id === 'string' && !!id);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="bg-white px-8 pb-8">
-      <h3 className="text-xl font-bold mt-7 py-8 m-0">
-        {id ? 'Edit' : 'Create'} University
-      </h3>
+    <div className="min-h-screen bg-gray-50 py-8 px-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="bg-white rounded-xl shadow-sm max-w-7xl mx-auto relative"
+      >
+        {/* Header Section */}
+        <div className="border-b border-gray-200 px-8 py-6 bg-white rounded-t-xl">
+          <div className="flex items-center justify-between">
+            <h3 className="text-2xl font-semibold text-gray-900">
+              {id ? 'Edit' : 'Create'} University
+            </h3>
+          </div>
+        </div>
 
-      <UniversityBasicInfo
-        register={register}
-        control={control}
-        errors={errors}
-      />
+        {/* Form Content */}
+        <div className="p-8 space-y-8">
+          {/* Basic Information Card */}
+          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
+              <h4 className="text-lg font-medium text-gray-900">
+                Basic Information
+              </h4>
+            </div>
+            <div className="p-6">
+              <UniversityBasicInfo
+                register={register}
+                control={control}
+                errors={errors}
+              />
+            </div>
+          </div>
 
-      <SCWysiwyg
-        name="description"
-        register={register}
-        control={control}
-        parentClass="flex-grow mb-4"
-        label="Description"
-        error={errors?.description?.message}
-      />
+          {/* Description Card */}
+          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
+              <h4 className="text-lg font-medium text-gray-900">Description</h4>
+            </div>
+            <div className="p-6">
+              <SCWysiwyg
+                name="description"
+                register={register}
+                control={control}
+                parentClass="flex-grow"
+                label="Description"
+                error={errors?.description?.message}
+              />
+            </div>
+          </div>
 
-      <CampusesSection
-        campusFields={campusFields}
-        register={register}
-        control={control}
-        errors={errors}
-        removeCampus={removeCampus}
-        appendCampus={appendCampus}
-      />
+          {/* Campus Information Card */}
+          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
+              <h4 className="text-lg font-medium text-gray-900">
+                Campus Information
+              </h4>
+            </div>
+            <div className="p-6">
+              <CampusesSection
+                campusFields={campusFields}
+                register={register}
+                control={control}
+                errors={errors}
+                removeCampus={removeCampus}
+                appendCampus={appendCampus}
+              />
+            </div>
+          </div>
 
-      <CoursesSection
-        courseFields={courseFields}
-        availableCourses={availableCourses}
-        selectedCourseIds={selectedCourseIds}
-        register={register}
-        control={control}
-        errors={errors}
-        removeCourse={removeCourse}
-        appendCourse={appendCourse}
-      />
+          {/* Courses Card */}
+          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
+              <h4 className="text-lg font-medium text-gray-900">Courses</h4>
+            </div>
+            <div className="p-6">
+              <CoursesSection
+                courseFields={courseFields}
+                availableCourses={availableCourses}
+                selectedCourseIds={selectedCourseIds}
+                register={register}
+                control={control}
+                errors={errors}
+                removeCourse={removeCourse}
+                appendCourse={appendCourse}
+              />
+            </div>
+          </div>
 
-      <DestinationSection
-        availableDestinations={availableDestinations}
-        showNewDestination={showNewDestination}
-        newDestination={newDestination}
-        register={register}
-        control={control}
-        errors={errors}
-        setShowNewDestination={setShowNewDestination}
-        setNewDestination={setNewDestination}
-        addNewDestination={addNewDestination}
-        setValue={setValue}
-        watch={watch}
-      />
+          {/* Destination Card */}
+          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
+              <h4 className="text-lg font-medium text-gray-900">Destination</h4>
+            </div>
+            <div className="p-6">
+              <DestinationSection
+                availableDestinations={availableDestinations}
+                showNewDestination={showNewDestination}
+                newDestination={newDestination}
+                register={register}
+                control={control}
+                errors={errors}
+                setShowNewDestination={setShowNewDestination}
+                setNewDestination={setNewDestination}
+                addNewDestination={addNewDestination}
+                setValue={setValue}
+                watch={watch}
+              />
+            </div>
+          </div>
 
-      <SCUpload
-        name="universityImage"
-        control={control}
-        label="University Image"
-        error={
-          errors.universityImage && 'message' in errors.universityImage
-            ? errors.universityImage.message
-            : undefined
-        }
-        cropAspect={1}
-        folder="university"
-        onFileUpload={handleImageUpload}
-        multiple={false}
-        defaultFileList={watch('universityImage') || []}
-        required
-      />
+          {/* University Image Card */}
+          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
+              <h4 className="text-lg font-medium text-gray-900">
+                University Image
+              </h4>
+            </div>
+            <div className="p-6">
+              <SCUpload
+                name="universityImage"
+                control={control}
+                label="Main Image"
+                error={
+                  errors.universityImage && 'message' in errors.universityImage
+                    ? errors.universityImage.message
+                    : undefined
+                }
+                cropAspect={16 / 9}
+                folder="university"
+                onFileUpload={handleImageUpload}
+                multiple={false}
+                defaultFileList={watch('universityImage') || []}
+                required
+              />
+            </div>
+          </div>
 
-      <FormActions loading={loading} id={id} router={router} />
-    </form>
+          {/* Form Actions */}
+          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div className="px-8 py-4">
+              <div className="flex justify-end space-x-4">
+                <Button
+                  onClick={() => router.push('/university')}
+                  className="px-6 hover:bg-gray-100 min-w-[100px]"
+                  size="large"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  loading={loading}
+                  htmlType="submit"
+                  type="primary"
+                  size="large"
+                  className="px-8 bg-blue-600 hover:bg-blue-700 text-white min-w-[120px]"
+                >
+                  {loading ? 'Saving...' : id ? 'Update' : 'Create'}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   );
 };
 
@@ -477,68 +604,32 @@ const UniversityBasicInfo: React.FC<UniversityBasicInfoProps> = ({
   control,
   errors,
 }) => (
-  <Row gutter={[20, 20]}>
-    <Col xs={24} xl={12}>
+  <Row gutter={[24, 24]}>
+    <Col xs={24} lg={12}>
       <SCInput
         register={register}
         name="universityName"
         control={control}
         label="University Name"
         error={errors.universityName?.message}
-        placeholder="University Name"
+        placeholder="Enter university name"
         size="large"
         required
       />
     </Col>
-    <Col xs={24} xl={12}>
+    <Col xs={24} lg={12}>
       <SCInput
         register={register}
         name="worldRanking"
         control={control}
         label="World Ranking"
         error={errors.worldRanking?.message}
-        placeholder="World Ranking"
+        placeholder="Enter world ranking"
         size="large"
         type="number"
         required
       />
     </Col>
-    {/* <Col xs={24} xl={12}>
-      <SCInput
-        register={register}
-        name="universityAddress"
-        control={control}
-        label="Address"
-        error={errors.universityAddress?.message}
-        placeholder="University Address"
-        size="large"
-        required
-      />
-    </Col>
-    <Col xs={24} xl={12}>
-      <SCInput
-        register={register}
-        name="universityContactNumber"
-        control={control}
-        label="Contact Number"
-        error={errors.universityContactNumber?.message}
-        placeholder="Contact Number"
-        size="large"
-        required
-      />
-    </Col>
-    <Col xs={24} xl={12}>
-      <SCInput
-        register={register}
-        name="universityEmail"
-        control={control}
-        label="Email"
-        error={errors.universityEmail?.message}
-        placeholder="Email"
-        size="large"
-        required
-      />
-    </Col> */}
   </Row>
 );
 
@@ -550,42 +641,46 @@ const CampusesSection: React.FC<CampusesSectionProps> = ({
   removeCampus,
   appendCampus,
 }) => (
-  <>
-    <h3 className="text-xl font-bold mt-7 py-8 m-0">Campuses</h3>
+  <div className="space-y-6">
     {campusFields.map((campus, index) => (
-      <React.Fragment key={campus.id}>
-        <Row gutter={[20, 20]} align="middle">
+      <div
+        key={campus.id}
+        className={`bg-gray-50 rounded-lg p-6 relative ${
+          index > 0 ? 'mt-6' : ''
+        }`}
+      >
+        {index > 0 && (
+          <Button
+            type="text"
+            className="absolute top-4 right-4 text-gray-500 hover:text-red-500"
+            onClick={() => removeCampus(index)}
+            icon={
+              <CloseOutlined
+                onPointerEnterCapture={undefined}
+                onPointerLeaveCapture={undefined}
+              />
+            }
+          />
+        )}
+        <Row gutter={[24, 24]}>
           <CampusField
             index={index}
             register={register}
             control={control}
             errors={errors}
           />
-          {index > 0 && (
-            <Col xs={2} xl={1}>
-              <Button
-                type="text"
-                style={{ color: 'red' }}
-                onClick={() => removeCampus(index)}
-                icon={
-                  <CloseOutlined
-                    onPointerEnterCapture={undefined}
-                    onPointerLeaveCapture={undefined}
-                  />
-                }
-              />
-            </Col>
-          )}
         </Row>
-      </React.Fragment>
+      </div>
     ))}
     <Button
       onClick={() => appendCampus({ location: '', email: '', contact: '' })}
-      style={{ marginBottom: '20px' }}
+      type="dashed"
+      className="w-full mt-4"
+      size="large"
     >
-      Add Campus
+      + Add New Campus
     </Button>
-  </>
+  </div>
 );
 
 const CampusField: React.FC<CampusFieldProps> = ({
@@ -595,36 +690,36 @@ const CampusField: React.FC<CampusFieldProps> = ({
   errors,
 }) => (
   <>
-    <Col xs={22} xl={11}>
+    <Col xs={24} lg={8}>
       <SCInput
         register={register}
         name={`campuses.${index}.location`}
         control={control}
         label="Location"
         error={errors.campuses?.[index]?.location?.message}
-        placeholder="Campus Location"
+        placeholder="Enter campus location"
         size="large"
       />
     </Col>
-    <Col xs={22} xl={11}>
+    <Col xs={24} lg={8}>
       <SCInput
         register={register}
         name={`campuses.${index}.email`}
         control={control}
         label="Email"
         error={errors.campuses?.[index]?.email?.message}
-        placeholder="Campus Email"
+        placeholder="Enter campus email"
         size="large"
       />
     </Col>
-    <Col xs={22} xl={11}>
+    <Col xs={24} lg={8}>
       <SCInput
         register={register}
         name={`campuses.${index}.contact`}
         control={control}
         label="Contact"
         error={errors.campuses?.[index]?.contact?.message}
-        placeholder="Campus Contact"
+        placeholder="Enter campus contact"
         size="large"
       />
     </Col>
@@ -641,22 +736,35 @@ const CoursesSection: React.FC<CoursesSectionProps> = ({
   removeCourse,
   appendCourse,
 }) => (
-  <>
-    <h3 className="text-xl font-bold mt-7 py-8 m-0">Courses</h3>
+  <div className="space-y-6">
     {courseFields.map((course, index) => {
       const otherSelectedCourseIds = selectedCourseIds.filter(
         (_: string, i: number) => i !== index
       );
 
       return (
-        <React.Fragment key={course.id}>
-          <Row gutter={[20, 20]} align="middle">
-            <Col xs={22} xl={11}>
+        <div
+          key={course.id}
+          className="bg-gray-50 rounded-lg border border-gray-200 p-6 relative transition-shadow hover:shadow-sm"
+        >
+          <Button
+            type="text"
+            className="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors"
+            onClick={() => removeCourse(index)}
+            icon={
+              <CloseOutlined
+                onPointerEnterCapture={undefined}
+                onPointerLeaveCapture={undefined}
+              />
+            }
+          />
+          <div className="space-y-6">
+            <div className="bg-white rounded-md p-4 border border-gray-100">
               <SCSelect
                 register={register}
                 control={control}
                 name={`courses.${index}.courses`}
-                label="Course"
+                label="Course Name"
                 error={errors.courses?.[index]?.courses?.message}
                 allowClear
                 placeholder="Select a course"
@@ -667,43 +775,35 @@ const CoursesSection: React.FC<CoursesSectionProps> = ({
                   disabled: otherSelectedCourseIds.includes(course.id),
                 }))}
               />
-            </Col>
-            <Col xs={2} xl={1}>
-              <Button
-                type="text"
-                style={{ color: 'red' }}
-                onClick={() => removeCourse(index)}
-                icon={
-                  <CloseOutlined
-                    onPointerEnterCapture={undefined}
-                    onPointerLeaveCapture={undefined}
-                  />
-                }
-              />
-            </Col>
-          </Row>
-          <Row gutter={[20, 20]}>
-            <Col xs={24}>
+            </div>
+            <div className="bg-white rounded-md p-4 border border-gray-100">
               <SCWysiwyg
                 name={`courses.${index}.courseContents`}
                 register={register}
                 control={control}
-                parentClass="flex-grow mb-4"
+                parentClass="flex-grow"
                 label="Course Description"
                 error={errors.courses?.[index]?.courseContents?.message}
               />
-            </Col>
-          </Row>
-        </React.Fragment>
+            </div>
+          </div>
+        </div>
       );
     })}
     <Button
       onClick={() => appendCourse({ courses: '', courseContents: '' })}
-      style={{ marginBottom: '20px' }}
+      type="dashed"
+      className="w-full h-12 text-base hover:border-blue-400 hover:text-blue-500 transition-colors"
+      icon={
+        <PlusOutlined
+          onPointerEnterCapture={undefined}
+          onPointerLeaveCapture={undefined}
+        />
+      }
     >
-      Add Course
+      Add New Course
     </Button>
-  </>
+  </div>
 );
 
 const DestinationSection: React.FC<DestinationSectionProps> = ({
@@ -722,74 +822,87 @@ const DestinationSection: React.FC<DestinationSectionProps> = ({
   const selectedDestination = watch('destination');
 
   return (
-    <>
-      <h3 className="text-xl font-bold mt-7 py-8 m-0">Destination</h3>
-      <Row gutter={[20, 20]}>
-        <Col xs={24} xl={12}>
-          <SCSelect
-            register={register}
-            parentClass="flex-grow mb-4"
-            name="destination"
-            control={control}
-            label="Destination"
-            error={errors.destination?.message}
-            allowClear
-            placeholder="Select destination"
-            size="large"
-            notFoundContent={null}
-            options={[
-              ...availableDestinations.map((dest) => ({
-                label: dest.name,
-                value: dest.id,
-              })),
-              { label: 'Add new destination...', value: 'new' },
-            ]}
-            onChange={(value: string) => {
-              if (value === 'new') {
-                setShowNewDestination(true);
-                setValue('destination', '');
-              } else {
-                setValue('destination', value);
-                setShowNewDestination(false);
-              }
-            }}
-            value={selectedDestination}
-            required
-          />
-          {showNewDestination && (
-            <div style={{ display: 'flex', flexWrap: 'nowrap', padding: 8 }}>
-              <Input
-                style={{ flex: 'auto' }}
-                value={newDestination}
-                onChange={(e) => setNewDestination(e.target.value)}
-                placeholder="New destination name"
-              />
-              <Button type="link" onClick={addNewDestination}>
-                Add
-              </Button>
-            </div>
-          )}
-        </Col>
-      </Row>
-    </>
+    <div className="space-y-4">
+      <div className="bg-white rounded-md p-4 border border-gray-100">
+        <SCSelect
+          register={register}
+          name="destination"
+          control={control}
+          label="Select Destination"
+          error={errors.destination?.message}
+          allowClear
+          placeholder="Choose a destination"
+          size="large"
+          notFoundContent={null}
+          options={[
+            ...availableDestinations.map((dest) => ({
+              label: dest.name,
+              value: dest.id,
+            })),
+            { label: '+ Add New Destination', value: 'new' },
+          ]}
+          onChange={(value: string) => {
+            if (value === 'new') {
+              setShowNewDestination(true);
+              setValue('destination', '');
+            } else {
+              setValue('destination', value);
+              setShowNewDestination(false);
+            }
+          }}
+          value={selectedDestination}
+          required
+        />
+      </div>
+
+      {showNewDestination && (
+        <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 transition-all">
+          <div className="flex items-center gap-3">
+            <Input
+              className="flex-1"
+              size="large"
+              value={newDestination}
+              onChange={(e) => setNewDestination(e.target.value)}
+              placeholder="Enter new destination name"
+            />
+            <Button
+              type="primary"
+              onClick={addNewDestination}
+              size="large"
+              className="bg-blue-600 hover:bg-blue-700 border-none min-w-[100px]"
+            >
+              Add
+            </Button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 
 const FormActions: React.FC<FormActionsProps> = ({ loading, id, router }) => (
-  <Row>
-    <div className="flex mt-4">
-      <Button loading={loading} htmlType="submit" type="primary" size="large">
-        {id ? 'Update' : 'Create'}
-      </Button>
-      <Button
-        onClick={() => router.push('/university')}
-        className="ml-4"
-        size="large"
-      >
-        Cancel
-      </Button>
+  <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+    <div className="px-8 py-4">
+      <div className="flex justify-end space-x-4">
+        <Button
+          onClick={() => router.push('/university')}
+          className="px-6 hover:bg-gray-100 min-w-[100px]"
+          size="large"
+        >
+          Cancel
+        </Button>
+        <Button
+          loading={loading}
+          htmlType="submit"
+          type="primary"
+          size="large"
+          className="px-8 bg-blue-600 hover:bg-blue-700 text-white min-w-[120px]"
+        >
+          {loading ? 'Saving...' : id ? 'Update' : 'Create'}
+        </Button>
+      </div>
     </div>
-  </Row>
+  </div>
 );
 
 export default UniversityForm;

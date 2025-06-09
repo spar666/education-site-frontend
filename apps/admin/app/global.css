@@ -207,3 +207,10 @@ menu {
 .select-h-45 select {
     height: 45px;
 }
+
+.ant-input-affix-wrapper .ant-input-prefix {
+    margin-right: 8px;
+}
+
+.ant-input-affix-wrapper>input.ant-input {
+    padding-left: 32px !important; }

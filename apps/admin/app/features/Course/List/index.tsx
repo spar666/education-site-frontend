@@ -2,7 +2,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Button, Modal, Select, Space, Table, notification } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
-import { DeleteOutlined, EditTwoTone, FilterOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  EditTwoTone,
+  FilterOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import AdminLayout from 'apps/admin/components/SCLayout_v2';
@@ -38,17 +43,29 @@ const ActionColumn = ({
 }) => (
   <Space size="middle">
     <Link href={`/course/edit?id=${id}`} passHref>
-      <EditTwoTone
-        className="text-2xl"
-        onPointerEnterCapture={undefined}
-        onPointerLeaveCapture={undefined}
+      <Button
+        type="text"
+        icon={
+          <EditTwoTone
+            className="text-lg"
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
+          />
+        }
+        className="hover:bg-blue-50 transition-colors rounded-lg h-8 w-8 flex items-center justify-center border-0"
       />
     </Link>
-    <DeleteOutlined
-      className="text-2xl text-red-500"
+    <Button
+      type="text"
+      icon={
+        <DeleteOutlined
+          className="text-lg text-red-500"
+          onPointerEnterCapture={undefined}
+          onPointerLeaveCapture={undefined}
+        />
+      }
       onClick={() => onDelete(id)}
-      onPointerEnterCapture={undefined}
-      onPointerLeaveCapture={undefined}
+      className="hover:bg-red-50 transition-colors rounded-lg h-8 w-8 flex items-center justify-center border-0"
     />
   </Space>
 );
@@ -132,86 +149,147 @@ function CourseList() {
 
   const columns: ColumnsType<Course> = [
     {
-      title: 'Course Name',
+      title: () => <span className="text-base font-semibold">Course Name</span>,
       dataIndex: 'courseName',
       key: 'courseName',
+      width: '80%',
+      render: (text) => (
+        <div className="py-4 pl-4">
+          <span className="text-base font-medium text-gray-800 hover:text-blue-600 cursor-pointer transition-colors">
+            {text}
+          </span>
+        </div>
+      ),
     },
     {
-      title: 'Action',
+      title: () => <span className="text-base font-semibold">Action</span>,
       key: 'action',
       align: 'center',
+      width: '20%',
       render: (_, record) => (
-        <ActionColumn id={record.id} onDelete={handleDelete} />
+        <div className="py-2">
+          <ActionColumn id={record.id} onDelete={handleDelete} />
+        </div>
       ),
     },
   ];
 
   return (
     <AdminLayout title="Course">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-xl font-bold">Courses</h3>
-        <Button
-          type="primary"
-          onClick={() => router.push('/course/create')}
-          size="large"
-        >
-          Add New Course
-        </Button>
+      <div className="p-6 bg-gray-50 min-h-screen">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            {/* Header Section */}
+            <div className="flex justify-between items-center mb-8">
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900">
+                  Course Management
+                </h3>
+                <p className="text-gray-500 mt-1">
+                  Manage and organize your courses
+                </p>
+              </div>
+              <Button
+                type="primary"
+                onClick={() => router.push('/course/create')}
+                size="large"
+                icon={
+                  <PlusOutlined
+                    onPointerEnterCapture={undefined}
+                    onPointerLeaveCapture={undefined}
+                  />
+                }
+                className="bg-dark-navy  hover:bg-blue-700 text-white h-10 flex items-center gap-2"
+              >
+                Add New Course
+              </Button>
+            </div>
+
+            {/* Filters Section */}
+            <div className="bg-gray-50 p-4 rounded-lg mb-6">
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 text-gray-600">
+                  <FilterOutlined
+                    className="text-lg"
+                    onPointerEnterCapture={undefined}
+                    onPointerLeaveCapture={undefined}
+                  />
+                  <span className="font-medium">Filters:</span>
+                </div>
+                <Select
+                  placeholder="Filter by Level"
+                  allowClear
+                  style={{ width: 200 }}
+                  value={filters.level}
+                  onChange={(value) => handleFilterChange('level', value)}
+                  className="hover:border-blue-400"
+                >
+                  {level.map((lev) => (
+                    <Option key={lev.id} value={lev.id}>
+                      {lev.name}
+                    </Option>
+                  ))}
+                </Select>
+
+                <Select
+                  placeholder="Filter by Category"
+                  allowClear
+                  style={{ width: 200 }}
+                  value={filters.category}
+                  onChange={(value) => handleFilterChange('category', value)}
+                  className="hover:border-blue-400"
+                >
+                  {category.map((cat) => (
+                    <Option key={cat.id} value={cat.id}>
+                      {cat.courseCategory}
+                    </Option>
+                  ))}
+                </Select>
+
+                <Button
+                  onClick={resetFilters}
+                  className="text-gray-600 hover:text-blue-600 hover:border-blue-600"
+                >
+                  Reset Filters
+                </Button>
+              </div>
+            </div>
+
+            {/* Table Section */}
+            <Table
+              loading={loading}
+              columns={columns}
+              dataSource={filteredCourses}
+              rowKey="id"
+              className="custom-table"
+              pagination={{
+                pageSize: 10,
+                hideOnSinglePage: true,
+                showSizeChanger: false,
+                className: 'pagination-custom',
+              }}
+            />
+          </div>
+        </div>
       </div>
 
-      <div className="flex gap-4 mb-4">
-        <FilterOutlined
-          size={70}
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
-        />
-        <Select
-          placeholder="Filter by Level"
-          allowClear
-          style={{ width: 200 }}
-          value={filters.level}
-          onChange={(value) => handleFilterChange('level', value)}
-        >
-          {level.map((lev) => (
-            <Option key={lev.id} value={lev.id}>
-              {lev.name}
-            </Option>
-          ))}
-        </Select>
-
-        <Select
-          placeholder="Filter by Category"
-          allowClear
-          style={{ width: 200 }}
-          value={filters.category}
-          onChange={(value) => handleFilterChange('category', value)}
-        >
-          {category.map((cat) => (
-            <Option key={cat.id} value={cat.id}>
-              {cat.courseCategory}
-            </Option>
-          ))}
-        </Select>
-
-        <Button onClick={resetFilters}>Reset Filters</Button>
-      </div>
-
-      <Table
-        loading={loading}
-        columns={columns}
-        dataSource={filteredCourses}
-        rowKey="id"
-      />
-
+      {/* Delete Modal */}
       <Modal
-        title="Confirm Delete"
+        title={<span className="text-xl font-semibold">Confirm Delete</span>}
         visible={deleteModalVisible}
         onCancel={() => setDeleteModalVisible(false)}
         onOk={confirmDelete}
         okText="Delete"
-        okButtonProps={{ style: { backgroundColor: 'red', color: 'white' } }}
+        okButtonProps={{
+          style: { backgroundColor: '#dc2626', borderColor: '#dc2626' },
+          className: 'hover:bg-red-700',
+        }}
+        className="confirm-modal"
       >
-        <p>Are you sure you want to delete this course?</p>
+        <p className="text-gray-600 my-4">
+          Are you sure you want to delete this course? This action cannot be
+          undone.
+        </p>
       </Modal>
     </AdminLayout>
   );

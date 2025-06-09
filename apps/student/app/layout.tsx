@@ -9,6 +9,9 @@ import Footer from '../components/v2/Footer';
 export const metadata = {
   title: 'Welcome to Study and Visa',
   description: 'Your gateway to studying abroad and visa assistance.',
+  alternates: {
+    canonical: 'https://www.studyandvisa.com/',
+  },
 };
 
 export default function RootLayout({

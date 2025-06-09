@@ -84,7 +84,7 @@ export const updateUser = async (id: string, data: any) => {
   try {
     const token = await Cookies.get('accessToken');
 
-    const response = await axios.patch(`${API_URL}/user/${id}`, data, {
+    const response = await axios.put(`${API_URL}/user/update`, data, {
       headers: { Authorization: `Bearer ${token}` },
     });
 

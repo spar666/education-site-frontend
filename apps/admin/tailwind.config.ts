@@ -25,6 +25,7 @@ module.exports = {
         "skyBlue": '#6ca3e8'
       },
        backgroundColor: {
+        'dark-navy': '#080d4e',
         'electric-violet': '#5c0dff',
         "winter-sky-blue": '#f8fcff',
         "serene": '#d7fbea',

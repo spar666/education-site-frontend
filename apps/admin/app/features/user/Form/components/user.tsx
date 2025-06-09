@@ -17,6 +17,7 @@ const SCInput = lazy(() => import('../../../../../components/SCForm/SCInput'));
 const { Option } = Select;
 
 interface User {
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -27,20 +28,21 @@ interface User {
 }
 
 const initialUserState: User = {
+  id: '',
   firstName: '',
   lastName: '',
   email: '',
   phone: '',
   dateOfBirth: '',
   gender: '',
-  role: 'admin',
+  role: '',
 };
 
 const AddUserForm = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const id = searchParams.get('id'); // Get user ID from URL params
+  const id = searchParams.get('id');
 
   const {
     register,
@@ -80,10 +82,10 @@ const AddUserForm = () => {
     try {
       let response;
       if (id) {
-        // Update existing user
-        response = await updateUser(id, data);
+        // Include id in the update data
+        response = await updateUser(id, { ...data, id });
       } else {
-        // Add new user
+        // Add new user without id
         response = await addUser(data);
       }
 

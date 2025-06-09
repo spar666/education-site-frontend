@@ -1,0 +1,38 @@
+/* User table custom styles */
+.user-table .ant-table {
+  border-radius: 8px;
+}
+
+.user-table .ant-table-thead > tr > th {
+  background-color: #f8fafc;
+  font-weight: 600;
+  color: #475569;
+  padding: 16px;
+}
+
+.user-table .ant-table-tbody > tr > td {
+  padding: 16px;
+}
+
+.user-table .ant-table-tbody > tr:hover > td {
+  background-color: #f8fafc;
+}
+
+/* Custom pagination styles */
+.pagination-custom.ant-pagination {
+  margin-top: 24px;
+}
+
+.pagination-custom .ant-pagination-item-active {
+  border-color: #3b82f6;
+}
+
+.pagination-custom .ant-pagination-item-active a {
+  color: #3b82f6;
+}
+
+/* Card hover effect */
+.shadow-sm:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  transition: box-shadow 0.2s ease-in-out;
+}

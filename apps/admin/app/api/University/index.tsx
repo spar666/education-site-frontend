@@ -18,15 +18,25 @@ export const addUniversity = async (uni: any) => {
 };
 
 export const updateUniversity = async (data: any) => {
-  console.log(data, 'data');
+  console.log('Updating university with data:', data);
   try {
     const token = await Cookies.get('accessToken');
+    if (!token) {
+      throw new Error('Authentication token not found');
+    }
     const response = await axios.put(`${API_URL}/university/update`, data, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
     });
+    console.log('Update response:', response);
     return response;
-  } catch ({ error }: any) {
-    throw new Error(`Failed to update blog: ${error.message}`);
+  } catch (error: any) {
+    console.error('Update university error:', error);
+    throw new Error(
+      error.response?.data?.message || 'Failed to update university'
+    );
   }
 };
 
