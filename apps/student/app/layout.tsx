@@ -7,10 +7,33 @@ import Navbar from '../components/v2/Navbar';
 import Footer from '../components/v2/Footer';
 
 export const metadata = {
-  title: 'Welcome to Study and Visa',
-  description: 'Your gateway to studying abroad and visa assistance.',
+  title: {
+    default: 'Study Abroad & Visa Assistance | Study and Visa',
+    template: '%s | Study and Visa', // For dynamic titles
+  },
+  description:
+    'Expert guidance for studying abroad and visa processing. Get free counseling for universities worldwide and visa application support.',
   alternates: {
     canonical: 'https://www.studyandvisa.com/',
+  },
+  icons: {
+    icon: '/favicon.ico', 
+    apple: '/apple-touch-icon.png', 
+  },
+  openGraph: {
+    title: 'Study Abroad & Visa Assistance | Study and Visa',
+    description: 'Expert guidance for studying abroad and visa processing.',
+    url: 'https://www.studyandvisa.com/',
+    siteName: 'Study and Visa',
+    images: [
+      {
+        url: '/og-image.jpg', 
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
   },
 };
 
