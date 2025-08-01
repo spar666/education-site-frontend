@@ -18,8 +18,59 @@ import {
 } from 'apps/admin/app/api/Course';
 import { fetchStudyLevels } from 'apps/admin/app/api/studylevel';
 import debounce from 'lodash/debounce';
+import { AIPopup } from '../../../../components/AgentInput';
 
 const { Option } = Select;
+
+const AIAgentIcon = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 64 64"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle
+      cx="32"
+      cy="32"
+      r="30"
+      fill="#F9FAFB"
+      stroke="#4F46E5"
+      strokeWidth="3"
+    />
+    <circle cx="32" cy="22" r="8" fill="#4F46E5" />
+    <path d="M22 42c0-5.5 4.5-10 10-10s10 4.5 10 10v6H22v-6z" fill="#4F46E5" />
+    <circle cx="26" cy="16" r="1.5" fill="white" />
+    <circle cx="38" cy="16" r="1.5" fill="white" />
+    <circle cx="32" cy="12" r="1.5" fill="white" />
+    <path
+      d="M44 36c2 0 4 2 4 4s-2 4-4 4h-4v-3"
+      stroke="#4F46E5"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+    <line
+      x1="14"
+      y1="22"
+      x2="24"
+      y2="22"
+      stroke="#6366F1"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+    <circle cx="14" cy="22" r="2" fill="#6366F1" />
+    <line
+      x1="40"
+      y1="22"
+      x2="50"
+      y2="22"
+      stroke="#6366F1"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+    <circle cx="50" cy="22" r="2" fill="#6366F1" />
+  </svg>
+);
 
 // Define the Course interface
 interface Course {
@@ -80,6 +131,7 @@ function CourseList() {
   const [deleteModalVisible, setDeleteModalVisible] = useState<boolean>(false);
   const [courseToDelete, setCourseToDelete] = useState<string>('');
   const [filters, setFilters] = useState<Filters>({});
+  const [aiPopupVisible, setAiPopupVisible] = useState(false);
 
   useEffect(() => {
     fetchAllCourses(); // Initial fetch when component mounts
@@ -147,6 +199,19 @@ function CourseList() {
     fetchAllCourses(); // Fetch all courses when filters are reset
   };
 
+  const handleAISubmit = (prompt: string) => {
+    console.log('AI Prompt for Course:', prompt);
+    setAiPopupVisible(false);
+    notification.info({
+      message: 'AI Course Generation',
+      description:
+        'Your course is being generated. You will be redirected shortly...',
+    });
+
+    // In a real app, you might redirect to a creation page with the prompt
+    // router.push(`/course/create?aiPrompt=${encodeURIComponent(prompt)}`);
+  };
+
   const columns: ColumnsType<Course> = [
     {
       title: () => <span className="text-base font-semibold">Course Name</span>,
@@ -189,6 +254,7 @@ function CourseList() {
                   Manage and organize your courses
                 </p>
               </div>
+
               <Button
                 type="primary"
                 onClick={() => router.push('/course/create')}
@@ -291,6 +357,15 @@ function CourseList() {
           undone.
         </p>
       </Modal>
+      {/* AI Popup Modal */}
+      <AIPopup
+        visible={aiPopupVisible}
+        onClose={() => setAiPopupVisible(false)}
+        onSubmit={handleAISubmit}
+        title="AI Course Creator"
+        description="Describe the course you want to create. Our AI agent will research the web and generate a comprehensive course structure with up-to-date information."
+        placeholder="e.g., 'universities in australia'"
+      />
     </AdminLayout>
   );
 }
