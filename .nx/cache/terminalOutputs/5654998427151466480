@@ -1,0 +1,119 @@
+  [1m[38;2;173;127;168m▲ Next.js 14.2.32[39m[22m
+
+ [37m[1m [22m[39m Creating an optimized production build ...
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ [32m[1m✓[22m[39m Compiled successfully
+ [37m[1m [22m[39m Skipping linting
+[?25l [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G[?25h [37m[1m [22m[39m Checking validity of types     [32m[1m✓[22m[39m Checking validity of types 
+[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[?25h [37m[1m [22m[39m Collecting page data     [32m[1m✓[22m[39m Collecting page data 
+[?25l [37m[1m [22m[39m Generating static pages (0/33)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (1/33)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (2/33)  [36m[==  ][39m [31m[1m⨯[22m[39m useSearchParams() should be wrapped in a suspense boundary at page "/banner/create". Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+    at a (/Users/3bird/Documents/personal/studycourse/education-site-frontend/dist/apps/admin/.next/server/chunks/2769.js:1:15364)
+    at s (/Users/3bird/Documents/personal/studycourse/education-site-frontend/dist/apps/admin/.next/server/chunks/2769.js:1:26328)
+    at w (/Users/3bird/Documents/personal/studycourse/education-site-frontend/dist/apps/admin/.next/server/app/banner/create/page.js:1:4239)
+    at nj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nN (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nB (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67539)
+    at nD (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:66681)
+    at nN (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64854)
+    at nB (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67539)
+
+Error occurred prerendering page "/banner/create". Read more: https://nextjs.org/docs/messages/prerender-error
+
+ [31m[1m⨯[22m[39m useSearchParams() should be wrapped in a suspense boundary at page "/course/create". Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+    at a (/Users/3bird/Documents/personal/studycourse/education-site-frontend/dist/apps/admin/.next/server/chunks/2769.js:1:15364)
+    at s (/Users/3bird/Documents/personal/studycourse/education-site-frontend/dist/apps/admin/.next/server/chunks/2769.js:1:26328)
+    at C (/Users/3bird/Documents/personal/studycourse/education-site-frontend/dist/apps/admin/.next/server/chunks/5387.js:1:862)
+    at nj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nN (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nB (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67539)
+    at nD (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:66681)
+    at nN (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64854)
+    at nB (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67539)
+
+Error occurred prerendering page "/course/create". Read more: https://nextjs.org/docs/messages/prerender-error
+
+ [31m[1m⨯[22m[39m useSearchParams() should be wrapped in a suspense boundary at page "/blogs/create". Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+    at a (/Users/3bird/Documents/personal/studycourse/education-site-frontend/dist/apps/admin/.next/server/chunks/2769.js:1:15364)
+    at s (/Users/3bird/Documents/personal/studycourse/education-site-frontend/dist/apps/admin/.next/server/chunks/2769.js:1:26328)
+    at Z (/Users/3bird/Documents/personal/studycourse/education-site-frontend/dist/apps/admin/.next/server/chunks/8239.js:1:2419)
+    at nj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nN (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nB (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67539)
+    at nD (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:66681)
+    at nN (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64854)
+    at nB (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67539)
+
+Error occurred prerendering page "/blogs/create". Read more: https://nextjs.org/docs/messages/prerender-error
+
+[2K[1G [37m[1m [22m[39m Generating static pages (11/33)  [36m[=== ][39m [31m[1m⨯[22m[39m useSearchParams() should be wrapped in a suspense boundary at page "/about/create". Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+    at a (/Users/3bird/Documents/personal/studycourse/education-site-frontend/dist/apps/admin/.next/server/chunks/2769.js:1:15364)
+    at s (/Users/3bird/Documents/personal/studycourse/education-site-frontend/dist/apps/admin/.next/server/chunks/2769.js:1:26328)
+    at w (/Users/3bird/Documents/personal/studycourse/education-site-frontend/dist/apps/admin/.next/server/app/about/create/page.js:1:4083)
+    at nj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nN (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nB (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67539)
+    at nD (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:66681)
+    at nN (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64854)
+    at nB (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67539)
+
+Error occurred prerendering page "/about/create". Read more: https://nextjs.org/docs/messages/prerender-error
+
+ [31m[1m⨯[22m[39m useSearchParams() should be wrapped in a suspense boundary at page "/faq/create". Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+    at a (/Users/3bird/Documents/personal/studycourse/education-site-frontend/dist/apps/admin/.next/server/chunks/2769.js:1:15364)
+    at s (/Users/3bird/Documents/personal/studycourse/education-site-frontend/dist/apps/admin/.next/server/chunks/2769.js:1:26328)
+    at y (/Users/3bird/Documents/personal/studycourse/education-site-frontend/dist/apps/admin/.next/server/chunks/6324.js:1:1819)
+    at nj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nN (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nB (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67539)
+    at nD (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:66681)
+    at nN (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64854)
+    at nB (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67539)
+
+Error occurred prerendering page "/faq/create". Read more: https://nextjs.org/docs/messages/prerender-error
+
+ [31m[1m⨯[22m[39m useSearchParams() should be wrapped in a suspense boundary at page "/user/create". Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+    at a (/Users/3bird/Documents/personal/studycourse/education-site-frontend/dist/apps/admin/.next/server/chunks/2769.js:1:15364)
+    at s (/Users/3bird/Documents/personal/studycourse/education-site-frontend/dist/apps/admin/.next/server/chunks/2769.js:1:26328)
+    at j (/Users/3bird/Documents/personal/studycourse/education-site-frontend/dist/apps/admin/.next/server/chunks/5782.js:1:3263)
+    at nj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nN (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nB (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67539)
+    at nD (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:66681)
+    at nN (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64854)
+    at nB (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67539)
+
+Error occurred prerendering page "/user/create". Read more: https://nextjs.org/docs/messages/prerender-error
+
+ [31m[1m⨯[22m[39m useSearchParams() should be wrapped in a suspense boundary at page "/university/create". Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+    at a (/Users/3bird/Documents/personal/studycourse/education-site-frontend/dist/apps/admin/.next/server/chunks/2769.js:1:15364)
+    at s (/Users/3bird/Documents/personal/studycourse/education-site-frontend/dist/apps/admin/.next/server/chunks/2769.js:1:26328)
+    at D (/Users/3bird/Documents/personal/studycourse/education-site-frontend/dist/apps/admin/.next/server/chunks/681.js:1:10402)
+    at nj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nN (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nB (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67539)
+    at nD (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:66681)
+    at nN (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64854)
+    at nB (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:67539)
+
+Error occurred prerendering page "/university/create". Read more: https://nextjs.org/docs/messages/prerender-error
+
+[2K[1G [37m[1m [22m[39m Generating static pages (28/33)  [36m[ ===][39m[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (33/33)
+
+> Export encountered errors on following paths:
+	/about/create/page: /about/create
+	/banner/create/page: /banner/create
+	/blogs/create/page: /blogs/create
+	/course/create/page: /course/create
+	/faq/create/page: /faq/create
+	/university/create/page: /university/create
+	/user/create/page: /user/create
+[?25h[1m[31mBuild process exited due to code 1  [39m[22m

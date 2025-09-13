@@ -99,8 +99,8 @@ const ActionColumn = ({
         icon={
           <EditTwoTone
             className="text-lg"
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
+            
+            
           />
         }
         className="hover:bg-blue-50 transition-colors rounded-lg h-8 w-8 flex items-center justify-center border-0"
@@ -111,8 +111,8 @@ const ActionColumn = ({
       icon={
         <DeleteOutlined
           className="text-lg text-red-500"
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
+          
+          
         />
       }
       onClick={() => onDelete(id)}
@@ -261,8 +261,8 @@ function CourseList() {
                 size="large"
                 icon={
                   <PlusOutlined
-                    onPointerEnterCapture={undefined}
-                    onPointerLeaveCapture={undefined}
+                    
+                    
                   />
                 }
                 className="bg-dark-navy  hover:bg-blue-700 text-white h-10 flex items-center gap-2"
@@ -277,8 +277,8 @@ function CourseList() {
                 <div className="flex items-center gap-2 text-gray-600">
                   <FilterOutlined
                     className="text-lg"
-                    onPointerEnterCapture={undefined}
-                    onPointerLeaveCapture={undefined}
+                    
+                    
                   />
                   <span className="font-medium">Filters:</span>
                 </div>

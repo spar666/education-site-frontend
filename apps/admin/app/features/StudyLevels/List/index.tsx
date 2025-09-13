@@ -33,8 +33,8 @@ const ActionColumn = ({ id, onDelete }: any) => (
         <Link href={`/study-levels/edit?id=${id}`} passHref>
           <EditTwoTone
             className="text-2xl"
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
+            
+            
           />
         </Link>
 
@@ -42,8 +42,8 @@ const ActionColumn = ({ id, onDelete }: any) => (
         {/* <DeleteOutlined
           className="text-2xl text-red-500 mt-[-12px]"
           onClick={() => onDelete(id)} // Triggers the delete function
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
+          
+          
         /> */}
       </div>
     </Space>

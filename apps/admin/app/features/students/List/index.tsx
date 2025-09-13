@@ -14,8 +14,8 @@ const ActionColumn = ({ id }: { id: string }) => (
     <Link href={`/blogs/edit/${id}`} passHref>
       <EditTwoTone
         className="text-2xl"
-        onPointerEnterCapture={undefined}
-        onPointerLeaveCapture={undefined}
+        
+        
       />
     </Link>
   </Space>
@@ -50,8 +50,8 @@ function StudentList() {
         <Link href={`/university/edit?id=${id}`} passHref>
           <EditTwoTone
             className="text-2xl"
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
+            
+            
           />
         </Link>
       </Space>

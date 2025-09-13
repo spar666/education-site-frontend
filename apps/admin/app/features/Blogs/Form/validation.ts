@@ -2,7 +2,7 @@ import * as z from "zod";
 
 const BlogSchema = z.object({
   title: z
-    .string({ invalid_type_error: "Title is required" })
+    .string({ error: "Title is required" })
     .trim()
     .nonempty({ message: "Title is required" })
     .min(3, { message: "Title should be at least 3 character" }),
@@ -25,7 +25,7 @@ const BlogSchema = z.object({
     .optional()
     .nullable(),
   slug: z
-    .string({ invalid_type_error: "Title is required" })
+    .string({ error: "Title is required" })
     .trim()
     .regex(/^[^\s-]+(-[^\s-]+)*$/, { message: "slug should be dash seperated" })
     .optional()
@@ -33,8 +33,7 @@ const BlogSchema = z.object({
   tags: z.string().trim().array().nullable().optional(),
   contents: z
     .string({
-      invalid_type_error: "Contents is required",
-      required_error: "Contents is required",
+      error: "Contents is required",
     })
     .refine(
       (t) => {

@@ -1,0 +1,22 @@
+  [1m[38;2;173;127;168m▲ Next.js 14.2.32[39m[22m
+
+ [37m[1m [22m[39m Creating an optimized production build ...
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ [32m[1m✓[22m[39m Compiled successfully
+ [37m[1m [22m[39m Skipping linting
+[?25l [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[31mFailed to compile.
+[39m
+[36m./components/SCForm/SCCheckbox/index.tsx[39m:[33m3[39m:[33m15[39m
+[31m[1mType error[22m[39m: Module '"antd/es/checkbox/Group"' has no exported member 'CheckboxValueType'. Did you mean to use 'import CheckboxValueType from "antd/es/checkbox/Group"' instead?
+
+[0m [90m 1 |[39m [36mimport[39m { [33mController[39m[33m,[39m [33mControl[39m } [36mfrom[39m [32m'react-hook-form'[39m[33m;[39m[0m
+[0m [90m 2 |[39m [36mimport[39m { [33mRadio[39m[33m,[39m [33mAlert[39m[33m,[39m [33mSpace[39m[33m,[39m [33mCheckbox[39m } [36mfrom[39m [32m'antd'[39m[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m 3 |[39m [36mimport[39m type { [33mCheckboxValueType[39m } [36mfrom[39m [32m'antd/es/checkbox/Group'[39m[33m;[39m[0m
+[0m [90m   |[39m               [31m[1m^[22m[39m[0m
+[0m [90m 4 |[39m [36mconst[39m { [33mGroup[39m } [33m=[39m [33mCheckbox[39m[33m;[39m[0m
+[0m [90m 5 |[39m[0m
+[0m [90m 6 |[39m type [33mSCCheckboxTypes[39m [33m=[39m {[0m
+[2K[1G[?25hNext.js build worker exited with code: 1 and signal: null
+[?25l [37m[1m [22m[39m Checking validity of types  [36m.[39m[?25h[1m[31mBuild process exited due to code 1  [39m[22m

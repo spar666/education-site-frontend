@@ -1,0 +1,8 @@
+- [32mready[39m started server on localhost:4100, url: http://localhost:4100
+[2K[1G[33mwarning[39m ../../../../package.json: No license field
+- [35mevent[39m compiled client and server successfully in 830 ms (311 modules)
+- [36mwait[39m compiling...
+- [35mevent[39m compiled client and server successfully in 199 ms (311 modules)
+(node:51779) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+^C

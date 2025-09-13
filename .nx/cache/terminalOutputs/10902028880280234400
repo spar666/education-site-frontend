@@ -1,0 +1,25 @@
+  [1m[38;2;173;127;168m▲ Next.js 14.2.32[39m[22m
+
+ [37m[1m [22m[39m Creating an optimized production build ...
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ [32m[1m✓[22m[39m Compiled successfully
+ [37m[1m [22m[39m Skipping linting
+[?25l [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[31mFailed to compile.
+[39m
+[36m./app/features/University/Form/components/university.tsx[39m:[33m178[39m:[33m5[39m
+[31m[1mType error[22m[39m: Type 'Resolver<{ universityName: string; worldRanking: number; universityImage: { uid: string; name: string; status: $InferEnumInput<{ error: "error"; done: "done"; uploading: "uploading"; removed: "removed"; }>; ... 8 more ...; publicId?: string | undefined; }[]; description: string; courses?: { ...; }[] | undefined; des...' is not assignable to type 'Resolver<{ universityName: string; worldRanking: number; universityImage: { uid: string; name: string; status: $InferEnumOutput<{ error: "error"; done: "done"; uploading: "uploading"; removed: "removed"; }>; ... 8 more ...; publicId?: string | undefined; }[]; description: string; courses: { ...; }[]; destination: st...'.
+  Types of parameters 'options' and 'options' are incompatible.
+    Type 'ResolverOptions<{ universityName: string; worldRanking: number; universityImage: { uid: string; name: string; status: $InferEnumOutput<{ error: "error"; done: "done"; uploading: "uploading"; removed: "removed"; }>; ... 8 more ...; publicId?: string | undefined; }[]; description: string; courses: { ...; }[]; destinat...' is not assignable to type 'ResolverOptions<{ universityName: string; worldRanking: number; universityImage: { uid: string; name: string; status: $InferEnumInput<{ error: "error"; done: "done"; uploading: "uploading"; removed: "removed"; }>; ... 8 more ...; publicId?: string | undefined; }[]; description: string; courses?: { ...; }[] | undefin...'.
+      Type '{ universityName: string; worldRanking: number; universityImage: { uid: string; name: string; status: $InferEnumInput<{ error: "error"; done: "done"; uploading: "uploading"; removed: "removed"; }>; ... 8 more ...; publicId?: string | undefined; }[]; description: string; courses?: { ...; }[] | undefined; destination?...' is not assignable to type '{ universityName: string; worldRanking: number; universityImage: { uid: string; name: string; status: $InferEnumOutput<{ error: "error"; done: "done"; uploading: "uploading"; removed: "removed"; }>; ... 8 more ...; publicId?: string | undefined; }[]; description: string; courses: { ...; }[]; destination: string; cam...'.
+
+[0m [90m 176 |[39m     formState[33m:[39m { errors }[33m,[39m[0m
+[0m [90m 177 |[39m   } [33m=[39m useForm[33m<[39m[33mUniversityFormData[39m[33m>[39m({[0m
+[0m[31m[1m>[22m[39m[90m 178 |[39m     resolver[33m:[39m zodResolver([33mUniversitySchema[39m)[33m,[39m[0m
+[0m [90m     |[39m     [31m[1m^[22m[39m[0m
+[0m [90m 179 |[39m     defaultValues[33m:[39m {[0m
+[0m [90m 180 |[39m       universityName[33m:[39m [32m''[39m[33m,[39m[0m
+[0m [90m 181 |[39m       worldRanking[33m:[39m [35m0[39m[33m,[39m[0m
+[2K[1G[?25hNext.js build worker exited with code: 1 and signal: null
+[?25l [37m[1m [22m[39m Checking validity of types  [36m.[39m[?25h[1m[31mBuild process exited due to code 1  [39m[22m

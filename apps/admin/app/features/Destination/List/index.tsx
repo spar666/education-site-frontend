@@ -18,8 +18,8 @@ const ActionColumn = ({ id, onDelete }: any) => (
         <Link href={`/destination/edit?id=${id}`} passHref>
           <EditTwoTone
             className="text-2xl"
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
+            
+            
           />
         </Link>
       </div>

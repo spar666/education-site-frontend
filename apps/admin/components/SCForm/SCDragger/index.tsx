@@ -12,8 +12,8 @@ const SCDragger = ({
         <>
           <p className="ant-upload-drag-icon">
             <InboxOutlined
-              onPointerEnterCapture={undefined}
-              onPointerLeaveCapture={undefined}
+              
+              
             />
           </p>
           <p className="ant-upload-text">

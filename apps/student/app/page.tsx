@@ -28,21 +28,23 @@ export default function Index() {
   const { isAuthenticated } = useUser();
 
   return (
-    <div className="flex flex-col gap-2 relative min-h-screen bg-white overflow-x-hidden">
-      {/* <Navbar /> */}
+    <div className="relative min-h-screen">
+      {/* Hero Section */}
       <HeroSection />
-      <div className="w-full max-w-screen-xl mx-auto px-3 sm:px-5 md:px-10 lg:px-16 xl:px-24 overflow-hidden">
-        {isAuthenticated && <Recommendation />}
-
-        <FeaturedCourse />
-        <PopularDestination />
-        <Services />
-
-        <About />
-        <Blogs />
-        <Faq />
+      
+      {/* Main Content */}
+      <div className="relative bg-white">
+        <div className="container-modern">
+          {isAuthenticated && <Recommendation />}
+          
+          <FeaturedCourse />
+          <PopularDestination />
+          <Services />
+          <About />
+          <Blogs />
+          <Faq />
+        </div>
       </div>
-      {/* <Footer /> */}
     </div>
   );
 }

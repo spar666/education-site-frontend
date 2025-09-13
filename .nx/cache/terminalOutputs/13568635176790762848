@@ -1,0 +1,23 @@
+  [1m[38;2;173;127;168m▲ Next.js 14.2.32[39m[22m
+
+ [37m[1m [22m[39m Creating an optimized production build ...
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ [32m[1m✓[22m[39m Compiled successfully
+ [37m[1m [22m[39m Skipping linting
+[?25l [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[31mFailed to compile.
+[39m
+[36m./app/features/user/Form/components/user.tsx[39m:[33m69[39m:[33m22[39m
+[31m[1mType error[22m[39m: Argument of type 'keyof User' is not assignable to parameter of type '"role" | "email" | "phone" | "firstName" | "lastName" | "dateOfBirth" | "gender"'.
+  Type '"id"' is not assignable to type '"role" | "email" | "phone" | "firstName" | "lastName" | "dateOfBirth" | "gender"'.
+
+[0m [90m 67 |[39m           [90m// Set the form fields with the fetched data[39m[0m
+[0m [90m 68 |[39m           [33mObject[39m[33m.[39mkeys(userData)[33m.[39mforEach((key) [33m=>[39m {[0m
+[0m[31m[1m>[22m[39m[90m 69 |[39m             setValue(key [36mas[39m keyof [33mUser[39m[33m,[39m userData[key])[33m;[39m[0m
+[0m [90m    |[39m                      [31m[1m^[22m[39m[0m
+[0m [90m 70 |[39m           })[33m;[39m[0m
+[0m [90m 71 |[39m           [90m// No need to set 'gender' separately since Controller handles it[39m[0m
+[0m [90m 72 |[39m         })[0m
+[2K[1G[?25hNext.js build worker exited with code: 1 and signal: null
+[?25l [37m[1m [22m[39m Checking validity of types  [36m.[39m[?25h[1m[31mBuild process exited due to code 1  [39m[22m

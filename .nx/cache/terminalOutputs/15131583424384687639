@@ -1,0 +1,26 @@
+  [1m[38;2;173;127;168m▲ Next.js 14.2.32[39m[22m
+
+ [37m[1m [22m[39m Creating an optimized production build ...
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ [32m[1m✓[22m[39m Compiled successfully
+ [37m[1m [22m[39m Skipping linting
+[?25l [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[31mFailed to compile.
+[39m
+[36m./app/features/user/Form/components/user.tsx[39m:[33m56[39m:[33m5[39m
+[31m[1mType error[22m[39m: Type 'Resolver<{ firstName: string; lastName: string; email: string; phone: string; dateOfBirth: string; gender: string; role: $InferEnumInput<{ admin: "admin"; superadmin: "superadmin"; manager: "manager"; }>; }, any, { ...; }>' is not assignable to type 'Resolver<User, any, User>'.
+  Types of parameters 'values' and 'values' are incompatible.
+    Type 'User' is not assignable to type '{ firstName: string; lastName: string; email: string; phone: string; dateOfBirth: string; gender: string; role: $InferEnumInput<{ admin: "admin"; superadmin: "superadmin"; manager: "manager"; }>; }'.
+      Types of property 'role' are incompatible.
+        Type 'string' is not assignable to type '$InferEnumInput<{ admin: "admin"; superadmin: "superadmin"; manager: "manager"; }>'.
+
+[0m [90m 54 |[39m     setValue[33m,[39m [90m// Import setValue from react-hook-form[39m[0m
+[0m [90m 55 |[39m   } [33m=[39m useForm[33m<[39m[33mUser[39m[33m>[39m({[0m
+[0m[31m[1m>[22m[39m[90m 56 |[39m     resolver[33m:[39m zodResolver([33mUserSchema[39m)[33m,[39m[0m
+[0m [90m    |[39m     [31m[1m^[22m[39m[0m
+[0m [90m 57 |[39m     defaultValues[33m:[39m initialUserState[33m,[39m[0m
+[0m [90m 58 |[39m   })[33m;[39m[0m
+[0m [90m 59 |[39m[0m
+[2K[1G[?25hNext.js build worker exited with code: 1 and signal: null
+[?25l [37m[1m [22m[39m Checking validity of types  [36m.[39m[?25h[1m[31mBuild process exited due to code 1  [39m[22m

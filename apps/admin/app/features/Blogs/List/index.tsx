@@ -64,8 +64,8 @@ function BlogsList() {
             icon={
               <EditTwoTone
                 className="text-lg"
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
+                
+                
               />
             }
             className="hover:bg-blue-50 transition-colors rounded-lg h-8 w-8 flex items-center justify-center border-0"
@@ -76,8 +76,8 @@ function BlogsList() {
           icon={
             <DeleteOutlined
               className="text-lg text-red-500"
-              onPointerEnterCapture={undefined}
-              onPointerLeaveCapture={undefined}
+              
+              
             />
           }
           className="hover:bg-red-50 transition-colors rounded-lg h-8 w-8 flex items-center justify-center border-0"
@@ -149,8 +149,8 @@ function BlogsList() {
                 className="bg-dark-navy hover:bg-blue-700 text-white h-10 flex items-center gap-2 px-4"
                 icon={
                   <PlusOutlined
-                    onPointerEnterCapture={undefined}
-                    onPointerLeaveCapture={undefined}
+                    
+                    
                   />
                 }
               >

@@ -62,8 +62,8 @@ function UserList() {
             type="text"
             icon={
               <EditTwoTone
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
+                
+                
                 className="text-lg"
                 {...({} as AntdIconProps)}
               />
@@ -164,8 +164,8 @@ function UserList() {
                         prefix={
                           <SearchOutlined
                             className="text-gray-400 text-lg"
-                            onPointerEnterCapture={undefined}
-                            onPointerLeaveCapture={undefined}
+                            
+                            
                           />
                         }
                         className="flex w-[250px] h-[40px] mt-[-40px] rounded-lg hover:border-blue-400 focus:border-blue-500 pl-10"
@@ -178,8 +178,8 @@ function UserList() {
                     size="middle"
                     icon={
                       <PlusOutlined
-                        onPointerEnterCapture={undefined}
-                        onPointerLeaveCapture={undefined}
+                        
+                        
                       />
                     }
                     onClick={() => router.push('/user/create')}

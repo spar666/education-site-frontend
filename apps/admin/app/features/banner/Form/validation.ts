@@ -2,13 +2,13 @@ import * as z from "zod";
 
 const BannerSchema = z.object({
   title: z
-    .string({ invalid_type_error: "Title is required" })
+    .string({ error: "Title is required" })
     .trim()
     .nonempty({ message: "Title is required" })
     ,
 
   contents: z
-    .string({ invalid_type_error: "Contents is required" })
+    .string({ error: "Contents is required" })
     .trim()
     .nonempty({ message: "Contents is required" }),
 

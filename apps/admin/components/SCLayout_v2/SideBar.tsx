@@ -1,11 +1,12 @@
 'use client';
 import { LogoutOutlined } from '@ant-design/icons';
-import { Menu, MenuProps, theme } from 'antd';
-import Sider from 'antd/lib/layout/Sider';
+import { Menu, MenuProps, Layout } from 'antd';
 
 import { usePathname, useRouter } from 'next/navigation';
 import items from '../../constants/SideNavItems';
 import { deleteCookie } from 'cookies-next';
+
+const { Sider } = Layout;
 
 export function SideBar() {
   const pathname = usePathname();
@@ -60,12 +61,7 @@ export function SideBar() {
       key: 'logout',
       label: <p>Logout</p>,
       onClick: logoutHandler,
-      icon: (
-        <LogoutOutlined
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
-        />
-      ),
+      icon: <LogoutOutlined />,
     },
   ];
 

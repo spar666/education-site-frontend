@@ -49,7 +49,7 @@ interface SCUploadProps<T extends Record<string, any>> {
   maxCount?: number;
   accept?: string;
   disabled?: boolean;
-  onFileUpload: (publicId: string) => void;
+  onFileUpload: (publicId: string, imageUrl?: string) => void;
   defaultFileList?: UploadFile[];
 }
 
@@ -115,10 +115,14 @@ const SCUpload = <T extends Record<string, any>>({
         { headers: { 'content-type': 'multipart/form-data' } }
       );
 
+      console.log('Upload response:', data);
+
       if (!data.success) throw new Error('Upload failed');
 
       onSuccess?.(data);
       const { publicId, url } = data.data;
+      
+      console.log('Uploaded file data:', { publicId, url });
 
       const newFile: any = {
         uid: publicId,
@@ -134,7 +138,7 @@ const SCUpload = <T extends Record<string, any>>({
         setFileList((prev) => [...prev, newFile]);
       }
 
-      onFileUpload(publicId);
+      onFileUpload(publicId, url);
     } catch (err: unknown) {
       const error = err as Error;
       onError?.(error);
@@ -162,9 +166,14 @@ const SCUpload = <T extends Record<string, any>>({
       previewImage = await getBase64(file.originFileObj);
     }
 
+    // Debug logging
+    console.log('Preview Image URL:', previewImage);
+    console.log('File object:', file);
+
     handleUploadState({
       previewImage,
       previewTitle,
+      previewOpen: true,
     });
   };
 
@@ -182,14 +191,14 @@ const SCUpload = <T extends Record<string, any>>({
       {uploadState.loading ? (
         <LoadingOutlined
           style={{ fontSize: 24 }}
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
+          
+          
         />
       ) : (
         <>
           <PlusOutlined
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
+            
+            
           />
           <div style={{ marginTop: 8 }}>Upload</div>
         </>
@@ -214,6 +223,7 @@ const SCUpload = <T extends Record<string, any>>({
         fileList={fileList}
         onPreview={handlePreview}
         onChange={({ fileList: newFileList }) => {
+          console.log('File list changed:', newFileList);
           setFileList(newFileList);
           if (onChange) {
             onChange(newFileList);
@@ -269,6 +279,10 @@ const SCUpload = <T extends Record<string, any>>({
           alt={uploadState.previewTitle}
           style={{ width: '100%', maxHeight: '80vh', objectFit: 'contain' }}
           src={uploadState.previewImage}
+          onError={(e) => {
+            console.error('Image failed to load:', uploadState.previewImage);
+            e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5YTNhZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIG5vdCBmb3VuZDwvdGV4dD48L3N2Zz4=';
+          }}
         />
       </Modal>
 

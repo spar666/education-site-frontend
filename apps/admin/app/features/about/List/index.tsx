@@ -93,8 +93,8 @@ function AboutList() {
             icon={
               <EditTwoTone
                 className="text-lg"
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
+                
+                
               />
             }
             className="hover:bg-blue-50 transition-colors rounded-lg h-9 w-9 flex items-center justify-center border-0"
@@ -105,8 +105,8 @@ function AboutList() {
           icon={
             <DeleteOutlined
               className="text-lg"
-              onPointerEnterCapture={undefined}
-              onPointerLeaveCapture={undefined}
+              
+              
             />
           }
           className="hover:bg-red-50 text-red-500 transition-colors rounded-lg h-9 w-9 flex items-center justify-center border-0"
@@ -128,8 +128,8 @@ function AboutList() {
       icon={
         <QuestionCircleOutlined
           style={{ color: '#1677ff' }}
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
+          
+          
         />
       }
       onConfirm={() => onActiveToggle(id, !isActive)}
@@ -243,8 +243,8 @@ function AboutList() {
                 className="bg-dark-navy hover:bg-blue-700 text-white h-10 flex items-center gap-2 px-4"
                 icon={
                   <PlusOutlined
-                    onPointerEnterCapture={undefined}
-                    onPointerLeaveCapture={undefined}
+                    
+                    
                   />
                 }
               >
@@ -275,8 +275,8 @@ function AboutList() {
                     <div className="py-8 text-center">
                       <QuestionCircleOutlined
                         className="text-4xl text-gray-300 mb-3"
-                        onPointerEnterCapture={undefined}
-                        onPointerLeaveCapture={undefined}
+                        
+                        
                       />
                       <h3 className="text-gray-500 font-medium">
                         No content found

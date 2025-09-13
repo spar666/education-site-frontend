@@ -43,16 +43,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full">
-      <body
-        className={cn(
-          'relative h-full bg-gradient-to-b from-indigo-50 to-white font-sans antialiased'
-        )}
-      >
+    <html lang="en" className="h-full scroll-smooth">
+      <body className="relative h-full font-sans antialiased">
         <Providers store={store}>
-          {' '}
-          {/* Ensure Providers wraps everything */}
-          <Navbar /> {/* Navbar is now inside Providers */}
+          <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
         </Providers>

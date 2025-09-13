@@ -11,12 +11,16 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "incremental": true,
+    "skipLibCheck": true,
     "plugins": [
       {
         "name": "next"
       }
     ],
-    "types": ["jest", "node"]
+    "types": [
+      "jest",
+      "node"
+    ]
   },
   "include": [
     "**/*.ts",
@@ -26,13 +30,15 @@
     "../../apps/admin/.next/types/**/*.ts",
     "../../dist/apps/admin/.next/types/**/*.ts",
     "next-env.d.ts",
-    "src", "node_modules/react-hook-form" 
+    "src",
+    "node_modules/react-hook-form",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",
     "jest.config.ts",
     "src/**/*.spec.ts",
     "src/**/*.test.ts",
-    "react-hook-form",
+    "react-hook-form"
   ]
 }

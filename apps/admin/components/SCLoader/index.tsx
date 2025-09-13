@@ -20,8 +20,8 @@ export default function JTLoader({ visible }: any) {
             <LoadingOutlined
               style={{ fontSize: 34 }}
               spin
-              onPointerEnterCapture={undefined}
-              onPointerLeaveCapture={undefined}
+              
+              
             />
           }
         />

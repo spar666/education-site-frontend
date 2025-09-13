@@ -1,0 +1,26 @@
+  [1m[38;2;173;127;168m▲ Next.js 14.2.32[39m[22m
+
+ [37m[1m [22m[39m Creating an optimized production build ...
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ [32m[1m✓[22m[39m Compiled successfully
+ [37m[1m [22m[39m Skipping linting
+[?25l [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[31mFailed to compile.
+[39m
+[36m./app/features/University/Form/components/university.tsx[39m:[33m280[39m:[33m41[39m
+[31m[1mType error[22m[39m: Argument of type 'UniversityImage[]' is not assignable to parameter of type '{ uid: string; name: string; status: $InferEnumInput<{ error: "error"; done: "done"; uploading: "uploading"; removed: "removed"; }>; url: string; thumbUrl?: string | undefined; ... 6 more ...; publicId?: string | undefined; }[]'.
+  Type 'UniversityImage' is not assignable to type '{ uid: string; name: string; status: $InferEnumInput<{ error: "error"; done: "done"; uploading: "uploading"; removed: "removed"; }>; url: string; thumbUrl?: string | undefined; ... 6 more ...; publicId?: string | undefined; }'.
+    Types of property 'status' are incompatible.
+      Type 'UploadFileStatus | undefined' is not assignable to type '$InferEnumInput<{ error: "error"; done: "done"; uploading: "uploading"; removed: "removed"; }>'.
+        Type 'undefined' is not assignable to type '$InferEnumInput<{ error: "error"; done: "done"; uploading: "uploading"; removed: "removed"; }>'.
+
+[0m [90m 278 |[39m             setValue([32m'worldRanking'[39m[33m,[39m uniData[33m?[39m[33m.[39mworldRanking [33m||[39m [35m0[39m)[33m;[39m[0m
+[0m [90m 279 |[39m             setValue([32m'description'[39m[33m,[39m uniData[33m?[39m[33m.[39mdescription [33m||[39m [32m''[39m)[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m 280 |[39m             setValue([32m'universityImage'[39m[33m,[39m formattedCover)[33m;[39m[0m
+[0m [90m     |[39m                                         [31m[1m^[22m[39m[0m
+[0m [90m 281 |[39m             setValue([32m'courses'[39m[33m,[39m uniData[33m?[39m[33m.[39mcourseSubject[33m?[39m[33m.[39mmap((courseSubject) [33m=>[39m ({[0m
+[0m [90m 282 |[39m               courses[33m:[39m courseSubject[33m.[39mcourse[33m.[39mid[33m,[39m[0m
+[0m [90m 283 |[39m               courseContents[33m:[39m courseSubject[33m.[39mcourseContents[33m,[39m[0m
+[2K[1G[?25hNext.js build worker exited with code: 1 and signal: null
+[?25l [37m[1m [22m[39m Checking validity of types  [36m.[39m[?25h[1m[31mBuild process exited due to code 1  [39m[22m

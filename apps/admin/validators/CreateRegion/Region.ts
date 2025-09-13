@@ -17,7 +17,7 @@ const RegionSchema = z.object({
       message: "Country name should not accept more than 300 character",
     }),
   slug: z
-    .string({ invalid_type_error: "Title is required" })
+    .string({ error: "Title is required" })
     .trim()
     .regex(/^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$/, { message: "slug should be dash seperated" })
     .min(3, { message: "Slug should be at least 3 character" })
@@ -28,7 +28,7 @@ const RegionSchema = z.object({
     .optional()
     .nullable(),
   difficultLevel: z
-    .string({ invalid_type_error: "Difficulty level is required" })
+    .string({ error: "Difficulty level is required" })
     .trim()
     .nonempty({ message: "Difficulty level  is required" }),
   description: z

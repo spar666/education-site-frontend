@@ -145,8 +145,8 @@ const ActionColumn: React.FC<ActionColumnProps> = ({ id, onDelete }) => {
         <Link href={`/university/edit?id=${id}`} passHref>
           <EditTwoTone
             className="text-2xl cursor-pointer hover:text-blue-600 transition-colors"
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
+            
+            
           />
         </Link>
 
@@ -160,8 +160,8 @@ const ActionColumn: React.FC<ActionColumnProps> = ({ id, onDelete }) => {
         >
           <DeleteOutlined
             className="text-2xl text-red-500 mt-[-12px] cursor-pointer hover:text-red-700 transition-colors"
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
+            
+            
           />
         </Popconfirm>
       </div>
@@ -190,8 +190,8 @@ const ActiveColumn: React.FC<ActiveColumnProps> = ({
     icon={
       <QuestionCircleOutlined
         style={{ color: 'red' }}
-        onPointerEnterCapture={undefined}
-        onPointerLeaveCapture={undefined}
+        
+        
       />
     }
     onConfirm={() => onActiveToggle(id)}
@@ -694,8 +694,8 @@ const UniversityList: React.FC = () => {
                   className="bg-dark-navy hover:bg-blue-700 text-white h-10 flex items-center gap-2 px-4"
                   icon={
                     <PlusOutlined
-                      onPointerEnterCapture={undefined}
-                      onPointerLeaveCapture={undefined}
+                      
+                      
                     />
                   }
                 >
@@ -719,8 +719,8 @@ const UniversityList: React.FC = () => {
                           display: 'flex',
                           alignItems: 'center',
                         }}
-                        onPointerEnterCapture={undefined}
-                        onPointerLeaveCapture={undefined}
+                        
+                        
                       />
                     }
                     onChange={handleSearchChange}

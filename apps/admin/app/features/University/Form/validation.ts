@@ -2,27 +2,27 @@ import * as z from 'zod';
 
 const UniversitySchema = z.object({
   universityName: z
-    .string({ invalid_type_error: 'University Name is required' })
+    .string({ error: 'University Name is required' })
     .trim()
     .nonempty({ message: 'University Name is required' })
     .min(3, { message: 'University Name should be at least 3 characters' }),
 
 
   universityAddress: z
-    .string({ invalid_type_error: 'University Address is required' })
+    .string({ error: 'University Address is required' })
     .trim()
     .nonempty({ message: 'University Address is required' })
     .min(3, { message: 'University Address should be at least 3 characters' }),
     
 
   universityContactNumber: z
-    .string({ invalid_type_error: 'University Contact Number is required' })
+    .string({ error: 'University Contact Number is required' })
     .trim()
     .nonempty({ message: 'University Contact Number is required' }),
     
 
   universityEmail: z
-    .string({ invalid_type_error: 'University Email is required' })
+    .string({ error: 'University Email is required' })
     .trim()
     .nonempty({ message: 'University Email is required' }),
     

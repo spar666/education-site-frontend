@@ -1,0 +1,58 @@
+> nx run admin:build:production
+
+  [1m[38;2;173;127;168m▲ Next.js 14.2.32[39m[22m
+
+ [37m[1m [22m[39m Creating an optimized production build ...
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ [32m[1m✓[22m[39m Compiled successfully
+ [37m[1m [22m[39m Skipping linting
+[?25l [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G[?25h [37m[1m [22m[39m Checking validity of types     [32m[1m✓[22m[39m Checking validity of types 
+[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[?25h [37m[1m [22m[39m Collecting page data     [32m[1m✓[22m[39m Collecting page data 
+[?25l [37m[1m [22m[39m Generating static pages (0/33)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (4/33)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (13/33)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (28/33)  [36m[=== ][39m[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (33/33)
+[?25l [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[?25l [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[?25h [37m[1m [22m[39m Collecting build traces     [32m[1m✓[22m[39m Collecting build traces 
+[2K[1G[?25h [37m[1m [22m[39m Finalizing page optimization     [32m[1m✓[22m[39m Finalizing page optimization 
+
+[4mRoute (app)[24m                              [4mSize[24m     [4mFirst Load JS[24m
+┌ ○ /                                    6 kB            [37m[1m291 kB[22m[39m
+├ ○ /_not-found                          880 B          [37m[1m88.9 kB[22m[39m
+├ ○ /about                               5.03 kB         [37m[1m400 kB[22m[39m
+├ ƒ /about/create                        2.12 kB         [37m[1m386 kB[22m[39m
+├ ƒ /about/edit                          2.12 kB         [37m[1m386 kB[22m[39m
+├ ○ /banner                              4.28 kB         [37m[1m414 kB[22m[39m
+├ ƒ /banner/create                       2.15 kB         [37m[1m386 kB[22m[39m
+├ ƒ /banner/edit                         2.15 kB         [37m[1m386 kB[22m[39m
+├ ○ /blogs                               4.36 kB         [37m[1m387 kB[22m[39m
+├ ƒ /blogs/create                        188 B           [37m[1m422 kB[22m[39m
+├ ƒ /blogs/edit                          185 B           [37m[1m422 kB[22m[39m
+├ ○ /course                              6.71 kB         [37m[1m405 kB[22m[39m
+├ ○ /course-category                     3.75 kB         [37m[1m392 kB[22m[39m
+├ ƒ /course-category/edit                4.74 kB         [37m[1m388 kB[22m[39m
+├ ƒ /course/create                       181 B           [37m[1m386 kB[22m[39m
+├ ƒ /course/edit                         180 B           [37m[1m386 kB[22m[39m
+├ ○ /destination                         2.86 kB         [37m[1m383 kB[22m[39m
+├ ƒ /destination/edit                    7.28 kB         [37m[1m391 kB[22m[39m
+├ ○ /faq                                 4.89 kB         [37m[1m403 kB[22m[39m
+├ ƒ /faq/create                          171 B           [37m[1m332 kB[22m[39m
+├ ƒ /faq/edit                            171 B           [37m[1m332 kB[22m[39m
+├ ○ /students                            2.81 kB         [37m[1m377 kB[22m[39m
+├ ○ /study-levels                        3.5 kB          [37m[1m386 kB[22m[39m
+├ ƒ /study-levels/edit                   8.46 kB         [37m[1m331 kB[22m[39m
+├ ○ /university                          179 B           [37m[1m422 kB[22m[39m
+├ ƒ /university/create                   185 B           [37m[1m425 kB[22m[39m
+├ ƒ /university/edit                     184 B           [37m[1m425 kB[22m[39m
+├ ○ /user                                20.3 kB         [37m[1m408 kB[22m[39m
+├ ƒ /user/create                         160 B           [37m[1m319 kB[22m[39m
+├ ƒ /user/edit                           160 B           [37m[1m319 kB[22m[39m
+└ ○ /users                               181 B           [37m[1m422 kB[22m[39m
++ First Load JS shared by all            [37m[1m88 kB[22m[39m
+  ├ chunks/1528-737e8ee404ff4884.js      31.6 kB
+  ├ chunks/1dd3208c-1629e7fe50818ff6.js  53.6 kB
+  └ other shared chunks (total)          2.77 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+[?25h

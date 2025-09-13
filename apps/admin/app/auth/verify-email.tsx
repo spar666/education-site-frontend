@@ -27,7 +27,7 @@
 
 // const verificationSchema = z.object({
 //   email: z
-//     .string({ invalid_type_error: "Email is required" })
+//     .string({ error: "Email is required" })
 //     .nonempty({ message: "Email is required" })
 //     .email(),
 // });

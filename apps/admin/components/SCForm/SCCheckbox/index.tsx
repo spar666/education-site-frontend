@@ -1,6 +1,5 @@
 import { Controller, Control } from 'react-hook-form';
 import { Radio, Alert, Space, Checkbox } from 'antd';
-import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 const { Group } = Checkbox;
 
 type SCCheckboxTypes = {

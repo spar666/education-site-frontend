@@ -12,7 +12,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { deleteCookie } from 'cookies-next';
 import useUser from 'apps/student/hook/useUser';
-import Logo from '../../assets/Logo/Logo.png';
+import Logo from '../../assets/Logo/Logostudyvisa.png';
 import { fetchStudyLevels } from 'apps/student/app/api/studyLevel';
 import { fetchAllUniversityByDestination } from 'apps/student/app/api/studyDestination';
 
@@ -481,8 +481,8 @@ const Navbar: React.FC = () => {
             <Link href="/" className="flex items-center">
               <Image
                 src={Logo}
-                width={40}
-                height={40}
+                width={120}
+                height={120}
                 alt="Logo"
                 priority
                 className="hover:opacity-90 transition-opacity"

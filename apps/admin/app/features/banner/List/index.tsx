@@ -100,8 +100,8 @@ function BannerList() {
       <Link href={`/banner/edit?id=${record.id}`}>
         <EditTwoTone
           className="text-xl hover:text-blue-600 cursor-pointer transition-colors"
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
+          
+          
         />
       </Link>
       <Popconfirm
@@ -113,8 +113,8 @@ function BannerList() {
       >
         <DeleteOutlined
           className="text-xl text-red-500 hover:text-red-600 cursor-pointer transition-colors"
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
+          
+          
         />
       </Popconfirm>
     </Space>
@@ -213,8 +213,8 @@ function BannerList() {
             type="primary"
             icon={
               <PlusOutlined
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
+                
+                
               />
             }
             onClick={() => router.push('/banner/create')}

@@ -13,6 +13,13 @@ const nextConfig = {
     svgr: false,
   },
 
+  // Performance optimizations
+  // @ts-ignore
+  swcMinify: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
+
   images: {
     minimumCacheTTL: 15768000,
     domains: [

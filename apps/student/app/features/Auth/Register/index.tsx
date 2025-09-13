@@ -80,7 +80,7 @@ export default function RegisterPage() {
       // Handle zod validation errors or API errors
       if (error instanceof z.ZodError) {
         notification.error({
-          message: error.errors[0].message,
+          message: error.issues[0].message,
         });
       } else {
         notification.error({

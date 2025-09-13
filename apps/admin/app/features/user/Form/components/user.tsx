@@ -24,7 +24,7 @@ interface User {
   phone: string;
   dateOfBirth: string;
   gender: string;
-  role: string;
+  role: 'admin' | 'superadmin' | 'manager';
 }
 
 const initialUserState: User = {
@@ -35,7 +35,7 @@ const initialUserState: User = {
   phone: '',
   dateOfBirth: '',
   gender: '',
-  role: '',
+  role: 'admin',
 };
 
 const AddUserForm = () => {
@@ -52,7 +52,7 @@ const AddUserForm = () => {
     setError,
     reset,
     setValue, // Import setValue from react-hook-form
-  } = useForm<User>({
+  } = useForm({
     resolver: zodResolver(UserSchema),
     defaultValues: initialUserState,
   });
@@ -66,7 +66,9 @@ const AddUserForm = () => {
           const userData = response.data;
           // Set the form fields with the fetched data
           Object.keys(userData).forEach((key) => {
-            setValue(key as keyof User, userData[key]);
+            if (key !== 'id') {
+              setValue(key as any, userData[key]);
+            }
           });
           // No need to set 'gender' separately since Controller handles it
         })
@@ -77,7 +79,7 @@ const AddUserForm = () => {
     }
   }, [id, setValue]);
 
-  const onSubmit: SubmitHandler<User> = async (data) => {
+  const onSubmit: SubmitHandler<any> = async (data) => {
     setLoading(true);
     try {
       let response;

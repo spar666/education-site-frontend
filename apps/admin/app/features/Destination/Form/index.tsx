@@ -406,8 +406,8 @@ const DestinationForm: React.FC<any> = () => {
                       danger
                       icon={
                         <DeleteOutlined
-                          onPointerEnterCapture={undefined}
-                          onPointerLeaveCapture={undefined}
+                          
+                          
                         />
                       }
                       onClick={() => handleRemoveRequirement(req.id)}
@@ -422,8 +422,8 @@ const DestinationForm: React.FC<any> = () => {
                 onClick={handleAddRequirement}
                 icon={
                   <PlusOutlined
-                    onPointerEnterCapture={undefined}
-                    onPointerLeaveCapture={undefined}
+                    
+                    
                   />
                 }
                 className="w-full"

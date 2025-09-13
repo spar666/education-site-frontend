@@ -32,57 +32,20 @@ import {
 import { renderImage } from 'libs/services/helper';
 import React from 'react';
 
-// Zod schema for form validation
+// Simplified Zod schema for form validation
 const UniversitySchema = z.object({
   universityName: z.string().min(1, 'University name is required'),
-
-  worldRanking: z
-    .number({ invalid_type_error: 'World ranking must be a number' })
-    .min(1, 'World ranking is required'),
-  universityImage: z
-    .array(
-      z.object({
-        uid: z.string(),
-        name: z.string(),
-        status: z.enum(['done', 'uploading', 'error', 'removed']),
-        url: z.string(),
-        thumbUrl: z.string().optional(),
-        size: z.number().optional(),
-        type: z.string().optional(),
-        percent: z.number().optional(),
-        originFileObj: z.any().optional(),
-        response: z.any().optional(),
-        error: z.any().optional(),
-        publicId: z.string().optional(),
-      })
-    )
-    .min(1, 'University image is required'),
+  worldRanking: z.number().min(1, 'World ranking is required'),
+  universityImage: z.array(z.any()).min(1, 'University image is required'),
   description: z.string().min(1, 'Description is required'),
-  courses: z
-    .array(
-      z.object({
-        courses: z.string().optional(),
-        courseContents: z.string().optional(),
-      })
-    )
-    .optional()
-    .default([]),
-  destination: z.string().optional().default(''),
-  campuses: z
-    .array(
-      z.object({
-        location: z.string().optional(),
-        email: z.string().email('Invalid email if provided').optional(),
-        contact: z.string().optional(),
-      })
-    )
-    .optional()
-    .default([]),
+  courses: z.array(z.any()).default([]),
+  destination: z.string().default(''),
+  campuses: z.array(z.any()).default([]),
 });
 
 type UniversityFormData = z.infer<typeof UniversitySchema>;
 
-// Type definitions
+// Simplified type definitions
 interface Course {
   id: string;
   courseName: string;
@@ -160,6 +123,7 @@ const UniversityForm: React.FC<UniversityFormProps> = () => {
   const id = searchParams.get('id');
 
   const [loading, setLoading] = useState(false);
+  const [loadingUniversityData, setLoadingUniversityData] = useState(false);
   const [availableCourses, setAvailableCourses] = useState<Course[]>([]);
   const [availableDestinations, setAvailableDestinations] = useState<
     Destination[]
@@ -175,7 +139,7 @@ const UniversityForm: React.FC<UniversityFormProps> = () => {
     watch,
     setValue,
     formState: { errors },
-  } = useForm<UniversityFormData>({
+  } = useForm({
     resolver: zodResolver(UniversitySchema),
     defaultValues: {
       universityName: '',
@@ -225,26 +189,35 @@ const UniversityForm: React.FC<UniversityFormProps> = () => {
   useEffect(() => {
     if (id) {
       const fetchUniversityData = async () => {
+        setLoadingUniversityData(true);
         try {
           const uniData: UniversityResponse = await fetchUniversityById({ id });
+          console.log('Fetched university data:', uniData);
+          
           const cover = uniData?.universityImage;
+          console.log('University image path:', cover);
+          console.log('Image path type:', typeof cover);
+          console.log('Image path length:', cover?.length);
 
-          const formattedCover: UniversityImage[] = cover
+          const formattedCover = cover
             ? [
                 {
                   uid: cover,
                   name: cover.split('/').pop() || 'university-image',
-                  status: 'done',
+                  status: 'done' as const,
                   url: renderImage({
                     imgPath: cover,
-                    ...getImageDimensions('lg'), // Map size to dimensions
+                    ...getImageDimensions('lg'),
                   }),
                   publicId: cover,
                 },
               ]
             : [];
 
-          reset({
+          console.log('Formatted cover image:', formattedCover);
+
+          // Reset form with fetched data
+          const formData = {
             universityName: uniData?.universityName || '',
             worldRanking: uniData?.worldRanking || 0,
             description: uniData?.description || '',
@@ -256,13 +229,44 @@ const UniversityForm: React.FC<UniversityFormProps> = () => {
               })) || [],
             destination: uniData?.destination?.name || '',
             campuses: uniData?.campuses || [],
-          });
+          };
+          
+          console.log('Setting form data:', formData);
+          
+          // Reset form with fetched data
+          reset(formData);
+          
+          // Use setTimeout to ensure form is properly initialized before setting individual values
+          setTimeout(() => {
+            console.log('Setting individual form values...');
+            setValue('universityName', uniData?.universityName || '');
+            setValue('worldRanking', uniData?.worldRanking || 0);
+            setValue('description', uniData?.description || '');
+            setValue('universityImage', formattedCover);
+            setValue('courses', uniData?.courseSubject?.map((courseSubject) => ({
+              courses: courseSubject.course.id,
+              courseContents: courseSubject.courseContents,
+            })) || []);
+            setValue('destination', uniData?.destination?.name || '');
+            setValue('campuses', uniData?.campuses || []);
+            
+            console.log('Form values set successfully');
+            console.log('Current form values:', {
+              universityName: uniData?.universityName,
+              worldRanking: uniData?.worldRanking,
+              description: uniData?.description,
+              universityImage: formattedCover,
+              destination: uniData?.destination?.name,
+            });
+          }, 100);
         } catch (error: unknown) {
           const err = error as ApiError;
           console.error('Failed to fetch university data:', err);
           notification.error({
             message: err.message || 'Failed to load university data',
           });
+        } finally {
+          setLoadingUniversityData(false);
         }
       };
       fetchUniversityData();
@@ -270,7 +274,9 @@ const UniversityForm: React.FC<UniversityFormProps> = () => {
   }, [id, reset]);
 
   const handleImageUpload = useCallback(
-    (publicId: string) => {
+    (publicId: string, imageUrl?: string) => {
+      console.log('Image upload callback:', { publicId, imageUrl });
+      
       if (!publicId) {
         notification.error({
           message: 'Upload Failed',
@@ -279,16 +285,23 @@ const UniversityForm: React.FC<UniversityFormProps> = () => {
         return;
       }
 
+      const finalUrl = imageUrl || renderImage({
+        imgPath: publicId,
+        ...getImageDimensions('lg'),
+      });
+
+      console.log('Final image URL:', finalUrl);
+
       const newImage = {
         uid: publicId,
         name: publicId.split('/').pop() || 'university-image',
         status: 'done' as const,
-        url: renderImage({
-          imgPath: publicId,
-          ...getImageDimensions('lg'),
-        }),
+        url: finalUrl,
         publicId,
       };
+      
+      console.log('New image object:', newImage);
+      
       setValue('universityImage', [newImage]);
       notification.success({
         message: 'Upload Successful',
@@ -297,6 +310,19 @@ const UniversityForm: React.FC<UniversityFormProps> = () => {
     },
     [setValue]
   );
+
+  // File size validation function
+  const validateFileSize = useCallback((file: File) => {
+    const maxSize = 2 * 1024 * 1024; // 2MB in bytes
+    if (file.size > maxSize) {
+      notification.error({
+        message: 'File Too Large',
+        description: `Please select a file smaller than 2MB. Current file size: ${(file.size / (1024 * 1024)).toFixed(2)}MB`,
+      });
+      return false;
+    }
+    return true;
+  }, []);
 
   const onSubmit: SubmitHandler<UniversityFormData> = async (data) => {
     setLoading(true);
@@ -334,7 +360,7 @@ const UniversityForm: React.FC<UniversityFormProps> = () => {
         universityImage: data.universityImage[0].publicId,
         description: data.description.trim(),
         courses: cleanedCourses,
-        destination: data.destination.trim(),
+        destination: data.destination.trim(), // This will now contain the actual destination name
         campuses: cleanedCampuses,
         // Required by UniversityPayload interface
         universityAddress: '',
@@ -363,11 +389,15 @@ const UniversityForm: React.FC<UniversityFormProps> = () => {
   const addNewDestination = useCallback(() => {
     if (newDestination.trim()) {
       const newId = `new-${Date.now()}`;
-      const newDest: Destination = { id: newId, name: newDestination };
+      const newDest: Destination = { id: newId, name: newDestination.trim() };
       setAvailableDestinations((prev) => [...prev, newDest]);
-      setValue('destination', newId);
+      setValue('destination', newDestination.trim()); // Use the actual name, not the ID
       setNewDestination('');
       setShowNewDestination(false);
+      notification.success({ 
+        message: 'Destination Added', 
+        description: `${newDestination.trim()} has been added to the list` 
+      });
     } else {
       notification.error({ message: 'Please enter a valid destination name' });
     }
@@ -380,6 +410,16 @@ const UniversityForm: React.FC<UniversityFormProps> = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
+      {loadingUniversityData && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <div className="flex items-center space-x-3">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+              <span className="text-gray-700">Loading university data...</span>
+            </div>
+          </div>
+        </div>
+      )}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white rounded-xl shadow-sm max-w-7xl mx-auto relative"
@@ -499,7 +539,7 @@ const UniversityForm: React.FC<UniversityFormProps> = () => {
               <SCUpload
                 name="universityImage"
                 control={control}
-                label="Main Image"
+                label="Main Image (Max 2MB)"
                 error={
                   errors.universityImage && 'message' in errors.universityImage
                     ? errors.universityImage.message
@@ -509,9 +549,17 @@ const UniversityForm: React.FC<UniversityFormProps> = () => {
                 folder="university"
                 onFileUpload={handleImageUpload}
                 multiple={false}
-                defaultFileList={watch('universityImage') || []}
+                defaultFileList={(() => {
+                  const fileList = watch('universityImage') || [];
+                  console.log('SCUpload defaultFileList:', fileList);
+                  return fileList;
+                })()}
                 required
               />
+              <div className="mt-2 text-sm text-gray-500">
+                <p>• Maximum file size: 2MB</p>
+               
+              </div>
             </div>
           </div>
 
@@ -544,36 +592,36 @@ const UniversityForm: React.FC<UniversityFormProps> = () => {
   );
 };
 
-// Sub-component props
+// Simplified sub-component props
 interface UniversityBasicInfoProps {
-  register: UseFormRegister<UniversityFormData>;
-  control: Control<UniversityFormData>;
-  errors: FieldErrors<UniversityFormData>;
+  register: any;
+  control: any;
+  errors: any;
 }
 
 interface CampusesSectionProps {
   campusFields: { id: string }[];
-  register: UseFormRegister<UniversityFormData>;
-  control: Control<UniversityFormData>;
-  errors: FieldErrors<UniversityFormData>;
+  register: any;
+  control: any;
+  errors: any;
   removeCampus: (index: number) => void;
   appendCampus: (value: Campus) => void;
 }
 
 interface CampusFieldProps {
   index: number;
-  register: UseFormRegister<UniversityFormData>;
-  control: Control<UniversityFormData>;
-  errors: FieldErrors<UniversityFormData>;
+  register: any;
+  control: any;
+  errors: any;
 }
 
 interface CoursesSectionProps {
   courseFields: { id: string }[];
   availableCourses: Course[];
   selectedCourseIds: string[];
-  register: UseFormRegister<UniversityFormData>;
-  control: Control<UniversityFormData>;
-  errors: FieldErrors<UniversityFormData>;
+  register: any;
+  control: any;
+  errors: any;
   removeCourse: (index: number) => void;
   appendCourse: (value: { courses: string; courseContents: string }) => void;
 }
@@ -582,14 +630,14 @@ interface DestinationSectionProps {
   availableDestinations: Destination[];
   showNewDestination: boolean;
   newDestination: string;
-  register: UseFormRegister<UniversityFormData>;
-  control: Control<UniversityFormData>;
-  errors: FieldErrors<UniversityFormData>;
+  register: any;
+  control: any;
+  errors: any;
   setShowNewDestination: (value: boolean) => void;
   setNewDestination: (value: string) => void;
   addNewDestination: () => void;
-  setValue: UseFormSetValue<UniversityFormData>;
-  watch: UseFormWatch<UniversityFormData>;
+  setValue: any;
+  watch: any;
 }
 
 interface FormActionsProps {
@@ -656,8 +704,8 @@ const CampusesSection: React.FC<CampusesSectionProps> = ({
             onClick={() => removeCampus(index)}
             icon={
               <CloseOutlined
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
+                
+                
               />
             }
           />
@@ -753,8 +801,8 @@ const CoursesSection: React.FC<CoursesSectionProps> = ({
             onClick={() => removeCourse(index)}
             icon={
               <CloseOutlined
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
+                
+                
               />
             }
           />
@@ -796,8 +844,8 @@ const CoursesSection: React.FC<CoursesSectionProps> = ({
       className="w-full h-12 text-base hover:border-blue-400 hover:text-blue-500 transition-colors"
       icon={
         <PlusOutlined
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
+          
+          
         />
       }
     >
@@ -846,24 +894,31 @@ const DestinationSection: React.FC<DestinationSectionProps> = ({
               setShowNewDestination(true);
               setValue('destination', '');
             } else {
-              setValue('destination', value);
+              // Find the destination by ID and set the name
+              const selectedDest = availableDestinations.find(dest => dest.id === value);
+              setValue('destination', selectedDest ? selectedDest.name : value);
               setShowNewDestination(false);
             }
           }}
-          value={selectedDestination}
+          value={availableDestinations.find(dest => dest.name === selectedDestination)?.id || selectedDestination}
           required
         />
       </div>
 
       {showNewDestination && (
         <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 transition-all">
+          <div className="mb-3">
+            <p className="text-sm text-gray-600">
+              Add a new destination that will be available for all universities
+            </p>
+          </div>
           <div className="flex items-center gap-3">
             <Input
               className="flex-1"
               size="large"
               value={newDestination}
               onChange={(e) => setNewDestination(e.target.value)}
-              placeholder="Enter new destination name"
+              placeholder="Enter new destination name (e.g., Canada, Germany, etc.)"
             />
             <Button
               type="primary"

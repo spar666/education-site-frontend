@@ -24,7 +24,7 @@
 // }
 
 // libs/services/helper.ts
-const CLOUD_NAME = process.env.CLOUD_NAME;
+const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUD_NAME;
 
 export function renderImage({
   imgPath,
@@ -53,7 +53,9 @@ export function renderImage({
     ...(height ? [`h_${height}`] : []),
   ].filter(Boolean).join(',');
 
-  return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${transformations}/v1/${cleanPath}`;
+  const cloudName = process.env.NEXT_PUBLIC_CLOUD_NAME || 'studycourse';
+
+  return `https://res.cloudinary.com/${cloudName}/image/upload/${transformations}/v1/${cleanPath}`;
 }
 
 // export const renderMedia = ({ imgPath, size = 'md' }: { imgPath: string; size?: string }) => {

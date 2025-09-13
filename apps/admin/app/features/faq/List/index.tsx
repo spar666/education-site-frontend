@@ -66,8 +66,8 @@ function FAQsList() {
             icon={
               <EditTwoTone
                 className="text-lg"
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
+                
+                
               />
             }
             className="hover:bg-blue-50 transition-colors rounded-lg h-9 w-9 flex items-center justify-center border-0"
@@ -78,8 +78,8 @@ function FAQsList() {
           icon={
             <DeleteOutlined
               className="text-lg"
-              onPointerEnterCapture={undefined}
-              onPointerLeaveCapture={undefined}
+              
+              
             />
           }
           className="hover:bg-red-50 text-red-500 transition-colors rounded-lg h-9 w-9 flex items-center justify-center border-0"
@@ -161,8 +161,8 @@ function FAQsList() {
                 className="bg-dark-navy text-white hover:bg-blue-700 text-white h-10 flex items-center gap-2 px-4"
                 icon={
                   <PlusOutlined
-                    onPointerEnterCapture={undefined}
-                    onPointerLeaveCapture={undefined}
+                    
+                    
                   />
                 }
               >
@@ -191,8 +191,8 @@ function FAQsList() {
                     <div className="py-8 text-center">
                       <QuestionCircleOutlined
                         className="text-4xl text-gray-300 mb-3"
-                        onPointerEnterCapture={undefined}
-                        onPointerLeaveCapture={undefined}
+                        
+                        
                       />
                       <h3 className="text-gray-500 font-medium">
                         No FAQs found

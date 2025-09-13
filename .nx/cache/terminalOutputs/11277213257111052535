@@ -1,0 +1,21 @@
+  [1m[38;2;173;127;168m▲ Next.js 14.2.32[39m[22m
+
+ [37m[1m [22m[39m Creating an optimized production build ...
+ [32m[1m✓[22m[39m Compiled successfully
+ [37m[1m [22m[39m Skipping linting
+[?25l [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[31mFailed to compile.
+[39m
+[36m./app/course/details/[course]/page.tsx[39m:[33m10[39m:[33m25[39m
+[31m[1mType error[22m[39m: Type '{ course: string | string[]; university: string | string[]; }' is not assignable to type 'SearchParams'.
+  Types of property 'course' are incompatible.
+    Type 'string | string[]' is not assignable to type 'string'.
+      Type 'string[]' is not assignable to type 'string'.
+
+[0m [90m  8 |[39m   [36mconst[39m searchParams [33m=[39m { course[33m,[39m university }[33m;[39m[0m
+[0m [90m  9 |[39m[0m
+[0m[31m[1m>[22m[39m[90m 10 |[39m   [36mreturn[39m [33m<[39m[33mCourseDetails[39m searchParams[33m=[39m{searchParams} [33m/[39m[33m>[39m[33m;[39m[0m
+[0m [90m    |[39m                         [31m[1m^[22m[39m[0m
+[0m [90m 11 |[39m }[0m
+[0m [90m 12 |[39m[0m
+[2K[1G[?25hNext.js build worker exited with code: 1 and signal: null
+[?25l [37m[1m [22m[39m Checking validity of types  [36m.[39m[?25h[1m[31mBuild process exited due to code 1  [39m[22m
