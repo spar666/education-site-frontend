@@ -1,0 +1,54 @@
+  ▲ Next.js 14.2.32
+
+   Creating an optimized production build ...
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ ✓ Compiled successfully
+   Skipping linting
+   Checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/14) ...
+ ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+ ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+ ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+ ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+ ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+ ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+ ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+   Generating static pages (3/14) 
+   Generating static pages (6/14) 
+   Generating static pages (10/14) 
+ ✓ Generating static pages (14/14)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+┌ ○ /                                    11.1 kB         140 kB
+├ ○ /_not-found                          143 B          87.5 kB
+├ ○ /about                               4.96 kB         101 kB
+├ ○ /auth/profile                        5.39 kB         120 kB
+├ ○ /auth/sign-in                        5.32 kB         219 kB
+├ ○ /auth/sign-up                        2.09 kB         277 kB
+├ ○ /blog                                4.19 kB         124 kB
+├ ƒ /blog/details/[blog]                 4.28 kB         239 kB
+├ ƒ /course/degree/[degree]              441 B           310 kB
+├ ƒ /course/details/[course]             14.7 kB         414 kB
+├ ○ /courses                             6.08 kB         120 kB
+├ ○ /destinations                        6.35 kB         120 kB
+├ ƒ /pages/course                        226 B           310 kB
+├ ○ /pages/Recommendation                3.33 kB         159 kB
+├ ƒ /popularDestination/[slug]           3.4 kB          118 kB
+├ ƒ /search/[[...params]]                21.8 kB         225 kB
+├ ƒ /subject/[subjectName]               2.63 kB         402 kB
+├ ƒ /university/country/[country]        2.5 kB          295 kB
+└ ƒ /university/details                  5.01 kB         126 kB
++ First Load JS shared by all            87.3 kB
+  ├ chunks/1528-8222e1123456fe74.js      31.7 kB
+  ├ chunks/1dd3208c-99fb5f89500a92b7.js  53.6 kB
+  └ other shared chunks (total)          1.96 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

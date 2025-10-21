@@ -168,7 +168,7 @@ function DestinationsPage() {
 
   // Filter destinations based on search term
   const getFilteredDestinations = () => {
-    const dataToFilter = popularDestinations.length > 0 ? popularDestinations : destinationDetails;
+    const dataToFilter: any[] = popularDestinations.length > 0 ? popularDestinations : destinationDetails;
     
     if (!searchTerm.trim()) {
       return dataToFilter;

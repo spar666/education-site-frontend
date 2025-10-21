@@ -1,0 +1,26 @@
+  ▲ Next.js 14.2.32
+
+   Creating an optimized production build ...
+ ⚠ For production Image Optimization with Next.js, the optional 'sharp' package is strongly recommended. Run 'npm i sharp', and Next.js will use it automatically for Image Optimization.
+Read more: https://nextjs.org/docs/messages/sharp-missing-in-production
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ ✓ Compiled successfully
+   Skipping linting
+   Checking validity of types ...
+Failed to compile.
+
+./app/destinations/page.tsx:177:25
+Type error: This expression is not callable.
+  Each member of the union type '{ <S extends { name: string; state: string; image: string; universities: number; students: number; avgCost: string; topUniversities: string[]; highlights: string[]; }>(predicate: (value: { name: string; state: string; image: string; ... 4 more ...; highlights: string[]; }, index: number, array: { ...; }[]) => value ...' has signatures, but none of those signatures are compatible with each other.
+
+[0m [90m 175 |[39m     }[0m
+[0m [90m 176 |[39m     [0m
+[0m[31m[1m>[22m[39m[90m 177 |[39m     [36mreturn[39m dataToFilter[33m.[39mfilter((dest[33m:[39m any) [33m=>[39m {[0m
+[0m [90m     |[39m                         [31m[1m^[22m[39m[0m
+[0m [90m 178 |[39m       [36mconst[39m searchLower [33m=[39m searchTerm[33m.[39mtoLowerCase()[33m;[39m[0m
+[0m [90m 179 |[39m       [36mconst[39m details [33m=[39m destinationDetails[33m.[39mfind(d [33m=>[39m d[33m.[39mname [33m===[39m dest[33m.[39mname) [33m||[39m destinationDetails[[35m0[39m][33m;[39m[0m
+[0m [90m 180 |[39m       [0m
+Next.js build worker exited with code: 1 and signal: null
+Build process exited due to code 1  

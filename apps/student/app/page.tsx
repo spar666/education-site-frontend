@@ -1,4 +1,5 @@
 'use client';
+import React, { Suspense } from 'react';
 import {
   ArrowDownToLine,
   CheckCircle,
@@ -52,7 +53,9 @@ export default function Index() {
       <FreeResources />
       
       {/* Contact / Book Consultation */}
-      <Contact />
+      <Suspense fallback={<div className="py-20 text-center">Loading contact form...</div>}>
+        <Contact />
+      </Suspense>
     </div>
   );
 }

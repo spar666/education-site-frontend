@@ -13,128 +13,128 @@
   "fileMap": {
     "nonProjectFiles": [
       {
-        "file": ".editorconfig",
-        "hash": "5443105041930014821"
-      },
-      {
-        "file": ".eslintignore",
-        "hash": "7663861978715868291"
-      },
-      {
-        "file": ".eslintrc.json",
-        "hash": "17866138117546000433"
-      },
-      {
-        "file": ".gitignore",
-        "hash": "2913894268036001599"
-      },
-      {
-        "file": ".npmrc",
-        "hash": "18085261541358865259"
-      },
-      {
-        "file": ".nvmrc",
-        "hash": "9902286047133098848"
-      },
-      {
-        "file": ".prettierignore",
-        "hash": "8865097869854018350"
-      },
-      {
-        "file": ".prettierrc",
-        "hash": "16267754514737964994"
-      },
-      {
-        "file": ".vscode/extensions.json",
-        "hash": "235626400633494639"
-      },
-      {
         "file": ".yarn/install-state.gz",
         "hash": "6422917896759879412"
-      },
-      {
-        "file": ".yarnrc.yml",
-        "hash": "9773565372686775399"
-      },
-      {
-        "file": "Dockerfile",
-        "hash": "6713328987499396695"
-      },
-      {
-        "file": "README.md",
-        "hash": "1612153889053081650"
-      },
-      {
-        "file": "apps/.gitkeep",
-        "hash": "3244421341483603138"
-      },
-      {
-        "file": "apps/Dockerfile",
-        "hash": "3244421341483603138"
-      },
-      {
-        "file": "components.json",
-        "hash": "9470403178371361748"
-      },
-      {
-        "file": "jest.config.ts",
-        "hash": "12333515226966617182"
-      },
-      {
-        "file": "jest.preset.js",
-        "hash": "9430166341120122740"
-      },
-      {
-        "file": "libs/.gitkeep",
-        "hash": "3244421341483603138"
-      },
-      {
-        "file": "libs/NameFormatter.tsx",
-        "hash": "5886220243841351551"
-      },
-      {
-        "file": "libs/countiesList/countryList.tsx",
-        "hash": "10748148819173308715"
-      },
-      {
-        "file": "libs/services/chatService.ts",
-        "hash": "12583792052520365479"
-      },
-      {
-        "file": "libs/services/helper.ts",
-        "hash": "5819949203067602490"
-      },
-      {
-        "file": "libs/utils.ts",
-        "hash": "3155625188187918220"
-      },
-      {
-        "file": "nx.json",
-        "hash": "3619439782444644385"
-      },
-      {
-        "file": "package-lock.json",
-        "hash": "11769123811439085329"
-      },
-      {
-        "file": "package.json",
-        "hash": "7486902669667554929"
       },
       {
         "file": "tools/tsconfig.tools.json",
         "hash": "16088922570277978783"
       },
       {
+        "file": "README.md",
+        "hash": "1612153889053081650"
+      },
+      {
+        "file": "libs/services/chatService.ts",
+        "hash": "12583792052520365479"
+      },
+      {
+        "file": "jest.config.ts",
+        "hash": "12333515226966617182"
+      },
+      {
+        "file": "apps/Dockerfile",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": ".nvmrc",
+        "hash": "9902286047133098848"
+      },
+      {
+        "file": "components.json",
+        "hash": "9470403178371361748"
+      },
+      {
+        "file": "libs/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "libs/utils.ts",
+        "hash": "3155625188187918220"
+      },
+      {
+        "file": ".prettierrc",
+        "hash": "16267754514737964994"
+      },
+      {
+        "file": ".editorconfig",
+        "hash": "5443105041930014821"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "11769123811439085329"
+      },
+      {
+        "file": "yarn.lock",
+        "hash": "13422983139504191341"
+      },
+      {
+        "file": ".vscode/extensions.json",
+        "hash": "235626400633494639"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "9430166341120122740"
+      },
+      {
+        "file": "nx.json",
+        "hash": "3619439782444644385"
+      },
+      {
+        "file": "libs/services/helper.ts",
+        "hash": "5819949203067602490"
+      },
+      {
+        "file": ".npmrc",
+        "hash": "18085261541358865259"
+      },
+      {
         "file": "tsconfig.base.json",
         "hash": "869487631370602889"
+      },
+      {
+        "file": ".prettierignore",
+        "hash": "8865097869854018350"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "2913894268036001599"
+      },
+      {
+        "file": "Dockerfile",
+        "hash": "6713328987499396695"
+      },
+      {
+        "file": ".eslintrc.json",
+        "hash": "17866138117546000433"
+      },
+      {
+        "file": "apps/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "libs/countiesList/countryList.tsx",
+        "hash": "10748148819173308715"
+      },
+      {
+        "file": ".yarnrc.yml",
+        "hash": "9773565372686775399"
+      },
+      {
+        "file": ".eslintignore",
+        "hash": "7663861978715868291"
       },
       {
         "file": "tsconfig.json",
         "hash": "11371877435323203784"
       },
       {
-        "file": "yarn.lock",
-        "hash": "13422983139504191341"
+        "file": "package.json",
+        "hash": "7486902669667554929"
+      },
+      {
+        "file": "libs/NameFormatter.tsx",
+        "hash": "5886220243841351551"
       }
     ],
     "projectFileMap": {
@@ -300,7 +300,7 @@
         },
         {
           "file": "apps/student/app/destinations/page.tsx",
-          "hash": "7772049039455106412",
+          "hash": "15134284396306459677",
           "deps": [
             "npm:react",
             "npm:lucide-react",
@@ -523,8 +523,9 @@
         },
         {
           "file": "apps/student/app/page.tsx",
-          "hash": "16850960494290137670",
+          "hash": "387645978502764415",
           "deps": [
+            "npm:react",
             "npm:lucide-react",
             "npm:next",
             "ui-components"
