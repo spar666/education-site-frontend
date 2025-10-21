@@ -1,0 +1,1853 @@
+  [1m[38;2;173;127;168m▲ Next.js 14.2.32[39m[22m
+  - Local:        http://localhost:4200
+
+ [32m[1m✓[22m[39m Starting...
+ [32m[1m✓[22m[39m Ready in 2.3s
+ [37m[1m○[22m[39m Compiling / ...
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ [32m[1m✓[22m[39m Compiled / in 4s (1355 modules)
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Navbar (webpack-internal:///(ssr)/./components/v2/Navbar.tsx:302:108)\n'[39m +
+    [32m'    at au (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:44844)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)'[39m
+}
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Index (webpack-internal:///(ssr)/./app/page.tsx:27:90)\n'[39m +
+    [32m'    at au (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42922)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)'[39m
+}
+ GET / [32m200[39m in 4476ms
+ [32m[1m✓[22m[39m Compiled in 534ms (651 modules)
+ [31m[1m⨯[22m[39m ./components/v2/Navbar.tsx:15:1
+[31m[1mModule not found[22m[39m: Can't resolve '[32m../../assets/Logo/[39m'
+[0m [90m 13 |[39m [36mimport[39m { deleteCookie } [36mfrom[39m [32m'cookies-next'[39m[33m;[39m[0m
+[0m [90m 14 |[39m [36mimport[39m useUser [36mfrom[39m [32m'apps/student/hook/useUser'[39m[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m 15 |[39m [36mimport[39m [33mLogo[39m [36mfrom[39m [32m'../../assets/Logo/'[39m[33m;[39m[0m
+[0m [90m    |[39m [31m[1m^[22m[39m[0m
+[0m [90m 16 |[39m [36mimport[39m { fetchStudyLevels } [36mfrom[39m [32m'apps/student/app/api/studyLevel'[39m[33m;[39m[0m
+[0m [90m 17 |[39m [36mimport[39m { fetchAllUniversityByDestination } [36mfrom[39m [32m'apps/student/app/api/studyDestination'[39m[33m;[39m[0m
+[0m [90m 18 |[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+ [31m[1m⨯[22m[39m ./components/v2/Navbar.tsx:15:1
+[31m[1mModule not found[22m[39m: Can't resolve '[32m../../assets/Logo/Logo.svg[39m'
+[0m [90m 13 |[39m [36mimport[39m { deleteCookie } [36mfrom[39m [32m'cookies-next'[39m[33m;[39m[0m
+[0m [90m 14 |[39m [36mimport[39m useUser [36mfrom[39m [32m'apps/student/hook/useUser'[39m[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m 15 |[39m [36mimport[39m [33mLogo[39m [36mfrom[39m [32m'../../assets/Logo/Logo.svg'[39m[33m;[39m[0m
+[0m [90m    |[39m [31m[1m^[22m[39m[0m
+[0m [90m 16 |[39m [36mimport[39m { fetchStudyLevels } [36mfrom[39m [32m'apps/student/app/api/studyLevel'[39m[33m;[39m[0m
+[0m [90m 17 |[39m [36mimport[39m { fetchAllUniversityByDestination } [36mfrom[39m [32m'apps/student/app/api/studyDestination'[39m[33m;[39m[0m
+[0m [90m 18 |[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+ [31m[1m⨯[22m[39m ./components/v2/Navbar.tsx:15:1
+[31m[1mModule not found[22m[39m: Can't resolve '[32m../../assets/Logo/lo[39m'
+[0m [90m 13 |[39m [36mimport[39m { deleteCookie } [36mfrom[39m [32m'cookies-next'[39m[33m;[39m[0m
+[0m [90m 14 |[39m [36mimport[39m useUser [36mfrom[39m [32m'apps/student/hook/useUser'[39m[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m 15 |[39m [36mimport[39m [33mLogo[39m [36mfrom[39m [32m'../../assets/Logo/lo'[39m[33m;[39m[0m
+[0m [90m    |[39m [31m[1m^[22m[39m[0m
+[0m [90m 16 |[39m [36mimport[39m { fetchStudyLevels } [36mfrom[39m [32m'apps/student/app/api/studyLevel'[39m[33m;[39m[0m
+[0m [90m 17 |[39m [36mimport[39m { fetchAllUniversityByDestination } [36mfrom[39m [32m'apps/student/app/api/studyDestination'[39m[33m;[39m[0m
+[0m [90m 18 |[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+ [32m[1m✓[22m[39m Compiled in 683ms (1355 modules)
+ [33m[1m⚠[22m[39m The "images.domains" configuration is deprecated. Please use "images.remotePatterns" configuration instead.
+ [32m[1m✓[22m[39m Compiled in 268ms (1355 modules)
+ [32m[1m✓[22m[39m Compiled in 428ms (1355 modules)
+ [32m[1m✓[22m[39m Compiled in 370ms (1355 modules)
+ [32m[1m✓[22m[39m Compiled in 283ms (1355 modules)
+ [31m[1m⨯[22m[39m ./components/v2/Navbar.tsx:15:1
+[31m[1mModule not found[22m[39m: Can't resolve '[32m../../assets/Logog[39m'
+[0m [90m 13 |[39m [36mimport[39m { deleteCookie } [36mfrom[39m [32m'cookies-next'[39m[33m;[39m[0m
+[0m [90m 14 |[39m [36mimport[39m useUser [36mfrom[39m [32m'apps/student/hook/useUser'[39m[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m 15 |[39m [36mimport[39m [33mLogo[39m [36mfrom[39m [32m'../../assets/Logog'[39m[33m;[39m[0m
+[0m [90m    |[39m [31m[1m^[22m[39m[0m
+[0m [90m 16 |[39m [36mimport[39m { fetchStudyLevels } [36mfrom[39m [32m'apps/student/app/api/studyLevel'[39m[33m;[39m[0m
+[0m [90m 17 |[39m [36mimport[39m { fetchAllUniversityByDestination } [36mfrom[39m [32m'apps/student/app/api/studyDestination'[39m[33m;[39m[0m
+[0m [90m 18 |[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+ [31m[1m⨯[22m[39m ./components/v2/Navbar.tsx:15:1
+[31m[1mModule not found[22m[39m: Can't resolve '[32m../../assets/Logo/[39m'
+[0m [90m 13 |[39m [36mimport[39m { deleteCookie } [36mfrom[39m [32m'cookies-next'[39m[33m;[39m[0m
+[0m [90m 14 |[39m [36mimport[39m useUser [36mfrom[39m [32m'apps/student/hook/useUser'[39m[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m 15 |[39m [36mimport[39m [33mLogo[39m [36mfrom[39m [32m'../../assets/Logo/'[39m[33m;[39m[0m
+[0m [90m    |[39m [31m[1m^[22m[39m[0m
+[0m [90m 16 |[39m [36mimport[39m { fetchStudyLevels } [36mfrom[39m [32m'apps/student/app/api/studyLevel'[39m[33m;[39m[0m
+[0m [90m 17 |[39m [36mimport[39m { fetchAllUniversityByDestination } [36mfrom[39m [32m'apps/student/app/api/studyDestination'[39m[33m;[39m[0m
+[0m [90m 18 |[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+ [32m[1m✓[22m[39m Compiled in 310ms (1355 modules)
+ [32m[1m✓[22m[39m Compiled in 355ms (1355 modules)
+ [32m[1m✓[22m[39m Compiled in 589ms (1355 modules)
+ [31m[1m⨯[22m[39m ./components/v2/Navbar.tsx
+Error: 
+  [38;2;255;30;30m×[0m Unexpected token `nav`. Expected jsx identifier
+     ╭─[[38;2;92;157;255;1;4m/Users/3bird/Documents/personal/studycourse/education-site-frontend/apps/student/components/v2/Navbar.tsx[0m:474:1]
+ [2m474[0m │   };
+ [2m475[0m │ 
+ [2m476[0m │   return (
+ [2m477[0m │     <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
+     · [38;2;246;87;248m     ───[0m
+ [2m478[0m │       <div className="max-w-7xl mx-auto px-5">
+ [2m479[0m │         <div className="flex justify-between items-center h-16">
+ [2m480[0m │           <div className="flex-shrink-0">
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/v2/Navbar.tsx
+./app/layout.tsx
+ [37m[1m○[22m[39m Compiling /_error ...
+ [32m[1m✓[22m[39m Compiled /_error in 2s (1567 modules)
+ [32m[1m✓[22m[39m Compiled (1581 modules)
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Navbar (webpack-internal:///(ssr)/./components/v2/Navbar.tsx:302:108)\n'[39m +
+    [32m'    at au (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:44844)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)'[39m
+}
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Index (webpack-internal:///(ssr)/./app/page.tsx:27:90)\n'[39m +
+    [32m'    at au (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42922)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)'[39m
+}
+ GET / [32m200[39m in 200ms
+ [32m[1m✓[22m[39m Compiled in 495ms (1581 modules)
+ [32m[1m✓[22m[39m Compiled in 1110ms (1579 modules)
+ [32m[1m✓[22m[39m Compiled in 756ms (1579 modules)
+ [32m[1m✓[22m[39m Compiled in 806ms (1579 modules)
+ [32m[1m✓[22m[39m Compiled in 1090ms (1579 modules)
+ [32m[1m✓[22m[39m Compiled in 618ms (1579 modules)
+ [31m[1m⨯[22m[39m ./app/pages/v2/HeroSection/index.tsx
+Error: 
+  [38;2;255;30;30m×[0m Unexpected token `section`. Expected jsx identifier
+    ╭─[[38;2;92;157;255;1;4m/Users/3bird/Documents/personal/studycourse/education-site-frontend/apps/student/app/pages/v2/HeroSection/index.tsx[0m:79:1]
+ [2m79[0m │   const firstBannner = banner[0];
+ [2m80[0m │ 
+ [2m81[0m │   return (
+ [2m82[0m │     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    · [38;2;246;87;248m     ───────[0m
+ [2m83[0m │       {/* Background Elements */}
+ [2m84[0m │       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900"></div>
+ [2m85[0m │       <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+    ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/pages/v2/HeroSection/index.tsx
+./app/page.tsx
+ [31m[1m⨯[22m[39m ./app/pages/v2/HeroSection/index.tsx
+Error: 
+  [38;2;255;30;30m×[0m Unexpected token `section`. Expected jsx identifier
+    ╭─[[38;2;92;157;255;1;4m/Users/3bird/Documents/personal/studycourse/education-site-frontend/apps/student/app/pages/v2/HeroSection/index.tsx[0m:79:1]
+ [2m79[0m │   const firstBannner = banner[0];
+ [2m80[0m │ 
+ [2m81[0m │   return (
+ [2m82[0m │     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    · [38;2;246;87;248m     ───────[0m
+ [2m83[0m │       {/* Background Elements */}
+ [2m84[0m │       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900"></div>
+ [2m85[0m │       <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+    ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/pages/v2/HeroSection/index.tsx
+./app/page.tsx
+ [31m[1m⨯[22m[39m ./app/pages/v2/HeroSection/index.tsx
+Error: 
+  [38;2;255;30;30m×[0m Unexpected token `section`. Expected jsx identifier
+    ╭─[[38;2;92;157;255;1;4m/Users/3bird/Documents/personal/studycourse/education-site-frontend/apps/student/app/pages/v2/HeroSection/index.tsx[0m:79:1]
+ [2m79[0m │   const firstBannner = banner[0];
+ [2m80[0m │ 
+ [2m81[0m │   return (
+ [2m82[0m │     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    · [38;2;246;87;248m     ───────[0m
+ [2m83[0m │       {/* Background Elements */}
+ [2m84[0m │       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900"></div>
+ [2m85[0m │       <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+    ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/pages/v2/HeroSection/index.tsx
+./app/page.tsx
+ [31m[1m⨯[22m[39m ./app/pages/v2/HeroSection/index.tsx
+Error: 
+  [38;2;255;30;30m×[0m Unexpected token `section`. Expected jsx identifier
+    ╭─[[38;2;92;157;255;1;4m/Users/3bird/Documents/personal/studycourse/education-site-frontend/apps/student/app/pages/v2/HeroSection/index.tsx[0m:79:1]
+ [2m79[0m │   const firstBannner = banner[0];
+ [2m80[0m │ 
+ [2m81[0m │   return (
+ [2m82[0m │     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    · [38;2;246;87;248m     ───────[0m
+ [2m83[0m │       {/* Background Elements */}
+ [2m84[0m │       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900"></div>
+ [2m85[0m │       <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+    ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/pages/v2/HeroSection/index.tsx
+./app/page.tsx
+ [31m[1m⨯[22m[39m ./app/pages/v2/HeroSection/index.tsx
+Error: 
+  [38;2;255;30;30m×[0m Unexpected token `section`. Expected jsx identifier
+    ╭─[[38;2;92;157;255;1;4m/Users/3bird/Documents/personal/studycourse/education-site-frontend/apps/student/app/pages/v2/HeroSection/index.tsx[0m:79:1]
+ [2m79[0m │   const firstBannner = banner[0];
+ [2m80[0m │ 
+ [2m81[0m │   return (
+ [2m82[0m │     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    · [38;2;246;87;248m     ───────[0m
+ [2m83[0m │       {/* Background Elements */}
+ [2m84[0m │       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900"></div>
+ [2m85[0m │       <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+    ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/pages/v2/HeroSection/index.tsx
+./app/page.tsx
+ [31m[1m⨯[22m[39m ./app/pages/v2/HeroSection/index.tsx
+Error: 
+  [38;2;255;30;30m×[0m Unexpected token `section`. Expected jsx identifier
+    ╭─[[38;2;92;157;255;1;4m/Users/3bird/Documents/personal/studycourse/education-site-frontend/apps/student/app/pages/v2/HeroSection/index.tsx[0m:79:1]
+ [2m79[0m │   const firstBannner = banner[0];
+ [2m80[0m │ 
+ [2m81[0m │   return (
+ [2m82[0m │     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    · [38;2;246;87;248m     ───────[0m
+ [2m83[0m │       {/* Background Elements */}
+ [2m84[0m │       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900"></div>
+ [2m85[0m │       <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+    ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/pages/v2/HeroSection/index.tsx
+./app/page.tsx
+ [31m[1m⨯[22m[39m ./app/pages/v2/HeroSection/index.tsx
+Error: 
+  [38;2;255;30;30m×[0m Unexpected token `section`. Expected jsx identifier
+    ╭─[[38;2;92;157;255;1;4m/Users/3bird/Documents/personal/studycourse/education-site-frontend/apps/student/app/pages/v2/HeroSection/index.tsx[0m:79:1]
+ [2m79[0m │   const firstBannner = banner[0];
+ [2m80[0m │ 
+ [2m81[0m │   return (
+ [2m82[0m │     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    · [38;2;246;87;248m     ───────[0m
+ [2m83[0m │       {/* Background Elements */}
+ [2m84[0m │       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900"></div>
+ [2m85[0m │       <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+    ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/pages/v2/HeroSection/index.tsx
+./app/page.tsx
+ [31m[1m⨯[22m[39m ./app/pages/v2/HeroSection/index.tsx
+Error: 
+  [38;2;255;30;30m×[0m Unexpected token `section`. Expected jsx identifier
+    ╭─[[38;2;92;157;255;1;4m/Users/3bird/Documents/personal/studycourse/education-site-frontend/apps/student/app/pages/v2/HeroSection/index.tsx[0m:79:1]
+ [2m79[0m │   const firstBannner = banner[0];
+ [2m80[0m │ 
+ [2m81[0m │   return (
+ [2m82[0m │     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    · [38;2;246;87;248m     ───────[0m
+ [2m83[0m │       {/* Background Elements */}
+ [2m84[0m │       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900"></div>
+ [2m85[0m │       <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+    ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/pages/v2/HeroSection/index.tsx
+./app/page.tsx
+ [31m[1m⨯[22m[39m ./app/pages/v2/HeroSection/index.tsx
+Error: 
+  [38;2;255;30;30m×[0m Unexpected token `section`. Expected jsx identifier
+    ╭─[[38;2;92;157;255;1;4m/Users/3bird/Documents/personal/studycourse/education-site-frontend/apps/student/app/pages/v2/HeroSection/index.tsx[0m:79:1]
+ [2m79[0m │   const firstBannner = banner[0];
+ [2m80[0m │ 
+ [2m81[0m │   return (
+ [2m82[0m │     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    · [38;2;246;87;248m     ───────[0m
+ [2m83[0m │       {/* Background Elements */}
+ [2m84[0m │       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900"></div>
+ [2m85[0m │       <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+    ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/pages/v2/HeroSection/index.tsx
+./app/page.tsx
+ [31m[1m⨯[22m[39m ./components/v2/Navbar.tsx
+Error: 
+  [38;2;255;30;30m×[0m Unexpected token `nav`. Expected jsx identifier
+     ╭─[[38;2;92;157;255;1;4m/Users/3bird/Documents/personal/studycourse/education-site-frontend/apps/student/components/v2/Navbar.tsx[0m:474:1]
+ [2m474[0m │   };
+ [2m475[0m │ 
+ [2m476[0m │   return (
+ [2m477[0m │     <nav className="glass-card sticky top-0 z-50 border-b border-white/20">
+     · [38;2;246;87;248m     ───[0m
+ [2m478[0m │       <div className="container-modern">
+ [2m479[0m │         <div className="flex justify-between items-center h-20">
+ [2m480[0m │           <div className="flex-shrink-0">
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/v2/Navbar.tsx
+./app/layout.tsx
+ [31m[1m⨯[22m[39m ./components/v2/Navbar.tsx
+Error: 
+  [38;2;255;30;30m×[0m Unexpected token `nav`. Expected jsx identifier
+     ╭─[[38;2;92;157;255;1;4m/Users/3bird/Documents/personal/studycourse/education-site-frontend/apps/student/components/v2/Navbar.tsx[0m:474:1]
+ [2m474[0m │   };
+ [2m475[0m │ 
+ [2m476[0m │   return (
+ [2m477[0m │     <nav className="glass-card sticky top-0 z-50 border-b border-white/20">
+     · [38;2;246;87;248m     ───[0m
+ [2m478[0m │       <div className="container-modern">
+ [2m479[0m │         <div className="flex justify-between items-center h-20">
+ [2m480[0m │           <div className="flex-shrink-0">
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/v2/Navbar.tsx
+./app/layout.tsx
+ GET / [31m500[39m in 14ms
+ [37m[1m○[22m[39m Compiling /_error ...
+ [31m[1m⨯[22m[39m ./components/v2/Navbar.tsx
+Error: 
+  [38;2;255;30;30m×[0m Unexpected token `nav`. Expected jsx identifier
+     ╭─[[38;2;92;157;255;1;4m/Users/3bird/Documents/personal/studycourse/education-site-frontend/apps/student/components/v2/Navbar.tsx[0m:474:1]
+ [2m474[0m │   };
+ [2m475[0m │ 
+ [2m476[0m │   return (
+ [2m477[0m │     <nav className="glass-card sticky top-0 z-50 border-b border-white/20">
+     · [38;2;246;87;248m     ───[0m
+ [2m478[0m │       <div className="container-modern">
+ [2m479[0m │         <div className="flex justify-between items-center h-20">
+ [2m480[0m │           <div className="flex-shrink-0">
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/v2/Navbar.tsx
+./app/layout.tsx
+ GET /_next/static/webpack/a9cdc952eff74937.webpack.hot-update.json [31m500[39m in 527ms
+ [33m[1m⚠[22m[39m Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET / [31m500[39m in 58ms
+ GET / [31m500[39m in 63ms
+ [32m[1m✓[22m[39m Compiled /_not-found in 964ms (1568 modules)
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Navbar (webpack-internal:///(ssr)/./components/v2/Navbar.tsx:302:108)\n'[39m +
+    [32m'    at au (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:44844)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)'[39m
+}
+ [33m[1m⚠[22m[39m Fast Refresh had to perform a full reload due to a runtime error.
+ GET / [32m200[39m in 16ms
+ GET /_next/static/webpack/a9cdc952eff74937.webpack.hot-update.json [33m404[39m in 1088ms
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Navbar (webpack-internal:///(ssr)/./components/v2/Navbar.tsx:302:108)\n'[39m +
+    [32m'    at au (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:44844)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)'[39m
+}
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Index (webpack-internal:///(ssr)/./app/page.tsx:27:90)\n'[39m +
+    [32m'    at au (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42922)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)'[39m
+}
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Navbar (webpack-internal:///(ssr)/./components/v2/Navbar.tsx:302:108)\n'[39m +
+    [32m'    at au (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:44844)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)'[39m
+}
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Index (webpack-internal:///(ssr)/./app/page.tsx:27:90)\n'[39m +
+    [32m'    at au (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42922)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)'[39m
+}
+ GET / [32m200[39m in 52ms
+ [32m[1m✓[22m[39m Compiled in 354ms (1568 modules)
+ [32m[1m✓[22m[39m Compiled in 502ms (1568 modules)
+ [32m[1m✓[22m[39m Compiled in 372ms (1568 modules)
+ [31m[1m⨯[22m[39m ./components/v2/Navbar.tsx
+Error: 
+  [38;2;255;30;30m×[0m Unexpected token `nav`. Expected jsx identifier
+     ╭─[[38;2;92;157;255;1;4m/Users/3bird/Documents/personal/studycourse/education-site-frontend/apps/student/components/v2/Navbar.tsx[0m:474:1]
+ [2m474[0m │   };
+ [2m475[0m │ 
+ [2m476[0m │   return (
+ [2m477[0m │     <nav className="glass-card sticky top-0 z-50 border-b border-white/20">
+     · [38;2;246;87;248m     ───[0m
+ [2m478[0m │       <div className="container-modern">
+ [2m479[0m │         <div className="flex justify-between items-center h-20">
+ [2m480[0m │           <div className="flex-shrink-0">
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/v2/Navbar.tsx
+./app/layout.tsx
+ GET / [31m500[39m in 46ms
+ [31m[1m⨯[22m[39m ./components/v2/Navbar.tsx
+Error: 
+  [38;2;255;30;30m×[0m Unexpected token `nav`. Expected jsx identifier
+     ╭─[[38;2;92;157;255;1;4m/Users/3bird/Documents/personal/studycourse/education-site-frontend/apps/student/components/v2/Navbar.tsx[0m:474:1]
+ [2m474[0m │   };
+ [2m475[0m │ 
+ [2m476[0m │   return (
+ [2m477[0m │     <nav className="glass-card sticky top-0 z-50 border-b border-white/20">
+     · [38;2;246;87;248m     ───[0m
+ [2m478[0m │       <div className="container-modern">
+ [2m479[0m │         <div className="flex justify-between items-center h-20">
+ [2m480[0m │           <div className="flex-shrink-0">
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/v2/Navbar.tsx
+./app/layout.tsx
+ GET /_next/static/webpack/a9cdc952eff74937.webpack.hot-update.json [31m500[39m in 407ms
+ [33m[1m⚠[22m[39m Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET / [31m500[39m in 11ms
+ [32m[1m✓[22m[39m Compiled in 991ms (1568 modules)
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Navbar (webpack-internal:///(ssr)/./components/v2/Navbar.tsx:302:108)\n'[39m +
+    [32m'    at au (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:44844)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)'[39m
+}
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Navbar (webpack-internal:///(ssr)/./components/v2/Navbar.tsx:302:108)\n'[39m +
+    [32m'    at au (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:44844)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)'[39m
+}
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Index (webpack-internal:///(ssr)/./app/page.tsx:27:90)\n'[39m +
+    [32m'    at au (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42922)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)'[39m
+}
+ [33m[1m⚠[22m[39m Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /_next/static/webpack/a9cdc952eff74937.webpack.hot-update.json [33m404[39m in 129ms
+ GET / [32m200[39m in 172ms
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Navbar (webpack-internal:///(ssr)/./components/v2/Navbar.tsx:302:108)\n'[39m +
+    [32m'    at au (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:44844)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)'[39m
+}
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Index (webpack-internal:///(ssr)/./app/page.tsx:27:90)\n'[39m +
+    [32m'    at au (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42922)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)'[39m
+}
+ GET / [32m200[39m in 45ms
+ [32m[1m✓[22m[39m Compiled in 701ms (1568 modules)
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Navbar (webpack-internal:///(ssr)/./components/v2/Navbar.tsx:302:108)\n'[39m +
+    [32m'    at au (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:44844)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)'[39m
+}
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Index (webpack-internal:///(ssr)/./app/page.tsx:27:90)\n'[39m +
+    [32m'    at au (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ac (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11400)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:14707)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42922)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/3bird/Documents/personal/studycourse/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)'[39m
+}
+ GET / [32m200[39m in 931ms
+ [32m[1m✓[22m[39m Compiled in 8s (1552 modules)
+ [32m[1m✓[22m[39m Compiled in 2s (1552 modules)
+ [32m[1m✓[22m[39m Compiled in 781ms (1552 modules)
+ [32m[1m✓[22m[39m Compiled in 12.4s (1552 modules)
+ [32m[1m✓[22m[39m Compiled in 1902ms (1552 modules)
+ [32m[1m✓[22m[39m Compiled in 550ms (838 modules)
+ [32m[1m✓[22m[39m Compiled in 127ms (838 modules)
+ [32m[1m✓[22m[39m Compiled in 181ms (838 modules)
+ [32m[1m✓[22m[39m Compiled in 115ms (838 modules)
+ [32m[1m✓[22m[39m Compiled in 1119ms (1552 modules)
+ [32m[1m✓[22m[39m Compiled in 184ms (1552 modules)
+ [32m[1m✓[22m[39m Compiled in 222ms (1552 modules)
+ [32m[1m✓[22m[39m Compiled in 274ms (1552 modules)
+ [32m[1m✓[22m[39m Compiled in 239ms (1552 modules)
+ [32m[1m✓[22m[39m Compiled in 292ms (1552 modules)
+ [32m[1m✓[22m[39m Compiled in 340ms (1552 modules)
+ [32m[1m✓[22m[39m Compiled in 417ms (1552 modules)
+[?25h

@@ -17,6 +17,10 @@ import Navbar from '../components/v2/Navbar';
 import HeroSection from './pages/v2/HeroSection';
 import FeaturedCourse from './pages/v2/featuredCourse';
 import Services from './pages/v2/Services';
+import HowItWorks from './pages/v2/HowItWorks';
+import SuccessStories from './pages/v2/SuccessStories';
+import FreeResources from './pages/v2/FreeResources';
+import Contact from './pages/v2/Contact';
 import Destination from './pages/v2/Destination';
 import About from './pages/v2/About';
 import Blogs from './pages/v2/Blogs';
@@ -28,23 +32,27 @@ export default function Index() {
   const { isAuthenticated } = useUser();
 
   return (
-    <div className="relative min-h-screen">
-      {/* Hero Section */}
+    <div className="relative min-h-screen bg-white">
+      {/* Hero Section - now includes stats and contact */}
       <HeroSection />
       
-      {/* Main Content */}
-      <div className="relative bg-white">
-        <div className="container-modern">
-          {isAuthenticated && <Recommendation />}
-          
-          <FeaturedCourse />
-          <PopularDestination />
-          <Services />
-          <About />
-          <Blogs />
-          <Faq />
-        </div>
-      </div>
+      {/* Services Section */}
+      <Services />
+      
+      {/* How It Works */}
+      <HowItWorks />
+      
+      {/* Featured Courses */}
+      <FeaturedCourse />
+      
+      {/* Success Stories */}
+      <SuccessStories />
+      
+      {/* Free Resources */}
+      <FreeResources />
+      
+      {/* Contact / Book Consultation */}
+      <Contact />
     </div>
   );
 }

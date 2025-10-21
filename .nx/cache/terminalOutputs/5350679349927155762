@@ -1,50 +1,0 @@
-> nx run student:build:production
-
-  [1m[38;2;173;127;168m▲ Next.js 14.2.32[39m[22m
-
- [37m[1m [22m[39m Creating an optimized production build ...
-Browserslist: caniuse-lite is outdated. Please run:
-  npx update-browserslist-db@latest
-  Why you should do it regularly: https://github.com/browserslist/update-db#readme
- [32m[1m✓[22m[39m Compiled successfully
- [37m[1m [22m[39m Skipping linting
-[?25l [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G[?25h [37m[1m [22m[39m Checking validity of types     [32m[1m✓[22m[39m Checking validity of types 
-[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G[?25h [37m[1m [22m[39m Collecting page data     [32m[1m✓[22m[39m Collecting page data 
-[?25l [37m[1m [22m[39m Generating static pages (0/11)  [36m[    ][39m [33m[1m⚠[22m[39m metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- [33m[1m⚠[22m[39m metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- [33m[1m⚠[22m[39m metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- [33m[1m⚠[22m[39m metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- [33m[1m⚠[22m[39m metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
-[2K[1G [37m[1m [22m[39m Generating static pages (2/11)  [36m[=   ][39m [33m[1m⚠[22m[39m metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- [33m[1m⚠[22m[39m metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
-[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (11/11)
-[?25l [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[?25l [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[?25h [37m[1m [22m[39m Collecting build traces     [32m[1m✓[22m[39m Collecting build traces 
-[2K[1G[?25h [37m[1m [22m[39m Finalizing page optimization     [32m[1m✓[22m[39m Finalizing page optimization 
-
-[4mRoute (app)[24m                              [4mSize[24m     [4mFirst Load JS[24m
-┌ ○ /                                    6.31 kB         [37m[1m173 kB[22m[39m
-├ ○ /_not-found                          143 B          [37m[1m87.5 kB[22m[39m
-├ ○ /auth/profile                        5.25 kB         [37m[1m120 kB[22m[39m
-├ ○ /auth/sign-in                        8.2 kB          [37m[1m219 kB[22m[39m
-├ ○ /auth/sign-up                        2.08 kB         [37m[1m277 kB[22m[39m
-├ ○ /blog                                3.13 kB         [37m[1m329 kB[22m[39m
-├ ƒ /blog/details/[blog]                 4.27 kB         [37m[1m239 kB[22m[39m
-├ ƒ /course/degree/[degree]              427 B           [37m[1m310 kB[22m[39m
-├ ƒ /course/details/[course]             14.7 kB         [37m[1m414 kB[22m[39m
-├ ƒ /pages/course                        225 B           [37m[1m310 kB[22m[39m
-├ ○ /pages/Recommendation                319 B           [37m[1m159 kB[22m[39m
-├ ƒ /popularDestination/[slug]           3.38 kB         [37m[1m117 kB[22m[39m
-├ ƒ /search/[[...params]]                21.1 kB         [37m[1m223 kB[22m[39m
-├ ƒ /subject/[subjectName]               2.63 kB         [37m[1m402 kB[22m[39m
-├ ƒ /university/country/[country]        2.48 kB         [37m[1m295 kB[22m[39m
-└ ƒ /university/details                  5.01 kB         [37m[1m126 kB[22m[39m
-+ First Load JS shared by all            [37m[1m87.3 kB[22m[39m
-  ├ chunks/1528-50c600f917b8b145.js      31.7 kB
-  ├ chunks/1dd3208c-2f2e2ee01eecfd29.js  53.6 kB
-  └ other shared chunks (total)          1.96 kB
-
-
-○  (Static)   prerendered as static content
-ƒ  (Dynamic)  server-rendered on demand
-
-[?25h

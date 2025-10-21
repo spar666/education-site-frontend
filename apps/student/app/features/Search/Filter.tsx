@@ -89,7 +89,13 @@ const SearchFilter: React.FC<any> = ({
 
   const handleFilterChange = useCallback(
     (name: keyof FilterState, value: string) => {
+      console.log('=== Filter Changed ===');
+      console.log('Filter name:', name);
+      console.log('Filter value:', value);
+      
       const newFilters = { ...filters, [name]: value };
+      console.log('New filters state:', newFilters);
+      
       setFilters(newFilters);
       onFiltersChange(newFilters);
     },

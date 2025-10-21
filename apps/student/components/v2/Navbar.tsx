@@ -1,47 +1,16 @@
 'use client';
-import React, { useState, useEffect, useCallback } from 'react';
-import {
-  CircleUserRound,
-  Heart,
-  Menu,
-  ChevronDown,
-  ChevronRight,
-} from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { deleteCookie } from 'cookies-next';
 import useUser from 'apps/student/hook/useUser';
 import Logo from '../../assets/Logo/Logostudyvisa.png';
-import { fetchStudyLevels } from 'apps/student/app/api/studyLevel';
-import { fetchAllUniversityByDestination } from 'apps/student/app/api/studyDestination';
-
-interface Course {
-  courseName: string;
-  slug: string;
-  courseCategory: {
-    id: string;
-    courseCategory: string;
-  } | null;
-}
-
-interface StudyLevel {
-  id: string;
-  name: string;
-  slug: string;
-  course: Course[];
-}
-
-interface Destination {
-  id: string;
-  name: string;
-  slug: string;
-}
 
 interface NavLink {
   name: string;
   href: string;
-  isDropdown?: boolean;
 }
 
 interface User {
@@ -54,454 +23,135 @@ interface UserHook {
 }
 
 const navLinks: NavLink[] = [
-  { name: 'Study Destination', href: '#destinations', isDropdown: true },
-  { name: 'Find Course', href: '#courses', isDropdown: true },
+  { name: 'Home', href: '/' },
+  { name: 'Study Destinations', href: '/destinations' },
+  { name: 'Find Course', href: '/courses' },
+  { name: 'Services', href: '/#services' },
+  { name: 'About Us', href: '/about' },
   { name: 'Our Blogs', href: '/blog' },
 ];
 
-const commonCategories = [
-  'Health and medicine',
-  'Business studies',
-  'Applied and pure sciences',
-  'Social studies and media',
-  'Engineering and tech',
-  'Computer science and IT',
-];
-
-const buildSearchUrl = (
-  level: string = '',
-  course: string = '',
-  location: string = ''
-) => {
-  return `/search?level=${level}&course=${course}&location=${location}`;
-};
-
-const FindCourseSection: React.FC<{
-  onClose: () => void;
-  studyLevels: StudyLevel[];
-}> = ({ onClose, studyLevels }) => {
-  const processCategories = (levels: StudyLevel[]) => {
-    const categoriesMap = new Map<string, string>();
-    levels.forEach((level) => {
-      level.course.forEach((course) => {
-        const categoryName =
-          course.courseCategory?.courseCategory || 'Other Courses';
-        if (!categoriesMap.has(categoryName)) {
-          categoriesMap.set(categoryName, course.slug);
-        }
-      });
-    });
-    return Array.from(categoriesMap.entries()).map(([name, slug]) => ({
-      name,
-      slug,
-    }));
-  };
-
-  const sortCategories = (categories: { name: string; slug: string }[]) => {
-    return [...categories].sort((a, b) => {
-      const aIndex = commonCategories.findIndex((cat) =>
-        a.name.toLowerCase().includes(cat.toLowerCase())
-      );
-      const bIndex = commonCategories.findIndex((cat) =>
-        b.name.toLowerCase().includes(cat.toLowerCase())
-      );
-
-      if (aIndex >= 0 && bIndex >= 0) return aIndex - bIndex;
-      if (aIndex >= 0) return -1;
-      if (bIndex >= 0) return 1;
-      return a.name.localeCompare(b.name);
-    });
-  };
-
-  const postgraduateLevels = studyLevels.filter((level) =>
-    /postgrad|doctoral/i.test(level.name)
-  );
-  const undergraduateLevels = studyLevels.filter((level) =>
-    /undergrad/i.test(level.name)
-  );
-
-  const postgraduateCategories = sortCategories(
-    processCategories(postgraduateLevels)
-  );
-  const undergraduateCategories = sortCategories(
-    processCategories(undergraduateLevels)
-  );
-
-  return (
-    <div className="grid grid-cols-2 gap-8 p-6">
-      <div>
-        <h3 className="text-lg font-bold mb-4 text-gray-800">
-          POSTGRADUATE COURSES
-        </h3>
-        {postgraduateCategories.length > 0 ? (
-          <ul className="space-y-3">
-            {postgraduateCategories.map((category) => (
-              <li key={category.name}>
-                <Link
-                  href={buildSearchUrl('', '', '')}
-                  className="text-gray-700 hover:text-blue-600 transition-colors"
-                  onClick={onClose}
-                >
-                  {category.name}
-                </Link>
-              </li>
-            ))}
-            <li>
-              <Link
-                href={buildSearchUrl('postgraduate', '', '')}
-                className="text-blue-600 font-medium hover:underline flex items-center mt-4"
-                onClick={onClose}
-              >
-                Explore all <ChevronRight className="h-4 w-4 ml-1" />
-              </Link>
-            </li>
-          </ul>
-        ) : (
-          <p className="text-gray-500 text-sm">
-            No postgraduate courses available
-          </p>
-        )}
-      </div>
-
-      <div>
-        <h3 className="text-lg font-bold mb-4 text-gray-800">
-          UNDERGRADUATE COURSES
-        </h3>
-        {undergraduateCategories.length > 0 ? (
-          <ul className="space-y-3">
-            {undergraduateCategories.map((category) => (
-              <li key={category.name}>
-                <Link
-                  href={buildSearchUrl('undergraduate', category.slug, '')}
-                  className="text-gray-700 hover:text-blue-600 transition-colors"
-                  onClick={onClose}
-                >
-                  {category.name}
-                </Link>
-              </li>
-            ))}
-            <li>
-              <Link
-                href={buildSearchUrl('undergraduate', '', '')}
-                className="text-blue-600 font-medium hover:underline flex items-center mt-4"
-                onClick={onClose}
-              >
-                Explore all <ChevronRight className="h-4 w-4 ml-1" />
-              </Link>
-            </li>
-          </ul>
-        ) : (
-          <p className="text-gray-500 text-sm">
-            No undergraduate courses available
-          </p>
-        )}
-      </div>
-
-      <div className="col-span-2 pt-4 border-t border-gray-100">
-        <Link
-          href="/how-to-choose-course"
-          className="text-blue-600 font-medium hover:underline flex items-center"
-          onClick={onClose}
-        >
-          How to choose a course <ChevronRight className="h-4 w-4 ml-1" />
-        </Link>
-      </div>
-    </div>
-  );
-};
-
-const DestinationList: React.FC<{
-  destinations: Destination[];
-  onClose: () => void;
-}> = ({ destinations, onClose }) => {
-  return (
-    <div className="grid grid-cols-3 gap-6">
-      {destinations.map((destination) => (
-        <Link
-          key={destination.id}
-          href={buildSearchUrl('', '', destination.slug)}
-          className="text-gray-700 hover:text-blue-600 transition-colors"
-          onClick={onClose}
-        >
-          {destination.name}
-        </Link>
-      ))}
-    </div>
-  );
-};
-
 const Navbar: React.FC = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [studyLevels, setStudyLevels] = useState<StudyLevel[]>([]);
-  const [destinations, setDestinations] = useState<Destination[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const pathname = usePathname();
   const router = useRouter();
   const { user, isAuthenticated } = useUser() as UserHook;
 
   useEffect(() => {
     setIsClient(true);
-    const fetchData = async () => {
-      try {
-        const [levels, destinationsData] = await Promise.all([
-          fetchStudyLevels(),
-          fetchAllUniversityByDestination(),
-        ]);
-        setStudyLevels(levels);
-        setDestinations(destinationsData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
   }, []);
 
-  const handleLogout = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      deleteCookie('accessToken', { path: '/' });
-      setIsDropdownOpen(false);
-      setIsMenuOpen(false);
-      router.push('/');
-    },
-    [router]
-  );
-
-  const toggleDropdown = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      setIsDropdownOpen((prev) => !prev);
-    },
-    []
-  );
-
-  const toggleMenu = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setIsMenuOpen((prev) => !prev);
-  }, []);
-
-  const toggleNavDropdown = useCallback((name: string, e: React.MouseEvent) => {
-    e.preventDefault();
-    setActiveDropdown((prev) => (prev === name ? null : name));
-  }, []);
-
-  const renderAuthSection = () => {
-    if (!isClient) return <div className="w-24 h-10" />;
-
-    if (isAuthenticated && user) {
-      return (
-        <div className="relative">
-          <button
-            onClick={toggleDropdown}
-            className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors"
-          >
-            <CircleUserRound className="h-5 w-5" />
-            <span className="font-medium">{user.firstName}</span>
-          </button>
-          {isDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl py-2 z-50 border border-gray-100">
-              <Link
-                href="/auth/profile"
-                className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-                onClick={() => setIsDropdownOpen(false)}
-              >
-                <span>Profile</span>
-                <ChevronRight className="h-4 w-4 ml-auto text-gray-400" />
-              </Link>
-              <button
-                onClick={handleLogout}
-                className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors border-t border-gray-100"
-              >
-                Sign Out
-              </button>
-            </div>
-          )}
-        </div>
-      );
-    }
-    return (
-      <Link href="/auth/sign-in">
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-          Sign In
-        </button>
-      </Link>
-    );
+    deleteCookie('accessToken', { path: '/' });
+    setIsUserMenuOpen(false);
+    router.push('/');
   };
 
-  const renderDesktopNav = () => (
-    <div className="hidden md:flex items-center space-x-8">
-      {navLinks.map((link) => (
-        <div key={link.name} className="relative">
-          {link.isDropdown ? (
-            <>
-              <button
-                onClick={(e) => toggleNavDropdown(link.name, e)}
-                className={`flex items-center space-x-1 text-gray-700 hover:text-blue-600 text-sm font-medium transition-colors ${
-                  activeDropdown === link.name ? 'text-blue-600' : ''
-                }`}
-              >
-                <span>{link.name}</span>
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform duration-200 ${
-                    activeDropdown === link.name ? 'rotate-180' : ''
-                  }`}
-                />
-              </button>
-              {activeDropdown === link.name && (
-                <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-[800px] bg-white rounded-lg shadow-xl py-5 px-6 z-50 border border-gray-100">
-                  {link.name === 'Study Destination' ? (
-                    <DestinationList
-                      destinations={destinations}
-                      onClose={() => setActiveDropdown(null)}
-                    />
-                  ) : (
-                    <FindCourseSection
-                      onClose={() => setActiveDropdown(null)}
-                      studyLevels={studyLevels}
-                    />
-                  )}
-                </div>
-              )}
-            </>
-          ) : (
-            <Link
-              href={link.href}
-              className="text-gray-700 hover:text-blue-600 text-sm font-medium transition-colors"
-            >
-              {link.name}
-            </Link>
-          )}
-        </div>
-      ))}
-      <button className="p-2 text-gray-700 hover:text-blue-600 transition-colors">
-        <Heart className="h-5 w-5" />
-      </button>
-      {renderAuthSection()}
-    </div>
-  );
-
-  const renderMobileMenu = () => {
-    if (!isClient) return null;
-
-    return (
-      <div
-        className={`md:hidden py-4 space-y-1 ${
-          isMenuOpen ? 'block' : 'hidden'
-        }`}
-      >
-        {navLinks.map((link) => (
-          <div key={link.name} className="relative">
-            {link.isDropdown ? (
-              <>
-                <button
-                  onClick={(e) => toggleNavDropdown(link.name, e)}
-                  className="flex items-center justify-between w-full px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
-                >
-                  <span className="font-medium">{link.name}</span>
-                  <ChevronDown
-                    className={`h-4 w-4 transition-transform duration-200 ${
-                      activeDropdown === link.name ? 'rotate-180' : ''
-                    }`}
-                  />
-                </button>
-                {activeDropdown === link.name && (
-                  <div className="pl-4 mt-1 space-y-1">
-                    {link.name === 'Study Destination' ? (
-                      destinations.map((item) => (
-                        <Link
-                          key={item.id}
-                          href={buildSearchUrl('', '', item.slug)}
-                          className="block px-4 py-2.5 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
-                          onClick={() => {
-                            setActiveDropdown(null);
-                            setIsMenuOpen(false);
-                          }}
-                        >
-                          {item.name}
-                        </Link>
-                      ))
-                    ) : (
-                      <FindCourseSection
-                        onClose={() => {
-                          setActiveDropdown(null);
-                          setIsMenuOpen(false);
-                        }}
-                        studyLevels={studyLevels}
-                      />
-                    )}
-                  </div>
-                )}
-              </>
-            ) : (
-              <Link
-                href={link.href}
-                className="block px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors font-medium"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {link.name}
-              </Link>
-            )}
-          </div>
-        ))}
-        {isAuthenticated ? (
-          <>
-            <Link
-              href="/auth/profile"
-              className="block px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors font-medium"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Profile
-            </Link>
-            <button
-              onClick={handleLogout}
-              className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors font-medium"
-            >
-              Sign Out
-            </button>
-          </>
-        ) : (
-          <Link
-            href="/auth/sign-in"
-            className="block px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-center font-medium transition-colors"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Sign In
-          </Link>
-        )}
-      </div>
-    );
+  const isActive = (href: string) => {
+    if (href === '/') {
+      return pathname === '/';
+    }
+    return pathname?.startsWith(href);
   };
 
   return (
-    <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-5">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center">
-              <Image
-                src={Logo}
-                width={120}
-                height={120}
-                alt="Logo"
-                priority
-                className="hover:opacity-90 transition-opacity"
-              />
-            </Link>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <Link href="/" className="flex items-center">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
+                </svg>
+              </div>
+              <span className="text-xl font-bold text-blue-600">StudyAndVisa</span>
+            </div>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            {navLinks.map((link) => {
+              const active = isActive(link.href);
+              
+              return link.href.startsWith('/#') ? (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className={`text-base font-normal transition-colors duration-200 ${
+                    active ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                  }`}
+                >
+                  {link.name}
+                </a>
+              ) : (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={`text-base font-normal transition-colors duration-200 ${
+                    active ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
+            
+            {/* Book Free Consultation Button */}
+            <a href="https://calendly.com/studyandvisa-au" target="_blank" rel="noopener noreferrer">
+              <button className="px-6 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg font-semibold text-sm hover:from-orange-600 hover:to-orange-700 transition-all shadow-md whitespace-nowrap">
+                Book Free Consultation
+              </button>
+            </a>
           </div>
 
-          {renderDesktopNav()}
-
+          {/* Mobile Menu Button */}
           <button
-            onClick={toggleMenu}
-            className="md:hidden text-gray-700 p-2 rounded-lg hover:bg-gray-50 transition-colors"
+            className="md:hidden text-gray-700"
+            onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
           >
-            <Menu className="h-6 w-6" />
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
 
-        {renderMobileMenu()}
+        {/* Mobile Navigation */}
+        {isOpen && (
+          <div className="md:hidden py-4 space-y-4 animate-fade-in">
+            {navLinks.map((link) =>
+              link.href.startsWith('/#') ? (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className="block text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {link.name}
+                </a>
+              ) : (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className="block text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {link.name}
+                </Link>
+              )
+            )}
+            
+            {/* Mobile CTA Button */}
+            <a href="https://calendly.com/studyandvisa-au" target="_blank" rel="noopener noreferrer" onClick={() => setIsOpen(false)}>
+              <button className="w-full px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg font-semibold hover:from-orange-600 hover:to-orange-700 transition-all">
+                Book Free Consultation
+              </button>
+            </a>
+          </div>
+        )}
       </div>
     </nav>
   );

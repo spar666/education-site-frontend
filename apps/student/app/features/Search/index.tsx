@@ -7,10 +7,14 @@ import {
   Filter,
   Search as SearchIcon,
   ChevronRight,
+  GraduationCap,
+  BookOpen,
+  Globe,
+  X,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Row, Col, Spin, Alert, Badge } from 'antd';
+import { Spin, Alert, Badge } from 'antd';
 import Logo from '../../../assets/Logo/Logo.png';
 import { search } from '../../api/search';
 import { renderImage } from 'libs/services/helper';
@@ -31,10 +35,10 @@ interface SearchProps {
 }
 
 const UniversityCardSkeleton = () => (
-  <div className="relative overflow-hidden rounded-lg bg-white shadow-md animate-pulse">
-    <div className="flex flex-col sm:flex-row">
-      <div className="relative h-48 sm:h-40 sm:w-48 flex-shrink-0 bg-gray-200 rounded-t-lg sm:rounded-l-lg sm:rounded-tr-none"></div>
-      <div className="p-5 flex-1 space-y-4">
+  <div className="relative overflow-hidden rounded-2xl bg-white shadow-md animate-pulse border border-gray-100">
+    <div className="flex flex-col md:flex-row">
+      <div className="relative h-56 md:h-48 md:w-64 flex-shrink-0 bg-gray-200"></div>
+      <div className="p-6 flex-1 space-y-4">
         <div className="h-6 w-3/4 bg-gray-200 rounded"></div>
         <div className="h-4 w-1/2 bg-gray-200 rounded"></div>
         <div className="space-y-2">
@@ -68,65 +72,75 @@ const UniversityCard: React.FC<{ university: University }> = React.memo(
       <Link
         href={`/university/details?uni=${university.slug}`}
         prefetch={false}
-        className="block hover:no-underline focus:outline-none"
+        className="block hover:no-underline focus:outline-none group"
       >
-        <div className="relative overflow-hidden rounded-lg bg-white shadow-md transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5">
+        <div className="relative overflow-hidden rounded-2xl bg-white border-2 border-gray-100 hover:border-blue-200 hover:shadow-2xl transition-all duration-300">
           <button
             onClick={toggleFavorite}
-            className="absolute right-4 top-4 z-10 rounded-full bg-white p-2 shadow-sm transition-colors duration-150 hover:bg-gray-50"
+            className="absolute right-4 top-4 z-10 rounded-full bg-white/90 backdrop-blur-sm p-2.5 shadow-md transition-all duration-200 hover:bg-white hover:scale-110"
             aria-label={
               isFavorite ? 'Remove from favorites' : 'Add to favorites'
             }
           >
             <Heart
-              className={`h-4 w-4 ${
+              className={`h-5 w-5 transition-colors ${
                 isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-400'
               }`}
             />
           </button>
 
-          <div className="flex flex-col sm:flex-row">
-            <div className="relative h-56 sm:h-40 sm:w-48 flex-shrink-0">
+          <div className="flex flex-col md:flex-row">
+            <div className="relative h-64 md:h-56 md:w-72 flex-shrink-0 overflow-hidden">
               <Image
                 src={imageSrc}
                 alt={`${university.universityName} logo`}
                 fill
-                className="object-cover rounded-t-lg sm:rounded-l-lg sm:rounded-tr-none"
-                sizes="(max-width: 640px) 100vw, 192px"
+                className="object-cover group-hover:scale-110 transition-transform duration-500"
+                sizes="(max-width: 768px) 100vw, 288px"
                 priority={false}
               />
               {university.isEnglishCourseAvailable && (
-                <span className="absolute bottom-3 left-3 rounded-full bg-blue-600 px-2.5 py-1 text-xs font-medium text-white shadow-md">
+                <span className="absolute bottom-4 left-4 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 px-4 py-2 text-sm font-semibold text-white shadow-lg">
+                  <Globe className="inline h-4 w-4 mr-1" />
                   English Available
                 </span>
               )}
             </div>
 
-            <div className="p-5 flex-1">
-              <h3 className="text-lg font-semibold text-gray-900 mb-1.5 line-clamp-1">
-                {university.universityName}
-              </h3>
+            <div className="p-6 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                  {university.universityName}
+                </h3>
 
-              <div className="flex items-center text-sm text-gray-600 mb-3">
-                <MapPin className="h-4 w-4 text-blue-500 mr-1.5 flex-shrink-0" />
-                <span className="line-clamp-1">
-                  {university.destination?.name || 'Location not specified'}
-                </span>
+                <div className="flex items-center text-sm text-gray-600 mb-4">
+                  <MapPin className="h-4 w-4 text-blue-500 mr-2 flex-shrink-0" />
+                  <span className="line-clamp-1">
+                    {university.destination?.name || 'Location not specified'}
+                  </span>
+                </div>
+
+                <p
+                  className="text-sm text-gray-600 mb-4 line-clamp-3"
+                  dangerouslySetInnerHTML={{
+                    __html: university.description || 'No description available.',
+                  }}
+                />
               </div>
 
-              <p
-                className="text-sm text-gray-600 mb-4 line-clamp-2"
-                dangerouslySetInnerHTML={{
-                  __html: university.description || 'No description available.',
-                }}
-              />
-
-              <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                <span className="text-xs text-gray-500">
-                  <span className="font-medium text-blue-600">0</span> programs
-                </span>
-                <span className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
-                  Explore <ChevronRight className="ml-1 h-4 w-4" />
+              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                <div className="flex items-center gap-4 text-sm text-gray-600">
+                  <span className="flex items-center">
+                    <BookOpen className="h-4 w-4 mr-1.5 text-blue-600" />
+                    <span className="font-semibold text-blue-600">0</span> Programs
+                  </span>
+                  <span className="flex items-center">
+                    <GraduationCap className="h-4 w-4 mr-1.5 text-cyan-600" />
+                    <span className="font-semibold text-cyan-600">Top Ranked</span>
+                  </span>
+                </div>
+                <span className="inline-flex items-center text-sm font-semibold text-blue-600 group-hover:text-blue-700 transition-colors group-hover:gap-2 gap-1">
+                  Explore <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </span>
               </div>
             </div>
@@ -173,7 +187,16 @@ const Search: React.FC<SearchProps> = ({ searchParams = {} }) => {
           page: pageNum,
           limit,
         };
+        
+        console.log('=== Search API Call ===');
+        console.log('API URL:', process.env.NEXT_PUBLIC_API_URL);
+        console.log('Search Payload:', payload);
+        console.log('Search Params:', searchParams);
+        console.log('Filters:', filters);
+        
         const response = await search(payload);
+        
+        console.log('Search API Response:', response);
 
         if (!isMountedRef.current) return;
 
@@ -186,10 +209,12 @@ const Search: React.FC<SearchProps> = ({ searchParams = {} }) => {
           setHasMore(false);
           if (reset) setUniversities([]);
         }
-      } catch (err) {
+      } catch (err: any) {
         if (!isMountedRef.current) return;
+        console.error('=== Search API Error ===');
+        console.error('Error details:', err);
+        console.error('Error response:', err?.response?.data);
         setError('Something went wrong. Please try again.');
-        console.error('Search error:', err);
       } finally {
         if (isMountedRef.current) {
           setLoading(false);
@@ -220,10 +245,12 @@ const Search: React.FC<SearchProps> = ({ searchParams = {} }) => {
 
   // Initial fetch and cleanup
   useEffect(() => {
+    console.log('=== Component Mounted ===');
     isMountedRef.current = true;
     fetchData(1, true);
 
     return () => {
+      console.log('=== Component Unmounting ===');
       isMountedRef.current = false;
       if (debounceTimeoutRef.current) {
         clearTimeout(debounceTimeoutRef.current);
@@ -232,13 +259,18 @@ const Search: React.FC<SearchProps> = ({ searchParams = {} }) => {
         observerRef.current.disconnect();
       }
     };
-  }, []);
+  }, []); // Only run on mount
 
-  // Effect for filter changes
+  // Effect for filter/search param changes (skip on initial mount)
   useEffect(() => {
     if (!isMountedRef.current) return;
 
+    console.log('=== Filters or SearchParams Changed ===');
+    console.log('Current filters:', filters);
+    console.log('Current searchParams:', searchParams);
+
     const timer = setTimeout(() => {
+      console.log('Triggering new search with updated filters/params...');
       setUniversities([]);
       setPage(1);
       setHasMore(true);
@@ -247,7 +279,7 @@ const Search: React.FC<SearchProps> = ({ searchParams = {} }) => {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [filters, searchParams]);
+  }, [filters, searchParams, fetchData]);
 
   // Infinite scroll setup
   useEffect(() => {
@@ -278,31 +310,49 @@ const Search: React.FC<SearchProps> = ({ searchParams = {} }) => {
   }, [fetchData, hasMore, loading, initialLoading]);
 
   return (
-    <div className="bg-gray-50 min-h-screen">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-20">
+      {/* Hero/Header Section */}
+      <div className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-12 mb-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              Find Your Dream University
+            </h1>
+            <p className="text-lg md:text-xl opacity-90 max-w-2xl mx-auto">
+              {searchParams.location 
+                ? `Exploring universities in ${searchParams.location}` 
+                : 'Browse through top universities and programs'}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         {error && (
           <Alert
             message={error}
             type="error"
             showIcon
-            className="mb-6 rounded-lg"
+            className="mb-6 rounded-xl shadow-sm"
             closable
             onClose={() => setError(null)}
           />
         )}
 
-        <div className="flex flex-col lg:flex-row gap-6">
+        <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Sidebar */}
-          <div className="lg:w-1/4">
-            <div className="sticky top-6 space-y-5">
-              <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-200">
-                <div className="flex items-center mb-5">
-                  <Filter className="h-5 w-5 text-blue-600 mr-2" />
-                  <h2 className="text-xl font-bold text-gray-800">Filters</h2>
+          <div className="lg:w-80 flex-shrink-0">
+            <div className="sticky top-24 space-y-6">
+              <div className="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-100">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <Filter className="h-6 w-6 text-blue-600" />
+                    <h2 className="text-2xl font-bold text-gray-900">Filters</h2>
+                  </div>
                   {Object.values(filters).filter(Boolean).length > 0 && (
                     <Badge
                       count={Object.values(filters).filter(Boolean).length}
-                      className="ml-2"
+                      style={{ backgroundColor: '#3B82F6' }}
                     />
                   )}
                 </div>
@@ -311,36 +361,76 @@ const Search: React.FC<SearchProps> = ({ searchParams = {} }) => {
                   onFiltersChange={handleFiltersChange}
                 />
               </div>
+
+              {/* Quick Stats Card */}
+              <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-6 border-2 border-blue-100">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  Search Statistics
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Universities Found:</span>
+                    <span className="font-bold text-blue-600 text-xl">
+                      {universities.length}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Active Filters:</span>
+                    <span className="font-bold text-cyan-600 text-xl">
+                      {Object.values(filters).filter(Boolean).length}
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Results Section */}
-          <div className="lg:w-3/4">
-            <div className="bg-white rounded-xl shadow-sm p-6 mb-6 border border-gray-200">
-              <h3 className="text-xl font-bold text-gray-800">
-                {initialLoading
-                  ? 'Searching universities...'
-                  : `${universities.length} ${
-                      universities.length === 1 ? 'Result' : 'Results'
-                    } Found`}
-              </h3>
+          <div className="flex-1 min-w-0">
+            {/* Results Header */}
+            <div className="bg-white rounded-2xl shadow-sm p-6 mb-6 border-2 border-gray-100">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-900">
+                    {initialLoading
+                      ? 'Searching universities...'
+                      : `${universities.length} ${
+                          universities.length === 1 ? 'University' : 'Universities'
+                        } Found`}
+                  </h3>
+                  {!initialLoading && universities.length > 0 && (
+                    <p className="text-gray-600 mt-1">
+                      Showing the best matches for your criteria
+                    </p>
+                  )}
+                </div>
+                {!initialLoading && universities.length > 0 && (
+                  <div className="hidden md:flex items-center gap-2 text-sm text-gray-600">
+                    <GraduationCap className="h-5 w-5 text-blue-600" />
+                    <span>Top Results</span>
+                  </div>
+                )}
+              </div>
             </div>
 
+            {/* University Cards */}
             {initialLoading ? (
-              <div className="space-y-5">
+              <div className="space-y-6">
                 {[...Array(3)].map((_, index) => (
                   <UniversityCardSkeleton key={index} />
                 ))}
               </div>
             ) : universities.length === 0 ? (
-              <div className="bg-white rounded-xl shadow-sm p-10 text-center border border-gray-200">
+              <div className="bg-white rounded-2xl shadow-sm p-12 text-center border-2 border-gray-100">
                 <div className="max-w-md mx-auto">
-                  <SearchIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-gray-800 mb-3">
-                    No universities found
+                  <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <SearchIcon className="h-10 w-10 text-gray-400" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                    No Universities Found
                   </h3>
-                  <p className="text-gray-600 mb-4">
-                    We couldn't find any universities matching your criteria.
+                  <p className="text-gray-600 mb-6 leading-relaxed">
+                    We couldn't find any universities matching your criteria. Try adjusting your filters or search terms.
                   </p>
                   <button
                     onClick={() =>
@@ -350,29 +440,42 @@ const Search: React.FC<SearchProps> = ({ searchParams = {} }) => {
                         destination: '',
                       })
                     }
-                    className="text-blue-600 hover:text-blue-800 font-medium"
+                    className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-md hover:shadow-lg"
                   >
-                    Clear all filters
+                    <X className="h-5 w-5" />
+                    Clear All Filters
                   </button>
                 </div>
               </div>
             ) : (
-              <div className="space-y-5">
+              <div className="space-y-6">
                 {universities.map((uni) => (
                   <UniversityCard key={uni.id} university={uni} />
                 ))}
 
-                <div ref={loadMoreRef} className="h-2" />
+                <div ref={loadMoreRef} className="h-4" />
 
                 {hasMore && loading && (
-                  <div className="flex justify-center py-8">
-                    <Spin tip="Loading more universities..." />
+                  <div className="flex justify-center py-12">
+                    <div className="text-center">
+                      <Spin size="large" />
+                      <p className="mt-4 text-gray-600 font-medium">
+                        Loading more universities...
+                      </p>
+                    </div>
                   </div>
                 )}
 
                 {!hasMore && universities.length > 0 && (
-                  <div className="text-center py-6 text-gray-500 border-t border-gray-200">
-                    You've reached the end of results
+                  <div className="text-center py-8 border-t-2 border-gray-100">
+                    <div className="inline-flex items-center gap-2 text-gray-500">
+                      <div className="w-12 h-0.5 bg-gray-300"></div>
+                      <span className="font-medium">You've reached the end</span>
+                      <div className="w-12 h-0.5 bg-gray-300"></div>
+                    </div>
+                    <p className="mt-2 text-sm text-gray-400">
+                      Showing all {universities.length} results
+                    </p>
                   </div>
                 )}
               </div>

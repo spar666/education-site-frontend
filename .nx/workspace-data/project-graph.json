@@ -19945,17 +19945,27 @@
       },
       {
         "source": "student",
+        "target": "npm:react",
+        "type": "static"
+      },
+      {
+        "source": "student",
+        "target": "npm:lucide-react",
+        "type": "static"
+      },
+      {
+        "source": "student",
+        "target": "npm:next",
+        "type": "static"
+      },
+      {
+        "source": "student",
         "target": "npm:axios",
         "type": "static"
       },
       {
         "source": "student",
         "target": "npm:js-cookie",
-        "type": "static"
-      },
-      {
-        "source": "student",
-        "target": "npm:next",
         "type": "static"
       },
       {
@@ -19975,11 +19985,6 @@
       },
       {
         "source": "student",
-        "target": "npm:react",
-        "type": "static"
-      },
-      {
-        "source": "student",
         "target": "npm:@hookform/resolvers",
         "type": "static"
       },
@@ -19991,11 +19996,6 @@
       {
         "source": "student",
         "target": "npm:zod",
-        "type": "static"
-      },
-      {
-        "source": "student",
-        "target": "npm:lucide-react",
         "type": "static"
       },
       {
@@ -46429,5 +46429,5 @@
   },
   "version": "6.0",
   "errors": [],
-  "computedAt": 1757792959410
+  "computedAt": 1761038772532
 }
