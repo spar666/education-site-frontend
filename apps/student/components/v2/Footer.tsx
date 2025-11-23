@@ -30,10 +30,10 @@ function Footer() {
               <Shield className="w-6 h-6 text-orange-500" />
               <span className="text-sm font-medium">Expert Consultant</span>
             </div>
-            <div className="flex items-center justify-center gap-3">
+            {/* <div className="flex items-center justify-center gap-3">
               <Award className="w-6 h-6 text-orange-500" />
               <span className="text-sm font-medium">10+ Years Experience</span>
-            </div>
+            </div> */}
             <div className="flex items-center justify-center gap-3">
               <Users className="w-6 h-6 text-orange-500" />
               <span className="text-sm font-medium">1,000+ Students Served</span>
