@@ -24,7 +24,7 @@ function HowItWorks() {
       id: 3,
       number: '03',
       title: 'Visa Support',
-      description: ' We guide you on preparing your student visa application and arrange expert assistance from MARA-registered migration agents when required.',
+      description: ' We guide you on preparing your student visa application and arrange expert assistance from MARA-registered migration agents.',
       badge: 'Ongoing support',
       badgeColor: 'bg-green-50 text-green-600',
     },
