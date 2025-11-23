@@ -13,108 +13,16 @@
   "fileMap": {
     "nonProjectFiles": [
       {
+        "file": "libs/utils.ts",
+        "hash": "3155625188187918220"
+      },
+      {
         "file": "tsconfig.json",
         "hash": "11371877435323203784"
       },
       {
-        "file": "libs/.gitkeep",
-        "hash": "3244421341483603138"
-      },
-      {
-        "file": "apps/Dockerfile",
-        "hash": "3244421341483603138"
-      },
-      {
-        "file": ".vscode/extensions.json",
-        "hash": "235626400633494639"
-      },
-      {
-        "file": "yarn.lock",
-        "hash": "13422983139504191341"
-      },
-      {
-        "file": ".prettierignore",
-        "hash": "8865097869854018350"
-      },
-      {
-        "file": ".npmrc",
-        "hash": "18085261541358865259"
-      },
-      {
-        "file": ".eslintrc.json",
-        "hash": "17866138117546000433"
-      },
-      {
-        "file": "components.json",
-        "hash": "9470403178371361748"
-      },
-      {
-        "file": ".gitignore",
-        "hash": "2913894268036001599"
-      },
-      {
         "file": "libs/countiesList/countryList.tsx",
         "hash": "10748148819173308715"
-      },
-      {
-        "file": "package-lock.json",
-        "hash": "11769123811439085329"
-      },
-      {
-        "file": "libs/NameFormatter.tsx",
-        "hash": "5886220243841351551"
-      },
-      {
-        "file": "jest.config.ts",
-        "hash": "12333515226966617182"
-      },
-      {
-        "file": "Dockerfile",
-        "hash": "6713328987499396695"
-      },
-      {
-        "file": ".nvmrc",
-        "hash": "9902286047133098848"
-      },
-      {
-        "file": ".eslintignore",
-        "hash": "7663861978715868291"
-      },
-      {
-        "file": ".yarn/install-state.gz",
-        "hash": "12533519787901148832"
-      },
-      {
-        "file": "libs/services/chatService.ts",
-        "hash": "12583792052520365479"
-      },
-      {
-        "file": "package.json",
-        "hash": "7486902669667554929"
-      },
-      {
-        "file": ".yarnrc.yml",
-        "hash": "9773565372686775399"
-      },
-      {
-        "file": "nx.json",
-        "hash": "3619439782444644385"
-      },
-      {
-        "file": "tsconfig.base.json",
-        "hash": "869487631370602889"
-      },
-      {
-        "file": "libs/services/helper.ts",
-        "hash": "5819949203067602490"
-      },
-      {
-        "file": "jest.preset.js",
-        "hash": "9430166341120122740"
-      },
-      {
-        "file": "libs/utils.ts",
-        "hash": "3155625188187918220"
       },
       {
         "file": "apps/.gitkeep",
@@ -125,16 +33,108 @@
         "hash": "16267754514737964994"
       },
       {
+        "file": "libs/NameFormatter.tsx",
+        "hash": "5886220243841351551"
+      },
+      {
+        "file": "tools/tsconfig.tools.json",
+        "hash": "16088922570277978783"
+      },
+      {
+        "file": "apps/Dockerfile",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": ".prettierignore",
+        "hash": "8865097869854018350"
+      },
+      {
+        "file": "components.json",
+        "hash": "9470403178371361748"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "9430166341120122740"
+      },
+      {
         "file": ".editorconfig",
         "hash": "5443105041930014821"
+      },
+      {
+        "file": "libs/.gitkeep",
+        "hash": "3244421341483603138"
       },
       {
         "file": "README.md",
         "hash": "1612153889053081650"
       },
       {
-        "file": "tools/tsconfig.tools.json",
-        "hash": "16088922570277978783"
+        "file": "yarn.lock",
+        "hash": "13422983139504191341"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "869487631370602889"
+      },
+      {
+        "file": ".nvmrc",
+        "hash": "9902286047133098848"
+      },
+      {
+        "file": "jest.config.ts",
+        "hash": "12333515226966617182"
+      },
+      {
+        "file": ".yarn/install-state.gz",
+        "hash": "12533519787901148832"
+      },
+      {
+        "file": ".npmrc",
+        "hash": "18085261541358865259"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "2913894268036001599"
+      },
+      {
+        "file": ".yarnrc.yml",
+        "hash": "9773565372686775399"
+      },
+      {
+        "file": "nx.json",
+        "hash": "3619439782444644385"
+      },
+      {
+        "file": ".vscode/extensions.json",
+        "hash": "235626400633494639"
+      },
+      {
+        "file": "Dockerfile",
+        "hash": "6713328987499396695"
+      },
+      {
+        "file": "libs/services/chatService.ts",
+        "hash": "12583792052520365479"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "11769123811439085329"
+      },
+      {
+        "file": ".eslintrc.json",
+        "hash": "17866138117546000433"
+      },
+      {
+        "file": ".eslintignore",
+        "hash": "7663861978715868291"
+      },
+      {
+        "file": "package.json",
+        "hash": "7486902669667554929"
+      },
+      {
+        "file": "libs/services/helper.ts",
+        "hash": "5819949203067602490"
       }
     ],
     "projectFileMap": {
@@ -2143,7 +2143,7 @@
         },
         {
           "file": "apps/student/app/pages/v2/HowItWorks/index.tsx",
-          "hash": "6538319407929438741",
+          "hash": "13555188892683567122",
           "deps": [
             "npm:react",
             "npm:next"

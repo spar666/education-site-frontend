@@ -9417,3 +9417,17 @@ Time for 'build typescript dependencies' 2.8178750001825392
 [NX v21.4.1 Daemon Server] - 2025-11-23T08:09:39.013Z - [WATCHER]: Processing file changes in outputs
 [NX v21.4.1 Daemon Server] - 2025-11-23T08:09:39.227Z - [WATCHER]: apps/student/app/pages/v2/HowItWorks/index.tsx was modified
 [NX v21.4.1 Daemon Server] - 2025-11-23T08:09:39.227Z - [WATCHER]: Processing file changes in outputs
+[NX v21.4.1 Daemon Server] - 2025-11-23T08:09:45.416Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX v21.4.1 Daemon Server] - 2025-11-23T08:09:45.416Z - [REQUEST]: apps/student/app/pages/v2/HowItWorks/index.tsx
+[NX v21.4.1 Daemon Server] - 2025-11-23T08:09:45.416Z - [REQUEST]: 
+[NX v21.4.1 Daemon Server] - 2025-11-23T08:09:45.420Z - Time taken for 'hash changed files from watcher' 1.2234590002335608ms
+Time for 'nx/core/package-json:createNodes' 1.3212089999578893
+Time for 'nx/core/project-json:createNodes' 1.8798750001005828
+Time for 'nx/js/dependencies-and-lockfile:createNodes' 12.383749999571592
+[NX v21.4.1 Daemon Server] - 2025-11-23T08:09:45.441Z - Time taken for 'build-project-configs' 20.085332999937236ms
+Time for 'build typescript dependencies' 2.7150000003166497
+[NX v21.4.1 Daemon Server] - 2025-11-23T08:09:45.465Z - Wrote project graph cache to /Users/ashishdaju/Documents/projects/education-site-frontend/.nx/workspace-data/project-graph.json
+[NX v21.4.1 Daemon Server] - 2025-11-23T08:09:45.465Z - [SYNC]: collect registered sync generators
+[NX v21.4.1 Daemon Server] - 2025-11-23T08:09:45.465Z - [SYNC]: project graph hash is the same, not collecting task sync generators
+[NX v21.4.1 Daemon Server] - 2025-11-23T08:09:45.465Z - [SYNC]: nx.json hash is the same, not collecting global sync generators
+[NX v21.4.1 Daemon Server] - 2025-11-23T08:09:45.465Z - Time taken for 'total execution time for createProjectGraph()' 21.680374999996275ms
