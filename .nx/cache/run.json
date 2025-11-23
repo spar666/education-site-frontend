@@ -1,21 +1,9 @@
 {
   "run": {
-    "command": "nx build student",
-    "startTime": "2025-10-21T09:38:51.140Z",
-    "endTime": "2025-10-21T09:39:04.537Z",
+    "command": "nx serve student",
+    "startTime": "2025-11-23T07:22:41.212Z",
+    "endTime": "2025-11-23T07:56:30.104Z",
     "inner": false
   },
-  "tasks": [
-    {
-      "taskId": "student:build:production",
-      "target": "build",
-      "projectName": "student",
-      "hash": "1644142961949095278",
-      "startTime": "2025-10-21T09:38:51.182Z",
-      "endTime": "2025-10-21T09:39:04.463Z",
-      "params": "",
-      "cacheStatus": "cache-miss",
-      "status": 0
-    }
-  ]
+  "tasks": []
 }

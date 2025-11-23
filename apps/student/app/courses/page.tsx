@@ -84,7 +84,7 @@ function CoursesPage() {
         setSearchResults([]);
         setIsSearching(false);
       }
-    }, 500);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, [searchTerm]);
@@ -471,7 +471,7 @@ function CoursesPage() {
 
                     {/* Description */}
                     <p className="text-gray-600 mb-6">
-                      Explore courses in {category.courseCategory.toLowerCase()} field
+                      Explore courses in {category.courseCategory} field
                     </p>
 
                     {/* Stats */}

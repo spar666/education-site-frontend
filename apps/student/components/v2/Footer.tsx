@@ -28,7 +28,7 @@ function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
             <div className="flex items-center justify-center gap-3">
               <Shield className="w-6 h-6 text-orange-500" />
-              <span className="text-sm font-medium">MARA Registered Agent</span>
+              <span className="text-sm font-medium">Expert Consultant</span>
             </div>
             <div className="flex items-center justify-center gap-3">
               <Award className="w-6 h-6 text-orange-500" />
@@ -109,12 +109,10 @@ function Footer() {
             <h3 className="text-base font-semibold mb-6">Our Services</h3>
             <ul className="space-y-3">
               {[
-                'Course & University Placement',
-                'Student Visa Support',
-                'Post-Study Work Visa',
-                'Permanent Residency',
-                'Scholarship Guidance',
-                'Accommodation Support',
+                'Free Consultation',
+                'Course & University Selection',
+                'Visa Application Support',
+                
               ].map((service) => (
                 <li key={service}>
                   <a

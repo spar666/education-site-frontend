@@ -70,13 +70,14 @@ function Index() {
           <div className="space-y-8">
             {/* Main Headline */}
             <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
-              <span className="text-gray-900">Your Pathway to</span>
+              {/* <span className="text-gray-900">Your Pathway to</span> */}
               <br />
-              <span className="text-blue-600">Study</span>
-              <span className="text-cyan-400">, Work & Life</span>
-              <span className="text-gray-900"> in</span>
+              <span className="text-blue-600">Study in</span>
+              <span className="text-cyan-400"> Australia</span>
+              {/* <span className="text-gray-900"> in</span> */}
               <br />
-              <span className="text-gray-900">Australia</span>
+              <span className="text-gray-900"> and with </span>
+             
             </h1>
 
             {/* Subheadline */}
@@ -96,7 +97,7 @@ function Index() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <span className="text-base text-gray-700 font-medium">MARA Registered Migration Agents</span>
+                <span className="text-base text-gray-700 font-medium">Course and university matching tailored to you</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0">
@@ -104,7 +105,7 @@ function Index() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <span className="text-base text-gray-700 font-medium">10+ Years Experience</span>
+                <span className="text-base text-gray-700 font-medium">Complete support with your student visa application</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0">
@@ -112,7 +113,7 @@ function Index() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <span className="text-base text-gray-700 font-medium">95% Visa Success Rate</span>
+                <span className="text-base text-gray-700 font-medium">Access to trusted MARA-registered migration agents when required</span>
               </div>
             </div>
 
@@ -120,15 +121,15 @@ function Index() {
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <a href="https://calendly.com/studyandvisa-au" target="_blank" rel="noopener noreferrer">
                 <button className="group px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl font-semibold text-base hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg flex items-center justify-center gap-2">
-                  Book Your Free Consultation
+                   Get Free Guidance
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
               </a>
-              <Link href="#resources">
+              {/* <Link href="#resources">
                 <button className="px-8 py-4 bg-white text-blue-600 rounded-xl font-semibold text-base hover:bg-gray-50 transition-all border-2 border-blue-600">
                   Download Free Guide
                 </button>
-              </Link>
+              </Link> */}
             </div>
           </div>
 

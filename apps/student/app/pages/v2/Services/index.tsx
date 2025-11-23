@@ -7,12 +7,12 @@ function Index() {
   const services = [
     {
       id: 1,
-      title: 'Course & University Placement',
+      title: 'Free Consultation',
       icon: <GraduationCap className="h-12 w-12" />,
       iconBg: 'bg-blue-50',
       iconColor: 'text-blue-600',
       titleColor: 'text-gray-900',
-      description: 'Find the perfect course and university that matches your career goals and budget. We partner with top Australian institutions.',
+      description: 'Tell us your study goals, background, and plans. We help you understand the best pathways available.',
       features: [
         'Personalized course recommendations',
         'University application support',
@@ -22,12 +22,12 @@ function Index() {
     },
     {
       id: 2,
-      title: 'Student Visa Support',
+      title: 'Course & University Selection',
       icon: <FileText className="h-12 w-12" />,
       iconBg: 'bg-orange-50',
       iconColor: 'text-orange-600',
       titleColor: 'text-blue-600',
-      description: 'Navigate the complex visa process with confidence. Our MARA-registered agents ensure your application is flawless.',
+      description: 'We match you with suitable colleges and universities in Australia and help you secure offers faster.',
       features: [
         'Visa eligibility assessment',
         'Document preparation & review',
@@ -37,12 +37,12 @@ function Index() {
     },
     {
       id: 3,
-      title: 'Post-Study Work & Migration',
+      title: 'Visa Application Support',
       icon: <Briefcase className="h-12 w-12" />,
       iconBg: 'bg-cyan-50',
       iconColor: 'text-cyan-600',
       titleColor: 'text-gray-900',
-      description: 'Launch your career in Australia with expert guidance on work rights, job search, and pathways to permanent residency.',
+      description: 'We assist you through the student visa process and arrange help from a MARA-registered migration agent when needed.',
       features: [
         'Work visa applications',
         'Job search assistance',
