@@ -104,45 +104,9 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ searchParams }) => {
           </div>
         </section>
         <div className="px-5 sm:px-10 md:px-14 lg:px-24 bg-gray-50">
-          {/* <section className={'py-5 bg-white'}>
-            <Row gutter={[16, 16]}>
-              <Col
-                xs={24}
-                xl={18}
-                className="flex flex-wrap place-items-center"
-              >
-                <div className="flex mx-auto ml-4 gap-10">
-                  <div className="relative">
-                    <Select
-                      showSearch
-                      style={{ width: 200 }}
-                      placeholder="Filter By Country"
-                      optionFilterProp="children"
-                      onChange={handleCountryChange}
-                      value={selectedCountry}
-                    >
-                      {destination.map((des: any) => (
-                        <Option key={des.id} value={des.id}>
-                          {des.name}
-                        </Option>
-                      ))}
-                    </Select>
-                    {selectedCountry && (
-                      <Button
-                        type="text"
-                        icon={<X />}
-                        onClick={handleClearCountryFilter}
-                        className="absolute top-1/2 right-2 transform -translate-y-1/2"
-                      />
-                    )}
-                  </div>
-                </div>
-              </Col>
-            </Row>
-          </section> */}
           <section className="flex flex-col gap-5 md:flex-row py-4 font-['Roboto'] leading-1.5 text-xl">
             <div className="w-full md:w-1/2">
-              <div className=" flex flex-col gap-8 mx-auto md:flex-row md:flex-wrap">
+              <div className="flex flex-col gap-8 mx-auto md:flex-row md:flex-wrap">
                 {paginatedUniversities.length > 0 ? (
                   paginatedUniversities.map((university) => (
                     <Link
@@ -178,7 +142,7 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ searchParams }) => {
                           </div>
                         </div>
                         <div>
-                          <p className="text-gray-600 mb-2  text-base">
+                          <p className="text-gray-600 mb-2 text-base">
                             {university?.description.length >
                             maxLengthOfDescription
                               ? university?.description.substring(
@@ -188,18 +152,6 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ searchParams }) => {
                               : university?.description}
                           </p>
                         </div>
-                        {/* <Link
-                          href={`/course/details/${university.courses[0].slug}/${university.slug}`}
-                        >
-                          <div>
-                            <p className="flex text-center text-dark-blue font-bold text-base ">
-                              <Eye /> View{' '}
-                              {university.courses[0]?.subject.length} Subjects{' '}
-                              {university.courses[0].courseName}{' '}
-                              <ChevronRight className="h-5" />
-                            </p>
-                          </div>
-                        </Link> */}
                       </div>
                     </Link>
                   ))

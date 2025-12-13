@@ -1,0 +1,797 @@
+  [1m[38;2;173;127;168m▲ Next.js 14.2.32[39m[22m
+  - Local:        http://localhost:4200
+
+ [32m[1m✓[22m[39m Starting...
+ [32m[1m✓[22m[39m Ready in 1477ms
+ [37m[1m○[22m[39m Compiling /course/details/[course] ...
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ [32m[1m✓[22m[39m Compiled /course/details/[course] in 1767ms (2746 modules)
+ [32m[1m✓[22m[39m Compiled in 91ms (1359 modules)
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Navbar (webpack-internal:///(ssr)/./components/v2/Navbar.tsx:55:108)\n'[39m +
+    [32m'    at au (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:44844)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)'[39m
+}
+Warning: [antd: Breadcrumb] `Breadcrumb.Item and Breadcrumb.Separator` is deprecated. Please use `items` instead.
+ GET /course/details/bachlors-in-computer-science [32m200[39m in 2266ms
+ [33m[1m⚠[22m[39m The "images.domains" configuration is deprecated. Please use "images.remotePatterns" configuration instead.
+ [31m[1m⨯[22m[39m ./app/features/Universities/Details/index.tsx
+Error: 
+  [38;2;255;30;30m×[0m You're importing a component that needs useState. It only works in a Client Component but none of its parents are marked with "use client", so they're Server Components by default.
+  [38;2;255;30;30m│[0m Learn more: https://nextjs.org/docs/getting-started/react-essentials
+  [38;2;255;30;30m│[0m 
+  [38;2;255;30;30m│[0m 
+   ╭─[[38;2;92;157;255;1;4m/Users/ashishdaju/Documents/projects/education-site-frontend/apps/student/app/features/Universities/Details/index.tsx[0m:1:1]
+ [2m1[0m │ 
+ [2m2[0m │ import React, { useState, useEffect } from 'react';
+   · [38;2;246;87;248m                ────────[0m
+ [2m3[0m │ import { IUniversity, Tab } from './types';
+ [2m4[0m │ import { fetchUniversityData } from './services/mockApi';
+ [2m5[0m │ import DetailBanner from './components/DetailBanner';
+   ╰────
+
+  [38;2;255;30;30m×[0m You're importing a component that needs useEffect. It only works in a Client Component but none of its parents are marked with "use client", so they're Server Components by default.
+  [38;2;255;30;30m│[0m Learn more: https://nextjs.org/docs/getting-started/react-essentials
+  [38;2;255;30;30m│[0m 
+  [38;2;255;30;30m│[0m 
+   ╭─[[38;2;92;157;255;1;4m/Users/ashishdaju/Documents/projects/education-site-frontend/apps/student/app/features/Universities/Details/index.tsx[0m:1:1]
+ [2m1[0m │ 
+ [2m2[0m │ import React, { useState, useEffect } from 'react';
+   · [38;2;246;87;248m                          ─────────[0m
+ [2m3[0m │ import { IUniversity, Tab } from './types';
+ [2m4[0m │ import { fetchUniversityData } from './services/mockApi';
+ [2m5[0m │ import DetailBanner from './components/DetailBanner';
+   ╰────
+
+Import trace for requested module:
+./app/features/Universities/Details/index.tsx
+./app/university/details/page.tsx
+ [37m[1m○[22m[39m Compiling /_not-found ...
+ [31m[1m⨯[22m[39m ./app/features/Universities/Details/index.tsx
+Error: 
+  [38;2;255;30;30m×[0m You're importing a component that needs useState. It only works in a Client Component but none of its parents are marked with "use client", so they're Server Components by default.
+  [38;2;255;30;30m│[0m Learn more: https://nextjs.org/docs/getting-started/react-essentials
+  [38;2;255;30;30m│[0m 
+  [38;2;255;30;30m│[0m 
+   ╭─[[38;2;92;157;255;1;4m/Users/ashishdaju/Documents/projects/education-site-frontend/apps/student/app/features/Universities/Details/index.tsx[0m:1:1]
+ [2m1[0m │ 
+ [2m2[0m │ import React, { useState, useEffect } from 'react';
+   · [38;2;246;87;248m                ────────[0m
+ [2m3[0m │ import { IUniversity, Tab } from './types';
+ [2m4[0m │ import { fetchUniversityData } from './services/mockApi';
+ [2m5[0m │ import DetailBanner from './components/DetailBanner';
+   ╰────
+
+  [38;2;255;30;30m×[0m You're importing a component that needs useEffect. It only works in a Client Component but none of its parents are marked with "use client", so they're Server Components by default.
+  [38;2;255;30;30m│[0m Learn more: https://nextjs.org/docs/getting-started/react-essentials
+  [38;2;255;30;30m│[0m 
+  [38;2;255;30;30m│[0m 
+   ╭─[[38;2;92;157;255;1;4m/Users/ashishdaju/Documents/projects/education-site-frontend/apps/student/app/features/Universities/Details/index.tsx[0m:1:1]
+ [2m1[0m │ 
+ [2m2[0m │ import React, { useState, useEffect } from 'react';
+   · [38;2;246;87;248m                          ─────────[0m
+ [2m3[0m │ import { IUniversity, Tab } from './types';
+ [2m4[0m │ import { fetchUniversityData } from './services/mockApi';
+ [2m5[0m │ import DetailBanner from './components/DetailBanner';
+   ╰────
+
+Import trace for requested module:
+./app/features/Universities/Details/index.tsx
+./app/university/details/page.tsx
+ [31m[1m⨯[22m[39m ./app/features/Universities/Details/index.tsx
+Error: 
+  [38;2;255;30;30m×[0m You're importing a component that needs useState. It only works in a Client Component but none of its parents are marked with "use client", so they're Server Components by default.
+  [38;2;255;30;30m│[0m Learn more: https://nextjs.org/docs/getting-started/react-essentials
+  [38;2;255;30;30m│[0m 
+  [38;2;255;30;30m│[0m 
+   ╭─[[38;2;92;157;255;1;4m/Users/ashishdaju/Documents/projects/education-site-frontend/apps/student/app/features/Universities/Details/index.tsx[0m:1:1]
+ [2m1[0m │ 
+ [2m2[0m │ import React, { useState, useEffect } from 'react';
+   · [38;2;246;87;248m                ────────[0m
+ [2m3[0m │ import { IUniversity, Tab } from './types';
+ [2m4[0m │ import { fetchUniversityData } from './services/mockApi';
+ [2m5[0m │ import DetailBanner from './components/DetailBanner';
+   ╰────
+
+  [38;2;255;30;30m×[0m You're importing a component that needs useEffect. It only works in a Client Component but none of its parents are marked with "use client", so they're Server Components by default.
+  [38;2;255;30;30m│[0m Learn more: https://nextjs.org/docs/getting-started/react-essentials
+  [38;2;255;30;30m│[0m 
+  [38;2;255;30;30m│[0m 
+   ╭─[[38;2;92;157;255;1;4m/Users/ashishdaju/Documents/projects/education-site-frontend/apps/student/app/features/Universities/Details/index.tsx[0m:1:1]
+ [2m1[0m │ 
+ [2m2[0m │ import React, { useState, useEffect } from 'react';
+   · [38;2;246;87;248m                          ─────────[0m
+ [2m3[0m │ import { IUniversity, Tab } from './types';
+ [2m4[0m │ import { fetchUniversityData } from './services/mockApi';
+ [2m5[0m │ import DetailBanner from './components/DetailBanner';
+   ╰────
+
+Import trace for requested module:
+./app/features/Universities/Details/index.tsx
+./app/university/details/page.tsx
+ GET /university/details?uni=the-university-of-syndey [31m500[39m in 7ms
+<w> [1m[33m[webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/defaults/node_modules/clone isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)[39m[22m
+ GET /course/details/bachlors-in-computer-science [31m500[39m in 19ms
+ GET /course/details/bachlors-in-computer-science [31m500[39m in 17ms
+ GET /course/details/bachlors-in-computer-science [31m500[39m in 13ms
+ [32m[1m✓[22m[39m Compiled /_not-found in 1060ms (2975 modules)
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Navbar (webpack-internal:///(ssr)/./components/v2/Navbar.tsx:55:108)\n'[39m +
+    [32m'    at au (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:44844)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)'[39m
+}
+ [33m[1m⚠[22m[39m Fast Refresh had to perform a full reload due to a runtime error.
+ GET /_next/static/webpack/978c3e1107682205.webpack.hot-update.json [33m404[39m in 1110ms
+ GET /course/details/bachlors-in-computer-science [32m200[39m in 9ms
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Navbar (webpack-internal:///(ssr)/./components/v2/Navbar.tsx:55:108)\n'[39m +
+    [32m'    at au (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:44844)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)'[39m
+}
+Warning: [antd: Breadcrumb] `Breadcrumb.Item and Breadcrumb.Separator` is deprecated. Please use `items` instead.
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Navbar (webpack-internal:///(ssr)/./components/v2/Navbar.tsx:55:108)\n'[39m +
+    [32m'    at au (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:44844)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)'[39m
+}
+ GET /course/details/bachlors-in-computer-science [32m200[39m in 217ms
+ [31m[1m⨯[22m[39m ./app/features/Universities/Details/index.tsx
+Error: 
+  [38;2;255;30;30m×[0m You're importing a component that needs useState. It only works in a Client Component but none of its parents are marked with "use client", so they're Server Components by default.
+  [38;2;255;30;30m│[0m Learn more: https://nextjs.org/docs/getting-started/react-essentials
+  [38;2;255;30;30m│[0m 
+  [38;2;255;30;30m│[0m 
+   ╭─[[38;2;92;157;255;1;4m/Users/ashishdaju/Documents/projects/education-site-frontend/apps/student/app/features/Universities/Details/index.tsx[0m:1:1]
+ [2m1[0m │ 
+ [2m2[0m │ import React, { useState, useEffect } from 'react';
+   · [38;2;246;87;248m                ────────[0m
+ [2m3[0m │ import { IUniversity, Tab } from './types';
+ [2m4[0m │ import { fetchUniversityData } from './services/mockApi';
+ [2m5[0m │ import DetailBanner from './components/DetailBanner';
+   ╰────
+
+  [38;2;255;30;30m×[0m You're importing a component that needs useEffect. It only works in a Client Component but none of its parents are marked with "use client", so they're Server Components by default.
+  [38;2;255;30;30m│[0m Learn more: https://nextjs.org/docs/getting-started/react-essentials
+  [38;2;255;30;30m│[0m 
+  [38;2;255;30;30m│[0m 
+   ╭─[[38;2;92;157;255;1;4m/Users/ashishdaju/Documents/projects/education-site-frontend/apps/student/app/features/Universities/Details/index.tsx[0m:1:1]
+ [2m1[0m │ 
+ [2m2[0m │ import React, { useState, useEffect } from 'react';
+   · [38;2;246;87;248m                          ─────────[0m
+ [2m3[0m │ import { IUniversity, Tab } from './types';
+ [2m4[0m │ import { fetchUniversityData } from './services/mockApi';
+ [2m5[0m │ import DetailBanner from './components/DetailBanner';
+   ╰────
+
+Import trace for requested module:
+./app/features/Universities/Details/index.tsx
+./app/university/details/page.tsx
+ GET /university/details?uni=the-university-of-syndey [31m500[39m in 5ms
+ [37m[1m○[22m[39m Compiling /university/details ...
+ GET /course/details/bachlors-in-computer-science [31m500[39m in 18ms
+ [32m[1m✓[22m[39m Compiled /_not-found in 607ms (2975 modules)
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Navbar (webpack-internal:///(ssr)/./components/v2/Navbar.tsx:55:108)\n'[39m +
+    [32m'    at au (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:44844)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)'[39m
+}
+ [33m[1m⚠[22m[39m Fast Refresh had to perform a full reload due to a runtime error.
+ GET /_next/static/webpack/978c3e1107682205.webpack.hot-update.json [33m404[39m in 586ms
+ GET /course/details/bachlors-in-computer-science [32m200[39m in 12ms
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Navbar (webpack-internal:///(ssr)/./components/v2/Navbar.tsx:55:108)\n'[39m +
+    [32m'    at au (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:44844)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)'[39m
+}
+Warning: [antd: Breadcrumb] `Breadcrumb.Item and Breadcrumb.Separator` is deprecated. Please use `items` instead.
+Selector selectUserDetails returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization {
+  state: { user: { accessToken: [1mnull[22m, details: [36m[Object][39m } },
+  selected: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  selected2: {
+    user: {
+      id: [1mnull[22m,
+      firstName: [1mnull[22m,
+      lastName: [1mnull[22m,
+      email: [1mnull[22m,
+      photoPath: [1mnull[22m,
+      gender: [1mnull[22m,
+      phone: [1mnull[22m,
+      studyLevel: [1mnull[22m,
+      destination: [1mnull[22m,
+      course: [1mnull[22m,
+      role: [1mnull[22m,
+      lastActive: [1mnull[22m
+    },
+    isAuthenticated: [33mfalse[39m
+  },
+  stack: [32m'Error\n'[39m +
+    [32m'    at selectUserDetails (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1013:25)\n'[39m +
+    [32m'    at memoizedSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:46:30)\n'[39m +
+    [32m'    at eval (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:75:26)\n'[39m +
+    [32m'    at Object.useSyncExternalStore (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:2797)\n'[39m +
+    [32m'    at t.useSyncExternalStore (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:163012)\n'[39m +
+    [32m'    at exports.useSyncExternalStoreWithSelector (webpack-internal:///(ssr)/../../node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js:81:19)\n'[39m +
+    [32m'    at useSelector2 (webpack-internal:///(ssr)/../../node_modules/react-redux/dist/react-redux.mjs:1051:133)\n'[39m +
+    [32m'    at useUser (webpack-internal:///(ssr)/./hook/useUser.ts:42:95)\n'[39m +
+    [32m'    at Navbar (webpack-internal:///(ssr)/./components/v2/Navbar.tsx:55:108)\n'[39m +
+    [32m'    at au (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:10446)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:15122\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:44844)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:45321)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at ab (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11808)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16871\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:16908)\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46505)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42336\n'[39m +
+    [32m'    at aw (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:42822)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:49776)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)\n'[39m +
+    [32m'    at aC (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:52874)\n'[39m +
+    [32m'    at a_ (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:50095)\n'[39m +
+    [32m'    at aj (/Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:53793)'[39m
+}
+ GET /course/details/bachlors-in-computer-science [32m200[39m in 132ms
+ [31m[1m⨯[22m[39m ./app/features/Universities/Details/index.tsx:3:1
+[31m[1mModule not found[22m[39m: Can't resolve '[32m./types[39m'
+[0m [90m 1 |[39m [32m"use client"[39m[33m;[39m[0m
+[0m [90m 2 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m'react'[39m[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m 3 |[39m [36mimport[39m { [33mIUniversity[39m[33m,[39m [33mTab[39m } [36mfrom[39m [32m'./types'[39m[33m;[39m[0m
+[0m [90m   |[39m [31m[1m^[22m[39m[0m
+[0m [90m 4 |[39m [36mimport[39m { fetchUniversityData } [36mfrom[39m [32m'./services/mockApi'[39m[33m;[39m[0m
+[0m [90m 5 |[39m [36mimport[39m [33mDetailBanner[39m [36mfrom[39m [32m'./components/DetailBanner'[39m[33m;[39m[0m
+[0m [90m 6 |[39m [36mimport[39m [33mOverview[39m [36mfrom[39m [32m'./components/Overview'[39m[33m;[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+ [37m[1m○[22m[39m Compiling /university/details ...
+ GET /university/details?uni=the-university-of-syndey [31m500[39m in 6ms
+ GET /course/details/bachlors-in-computer-science [31m500[39m in 13ms
+[?25h

@@ -1,27 +1,13 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import { Search, Filter, GraduationCap, Clock, DollarSign, TrendingUp, BookOpen, ArrowRight, X } from 'lucide-react';
+
+import React, { useState, useEffect, useMemo } from 'react';
+import { Search, Filter, GraduationCap, Clock, DollarSign, BookOpen, ArrowRight, X, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { fetchStudyLevels } from 'apps/student/app/api/studyLevel';
 import { fetchCourseCategories, fetchCategoriesWithCourses, fetchPublicCourses } from 'apps/student/app/api/courses';
 import { search } from 'apps/student/app/api/search';
 
-interface Course {
-  id: string;
-  courseName: string;
-  slug: string;
-  courseCategory: {
-    id: string;
-    courseCategory: string;
-  } | null;
-}
-
-interface StudyLevel {
-  id: string;
-  name: string;
-  slug: string;
-  course: Course[];
-}
+// --- Interfaces ---
 
 interface CourseCategory {
   id: string;
@@ -31,42 +17,83 @@ interface CourseCategory {
   courseCount?: number;
 }
 
+interface Course {
+  id: string;
+  courseName: string;
+  slug: string;
+  courseCategory: {
+    id: string;
+    courseCategory: string;
+  } | null;
+  // Assuming the API might return university data inside course, or we link it later
+  description?: string;
+}
+
+interface StudyLevel {
+  id: string;
+  name: string;
+  slug: string;
+  course: Course[];
+}
+
+interface University {
+  _id: string;
+  id?: string;
+  universityName: string;
+  slug: string;
+  description?: string;
+  destination?: {
+    name: string;
+  };
+}
+
+// --- Constants & Helpers ---
+
+// Tailwind doesn't support dynamic string interpolation for classes (e.g., bg-${color}-50)
+// unless safelisted. Using a map is the safe approach.
+const CATEGORY_STYLES = [
+  { bg: 'bg-blue-50', text: 'text-blue-600', icon: 'text-blue-600' },
+  { bg: 'bg-purple-50', text: 'text-purple-600', icon: 'text-purple-600' },
+  { bg: 'bg-orange-50', text: 'text-orange-600', icon: 'text-orange-600' },
+  { bg: 'bg-green-50', text: 'text-green-600', icon: 'text-green-600' },
+  { bg: 'bg-pink-50', text: 'text-pink-600', icon: 'text-pink-600' },
+  { bg: 'bg-cyan-50', text: 'text-cyan-600', icon: 'text-cyan-600' },
+];
+
 function CoursesPage() {
+  // --- State ---
   const [studyLevels, setStudyLevels] = useState<StudyLevel[]>([]);
   const [courseCategories, setCourseCategories] = useState<CourseCategory[]>([]);
   const [allCourses, setAllCourses] = useState<Course[]>([]);
+  
   const [loading, setLoading] = useState(true);
+  const [isSearching, setIsSearching] = useState(false);
+  
+  // Filter States
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedLevel, setSelectedLevel] = useState<string>('all');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [showFilters, setShowFilters] = useState(false);
-  const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
+  
+  // Search Results (API)
+  const [universityResults, setUniversityResults] = useState<University[]>([]);
+
+  // --- Data Fetching ---
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log('Fetching courses data...');
-        
         const [levels, categories, courses] = await Promise.all([
           fetchStudyLevels(),
           fetchCourseCategories(),
           fetchPublicCourses()
         ]);
         
-        console.log('Study levels:', levels);
-        console.log('Course categories:', categories);
-        console.log('All courses:', courses);
-        
         setStudyLevels(levels || []);
         setCourseCategories(categories || []);
         setAllCourses(courses || []);
       } catch (error) {
-        console.error('Error fetching courses data:', error);
-        // Set fallback data
-        setStudyLevels([]);
-        setCourseCategories([]);
-        setAllCourses([]);
+        console.error('Error fetching initial data:', error);
       } finally {
         setLoading(false);
       }
@@ -75,82 +102,91 @@ function CoursesPage() {
     fetchData();
   }, []);
 
-  // Search courses with debouncing
+  // --- Search Logic (Debounced) ---
+
   useEffect(() => {
     const timer = setTimeout(() => {
       if (searchTerm.length >= 2) {
-        performSearch(searchTerm);
+        performUniversitySearch(searchTerm);
       } else {
-        setSearchResults([]);
+        setUniversityResults([]);
         setIsSearching(false);
       }
-    }, 1000);
+    }, 800); // 800ms debounce
 
     return () => clearTimeout(timer);
   }, [searchTerm]);
 
-  const performSearch = async (term: string) => {
+  const performUniversitySearch = async (term: string) => {
     setIsSearching(true);
-    console.log('Searching courses for:', term);
-
     try {
+      // Assuming this API finds universities based on the term
       const results = await search({
-        courseCategory: term,
-        limit: 20,
+        courseCategory: term, // Or generic query if API supports it
+        limit: 12,
       });
-
-      console.log('Search results:', results);
-      setSearchResults(results || []);
+      setUniversityResults(results || []);
     } catch (error) {
       console.error('Search error:', error);
-      setSearchResults([]);
+      setUniversityResults([]);
     } finally {
       setIsSearching(false);
     }
   };
 
-  // Get course count for each category
+  // --- Filtering Logic (Client Side) ---
+
+  const filteredCourses = useMemo(() => {
+    let result = allCourses;
+
+    // 1. Filter by Level
+    // Since 'Course' object might not have level ID directly, we check if the course exists in the selected StudyLevel's course list
+    if (selectedLevel !== 'all') {
+      const activeLevel = studyLevels.find(l => l.slug === selectedLevel);
+      if (activeLevel && activeLevel.course) {
+        const validCourseIds = new Set(activeLevel.course.map(c => c.id));
+        result = result.filter(c => validCourseIds.has(c.id));
+      }
+    }
+
+    // 2. Filter by Category
+    if (selectedCategory !== 'all') {
+      result = result.filter(course => 
+        course.courseCategory?.courseCategory === selectedCategory
+      );
+    }
+
+    // 3. Filter by Search Term (Client side course search)
+    if (searchTerm) {
+      const lowerTerm = searchTerm.toLowerCase();
+      result = result.filter(course => 
+        course.courseName.toLowerCase().includes(lowerTerm) || 
+        course.courseCategory?.courseCategory.toLowerCase().includes(lowerTerm)
+      );
+    }
+
+    return result;
+  }, [allCourses, studyLevels, selectedLevel, selectedCategory, searchTerm]);
+
+  // --- Stats Calculation ---
+
   const getCategoryCourseCount = (categoryName: string) => {
     return allCourses.filter(course => 
       course.courseCategory?.courseCategory === categoryName
     ).length;
   };
 
-  // Filter courses based on search and filters
-  const getFilteredCourses = () => {
-    let filtered = allCourses;
-
-    if (searchTerm) {
-      filtered = filtered.filter(course =>
-        course.courseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        course.courseCategory?.courseCategory.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    if (selectedCategory !== 'all') {
-      filtered = filtered.filter(course =>
-        course.courseCategory?.courseCategory === selectedCategory
-      );
-    }
-
-    return filtered;
+  const clearFilters = () => {
+    setSelectedLevel('all');
+    setSelectedCategory('all');
+    setSearchTerm('');
+    setShowFilters(false);
   };
-
-  const filteredCourses = getFilteredCourses();
-
-  // Study level options from API
-  const studyLevelOptions = studyLevels.map(level => ({
-    value: level.slug,
-    label: level.name,
-    courseCount: level.course?.length || 0
-  }));
-
-  // Add "All Levels" option
-  studyLevelOptions.unshift({ value: 'all', label: 'All Levels', courseCount: allCourses.length });
 
   return (
     <div className="min-h-screen bg-white pt-16">
-      {/* Hero Section */}
+      
+      {/* --- HERO SECTION --- */}
       <section className="relative bg-gradient-to-br from-blue-50 to-purple-50 py-20 lg:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12">
@@ -158,68 +194,72 @@ function CoursesPage() {
               Find Your Perfect <span className="text-blue-600">Course</span>
             </h1>
             <p className="text-lg lg:text-xl text-gray-600 mb-8">
-              Explore 500+ courses across Australian universities and find the program that matches your career goals
+              Explore {allCourses.length > 0 ? `${allCourses.length}+` : 'hundreds of'} courses across Australian universities and find the program that matches your career goals.
             </p>
           </div>
 
-          {/* Search & Filter Bar */}
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-white rounded-2xl shadow-lg p-4">
+          {/* Search Bar Component */}
+          <div className="max-w-4xl mx-auto z-10 relative">
+            <div className="bg-white rounded-2xl shadow-xl p-4 border border-gray-100">
               <div className="flex flex-col md:flex-row gap-4">
-                {/* Search Input */}
                 <div className="flex-1 relative">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                   <input
                     type="text"
-                    placeholder="Search courses (e.g., MBA, Computer Science, Nursing...)"
+                    placeholder="Search courses, categories, or universities..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
                   />
+                  {searchTerm && (
+                    <button 
+                      onClick={() => setSearchTerm('')}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
                 </div>
 
-                {/* Filter Button */}
                 <button
                   onClick={() => setShowFilters(!showFilters)}
-                  className="px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all flex items-center justify-center gap-2 whitespace-nowrap"
+                  className={`px-6 py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 whitespace-nowrap border ${
+                    showFilters || selectedCategory !== 'all' || selectedLevel !== 'all'
+                      ? 'bg-blue-50 border-blue-200 text-blue-700' 
+                      : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'
+                  }`}
                 >
                   <Filter className="w-5 h-5" />
                   Filters
                 </button>
               </div>
 
-              {/* Filters Panel */}
+              {/* Expandable Filters */}
               {showFilters && (
-                <div className="mt-4 pt-4 border-t border-gray-200">
+                <div className="mt-4 pt-4 border-t border-gray-100 animate-in fade-in slide-in-from-top-2">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {/* Study Level */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Study Level
-                      </label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Study Level</label>
                       <select
                         value={selectedLevel}
                         onChange={(e) => setSelectedLevel(e.target.value)}
-                        className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+                        className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
                       >
                         <option value="all">All Levels</option>
-                        {studyLevelOptions.map((level) => (
-                          <option key={level.value} value={level.value}>
-                            {level.label}
+                        {studyLevels.map((level) => (
+                          <option key={level.id} value={level.slug}>
+                            {level.name}
                           </option>
                         ))}
                       </select>
                     </div>
 
-                    {/* Category */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Category
-                      </label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
                       <select
                         value={selectedCategory}
                         onChange={(e) => setSelectedCategory(e.target.value)}
-                        className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+                        className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
                       >
                         <option value="all">All Categories</option>
                         {courseCategories.map((cat) => (
@@ -230,337 +270,191 @@ function CoursesPage() {
                       </select>
                     </div>
                   </div>
-
-                  {/* Clear Filters */}
-                  {(selectedLevel !== 'all' || selectedCategory !== 'all' || searchTerm) && (
-                    <button
-                      onClick={() => {
-                        setSelectedLevel('all');
-                        setSelectedCategory('all');
-                        setSearchTerm('');
-                      }}
-                      className="mt-4 text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center gap-2"
+                  
+                  <div className="flex justify-end mt-4">
+                     <button
+                      onClick={clearFilters}
+                      className="text-sm text-gray-500 hover:text-blue-600 flex items-center gap-1"
                     >
-                      <X className="w-4 h-4" />
-                      Clear all filters
+                      <X className="w-3 h-3" /> Clear Filters
                     </button>
-                  )}
+                  </div>
                 </div>
               )}
             </div>
           </div>
-
-          {/* Quick Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12 max-w-4xl mx-auto">
-            {[
-              { value: `${allCourses.length}+`, label: 'Courses' },
-              { value: '50+', label: 'Universities' },
-              { value: `${courseCategories.length}+`, label: 'Study Fields' },
-              { value: '98%', label: 'Success Rate' },
-            ].map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-3xl font-bold text-blue-600 mb-1">{stat.value}</div>
-                <div className="text-sm text-gray-600">{stat.label}</div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* Search Results Section */}
+      {/* --- SEARCH RESULTS (UNIVERSITIES) --- */}
       {searchTerm && (
-        <section className="py-12 bg-gradient-to-b from-white to-gray-50">
+        <section className="py-12 bg-white border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                {isSearching ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <svg className="animate-spin h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Searching courses...
-                  </span>
-                ) : searchResults.length > 0 ? (
-                  <>
-                    Found <span className="text-blue-600">{searchResults.length}</span> universities
-                  </>
-                ) : (
-                  <>
-                    No universities found for "<span className="text-blue-600">{searchTerm}</span>"
-                  </>
-                )}
-              </h2>
-              <p className="text-gray-600">
-                {isSearching ? 'Please wait while we search...' : 
-                 searchResults.length > 0 ? `Showing universities offering courses related to "${searchTerm}"` :
-                 'Try different search terms or browse all courses below.'}
-              </p>
-            </div>
-            
-            {searchResults.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                {searchResults.slice(0, 6).map((university: any) => (
-                  <Link key={university._id || university.id} href={`/university/details?uni=${university.slug}`}>
-                    <div className="bg-white rounded-xl p-6 border-2 border-gray-100 hover:border-blue-200 hover:shadow-lg transition-all cursor-pointer">
-                      <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">
-                        {university.universityName}
-                      </h3>
-                      {university.destination?.name && (
-                        <div className="flex items-center text-sm text-gray-600 mb-3">
-                          <GraduationCap className="w-4 h-4 mr-1 text-blue-500" />
-                          {university.destination.name}
-                        </div>
-                      )}
-                      <p className="text-sm text-gray-600 line-clamp-2 mb-4"
-                         dangerouslySetInnerHTML={{ __html: university.description || 'No description available' }}
-                      />
-                      <div className="flex items-center justify-between text-xs text-gray-500">
-                        <span className="flex items-center">
-                          <BookOpen className="w-3 h-3 mr-1" />
-                          View Courses
-                        </span>
-                        <ArrowRight className="w-4 h-4" />
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            )}
-            
-            {searchResults.length > 6 && (
-              <div className="text-center">
-                <Link href={`/search?courseCategory=${searchTerm}`}>
-                  <button className="px-8 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all shadow-md">
-                    View All Results ({searchResults.length} universities)
-                  </button>
-                </Link>
-              </div>
-            )}
-          </div>
-        </section>
-      )}
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+              <GraduationCap className="w-6 h-6 text-blue-600" />
+              University Results
+            </h2>
 
-      {/* Filtered Courses Section */}
-      {(selectedCategory !== 'all' || selectedLevel !== 'all') && !searchTerm && (
-        <section className="py-12 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                Filtered Courses
-              </h2>
-              <p className="text-gray-600">
-                {filteredCourses.length} courses found
-                {selectedCategory !== 'all' && ` in ${selectedCategory}`}
-                {selectedLevel !== 'all' && ` at ${studyLevels.find(l => l.slug === selectedLevel)?.name || selectedLevel} level`}
-              </p>
-            </div>
-            
-            {filteredCourses.length > 0 ? (
+            {isSearching ? (
+              <div className="flex items-center gap-2 text-gray-500">
+                <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                Searching universities...
+              </div>
+            ) : universityResults.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredCourses.slice(0, 9).map((course) => (
-                  <Link key={course.id} href={`/course/details/${course.slug}`}>
-                    <div className="bg-white rounded-xl p-6 border-2 border-gray-100 hover:border-blue-200 hover:shadow-lg transition-all cursor-pointer">
-                      <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">
-                        {course.courseName}
+                {universityResults.slice(0, 6).map((uni) => (
+                  <Link key={uni._id || uni.id} href={`/university/details?uni=${uni.slug}`}>
+                    <div className="bg-white rounded-xl p-5 border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all group">
+                      <h3 className="font-bold text-gray-900 group-hover:text-blue-600 transition-colors mb-2">
+                        {uni.universityName}
                       </h3>
-                      {course.courseCategory && (
-                        <div className="flex items-center text-sm text-gray-600 mb-3">
-                          <BookOpen className="w-4 h-4 mr-1 text-blue-500" />
-                          {course.courseCategory.courseCategory}
-                        </div>
+                      {uni.destination?.name && (
+                         <div className="flex items-center text-sm text-gray-500 mb-2">
+                           <MapPin className="w-4 h-4 mr-1" /> {uni.destination.name}
+                         </div>
                       )}
-                      <div className="flex items-center justify-between text-xs text-gray-500">
-                        <span className="flex items-center">
-                          <GraduationCap className="w-3 h-3 mr-1" />
-                          View Details
-                        </span>
-                        <ArrowRight className="w-4 h-4" />
+                      <div className="text-xs font-semibold text-blue-600 flex items-center mt-3">
+                        View Profile <ArrowRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
                   </Link>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-16">
-                <BookOpen className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-2xl font-semibold text-gray-700 mb-2">No courses found</h3>
-                <p className="text-gray-500 mb-6">
-                  Try adjusting your filters or browse all course categories below.
-                </p>
-                <button
-                  onClick={() => {
-                    setSelectedLevel('all');
-                    setSelectedCategory('all');
-                  }}
-                  className="px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors"
-                >
-                  Clear Filters
-                </button>
-              </div>
-            )}
-            
-            {filteredCourses.length > 9 && (
-              <div className="text-center mt-8">
-                <Link href={`/search?courseCategory=${selectedCategory}&level=${selectedLevel}`}>
-                  <button className="px-8 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all shadow-md">
-                    View All Filtered Results ({filteredCourses.length} courses)
-                  </button>
-                </Link>
-              </div>
+              <p className="text-gray-500 italic">No specific universities found matching "{searchTerm}". Check the courses below.</p>
             )}
           </div>
         </section>
       )}
 
-      {/* Popular Course Categories */}
-      <section className="py-20">
+      {/* --- FILTERED COURSES LIST --- */}
+      <section className="py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Popular Course Categories
-            </h2>
-            <p className="text-lg text-gray-600">
-              Explore courses by field of study
-            </p>
+          <div className="flex justify-between items-end mb-8">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                {searchTerm ? 'Matching Courses' : 'Available Courses'}
+              </h2>
+              <p className="text-gray-600">
+                Showing {filteredCourses.length} results
+                {selectedCategory !== 'all' && <span className="font-medium text-blue-600"> in {selectedCategory}</span>}
+                {selectedLevel !== 'all' && <span className="font-medium text-blue-600"> ({studyLevels.find(l => l.slug === selectedLevel)?.name})</span>}
+              </p>
+            </div>
           </div>
 
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="animate-pulse">
-                  <div className="bg-gray-200 h-80 rounded-2xl" />
-                </div>
+             <div className="text-center py-20 text-gray-500">Loading courses...</div>
+          ) : filteredCourses.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredCourses.slice(0, searchTerm ? 12 : 9).map((course) => (
+                <Link key={course.id} href={`/course/details/${course.slug}`}>
+                  <div className="bg-white rounded-xl p-6 border border-gray-100 hover:border-blue-300 hover:shadow-lg transition-all h-full flex flex-col justify-between group">
+                    <div>
+                      <div className="flex items-start justify-between mb-3">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                          {course.courseCategory?.courseCategory || 'Course'}
+                        </span>
+                      </div>
+                      <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                        {course.courseName}
+                      </h3>
+                      {/* Placeholder for university name if available in course object */}
+                      <div className="flex items-center text-sm text-gray-500 mb-4">
+                        <GraduationCap className="w-4 h-4 mr-2" />
+                        <span>University Program</span>
+                      </div>
+                    </div>
+
+                    <div className="pt-4 border-t border-gray-100 flex items-center justify-between text-sm">
+                      <span className="text-gray-500">View Details</span>
+                      <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                        <ArrowRight className="w-4 h-4" />
+                      </div>
+                    </div>
+                  </div>
+                </Link>
               ))}
             </div>
-          ) : courseCategories.length === 0 ? (
-            <div className="text-center py-16">
-              <BookOpen className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-2xl font-semibold text-gray-700 mb-2">No course categories found</h3>
-              <p className="text-gray-500">Course categories will appear here once they are added to the system.</p>
-            </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {courseCategories.map((category, index) => {
-                const courseCount = getCategoryCourseCount(category.courseCategory);
-                const categoryCourses = allCourses.filter(course => 
-                  course.courseCategory?.courseCategory === category.courseCategory
-                );
-                
-                // Get popular courses from this category
-                const popularCourses = categoryCourses.slice(0, 3).map(course => course.courseName);
-                
-                // Define colors for different categories
-                const colors = ['blue', 'purple', 'orange', 'green', 'pink', 'cyan'];
-                const color = colors[index % colors.length];
-                
-                return (
-                  <div
-                    key={category.id || index}
-                    className="group bg-white rounded-2xl p-8 border-2 border-gray-100 hover:border-blue-200 hover:shadow-2xl transition-all duration-300"
-                  >
-                    {/* Icon */}
-                    <div className={`inline-flex p-4 rounded-xl bg-${color}-50 text-${color}-600 mb-6`}>
-                      <BookOpen className="w-8 h-8" />
-                    </div>
-
-                    {/* Title */}
-                    <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                      {category.courseCategory}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-gray-600 mb-6">
-                      Explore courses in {category.courseCategory} field
-                    </p>
-
-                    {/* Stats */}
-                    <div className="space-y-3 mb-6">
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
-                        <BookOpen className="w-4 h-4 text-blue-600" />
-                        <span>{courseCount} courses available</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
-                        <Clock className="w-4 h-4 text-green-600" />
-                        <span>Various durations</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
-                        <DollarSign className="w-4 h-4 text-orange-600" />
-                        <span>Competitive fees</span>
-                      </div>
-                    </div>
-
-                    {/* Popular Courses */}
-                    {popularCourses.length > 0 && (
-                      <div className="mb-6">
-                        <p className="text-xs font-semibold text-gray-500 mb-3">POPULAR COURSES:</p>
-                        <div className="space-y-2">
-                          {popularCourses.map((course, idx) => (
-                            <div key={idx} className="flex items-center gap-2">
-                              <div className="w-1.5 h-1.5 rounded-full bg-blue-600" />
-                              <span className="text-sm text-gray-700">{course}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* CTA Button */}
-                    <Link href={`/search?courseCategory=${category.courseCategory}`}>
-                      <button className="w-full py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all flex items-center justify-center gap-2 group">
-                        Explore Courses
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </button>
-                    </Link>
-                  </div>
-                );
-              })}
+            <div className="text-center py-16 bg-white rounded-2xl border border-dashed border-gray-300">
+              <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">No courses found</h3>
+              <p className="text-gray-500 mb-6">We couldn't find any courses matching your filters.</p>
+              <button
+                onClick={clearFilters}
+                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Clear all filters
+              </button>
+            </div>
+          )}
+          
+          {filteredCourses.length > 9 && (
+            <div className="mt-10 text-center">
+              <button className="px-8 py-3 bg-white border border-gray-300 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition-all shadow-sm">
+                Load More Courses
+              </button>
             </div>
           )}
         </div>
       </section>
 
-      {/* Study Levels Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Choose Your Study Level
-            </h2>
-            <p className="text-lg text-gray-600">
-              Find programs that match your academic background
-            </p>
-          </div>
+      {/* --- CATEGORIES GRID (Only show if not searching deeply) --- */}
+      {!searchTerm && selectedCategory === 'all' && (
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">Popular Categories</h2>
+              <p className="text-gray-600">Explore our most requested fields of study</p>
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {studyLevelOptions.map((level, index) => (
-              <Link key={index} href={`/search?level=${level.value}`}>
-                <div className="bg-white rounded-xl p-6 border-2 border-gray-100 hover:border-blue-500 hover:shadow-lg transition-all cursor-pointer text-center">
-                  <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-blue-50 flex items-center justify-center">
-                    <GraduationCap className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">{level.label}</h3>
-                  <p className="text-sm text-gray-600 mb-2">{level.courseCount} courses</p>
-                  <p className="text-xs text-blue-600 font-medium">View programs</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {courseCategories.slice(0, 6).map((category, index) => {
+                // Get safe style from map
+                const style = CATEGORY_STYLES[index % CATEGORY_STYLES.length];
+                const count = getCategoryCourseCount(category.courseCategory);
 
-      {/* CTA Section */}
-      <section className="py-20 bg-blue-600">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
-            Need Help Choosing the Right Course?
+                return (
+                  <Link key={category.id} href={`/search?courseCategory=${category.courseCategory}`}>
+                    <div className="group h-full bg-white rounded-2xl p-8 border-2 border-gray-50 hover:border-blue-100 hover:shadow-xl transition-all duration-300 cursor-pointer">
+                      <div className={`inline-flex p-4 rounded-xl mb-6 ${style.bg} ${style.icon}`}>
+                        <BookOpen className="w-8 h-8" />
+                      </div>
+                      
+                      <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                        {category.courseCategory}
+                      </h3>
+                      
+                      <p className="text-gray-500 mb-6">
+                        Explore {count} courses offered by top universities in this field.
+                      </p>
+                      
+                      <div className="flex items-center font-semibold text-blue-600">
+                        Browse Courses <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* --- CALL TO ACTION --- */}
+      <section className="py-20 bg-blue-600 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        <div className="relative max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            Confused about which course to pick?
           </h2>
-          <p className="text-xl text-blue-100 mb-8">
-            Our expert advisors will help you find the perfect course based on your goals and background
+          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+            Book a free session with our education counselors and get a personalized roadmap for your studies in Australia.
           </p>
           <a href="https://calendly.com/studyandvisa-au" target="_blank" rel="noopener noreferrer">
-            <button className="px-10 py-4 bg-white text-blue-600 rounded-xl font-bold hover:bg-gray-50 transition-all shadow-xl">
-              Book Free Course Counseling
+            <button className="px-8 py-4 bg-white text-blue-600 rounded-xl font-bold hover:bg-blue-50 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
+              Book Free Consultation
             </button>
           </a>
         </div>
@@ -570,4 +464,3 @@ function CoursesPage() {
 }
 
 export default CoursesPage;
-

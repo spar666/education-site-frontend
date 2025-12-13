@@ -38,7 +38,7 @@ const initialCourseState: ICourse = {
 
 interface CourseCategory {
   id?: string;
-  courseCategory: string;
+  name: string;
 }
 
 interface CourseLevel {
@@ -149,7 +149,7 @@ const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
     if (newCategory.trim()) {
       setCategories((prev) => [
         ...prev,
-        { id: `${Date.now()}`, courseCategory: newCategory },
+        { id: `${Date.now()}`, name: newCategory },
       ]);
       setNewCategory('');
     }
@@ -219,9 +219,9 @@ const CourseForm: React.FC<CourseFormProps> = ({ children }) => {
               {categories.map((category) => (
                 <Select.Option
                   key={category.id}
-                  value={category.courseCategory}
+                  value={category.name}
                 >
-                  {category.courseCategory}
+                  {category.name}
                 </Select.Option>
               ))}
             </Select>
