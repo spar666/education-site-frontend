@@ -1,0 +1,31 @@
+  [1m[38;2;173;127;168m▲ Next.js 14.2.32[39m[22m
+
+ [37m[1m [22m[39m Creating an optimized production build ...
+ [33m[1m⚠[22m[39m For production Image Optimization with Next.js, the optional 'sharp' package is strongly recommended. Run 'npm i sharp', and Next.js will use it automatically for Image Optimization.
+Read more: https://nextjs.org/docs/messages/sharp-missing-in-production
+<w> [1m[33m[webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: Unable to snapshot resolve dependencies[39m[22m
+<w> [1m[33m[webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/defaults/node_modules/clone isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)[39m[22m
+<w> [1m[33m[webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: Unable to snapshot resolve dependencies[39m[22m
+<w> [1m[33m[webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/defaults/node_modules/clone isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)[39m[22m
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+<w> [1m[33m[webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: Unable to snapshot resolve dependencies[39m[22m
+ [32m[1m✓[22m[39m Compiled successfully
+ [37m[1m [22m[39m Skipping linting
+[?25l [37m[1m [22m[39m Checking validity of types  [36m.[39m<w> [1m[33m[webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/ashishdaju/Documents/projects/education-site-frontend/node_modules/defaults/node_modules/clone isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)[39m[22m
+[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[31mFailed to compile.
+[39m
+[36m./app/university/details/page.tsx[39m:[33m10[39m:[33m26[39m
+[31m[1mType error[22m[39m: Type '{ searchParams: { uni: string; }; }' is not assignable to type 'IntrinsicAttributes'.
+  Property 'searchParams' does not exist on type 'IntrinsicAttributes'.
+
+[0m [90m  8 |[39m   [36mreturn[39m ([0m
+[0m [90m  9 |[39m     [33m<[39m[33m>[39m[0m
+[0m[31m[1m>[22m[39m[90m 10 |[39m       [33m<[39m[33mUniversityDetails[39m searchParams[33m=[39m{searchParams} [33m/[39m[33m>[39m[0m
+[0m [90m    |[39m                          [31m[1m^[22m[39m[0m
+[0m [90m 11 |[39m     [33m<[39m[33m/[39m[33m>[39m[0m
+[0m [90m 12 |[39m   )[33m;[39m[0m
+[0m [90m 13 |[39m }[0m
+[2K[1G[?25hNext.js build worker exited with code: 1 and signal: null
+[?25l [37m[1m [22m[39m Checking validity of types  [36m.[39m[?25h[1m[31mBuild process exited due to code 1  [39m[22m

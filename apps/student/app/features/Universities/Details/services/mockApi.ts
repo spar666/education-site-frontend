@@ -1,8 +1,8 @@
 import { IUniversity } from '../types';
 
-export const fetchUniversityData = async (): Promise<IUniversity> => {
+export const fetchUniversityData = async (slug: string): Promise<IUniversity> => {
     try {
-        const response = await fetch('http://localhost:3001/api/university/slug/the-university-of-syndey');
+        const response = await fetch(`http://localhost:3001/api/university/slug/${slug}`);
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

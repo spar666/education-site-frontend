@@ -8,7 +8,13 @@ import CourseList from './components/CourseList';
 import Sidebar from './components/Sidebar';
 import { Home, ChevronRight, MapPin, Globe, Star } from 'lucide-react';
 
-const App: React.FC = () => {
+interface UniversityDetailsProps {
+  searchParams: {
+    uni: string;
+  };
+}
+
+const App: React.FC<UniversityDetailsProps> = ({ searchParams }) => {
   const [data, setData] = useState<IUniversity | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<Tab>(Tab.OVERVIEW);
@@ -17,7 +23,7 @@ const App: React.FC = () => {
     const loadData = async () => {
       setLoading(true);
       try {
-        const result = await fetchUniversityData();
+        const result = await fetchUniversityData(searchParams.uni);
         setData(result);
       } catch (error) {
         console.error("Failed to load university data", error);
